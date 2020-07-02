@@ -25,9 +25,12 @@ jobs:
       run: wget https://www.realmofthemadgod.com/client -O client.swf
       
     - name: Decompile client
-      run: | 
+      run: |
+        # Scripts
         java -jar $HOME/ffdec.jar -export script decompiled/as client.swf
         java -jar $HOME/ffdec.jar -format script:pcode -export script decompiled/pcode client.swf
+        # Binary data
+        java -jar $HOME/ffdec.jar -export binaryData decompiled/binary client.swf
         
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:

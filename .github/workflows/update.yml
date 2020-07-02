@@ -10,6 +10,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    
+    - name: Cleanup
+      run: rm -rf *        
 
     - name: Download JPEXS
       run: |
@@ -23,7 +26,8 @@ jobs:
       
     - name: Decompile client
       run: | 
-        java -jar $HOME/ffdec.jar -export script as_source client.swf
+        java -jar $HOME/ffdec.jar -export script decompiled/as client.swf
+        java -jar $HOME/ffdec.jar -format script:pcode -export script decompiled/pcode client.swf
         
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:

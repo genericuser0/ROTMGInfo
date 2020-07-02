@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Download JPEXS
-      working-directory: ${{ HOME }}
+      working-directory: ${{ env.HOME }}
       run: |
         wget https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version11.3.0/ffdec_11.3.0.zip -O ffdec.zip
         
@@ -23,7 +23,7 @@ jobs:
       
     - name: Decompile client
       run: | 
-        java -jar ${{ HOME }}/ffdec/ffdec.jar -export script as_source client.swf
+        java -jar ${{ env.HOME }}/ffdec/ffdec.jar -export script as_source client.swf
         
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:

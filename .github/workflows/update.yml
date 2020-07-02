@@ -1,0 +1,31 @@
+name: Update ROTMG
+on: [push]
+  #schedule:
+   # - cron: "*/5 * * * *"
+
+jobs:
+  RotmgUpdate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Download JPEXS
+      run: |
+        cd ..
+        wget https://github.com/jindrapetrik/jpexs-decompiler/releases/download/version11.3.0/ffdec_11.3.0.zip -o ffdec.zip
+        
+        unzip ffdec.zip
+        
+    - name: Download latest client
+      run: |
+        wget https://www.realmofthemadgod.com/client -o client.swf
+      
+    - name: Decompile client
+      run: |
+        java -jar ../ffdef/ffdef.jar -export script as_source client.swf
+        
+    - uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Updated ROTMG client

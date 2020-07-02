@@ -1,0 +1,786 @@
+package com.company.assembleegameclient.screens
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.pets.data.PetsModel;
+   import io.decagames.rotmg.pets.tasks.GetOwnedPetSkinsTask;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventErrorPopup;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventInfoPopup;
+   import io.decagames.rotmg.seasonalEvent.signals.ShowSeasonHasEndedPopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.GetCharListTask;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.classes.model.ClassesModel;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.signals.CharListLoadedSignal;
+   import kabam.rotmg.core.signals.SetScreenSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.news.model.NewsModel;
+   import kabam.rotmg.news.services.GetInGameNewsTask;
+   import kabam.rotmg.ui.view.TitleView;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class CharacterTypeSelectionMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:CharacterTypeSelectionScreen;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var petsModel:PetsModel;
+      
+      [Inject]
+      public var newsModel:NewsModel;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var setScreen:SetScreenSignal;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var charListLoadedSignal:CharListLoadedSignal;
+      
+      [Inject]
+      public var getCharListTask:GetCharListTask;
+      
+      [Inject]
+      public var getOwnedPetSkinsTask:GetOwnedPetSkinsTask;
+      
+      [Inject]
+      public var getInGameNewsTask:GetInGameNewsTask;
+      
+      [Inject]
+      public var showSeasonHasEndedPopupSignal:ShowSeasonHasEndedPopupSignal;
+      
+      private var seasonalEventErrorPopUp:SeasonalEventErrorPopup;
+      
+      private var seasonEndedPopUp:SeasonalEventErrorPopup;
+      
+      public function CharacterTypeSelectionMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charListLoadedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onListComplete")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showSeasonHasEndedPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onSeasonEnded")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callproperty Qname(PackageNamespace(""),"getName") 0
+         callpropvoid Qname(PackageNamespace(""),"setName") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"leagueDatas")
+         setproperty Qname(PackageNamespace(""),"leagueDatas")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"leagueItemSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onLeagueChosen")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"infoButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onInfoClicked")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("showChallengerInfo",[PrivateNamespace(null,"156"),PackageNamespace(""),PrivateNamespace(null,"1359"),PackageNamespace("com.company.assembleegameclient.screens"),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.ui.view"),ProtectedNamespace("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         iffalse ofs0089
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"showInfo") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("showChallengerInfo",[PrivateNamespace(null,"156"),PackageNamespace(""),PrivateNamespace(null,"1359"),PackageNamespace("com.company.assembleegameclient.screens"),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.ui.view"),ProtectedNamespace("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         ofs0089:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonEnded() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onSeasonEnded")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "Season has ended!"
+         callpropvoid Qname(PrivateNamespace(null,"156"),"showSeasonEndedPopUp") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onInfoClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onInfoClicked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"showInfo") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showInfo() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"showInfo")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventInfoPopup")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"rulesAndDescription")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventInfoPopup") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function resetCharacterSkins() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"resetCharacterSkins")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.classes.model"),"ClassesModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.classes.model"),"ClassesModel")
+         setlocal_1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"resetCharacterSkinsSelection") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onLeagueChosen(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onLeagueChosen")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"resetCharacterSkins") 0
+         getlocal_1
+         pushbyte 0
+         ifne ofs0028
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"isChallenger")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"usePatchedData")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"runTasks") 0
+         jump ofs006d
+         ofs0028:getlocal_1
+         pushbyte 1
+         ifne ofs006d
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"156"),"isAccountCreationDateValid") 0
+         iffalse ofs0052
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"isChallenger")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"usePatchedData")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"runTasks") 0
+         jump ofs006d
+         ofs0052:getlocal_0
+         pushstring "Your account must be created before: "
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"accountCreatedBefore")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         pushstring " to play a Seasonal Event!"
+         add
+         callpropvoid Qname(PrivateNamespace(null,"156"),"showSeasonalErrorPopUp") 1
+         ofs006d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function runTasks() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"runTasks")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"logGameMode") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getCharListTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petsModel")
+         callpropvoid Qname(PackageNamespace(""),"clearPets") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getOwnedPetSkinsTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModel")
+         callpropvoid Qname(PackageNamespace(""),"clearNews") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getInGameNewsTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isAccountCreationDateValid() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"isAccountCreationDateValid")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"accountCreatedBefore")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"creationDate")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         subtract
+         pushbyte 0
+         ifngt ofs0025
+         pushtrue
+         setlocal_1
+         ofs0025:getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function logGameMode() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"logGameMode")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         iffalse ofs0035
+         pushstring "Challenger"
+         coerce_a
+         jump ofs003a
+         ofs0035:pushstring "Legacy"
+         coerce_a
+         ofs003a:setproperty Multiname("gameMode",[PrivateNamespace(null,"156"),PackageNamespace(""),PrivateNamespace(null,"1359"),PackageNamespace("com.company.assembleegameclient.screens"),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.ui.view"),ProtectedNamespace("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"seasonTitle")
+         setproperty Multiname("seasonID",[PrivateNamespace(null,"156"),PackageNamespace(""),PrivateNamespace(null,"1359"),PackageNamespace("com.company.assembleegameclient.screens"),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.ui.view"),ProtectedNamespace("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("com.company.assembleegameclient.screens:CharacterTypeSelectionMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_1
+         pushstring "/log/logGameModePlayed"
+         getlocal_2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onListComplete() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onListComplete")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"leagueItemSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onLeagueChosen")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose() : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onClose")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreen")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonalErrorPopUp(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"showSeasonalErrorPopUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup") 1
+         initproperty Qname(PrivateNamespace(null,"156"),"seasonalEventErrorPopUp")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonalErrorPopUpClose(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onSeasonalErrorPopUpClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"isChallenger")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonEndedPopUp(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"showSeasonEndedPopUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup") 1
+         initproperty Qname(PrivateNamespace(null,"156"),"seasonEndedPopUp")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonEndedPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onSeasonEndedPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonEndedPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonEndedPopUpClose(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"156"),"onSeasonEndedPopUpClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"leagueItemSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onLeagueChosen")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"isSeasonalMode")
+         getlocal_0
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"156"),"onLeagueChosen") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonEndedPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"156"),"seasonEndedPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

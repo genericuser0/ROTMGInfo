@@ -1,0 +1,1035 @@
+package com.company.assembleegameclient.account.ui
+{
+   import com.company.assembleegameclient.account.ui.components.BackgroundBox;
+   import com.company.assembleegameclient.account.ui.components.Selectable;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.assembleegameclient.util.offer.Offer;
+   import com.company.util.AssetLibrary;
+   import com.company.util.BitmapUtil;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import kabam.rotmg.account.core.model.MoneyConfig;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.view.SignalWaiter;
+   import kabam.rotmg.util.components.RadioButton;
+   
+   public class OfferRadioButton extends Sprite implements Selectable
+   {
+      
+      private static const SELECTED_COLOR:int = 7829367;
+      
+      private static const OVER_COLOR:int = 5987163;
+      
+      private static const DEFAULT_COLOR:int = 4539717;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"1072"),"SELECTED_COLOR")
+         pushint 7829367
+         initproperty Qname(PrivateNamespace(null,"1072"),"SELECTED_COLOR")
+         findproperty Qname(PrivateNamespace(null,"1072"),"OVER_COLOR")
+         pushint 5987163
+         initproperty Qname(PrivateNamespace(null,"1072"),"OVER_COLOR")
+         findproperty Qname(PrivateNamespace(null,"1072"),"DEFAULT_COLOR")
+         pushint 4539717
+         initproperty Qname(PrivateNamespace(null,"1072"),"DEFAULT_COLOR")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var offer:Offer;
+      
+      private var config:MoneyConfig;
+      
+      private var background:BackgroundBox;
+      
+      private var container:Sprite;
+      
+      private var toggle:RadioButton;
+      
+      private var coinBitmap:BitmapData;
+      
+      private var goldText:TextFieldDisplayConcrete;
+      
+      private var costText:TextFieldDisplayConcrete;
+      
+      private var bonusText:TextFieldDisplayConcrete;
+      
+      private var taglineText:TextFieldDisplayConcrete;
+      
+      private var isSelected:Boolean;
+      
+      private var isOver:Boolean;
+      
+      private const waiter:SignalWaiter;
+      
+      public function OfferRadioButton(param1:Offer, param2:MoneyConfig)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.util.offer"),"Offer")
+         param Qname(PackageNamespace("kabam.rotmg.account.core.model"),"MoneyConfig")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter") 0
+         initproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"offer")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"1072"),"config")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeBackgroundBox") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeContainer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeSelectToggle") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeCoinImage") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeGoldText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeCostText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeBonusText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeTaglineTextIfApplicable") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OVER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"onMouseOver")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"onRollOut")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getproperty Qname(PackageNamespace(""),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"alignUI")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getValue() : String
+      {
+         trait method Qname(PackageNamespace(""),"getValue")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"realmGold_")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setOver(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1072"),"isOver")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"updateBackgroundColor") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setSelected(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setSelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1072"),"isSelected")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setSelected") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"updateBackgroundColor") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showBonus(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"showBonus")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         iffalse ofs0012
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs0012:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeBackgroundBox() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeBackgroundBox")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.account.ui.components"),"BackgroundBox")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.account.ui.components"),"BackgroundBox") 0
+         initproperty Qname(PrivateNamespace(null,"1072"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"background")
+         pushshort 520
+         pushbyte 36
+         callpropvoid Qname(PackageNamespace(""),"setSize") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"updateBackgroundColor") 0
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"background")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         pushbyte 3
+         dup
+         setlocal_1
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         kill 1
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSelectToggle() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeSelectToggle")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.components"),"RadioButton")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.components"),"RadioButton") 0
+         initproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         pushbyte 3
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCoinImage() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeCoinImage")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiObj3"
+         pushshort 225
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         initproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         pushbyte 50
+         pushtrue
+         pushbyte 0
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"redraw") 5
+         initproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.util"),"BitmapUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         pushbyte 8
+         dup
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 16
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 16
+         subtract
+         callproperty Qname(PackageNamespace(""),"cropToBitmapData") 5
+         initproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 35
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeGoldText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeGoldText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         initproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PAYMENTS_GOLD_AMOUNT")
+         pushstring "amount"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"realmGold_")
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCostText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeCostText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         initproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"config")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         callproperty Qname(Namespace("kabam.rotmg.account.core.model:MoneyConfig"),"parseOfferPrice") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeBonusText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeBonusText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1072"),"hasBonus") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         initproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PAYMENTS_GOLD_BONUS")
+         pushstring "percent"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"bonus")
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTaglineTextIfApplicable() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeTaglineTextIfApplicable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1072"),"hasTagline") 0
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1072"),"makeTaglineText") 0
+         ofs0010:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTaglineText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"makeTaglineText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 8891485
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"tagline")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"waiter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function hasTagline() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"hasTagline")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"tagline")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function hasBonus() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"hasBonus")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"bonus")
+         pushbyte 0
+         equals
+         not
+         ofs001a:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function alignUI() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"alignUI")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"toggle")
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 70
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"goldText")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         pushshort 200
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"costText")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1072"),"hasBonus") 0
+         convert_b
+         dup
+         iffalse ofs0068
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         pushnull
+         equals
+         not
+         ofs0068:iffalse ofs0092
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         pushshort 280
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"bonusText")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0092:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1072"),"hasTagline") 0
+         convert_b
+         dup
+         iffalse ofs00a5
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         pushnull
+         equals
+         not
+         ofs00a5:iffalse ofs00cf
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         pushshort 400
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"coinBitmap")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"taglineText")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs00cf:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateBackgroundColor() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"updateBackgroundColor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"isSelected")
+         iffalse ofs0013
+         getlex Qname(PrivateNamespace(null,"1072"),"SELECTED_COLOR")
+         convert_i
+         jump ofs0029
+         ofs0013:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"isOver")
+         iffalse ofs0024
+         getlex Qname(PrivateNamespace(null,"1072"),"OVER_COLOR")
+         convert_i
+         jump ofs0029
+         ofs0024:getlex Qname(PrivateNamespace(null,"1072"),"DEFAULT_COLOR")
+         convert_i
+         ofs0029:convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1072"),"background")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseOver(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"onMouseOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setOver") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRollOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1072"),"onRollOut")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setOver") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

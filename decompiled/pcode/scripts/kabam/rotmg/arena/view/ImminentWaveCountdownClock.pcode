@@ -1,0 +1,868 @@
+package kabam.rotmg.arena.view
+{
+   import flash.display.Sprite;
+   import flash.events.TimerEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.utils.Timer;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.StaticTextDisplay;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   import org.osflash.signals.Signal;
+   
+   public class ImminentWaveCountdownClock extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var WaveAsset:Class;
+      
+      public const close:Signal;
+      
+      private const countDownContainer:Sprite;
+      
+      private var count:int = 5;
+      
+      private const nextWaveText:StaticTextDisplay;
+      
+      private const countdownStringBuilder:StaticStringBuilder;
+      
+      private const countdownText:StaticTextDisplay;
+      
+      private const waveTimer:Timer;
+      
+      private const waveStartContainer:Sprite;
+      
+      private var waveNumber:int = -1;
+      
+      private const waveAsset;
+      
+      private const waveText:StaticTextDisplay;
+      
+      private const waveNumberText:StaticTextDisplay;
+      
+      private const startText:StaticTextDisplay;
+      
+      private const waveStartTimer:Timer;
+      
+      public function ImminentWaveCountdownClock()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.arena.view"),"ImminentWaveCountdownClock_WaveAsset")
+         initproperty Qname(PrivateNamespace(null,"118"),"WaveAsset")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeNextWaveText") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"nextWaveText")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"countdownStringBuilder")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeCountdownText") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"countdownText")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 1000
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeWaveAsset") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeWaveText") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"waveText")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeWaveNumberText") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"waveNumberText")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"118"),"makeStartText") 0
+         initproperty Qname(PrivateNamespace(null,"118"),"startText")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 1500
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function init() : void
+      {
+         trait method Qname(PackageNamespace(""),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"mouseChildren")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseChildren")
+         findproperty Qname(PackageNamespace(""),"mouseEnabled")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"updateCountdownClock")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"updateCountdownClock")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"cleanup")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function show() : void
+      {
+         trait method Qname(PackageNamespace(""),"show")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"118"),"center") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setWaveNumber(param1:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"setWaveNumber")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"118"),"waveNumber")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveNumberText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveNumber")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveNumberText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("width",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveNumberText")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function center() : void
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"center")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"x")
+         pushshort 300
+         getlex Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         initproperty Qname(PackageNamespace(""),"x")
+         findproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs002c
+         pushshort 138
+         convert_d
+         jump ofs002f
+         ofs002c:pushdouble 87.5
+         convert_d
+         ofs002f:initproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateCountdownClock(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"updateCountdownClock")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"count")
+         pushbyte 1
+         ifngt ofs0056
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"118"),"count")
+         decrement_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"118"),"count")
+         kill 3
+         kill 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countdownText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countdownStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"count")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         callproperty Qname(PackageNamespace(""),"setString") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countdownText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"nextWaveText")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countdownText")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         jump ofs009d
+         ofs0056:findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"updateCountdownClock")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"cleanup")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"118"),"center") 0
+         ofs009d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function cleanup(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"cleanup")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"cleanup")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"close")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeNextWaveText() : StaticTextDisplay
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeNextWaveText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         getlocal_1
+         pushbyte 20
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushint 13421772
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"ARENA_COUNTDOWN_CLOCK_NEXT_WAVE")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCountdownText() : StaticTextDisplay
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeCountdownText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         getlocal_1
+         pushbyte 42
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushint 13421772
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countdownStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"count")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         callproperty Qname(PackageNamespace(""),"setString") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"nextWaveText")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"nextWaveText")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"countDownContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeWaveText() : StaticTextDisplay
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeWaveText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         getlocal_1
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushint 16567065
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"ARENA_COUNTDOWN_CLOCK_WAVE")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("width",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 2
+         divide
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("height",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 2
+         divide
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         pushbyte 15
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeWaveNumberText() : StaticTextDisplay
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeWaveNumberText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         getlocal_1
+         pushbyte 40
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushint 16567065
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveText")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveText")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushbyte 5
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeWaveAsset() : *
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeWaveAsset")
+         dispid 0
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructprop Qname(PrivateNamespace(null,"118"),"WaveAsset") 0
+         coerce_a
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeStartText() : StaticTextDisplay
+      {
+         trait method Qname(PrivateNamespace(null,"118"),"makeStartText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"StaticTextDisplay")
+         setlocal_1
+         getlocal_1
+         pushbyte 32
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushint 11776947
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"ARENA_COUNTDOWN_CLOCK_START")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("y",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("height",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushbyte 5
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveAsset")
+         getproperty Multiname("width",[PrivateNamespace(null,"118"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1347"),PackageNamespace("kabam.rotmg.arena.view"),PackageInternalNs("kabam.rotmg.arena.view"),ProtectedNamespace("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("kabam.rotmg.arena.view:ImminentWaveCountdownClock"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 2
+         divide
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"118"),"waveStartContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

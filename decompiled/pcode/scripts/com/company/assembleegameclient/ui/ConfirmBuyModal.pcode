@@ -1,0 +1,847 @@
+package com.company.assembleegameclient.ui
+{
+   import com.company.assembleegameclient.objects.SellableObject;
+   import com.company.assembleegameclient.util.Currency;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.pets.utils.PetsViewAssetFactory;
+   import kabam.rotmg.fortune.components.ItemWithTooltip;
+   import kabam.rotmg.pets.view.components.DialogCloseButton;
+   import kabam.rotmg.pets.view.components.PopupWindowBackground;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldConcreteBuilder;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.util.components.LegacyBuyButton;
+   import kabam.rotmg.util.components.UIAssetsHelper;
+   import org.osflash.signals.Signal;
+   import org.osflash.signals.natives.NativeSignal;
+   
+   public class ConfirmBuyModal extends Sprite
+   {
+      
+      public static const WIDTH:int = 280;
+      
+      public static const HEIGHT:int = 240;
+      
+      public static const TEXT_MARGIN:int = 20;
+      
+      public static var free:Boolean = true;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 280
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         findproperty Qname(PackageNamespace(""),"HEIGHT")
+         pushshort 240
+         initproperty Qname(PackageNamespace(""),"HEIGHT")
+         findproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 20
+         initproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         findproperty Qname(PackageNamespace(""),"free")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"free")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const closeButton:DialogCloseButton;
+      
+      private const buyButton:LegacyBuyButton;
+      
+      private var buyButtonClicked:NativeSignal;
+      
+      private var quantityInputText:TextFieldDisplayConcrete;
+      
+      private var leftNavSprite:Sprite;
+      
+      private var rightNavSprite:Sprite;
+      
+      private var quantity_:int = 1;
+      
+      private var availableInventoryNumber:int;
+      
+      private var owner_:SellableObject;
+      
+      public var buyItem:Signal;
+      
+      public var open:Boolean;
+      
+      public var buttonWidth:int;
+      
+      public function ConfirmBuyModal(param1:Signal, param2:SellableObject, param3:Number, param4:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"SellableObject")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldConcreteBuilder")
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal 8
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         getproperty Qname(PackageNamespace(""),"WIDTH")
+         callproperty Qname(PackageNamespace(""),"returnCloseButton") 1
+         initproperty Qname(PrivateNamespace(null,"735"),"closeButton")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"SELLABLEOBJECTPANEL_BUY")
+         pushbyte 16
+         pushbyte 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"INVALID")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton") 4
+         initproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlocal_0
+         constructsuper 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"free")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"buyItem")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"buttonWidth")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"735"),"availableInventoryNumber")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"events") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"positionAndStuff") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"addChildren") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getproperty Qname(PackageNamespace(""),"price_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getproperty Qname(PackageNamespace(""),"currency_")
+         callpropvoid Qname(PackageNamespace(""),"setPrice") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         callproperty Qname(PackageNamespace(""),"soldObjectName") 0
+         coerce_s
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldConcreteBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldConcreteBuilder") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldConcreteBuilder")
+         dup
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         setproperty Qname(PackageNamespace(""),"containerMargin")
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         setproperty Qname(PackageNamespace(""),"containerWidth")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 6
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BUY_CONFIRMATION_TITLE")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 5
+         callproperty Qname(PackageNamespace(""),"getLocalizedTextObject") 3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 6
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BUY_CONFIRMATION_DESC")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 40
+         callproperty Qname(PackageNamespace(""),"getLocalizedTextObject") 3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 6
+         getlocal 5
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 90
+         callproperty Qname(PackageNamespace(""),"getLocalizedTextObject") 3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal 6
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BUY_CONFIRMATION_AMOUNT")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushshort 140
+         callproperty Qname(PackageNamespace(""),"getLocalizedTextObject") 3
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal 7
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal 6
+         pushstring "1"
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushshort 160
+         callproperty Qname(PackageNamespace(""),"getLiteralTextObject") 3
+         initproperty Qname(PrivateNamespace(null,"735"),"quantityInputText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         callproperty Qname(PackageNamespace(""),"getSellableType") 0
+         pushbyte -1
+         ifeq ofs015b
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         callproperty Qname(PackageNamespace(""),"getSellableType") 0
+         pushbyte 64
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal 8
+         ofs015b:getlocal 8
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 1
+         multiply
+         pushbyte 2
+         divide
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         pushbyte 100
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal 6
+         pushstring "1"
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushshort 160
+         callproperty Qname(PackageNamespace(""),"getLiteralTextObject") 3
+         initproperty Qname(PrivateNamespace(null,"735"),"quantityInputText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantityInputText")
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantityInputText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getproperty Qname(PackageNamespace(""),"LEFT_NEVIGATOR")
+         callproperty Qname(PrivateNamespace(null,"735"),"makeNavigator") 1
+         initproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getproperty Qname(PackageNamespace(""),"RIGHT_NEVIGATOR")
+         callproperty Qname(PrivateNamespace(null,"735"),"makeNavigator") 1
+         initproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 4
+         multiply
+         pushbyte 11
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         pushshort 150
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 7
+         multiply
+         pushbyte 11
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         pushshort 150
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"refreshNavDisable") 0
+         getlocal_0
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function makeModalBackground(param1:int, param2:int) : PopupWindowBackground
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"makeModalBackground")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         getproperty Qname(PackageNamespace(""),"HORIZONTAL_DIVISION")
+         pushbyte 30
+         callpropvoid Qname(PackageNamespace(""),"divide") 2
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshNavDisable() : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"refreshNavDisable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         pushbyte 1
+         ifne ofs0017
+         pushdouble 0.5
+         convert_d
+         jump ofs001a
+         ofs0017:pushbyte 1
+         convert_d
+         ofs001a:setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"availableInventoryNumber")
+         ifne ofs0035
+         pushdouble 0.5
+         convert_d
+         jump ofs0038
+         ofs0035:pushbyte 1
+         convert_d
+         ofs0038:setproperty Qname(PackageNamespace(""),"alpha")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionAndStuff() : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"positionAndStuff")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushshort -300
+         setlocal_1
+         pushshort -200
+         setlocal_2
+         getlocal_0
+         getlocal_1
+         pushbyte -1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         getproperty Qname(PackageNamespace(""),"WIDTH")
+         multiply
+         pushdouble 0.5
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getlocal_2
+         pushbyte -1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         getproperty Qname(PackageNamespace(""),"HEIGHT")
+         multiply
+         pushdouble 0.5
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 35
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushshort 195
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buttonWidth")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function events() : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"events")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"closeButton")
+         getproperty Qname(PackageNamespace(""),"clicked")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onCloseClick")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal") 3
+         setproperty Qname(PrivateNamespace(null,"735"),"buyButtonClicked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButtonClicked")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onBuyClick")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addChildren() : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"addChildren")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PrivateNamespace(null,"735"),"makeModalBackground")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         getproperty Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         getproperty Qname(PackageNamespace(""),"HEIGHT")
+         callproperty Qname(PrivateNamespace(null,"735"),"makeModalBackground") 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onCloseClick() : void
+      {
+         trait method Qname(PackageNamespace(""),"onCloseClick")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"close") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onBuyClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"onBuyClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         setproperty Qname(PackageNamespace(""),"quantity_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyItem")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"close") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function close() : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"close")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"free")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui"),"ConfirmBuyModal")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"free")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"open")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"onClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"onClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeNavigator(param1:String) : Sprite
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"makeNavigator")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"createLeftNevigatorIcon") 1
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"onClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"735"),"onClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs003f
+         ofs0006:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"availableInventoryNumber")
+         ifnlt ofs001e
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         pushbyte 1
+         add
+         initproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         ofs001e:jump ofs007f
+         ofs0022:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         pushbyte 1
+         ifngt ofs0036
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         decrement
+         initproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         ofs0036:jump ofs007f
+         ofs003a:label
+         jump ofs007f
+         ofs003f:getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"rightNavSprite")
+         getlocal_3
+         ifstrictne ofs0054
+         pushbyte 0
+         jump ofs006f
+         ofs0054:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"leftNavSprite")
+         getlocal_3
+         ifstrictne ofs0063
+         pushbyte 1
+         jump ofs006f
+         ofs0063:jump ofs006d
+         pushbyte 2
+         jump ofs006d
+         ofs006d:pushbyte 2
+         ofs006f:kill 3
+         lookupswitch ofs003a 2 ofs0006 ofs0022 ofs003a
+         ofs007f:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"735"),"refreshNavDisable") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getproperty Qname(PackageNamespace(""),"price_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         multiply
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"buyButton")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"owner_")
+         getproperty Qname(PackageNamespace(""),"currency_")
+         callpropvoid Qname(PackageNamespace(""),"setPrice") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantityInputText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"735"),"quantity_")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         callpropvoid Qname(PackageNamespace(""),"setText") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

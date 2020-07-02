@@ -1,0 +1,125 @@
+package kabam.rotmg.account.web.commands
+{
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.web.view.WebAccountDetailDialog;
+   import kabam.rotmg.account.web.view.WebRegisterDialog;
+   import kabam.rotmg.account.web.view.WebVerifyEmailDialog;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   
+   public class WebOpenAccountInfoCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      public function WebOpenAccountInfoCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isVerified") 0
+         convert_b
+         ofs001a:iffalse ofs0031
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountDetailDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountDetailDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs006f
+         ofs0031:getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         convert_b
+         dup
+         iffalse ofs0049
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isVerified") 0
+         not
+         ofs0049:iffalse ofs0060
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebVerifyEmailDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebVerifyEmailDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs006f
+         ofs0060:getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebRegisterDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebRegisterDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs006f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

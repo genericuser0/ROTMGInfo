@@ -1,0 +1,829 @@
+package kabam.rotmg.account.kabam
+{
+   import flash.external.ExternalInterface;
+   import kabam.lib.json.JsonParser;
+   import kabam.rotmg.account.core.Account;
+   
+   public class KabamAccount implements Account
+   {
+      
+      public static const NETWORK_NAME:String = "kabam.com";
+      
+      private static const PLAY_PLATFORM_NAME:String = "kabam.com";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"NETWORK_NAME")
+         pushstring "kabam.com"
+         initproperty Qname(PackageNamespace(""),"NETWORK_NAME")
+         findproperty Qname(PrivateNamespace(null,"613"),"PLAY_PLATFORM_NAME")
+         pushstring "kabam.com"
+         initproperty Qname(PrivateNamespace(null,"613"),"PLAY_PLATFORM_NAME")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var entryTag:String;
+      
+      private var userId:String = "";
+      
+      private var password:String = null;
+      
+      private var isVerifiedEmail:Boolean;
+      
+      private var platformToken:String;
+      
+      public var signedRequest:String;
+      
+      public var userSession:Object;
+      
+      private var _creationDate:Date;
+      
+      [Inject]
+      public var json:JsonParser;
+      
+      public function KabamAccount()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 7
+         try from ofs0008 to ofs0025 target ofs0029 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"error")
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_1
+         getlocal_0
+         constructsuper 0
+         ofs0008:getlex Qname(PackageNamespace("flash.external"),"ExternalInterface")
+         pushstring "rotmg.UrlLib.getParam"
+         pushstring "entrypt"
+         callproperty Qname(PackageNamespace(""),"call") 2
+         coerce_s
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs0025
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"613"),"entryTag")
+         ofs0025:jump ofs0037
+         ofs0029:getlocal_0
+         pushscope
+         newcatch 0
+         dup
+         setlocal_2
+         dup
+         pushscope
+         swap
+         setslot 1
+         popscope
+         kill 2
+         ofs0037:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateUser(param1:String, param2:String, param3:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateUser")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"613"),"userId")
+         getlocal_0
+         getlocal_2
+         setproperty Qname(PrivateNamespace(null,"613"),"password")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getUserNaid() : String
+      {
+         trait method Qname(PackageNamespace(""),"getUserNaid")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getRequestPrefix() : String
+      {
+         trait method Qname(PackageNamespace(""),"getRequestPrefix")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "/credits"
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCredentials() : Object
+      {
+         trait method Qname(PackageNamespace(""),"getCredentials")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "guid"
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getUserId") 0
+         pushstring "secret"
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getSecret") 0
+         pushstring "signedRequest"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"signedRequest")
+         newobject 3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getEntryTag() : String
+      {
+         trait method Qname(PackageNamespace(""),"getEntryTag")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"entryTag")
+         coerce_s
+         dup
+         iftrue ofs000f
+         pop
+         pushstring ""
+         ofs000f:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function gameNetworkUserId() : String
+      {
+         trait method Qname(PackageNamespace(""),"gameNetworkUserId")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushnull
+         equals
+         dup
+         iftrue ofs001c
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "kabam_naid"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         pushnull
+         equals
+         ofs001c:iffalse ofs0023
+         pushstring ""
+         returnvalue
+         ofs0023:getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "kabam_naid"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function gameNetwork() : String
+      {
+         trait method Qname(PackageNamespace(""),"gameNetwork")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"NETWORK_NAME")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getUserName() : String
+      {
+         trait method Qname(PackageNamespace(""),"getUserName")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushnull
+         equals
+         dup
+         iftrue ofs001b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "user"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         pushnull
+         equals
+         ofs001b:dup
+         iftrue ofs0035
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "user"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         pushstring "email"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         pushnull
+         equals
+         ofs0035:iffalse ofs003c
+         pushstring ""
+         returnvalue
+         ofs003c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "user"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         pushstring "email"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         coerce_s
+         setlocal_1
+         getlocal_1
+         pushstring "@"
+         pushbyte 2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 2
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 2
+         ifeq ofs006c
+         pushstring ""
+         returnvalue
+         ofs006c:getlocal_2
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getUserId() : String
+      {
+         trait method Qname(PackageNamespace(""),"getUserId")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"userId")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isLinked() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isLinked")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isRegistered() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isRegistered")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function playPlatform() : String
+      {
+         trait method Qname(PackageNamespace(""),"playPlatform")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PrivateNamespace(null,"613"),"PLAY_PLATFORM_NAME")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getSecret() : String
+      {
+         trait method Qname(PackageNamespace(""),"getSecret")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"password")
+         coerce_s
+         dup
+         iftrue ofs000f
+         pop
+         pushstring ""
+         ofs000f:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPassword() : String
+      {
+         trait method Qname(PackageNamespace(""),"getPassword")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clear() : void
+      {
+         trait method Qname(PackageNamespace(""),"clear")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function reportIntStat(param1:String, param2:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"reportIntStat")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function verify(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"verify")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"613"),"isVerifiedEmail")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isVerified() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isVerified")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"isVerifiedEmail")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPlatformToken() : String
+      {
+         trait method Qname(PackageNamespace(""),"getPlatformToken")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"platformToken")
+         coerce_s
+         dup
+         iftrue ofs000f
+         pop
+         pushstring ""
+         ofs000f:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setPlatformToken(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"setPlatformToken")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"613"),"platformToken")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getMoneyAccessToken() : String
+      {
+         trait method Qname(PackageNamespace(""),"getMoneyAccessToken")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"userSession")
+         pushstring "oauth_token"
+         getproperty MultinameL([PrivateNamespace(null,"613"),PackageNamespace(""),PrivateNamespace(null,"1617"),PackageNamespace("kabam.rotmg.account.kabam"),PackageInternalNs("kabam.rotmg.account.kabam"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kabam:KabamAccount"),StaticProtectedNs("kabam.rotmg.account.kabam:KabamAccount")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getMoneyUserId() : String
+      {
+         trait method Qname(PackageNamespace(""),"getMoneyUserId")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"gameNetworkUserId") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getToken() : String
+      {
+         trait method Qname(PackageNamespace(""),"getToken")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get creationDate() : Date
+      {
+         trait getter Qname(PackageNamespace(""),"creationDate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"613"),"_creationDate")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set creationDate(param1:Date) : void
+      {
+         trait setter Qname(PackageNamespace(""),"creationDate")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Date")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"613"),"_creationDate")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

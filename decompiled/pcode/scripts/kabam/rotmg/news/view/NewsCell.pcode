@@ -1,0 +1,704 @@
+package kabam.rotmg.news.view
+{
+   import flash.display.Loader;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.IOErrorEvent;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.net.URLRequest;
+   import flash.text.TextFieldAutoSize;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.news.model.NewsCellVO;
+   import kabam.rotmg.text.view.TextDisplay;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   import org.osflash.signals.Signal;
+   import org.swiftsuspenders.Injector;
+   
+   public class NewsCell extends Sprite
+   {
+      
+      static var DefaultGraphicLarge:Class;
+      
+      static var DefaultGraphicSmall:Class;
+      
+      private static const BOX_HEIGHT:uint = 30;
+      
+      private static const LARGE:String = "LARGE";
+      
+      private static const SMALL:String = "SMALL";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicLarge")
+         getlex Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsCell_DefaultGraphicLarge")
+         setproperty Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicLarge")
+         findproperty Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicSmall")
+         getlex Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsCell_DefaultGraphicSmall")
+         setproperty Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicSmall")
+         findproperty Qname(PrivateNamespace(null,"95"),"BOX_HEIGHT")
+         pushbyte 30
+         initproperty Qname(PrivateNamespace(null,"95"),"BOX_HEIGHT")
+         findproperty Qname(PrivateNamespace(null,"95"),"LARGE")
+         pushstring "LARGE"
+         initproperty Qname(PrivateNamespace(null,"95"),"LARGE")
+         findproperty Qname(PrivateNamespace(null,"95"),"SMALL")
+         pushstring "SMALL"
+         initproperty Qname(PrivateNamespace(null,"95"),"SMALL")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var imageContainer:Sprite;
+      
+      private var maskShape:Shape;
+      
+      private var boxShape:Shape;
+      
+      private var textField:TextFieldDisplayConcrete;
+      
+      private var size:String;
+      
+      private var w:Number;
+      
+      private var h:Number;
+      
+      private var _vo:NewsCellVO;
+      
+      private var _loader:Loader;
+      
+      private var textSize:uint = 18;
+      
+      public var clickSignal:Signal;
+      
+      private var injector:Injector;
+      
+      public function NewsCell(param1:Number, param2:Number)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         initproperty Qname(PrivateNamespace(null,"95"),"injector")
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"95"),"setSize") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"initImageContainer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"initMask") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"initBox") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setSize(param1:Number, param2:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"setSize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"95"),"w")
+         getlocal_0
+         getlocal_2
+         setproperty Qname(PrivateNamespace(null,"95"),"h")
+         getlocal_1
+         pushshort 306
+         equals
+         dup
+         iffalse ofs001c
+         pop
+         getlocal_2
+         pushshort 194
+         equals
+         ofs001c:iffalse ofs002c
+         getlocal_0
+         getlex Qname(PrivateNamespace(null,"95"),"LARGE")
+         initproperty Qname(PrivateNamespace(null,"95"),"size")
+         jump ofs0048
+         ofs002c:getlocal_1
+         pushshort 151
+         equals
+         dup
+         iffalse ofs003c
+         pop
+         getlocal_2
+         pushshort 189
+         equals
+         ofs003c:iffalse ofs0048
+         getlocal_0
+         getlex Qname(PrivateNamespace(null,"95"),"SMALL")
+         initproperty Qname(PrivateNamespace(null,"95"),"size")
+         ofs0048:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function init(param1:NewsCellVO) : void
+      {
+         trait method Qname(PackageNamespace(""),"init")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"95"),"_vo")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"updateTextField") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findproperty Qname(PackageNamespace(""),"buttonMode")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"buttonMode")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addDisplayAssets() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"addDisplayAssets")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         getlocal_1
+         kill 1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"95"),"boxShape")
+         getlocal_1
+         kill 1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initImageContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"initImageContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initMask() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"initMask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16711935
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"w")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"h")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         setproperty Qname(PackageNamespace(""),"mask")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"maskShape")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initBox() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"initBox")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"95"),"boxShape")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"boxShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         pushdouble 0.8
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"boxShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"h")
+         getlex Qname(PrivateNamespace(null,"95"),"BOX_HEIGHT")
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"w")
+         getlex Qname(PrivateNamespace(null,"95"),"BOX_HEIGHT")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"boxShape")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateTextField() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"updateTextField")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view"),"TextDisplay")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textSize")
+         callproperty Multiname("setSize",[PrivateNamespace(null,"95"),PackageInternalNs("kabam.rotmg.news.view"),PackageNamespace("kabam.rotmg.news.view"),PackageNamespace(""),PrivateNamespace(null,"1336"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.news.view:NewsCell"),StaticProtectedNs("kabam.rotmg.news.view:NewsCell"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         pushint 16777215
+         callproperty Multiname("setColor",[PrivateNamespace(null,"95"),PackageInternalNs("kabam.rotmg.news.view"),PackageNamespace("kabam.rotmg.news.view"),PackageNamespace(""),PrivateNamespace(null,"1336"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.news.view:NewsCell"),StaticProtectedNs("kabam.rotmg.news.view:NewsCell"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         initproperty Qname(PrivateNamespace(null,"95"),"textField")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callproperty Qname(PackageNamespace(""),"setAutoSize") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         getproperty Qname(PackageNamespace(""),"MIDDLE")
+         callpropvoid Qname(PackageNamespace(""),"setVerticalAlign") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_vo")
+         getproperty Qname(PackageNamespace(""),"headline")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"resizeTextField") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"w")
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"h")
+         pushbyte 25
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function resizeTextField() : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"resizeTextField")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"w")
+         pushbyte 10
+         subtract
+         ifngt ofs0036
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textSize")
+         pushbyte 2
+         subtract
+         initproperty Qname(PrivateNamespace(null,"95"),"textSize")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"textSize")
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"95"),"resizeTextField") 0
+         ofs0036:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function load() : void
+      {
+         trait method Qname(PackageNamespace(""),"load")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Loader")
+         constructprop Qname(PackageNamespace("flash.display"),"Loader") 0
+         initproperty Qname(PrivateNamespace(null,"95"),"_loader")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_loader")
+         getproperty Qname(PackageNamespace(""),"contentLoaderInfo")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_loader")
+         getproperty Qname(PackageNamespace(""),"contentLoaderInfo")
+         getlex Qname(PackageNamespace("flash.events"),"IOErrorEvent")
+         getproperty Qname(PackageNamespace(""),"IO_ERROR")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"onIOError")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_loader")
+         findpropstrict Qname(PackageNamespace("flash.net"),"URLRequest")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_vo")
+         getproperty Qname(PackageNamespace(""),"imageURL")
+         constructprop Qname(PackageNamespace("flash.net"),"URLRequest") 1
+         callpropvoid Qname(PackageNamespace(""),"load") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_loader")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onIOError(param1:IOErrorEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"onIOError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"IOErrorEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0037
+         ofs0006:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         findpropstrict Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicLarge")
+         constructprop Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicLarge") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         jump ofs0076
+         ofs001c:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"imageContainer")
+         findpropstrict Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicSmall")
+         constructprop Qname(PackageInternalNs("kabam.rotmg.news.view"),"DefaultGraphicSmall") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         jump ofs0076
+         ofs0032:label
+         jump ofs0076
+         ofs0037:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"size")
+         setlocal_2
+         getlex Qname(PrivateNamespace(null,"95"),"LARGE")
+         getlocal_2
+         ifstrictne ofs004b
+         pushbyte 0
+         jump ofs0066
+         ofs004b:getlex Qname(PrivateNamespace(null,"95"),"SMALL")
+         getlocal_2
+         ifstrictne ofs005a
+         pushbyte 1
+         jump ofs0066
+         ofs005a:jump ofs0064
+         pushbyte 2
+         jump ofs0064
+         ofs0064:pushbyte 2
+         ofs0066:kill 2
+         lookupswitch ofs0032 2 ofs0006 ofs001c ofs0032
+         ofs0076:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"95"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"95"),"_vo")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

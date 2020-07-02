@@ -1,0 +1,416 @@
+package
+{
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.util.AssetLoader;
+   import com.company.assembleegameclient.util.StageProxy;
+   import flash.display.LoaderInfo;
+   import flash.display.Sprite;
+   import flash.display.Stage;
+   import flash.display.StageScaleMode;
+   import flash.events.Event;
+   import flash.system.Capabilities;
+   import io.decagames.rotmg.dailyQuests.config.DailyQuestsConfig;
+   import io.decagames.rotmg.nexusShop.config.NexusShopConfig;
+   import io.decagames.rotmg.pets.config.PetsConfig;
+   import io.decagames.rotmg.seasonalEvent.config.SeasonalEventConfig;
+   import io.decagames.rotmg.social.config.SocialConfig;
+   import io.decagames.rotmg.supportCampaign.config.SupportCampaignConfig;
+   import io.decagames.rotmg.tos.config.ToSConfig;
+   import kabam.lib.net.NetConfig;
+   import kabam.rotmg.account.AccountConfig;
+   import kabam.rotmg.appengine.AppEngineConfig;
+   import kabam.rotmg.application.ApplicationConfig;
+   import kabam.rotmg.application.ApplicationSpecificConfig;
+   import kabam.rotmg.application.EnvironmentConfig;
+   import kabam.rotmg.arena.ArenaConfig;
+   import kabam.rotmg.assets.AssetsConfig;
+   import kabam.rotmg.build.BuildConfig;
+   import kabam.rotmg.characters.CharactersConfig;
+   import kabam.rotmg.classes.ClassesConfig;
+   import kabam.rotmg.core.CoreConfig;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.dailyLogin.config.DailyLoginConfig;
+   import kabam.rotmg.death.DeathConfig;
+   import kabam.rotmg.dialogs.DialogsConfig;
+   import kabam.rotmg.errors.ErrorConfig;
+   import kabam.rotmg.external.ExternalConfig;
+   import kabam.rotmg.fame.FameConfig;
+   import kabam.rotmg.fortune.FortuneConfig;
+   import kabam.rotmg.game.GameConfig;
+   import kabam.rotmg.language.LanguageConfig;
+   import kabam.rotmg.legends.LegendsConfig;
+   import kabam.rotmg.maploading.MapLoadingConfig;
+   import kabam.rotmg.minimap.MiniMapConfig;
+   import kabam.rotmg.mysterybox.MysteryBoxConfig;
+   import kabam.rotmg.news.NewsConfig;
+   import kabam.rotmg.packages.PackageConfig;
+   import kabam.rotmg.promotions.PromotionsConfig;
+   import kabam.rotmg.protip.ProTipConfig;
+   import kabam.rotmg.servers.ServersConfig;
+   import kabam.rotmg.stage3D.Stage3DConfig;
+   import kabam.rotmg.startup.StartupConfig;
+   import kabam.rotmg.startup.control.StartupSignal;
+   import kabam.rotmg.text.TextConfig;
+   import kabam.rotmg.tooltips.TooltipsConfig;
+   import kabam.rotmg.ui.UIConfig;
+   import kabam.rotmg.ui.UIUtils;
+   import robotlegs.bender.bundles.mvcs.MVCSBundle;
+   import robotlegs.bender.extensions.signalCommandMap.SignalCommandMapExtension;
+   import robotlegs.bender.framework.api.IContext;
+   import robotlegs.bender.framework.api.LogLevel;
+   
+   public class WebMain extends Sprite
+   {
+      
+      public static var STAGE:Stage;
+      
+      public static var USER_AGENT:String = "None";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"USER_AGENT")
+         pushstring "None"
+         setproperty Qname(PackageNamespace(""),"USER_AGENT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected var context:IContext;
+      
+      public function WebMain()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlex Qname(PackageNamespace(""),"stage")
+         iffalse ofs0015
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"19"),"setup") 0
+         jump ofs0026
+         ofs0015:findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"19"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"19"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"19"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"19"),"setup") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setup() : void
+      {
+         trait method Qname(PrivateNamespace(null,"19"),"setup")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"STAGE")
+         getlex Qname(PackageNamespace(""),"stage")
+         setproperty Qname(PackageNamespace(""),"STAGE")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"19"),"hackParameters") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"19"),"createContext") 0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.util"),"AssetLoader")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.util"),"AssetLoader") 0
+         callpropvoid Qname(PackageNamespace(""),"load") 0
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.display"),"StageScaleMode")
+         getproperty Qname(PackageNamespace(""),"EXACT_FIT")
+         setproperty Qname(PackageNamespace(""),"scaleMode")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.startup.control"),"StartupSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"19"),PackageNamespace(""),ProtectedNamespace("WebMain"),PrivateNamespace(null,"1297"),PackageInternalNs(""),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("WebMain"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"19"),"configureForAirIfDesktopPlayer") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"UIUtils")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("uiQuality",[PrivateNamespace(null,"19"),PackageNamespace(""),ProtectedNamespace("WebMain"),PrivateNamespace(null,"1297"),PackageInternalNs(""),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("WebMain"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callpropvoid Qname(PackageNamespace(""),"toggleQuality") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function hackParameters() : void
+      {
+         trait method Qname(PrivateNamespace(null,"19"),"hackParameters")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"root")
+         setproperty Qname(PackageNamespace(""),"root")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContext() : void
+      {
+         trait method Qname(PrivateNamespace(null,"19"),"createContext")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext") 0
+         initproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"injector")
+         getlex Qname(PackageNamespace("flash.display"),"LoaderInfo")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace(""),"root")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"root")
+         getproperty Qname(PackageNamespace(""),"loaderInfo")
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"injector")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getlex Qname(PackageNamespace("robotlegs.bender.bundles.mvcs"),"MVCSBundle")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"extend") 1
+         getlex Qname(PackageNamespace("robotlegs.bender.extensions.signalCommandMap"),"SignalCommandMapExtension")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"extend") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.build"),"BuildConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.startup"),"StartupConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.lib.net"),"NetConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.assets"),"AssetsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs"),"DialogsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.application"),"EnvironmentConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.application"),"ApplicationConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.language"),"LanguageConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text"),"TextConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.appengine"),"AppEngineConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account"),"AccountConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.errors"),"ErrorConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"CoreConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.application"),"ApplicationSpecificConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.death"),"DeathConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.characters"),"CharactersConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.servers"),"ServersConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.game"),"GameConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"UIConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.minimap"),"MiniMapConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.legends"),"LegendsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.news"),"NewsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.fame"),"FameConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.tooltips"),"TooltipsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.promotions"),"PromotionsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.protip"),"ProTipConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.maploading"),"MapLoadingConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.classes"),"ClassesConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.packages"),"PackageConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"PetsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"DailyLoginConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"Stage3DConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.arena"),"ArenaConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.external"),"ExternalConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox"),"MysteryBoxConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune"),"FortuneConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.config"),"DailyQuestsConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"SocialConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.nexusShop.config"),"NexusShopConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.tos.config"),"ToSConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.config"),"SupportCampaignConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.config"),"SeasonalEventConfig")
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlocal_0
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:IContext"),"configure") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("WebMain"),"context")
+         getlex Qname(PackageNamespace("robotlegs.bender.framework.api"),"LogLevel")
+         getproperty Qname(PackageNamespace(""),"DEBUG")
+         setproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"logLevel")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function configureForAirIfDesktopPlayer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"19"),"configureForAirIfDesktopPlayer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("flash.system"),"Capabilities")
+         getproperty Qname(PackageNamespace(""),"playerType")
+         pushstring "Desktop"
+         ifne ofs0024
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("fullscreenMode",[PrivateNamespace(null,"19"),PackageNamespace(""),ProtectedNamespace("WebMain"),PrivateNamespace(null,"1297"),PackageInternalNs(""),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("WebMain"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         ofs0024:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

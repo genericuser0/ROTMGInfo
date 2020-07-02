@@ -1,0 +1,799 @@
+package io.decagames.rotmg.pets.popup.hatching
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.util.AnimatedChar;
+   import com.company.assembleegameclient.util.AnimatedChars;
+   import com.company.assembleegameclient.util.MaskedImage;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.assembleegameclient.util.redrawers.GlowRedrawer;
+   import com.greensock.TimelineMax;
+   import com.greensock.TweenLite;
+   import com.greensock.easing.Sine;
+   import com.greensock.plugins.TransformAroundPointPlugin;
+   import com.greensock.plugins.TweenPlugin;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.Sprite;
+   import flash.geom.Point;
+   import io.decagames.rotmg.pets.config.AnimationConfig;
+   import io.decagames.rotmg.pets.data.vo.SkinVO;
+   import io.decagames.rotmg.ui.buttons.SliceScalingButton;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.popups.modal.ModalPopup;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   
+   public class PetHatchingDialog extends ModalPopup
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var contentInset:SliceScalingBitmap;
+      
+      private var eggImage:Bitmap;
+      
+      private var animationContainer:Sprite;
+      
+      private var animationTimeline:TimelineMax;
+      
+      private var _petSkin:int;
+      
+      private var petImage:Bitmap;
+      
+      private var eggSize:int = 80;
+      
+      private var unlockedSkin:Boolean;
+      
+      private var skinVO:SkinVO;
+      
+      private var _okButton:SliceScalingButton;
+      
+      private var petName:String;
+      
+      public function PetHatchingDialog(param1:String, param2:int, param3:int, param4:Boolean, param5:SkinVO)
+      {
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"SkinVO")
+         returns null
+         
+         body
+         maxstack 12
+         localcount 7
+         initscopedepth 12
+         maxscopedepth 14
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal 6
+         pushscope
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getlocal_3
+         setslot 3
+         getscopeobject 1
+         getlocal 4
+         setslot 4
+         getscopeobject 1
+         getlocal 5
+         setslot 5
+         getlocal_0
+         pushshort 270
+         pushshort 180
+         pushstring "Pet hatching!"
+         constructsuper 3
+         getlocal_0
+         getscopeobject 1
+         getslot 4
+         initproperty Qname(PrivateNamespace(null,"313"),"unlockedSkin")
+         getlocal_0
+         getscopeobject 1
+         getslot 2
+         initproperty Qname(PrivateNamespace(null,"313"),"_petSkin")
+         getlocal_0
+         getscopeobject 1
+         getslot 5
+         initproperty Qname(PrivateNamespace(null,"313"),"skinVO")
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         initproperty Qname(PrivateNamespace(null,"313"),"petName")
+         getlex Qname(PackageNamespace("com.greensock.plugins"),"TweenPlugin")
+         getlex Qname(PackageNamespace("com.greensock.plugins"),"TransformAroundPointPlugin")
+         newarray 1
+         callpropvoid Qname(PackageNamespace(""),"activate") 1
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"313"),"getTypeBitmap") 0
+         initproperty Qname(PrivateNamespace(null,"313"),"petImage")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "popup_content_inset"
+         pushshort 270
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         pushshort 130
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getscopeobject 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "popup_content_inset"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.sliceScaling"),"SliceScalingBitmap")
+         setslot 6
+         getscopeobject 1
+         getslot 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"height")
+         getscopeobject 1
+         getslot 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getscopeobject 1
+         getslot 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getscopeobject 1
+         getslot 6
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"cacheAsBitmap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"cacheAsBitmap")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getscopeobject 1
+         getslot 6
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getscopeobject 1
+         getslot 6
+         setproperty Qname(PackageNamespace(""),"mask")
+         getscopeobject 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getscopeobject 1
+         getslot 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggSize")
+         pushtrue
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 4
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setslot 7
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getscopeobject 1
+         getslot 7
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         constructprop Qname(PackageNamespace("com.greensock"),"TimelineMax") 0
+         initproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte -20
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushdouble 0.5
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte 20
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte 20
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushdouble 0.3
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte -20
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         pushbyte 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushbyte 0
+         newfunction 3790
+         callpropvoid Qname(PrivateNamespace(null,"313"),"animateEgg") 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"HATCHING_EGG_ANIMATION_DURATION")
+         pushstring "transformAroundPoint"
+         pushstring "point"
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggImage")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         pushstring "pointIsLocal"
+         pushtrue
+         pushstring "scaleX"
+         pushbyte 2
+         pushstring "scaleY"
+         pushbyte 2
+         newobject 4
+         newobject 1
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationTimeline")
+         callpropvoid Qname(PackageNamespace(""),"play") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "generic_green_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "Pets.sendToYard"
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getproperty Qname(PackageNamespace(""),"questButtonCompleteLabel")
+         callpropvoid Qname(PackageNamespace(""),"setLabel") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         pushshort 149
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(ProtectedNamespace("io.decagames.rotmg.ui.popups:BasePopup"),"_contentWidth")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getlex Qname(ProtectedNamespace("io.decagames.rotmg.ui.popups:BasePopup"),"_contentHeight")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get okButton() : SliceScalingButton
+      {
+         trait getter Qname(PackageNamespace(""),"okButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_okButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getTypeBitmap() : Bitmap
+      {
+         trait method Qname(PrivateNamespace(null,"313"),"getTypeBitmap")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Bitmap")
+         
+         body
+         maxstack 7
+         localcount 8
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_petSkin")
+         callproperty Qname(PackageNamespace(""),"getIdFromType") 1
+         coerce_s
+         setlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getXMLfromId") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_2
+         getproperty Multiname("AnimatedTexture",[PrivateNamespace(null,"313"),PackageNamespace(""),PackageInternalNs("io.decagames.rotmg.pets.popup.hatching"),PrivateNamespace(null,"1414"),PackageNamespace("io.decagames.rotmg.pets.popup.hatching"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.ui.popups.modal:ModalPopup"),StaticProtectedNs("io.decagames.rotmg.ui.popups:BasePopup"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("File",[PrivateNamespace(null,"313"),PackageNamespace(""),PackageInternalNs("io.decagames.rotmg.pets.popup.hatching"),PrivateNamespace(null,"1414"),PackageNamespace("io.decagames.rotmg.pets.popup.hatching"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.ui.popups.modal:ModalPopup"),StaticProtectedNs("io.decagames.rotmg.ui.popups:BasePopup"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setlocal_3
+         getlocal_2
+         getproperty Multiname("AnimatedTexture",[PrivateNamespace(null,"313"),PackageNamespace(""),PackageInternalNs("io.decagames.rotmg.pets.popup.hatching"),PrivateNamespace(null,"1414"),PackageNamespace("io.decagames.rotmg.pets.popup.hatching"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.ui.popups.modal:ModalPopup"),StaticProtectedNs("io.decagames.rotmg.ui.popups:BasePopup"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("Index",[PrivateNamespace(null,"313"),PackageNamespace(""),PackageInternalNs("io.decagames.rotmg.pets.popup.hatching"),PrivateNamespace(null,"1414"),PackageNamespace("io.decagames.rotmg.pets.popup.hatching"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.pets.popup.hatching:PetHatchingDialog"),StaticProtectedNs("io.decagames.rotmg.ui.popups.modal:ModalPopup"),StaticProtectedNs("io.decagames.rotmg.ui.popups:BasePopup"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         setlocal 4
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChars")
+         getlocal_3
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"getAnimatedChar") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         dup
+         setlocal 5
+         pushbyte 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"STAND")
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"imageFromAngle") 3
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.util"),"MaskedImage")
+         setlocal 6
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"image_")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"mask_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"eggSize")
+         pushtrue
+         pushbyte 0
+         dup
+         callproperty Qname(PackageNamespace(""),"resize") 6
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util.redrawers"),"GlowRedrawer")
+         getlocal 7
+         pushbyte 0
+         pushbyte 6
+         callproperty Qname(PackageNamespace(""),"outlineGlow") 3
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal 7
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showPet() : void
+      {
+         trait method Qname(PrivateNamespace(null,"313"),"showPet")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 11
+         localcount 2
+         initscopedepth 12
+         maxscopedepth 14
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_1
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.sliceScaling"),"SliceScalingBitmap")
+         setslot 1
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setslot 2
+         getscopeobject 1
+         pushnan
+         setslot 4
+         getscopeobject 1
+         pushbyte 0
+         setslot 5
+         getscopeobject 1
+         pushnan
+         setslot 6
+         getscopeobject 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "animation_spiral"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.sliceScaling"),"SliceScalingBitmap")
+         setslot 1
+         getscopeobject 1
+         getslot 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getscopeobject 1
+         getslot 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"height")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setslot 2
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getscopeobject 1
+         getslot 2
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"animationContainer")
+         getscopeobject 1
+         getslot 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getscopeobject 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"FLASH_ANIMATION_DURATION")
+         convert_d
+         setslot 3
+         getscopeobject 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"SPIN_ANIMATION_DURATION")
+         convert_d
+         setslot 4
+         getscopeobject 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.config"),"AnimationConfig")
+         getproperty Qname(PackageNamespace(""),"SPIN_ANIMATION_ANGLE")
+         convert_i
+         setslot 5
+         getscopeobject 1
+         pushdouble 0.1
+         convert_d
+         setslot 6
+         getlex Qname(PackageNamespace("com.greensock"),"TweenLite")
+         getscopeobject 1
+         getslot 2
+         pushdouble 0.1
+         pushstring "alpha"
+         pushbyte 1
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.greensock.easing"),"Sine")
+         getproperty Qname(PackageNamespace(""),"easeIn")
+         pushstring "onComplete"
+         newfunction 3795
+         newobject 3
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         getlex Qname(PackageNamespace("com.greensock"),"TweenLite")
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 3
+         pushstring "alpha"
+         pushbyte 0
+         pushstring "delay"
+         getscopeobject 1
+         getslot 3
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.greensock.easing"),"Sine")
+         getproperty Qname(PackageNamespace(""),"easeOut")
+         pushstring "overwrite"
+         pushfalse
+         newobject 4
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function animateEgg(param1:TimelineMax, param2:Bitmap, param3:Number, param4:Number, param5:Number, param6:Function = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"313"),"animateEgg")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         param Qname(PackageNamespace("flash.display"),"Bitmap")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Function")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 12
+         localcount 7
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_2
+         getlocal 4
+         pushstring "delay"
+         getlocal 5
+         pushstring "transformAroundPoint"
+         pushstring "point"
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         pushstring "pointIsLocal"
+         pushtrue
+         pushstring "rotation"
+         getlocal_3
+         newobject 3
+         pushstring "onComplete"
+         getlocal 6
+         pushstring "overwrite"
+         pushfalse
+         newobject 4
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get petSkin() : int
+      {
+         trait getter Qname(PackageNamespace(""),"petSkin")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"313"),"_petSkin")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

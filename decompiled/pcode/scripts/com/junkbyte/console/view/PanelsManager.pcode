@@ -1,0 +1,1788 @@
+package com.junkbyte.console.view
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.vos.GraphGroup;
+   import flash.events.Event;
+   import flash.geom.Rectangle;
+   import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
+   
+   public class PanelsManager
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var console:Console;
+      
+      private var _mainPanel:MainPanel;
+      
+      private var _ruler:Ruler;
+      
+      private var _chsPanel:ChannelsPanel;
+      
+      private var _fpsPanel:GraphingPanel;
+      
+      private var _memPanel:GraphingPanel;
+      
+      private var _graphsMap:Object;
+      
+      private var _graphPlaced:uint = 0;
+      
+      private var _tooltipField:TextField;
+      
+      private var _canDraw:Boolean;
+      
+      public function PanelsManager(param1:Console)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"MainPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"MainPanel") 1
+         initproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         pushstring "tooltip"
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"makeTF") 2
+         initproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addPanel(param1:ConsolePanel) : void
+      {
+         trait method Qname(PackageNamespace(""),"addPanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs002c
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         callproperty Qname(PackageNamespace(""),"getChildIndex") 1
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         jump ofs0035
+         ofs002c:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0035:getlocal_1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         getproperty Qname(PackageNamespace(""),"DRAGGING_STARTED")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"onPanelStartDragScale")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         getproperty Qname(PackageNamespace(""),"SCALING_STARTED")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"onPanelStartDragScale")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removePanel(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"removePanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getChildByName") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         astypelate
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         setlocal_2
+         getlocal_2
+         iffalse ofs001e
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"close") 0
+         ofs001e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPanel(param1:String) : ConsolePanel
+      {
+         trait method Qname(PackageNamespace(""),"getPanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getChildByName") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         astypelate
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get mainPanel() : MainPanel
+      {
+         trait getter Qname(PackageNamespace(""),"mainPanel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.junkbyte.console.view"),"MainPanel")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function panelExists(param1:String) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"panelExists")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getChildByName") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         astypelate
+         iffalse ofs0019
+         pushtrue
+         jump ofs001a
+         ofs0019:pushfalse
+         ofs001a:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setPanelArea(param1:String, param2:Rectangle) : void
+      {
+         trait method Qname(PackageNamespace(""),"setPanelArea")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("flash.geom"),"Rectangle")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getPanel") 1
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         setlocal_3
+         getlocal_3
+         iffalse ofs0041
+         getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         iffalse ofs0031
+         getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         setproperty Qname(PackageNamespace(""),"width")
+         ofs0031:getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         iffalse ofs0041
+         getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"height")
+         ofs0041:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateMenu() : void
+      {
+         trait method Qname(PackageNamespace(""),"updateMenu")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel")
+         getproperty Qname(PackageNamespace(""),"NAME")
+         callproperty Qname(PackageNamespace(""),"getPanel") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel")
+         astypelate
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0028
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"update") 0
+         ofs0028:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function update(param1:Boolean, param2:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         not
+         initproperty Qname(PrivateNamespace(null,"1169"),"_canDraw")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getlocal_1
+         not
+         dup
+         iffalse ofs0016
+         pop
+         getlocal_2
+         convert_b
+         ofs0016:callpropvoid Qname(PackageNamespace(""),"update") 1
+         getlocal_1
+         iftrue ofs003a
+         getlocal_2
+         convert_b
+         dup
+         iffalse ofs002e
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         pushnull
+         equals
+         not
+         ofs002e:iffalse ofs003a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         callpropvoid Qname(PackageNamespace(""),"update") 0
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateGraphs(param1:Array) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateGraphs")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Array")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 18
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal 5
+         pushnull
+         coerce_s
+         setlocal 6
+         pushnull
+         coerce_s
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 9
+         pushnan
+         setlocal 10
+         pushnan
+         setlocal 11
+         pushbyte 0
+         setlocal 12
+         pushbyte 0
+         setlocal 13
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1169"),"_graphPlaced")
+         pushbyte 0
+         setlocal 14
+         getlocal_1
+         coerce_a
+         setlocal 15
+         jump ofs0249
+         ofs004a:label
+         getlocal 15
+         getlocal 14
+         nextvalue
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         dup
+         setlocal 5
+         getproperty Qname(PackageNamespace(""),"type")
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         ifne ofs006e
+         getlocal 5
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal_3
+         jump ofs0249
+         ofs006e:getlocal 5
+         getproperty Qname(PackageNamespace(""),"type")
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         ifne ofs0089
+         getlocal 5
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal 4
+         jump ofs0249
+         ofs0089:getlocal 5
+         getproperty Qname(PackageNamespace(""),"name")
+         coerce_s
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal 7
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         astypelate
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         dup
+         setlocal 8
+         iftrue ofs022a
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"rect")
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         dup
+         setlocal 9
+         pushnull
+         ifne ofs00cc
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlex Qname(PackageNamespace(""),"NaN")
+         getlex Qname(PackageNamespace(""),"NaN")
+         pushbyte 0
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 9
+         ofs00cc:pushbyte 100
+         convert_d
+         setlocal 10
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"x")
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         dup
+         iftrue ofs00f5
+         pop
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         ofs00f5:iffalse ofs018e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushshort 150
+         ifnlt ofs010c
+         pushbyte 50
+         convert_d
+         setlocal 10
+         ofs010c:getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal 10
+         divide
+         callproperty Qname(PackageNamespace(""),"floor") 1
+         decrement
+         convert_d
+         dup
+         setlocal 11
+         pushbyte 1
+         ifnle ofs012f
+         pushbyte 2
+         convert_d
+         setlocal 11
+         ofs012f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphPlaced")
+         getlocal 11
+         modulo
+         convert_i
+         setlocal 12
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphPlaced")
+         getlocal 11
+         divide
+         callproperty Qname(PackageNamespace(""),"floor") 1
+         convert_i
+         setlocal 13
+         getlocal 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 10
+         add
+         getlocal 12
+         getlocal 10
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 10
+         pushdouble 0.6
+         multiply
+         add
+         getlocal 13
+         getlocal 10
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         dup
+         setlocal 16
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphPlaced")
+         increment
+         setlocal 17
+         getlocal 16
+         getlocal 17
+         setproperty Qname(PrivateNamespace(null,"1169"),"_graphPlaced")
+         kill 17
+         kill 16
+         ofs018e:getlocal 9
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 0
+         lessequals
+         dup
+         iftrue ofs01ab
+         pop
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         ofs01ab:iffalse ofs01b6
+         getlocal 9
+         getlocal 10
+         setproperty Qname(PackageNamespace(""),"width")
+         ofs01b6:getlocal 9
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 0
+         lessequals
+         dup
+         iftrue ofs01d3
+         pop
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"height")
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         ofs01d3:iffalse ofs01de
+         getlocal 9
+         getlocal 10
+         setproperty Qname(PackageNamespace(""),"height")
+         ofs01de:findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"height")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel") 3
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         dup
+         setlocal 8
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 8
+         pushstring "graph_"
+         getlocal 7
+         add
+         setproperty Qname(PackageNamespace(""),"name")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal 7
+         getlocal 8
+         setproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         getlocal_0
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         ofs022a:getlocal_2
+         pushnull
+         ifne ofs0235
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         ofs0235:getlocal_2
+         getlocal 7
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         getlocal 8
+         getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_canDraw")
+         callpropvoid Qname(PackageNamespace(""),"update") 2
+         ofs0249:hasnext2 15 14
+         iftrue ofs004a
+         kill 15
+         kill 14
+         pushbyte 0
+         setlocal 14
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         coerce_a
+         setlocal 15
+         jump ofs029b
+         ofs0263:label
+         getlocal 15
+         getlocal 14
+         nextname
+         coerce_s
+         setlocal 6
+         getlocal_2
+         pushnull
+         equals
+         dup
+         iftrue ofs027d
+         pop
+         getlocal_2
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         not
+         ofs027d:iffalse ofs029b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         callpropvoid Multiname("close",[PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")]) 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal 6
+         deleteproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         pop
+         ofs029b:hasnext2 15 14
+         iftrue ofs0263
+         kill 15
+         kill 14
+         getlocal_3
+         pushnull
+         ifeq ofs032a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         pushnull
+         ifne ofs0319
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         pushbyte 80
+         pushbyte 40
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel") 4
+         initproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         setproperty Qname(PackageNamespace(""),"name")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushshort 160
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 15
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs0319:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_canDraw")
+         callpropvoid Qname(PackageNamespace(""),"update") 2
+         jump ofs0344
+         ofs032a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         pushnull
+         ifeq ofs0344
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         callpropvoid Qname(PackageNamespace(""),"removePanel") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         ofs0344:getlocal 4
+         pushnull
+         ifeq ofs03c9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         pushnull
+         ifne ofs03b7
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         pushbyte 80
+         pushbyte 40
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel") 4
+         initproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         setproperty Qname(PackageNamespace(""),"name")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 80
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 15
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs03b7:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_canDraw")
+         callpropvoid Qname(PackageNamespace(""),"update") 2
+         jump ofs03e3
+         ofs03c9:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         pushnull
+         ifeq ofs03e3
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         callpropvoid Qname(PackageNamespace(""),"removePanel") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         ofs03e3:getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1169"),"_canDraw")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeGraph(param1:GraphGroup) : void
+      {
+         trait method Qname(PackageNamespace(""),"removeGraph")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         convert_b
+         dup
+         iffalse ofs001c
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         getproperty Qname(PackageNamespace(""),"group")
+         equals
+         ofs001c:iffalse ofs0031
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         callpropvoid Qname(PackageNamespace(""),"close") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         jump ofs0082
+         ofs0031:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         convert_b
+         dup
+         iffalse ofs0046
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         getproperty Qname(PackageNamespace(""),"group")
+         equals
+         ofs0046:iffalse ofs005b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         callpropvoid Qname(PackageNamespace(""),"close") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         jump ofs0082
+         ofs005b:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"name")
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"GraphingPanel")
+         setlocal_2
+         getlocal_2
+         iffalse ofs0082
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"close") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_graphsMap")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"name")
+         deleteproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         pop
+         ofs0082:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get displayRoller() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"displayRoller")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         getproperty Qname(PackageNamespace(""),"NAME")
+         callproperty Qname(PackageNamespace(""),"getPanel") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         astypelate
+         iffalse ofs001b
+         pushtrue
+         jump ofs001c
+         ofs001b:pushfalse
+         ofs001c:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set displayRoller(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"displayRoller")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"displayRoller")
+         getlocal_1
+         ifeq ofs0087
+         getlocal_1
+         iffalse ofs0073
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"config")
+         getproperty Qname(PackageNamespace(""),"displayRollerEnabled")
+         iffalse ofs0061
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel") 1
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushshort 180
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 55
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         jump ofs006f
+         ofs0061:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         pushstring "Display roller is disabled in config."
+         pushbyte 9
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         ofs006f:jump ofs007f
+         ofs0073:getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"RollerPanel")
+         getproperty Qname(PackageNamespace(""),"NAME")
+         callpropvoid Qname(PackageNamespace(""),"removePanel") 1
+         ofs007f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs0087:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get channelsPanel() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"channelsPanel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set channelsPanel(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"channelsPanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"channelsPanel")
+         getlocal_1
+         ifeq ofs0085
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"logs")
+         callpropvoid Qname(PackageNamespace(""),"cleanChannels") 0
+         getlocal_1
+         iffalse ofs006f
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel") 1
+         initproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushshort 332
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 2
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         callpropvoid Qname(PackageNamespace(""),"addPanel") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         callpropvoid Qname(PackageNamespace(""),"update") 0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         jump ofs0080
+         ofs006f:getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ChannelsPanel")
+         getproperty Qname(PackageNamespace(""),"NAME")
+         callpropvoid Qname(PackageNamespace(""),"removePanel") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_chsPanel")
+         ofs0080:getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs0085:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get memoryMonitor() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"memoryMonitor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_memPanel")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get fpsMonitor() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"fpsMonitor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_fpsPanel")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tooltip(param1:String = null, param2:ConsolePanel = null) : void
+      {
+         trait method Qname(PackageNamespace(""),"tooltip")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         optional null
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 9
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 5
+         pushnan
+         setlocal 6
+         pushnan
+         setlocal 7
+         pushnan
+         setlocal 8
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0026
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rulerActive")
+         not
+         ofs0026:iffalse ofs01e0
+         getlocal_1
+         pushstring "::"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         getlocal_3
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         coerce_s
+         setlocal_1
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 1
+         ifngt ofs005f
+         getlocal_1
+         pushstring "<br/><low>"
+         getlocal_3
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1169"),PackageNamespace("com.junkbyte.console.view"),PackageNamespace(""),PrivateNamespace(null,"2103"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:PanelsManager"),StaticProtectedNs("com.junkbyte.console.view:PanelsManager")])
+         add
+         pushstring "</low>"
+         add
+         add
+         coerce_s
+         setlocal_1
+         ofs005f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushstring "<tt>"
+         getlocal_1
+         add
+         pushstring "</tt>"
+         add
+         setproperty Qname(PackageNamespace(""),"htmlText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 120
+         ifngt ofs00a5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushbyte 120
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         ofs00a5:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         pushbyte 20
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         iffalse ofs01dc
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         callproperty Qname(PackageNamespace(""),"getBounds") 1
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 4
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 5
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"bottom")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"bottom")
+         subtract
+         convert_d
+         dup
+         setlocal 6
+         pushbyte 0
+         ifngt ofs0186
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 6
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         pushbyte 15
+         add
+         ifngt ofs0145
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 6
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs0186
+         ofs0145:getlocal 5
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         pushbyte 24
+         subtract
+         lessthan
+         dup
+         iffalse ofs0168
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"bottom")
+         greaterthan
+         ofs0168:iffalse ofs0186
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 15
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0186:getlocal 4
+         getproperty Qname(PackageNamespace(""),"left")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"left")
+         subtract
+         convert_d
+         setlocal 7
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"right")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"right")
+         subtract
+         convert_d
+         setlocal 8
+         getlocal 7
+         pushbyte 0
+         ifnlt ofs01c3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 7
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         jump ofs01dc
+         ofs01c3:getlocal 8
+         pushbyte 0
+         ifngt ofs01dc
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs01dc:jump ofs01fc
+         ofs01e0:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs01fc
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_tooltipField")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs01fc:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function startRuler() : void
+      {
+         trait method Qname(PackageNamespace(""),"startRuler")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rulerActive")
+         iffalse ofs000b
+         returnvoid
+         ofs000b:getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.view"),"Ruler")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.view"),"Ruler") 1
+         initproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"onRulerExit")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get rulerActive() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"rulerActive")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         convert_b
+         ofs001a:iffalse ofs0023
+         pushtrue
+         jump ofs0024
+         ofs0023:pushfalse
+         ofs0024:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRulerExit(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1169"),"onRulerExit")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         convert_b
+         ofs001a:iffalse ofs002a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs002a:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1169"),"_ruler")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"_mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPanelStartDragScale(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1169"),"onPanelStartDragScale")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         setlocal 7
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         astypelate
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"config")
+         getproperty Qname(PackageNamespace(""),"style")
+         getproperty Qname(PackageNamespace(""),"panelSnapping")
+         iffalse ofs00ec
+         pushbyte 0
+         newarray 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushbyte 0
+         newarray 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         iffalse ofs0074
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0074:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getproperty Qname(PackageNamespace(""),"numChildren")
+         convert_i
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         jump ofs00dc
+         ofs0087:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1169"),"console")
+         getlocal 6
+         callproperty Qname(PackageNamespace(""),"getChildAt") 1
+         getlex Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         astypelate
+         coerce Qname(PackageNamespace("com.junkbyte.console.view"),"ConsolePanel")
+         dup
+         setlocal 7
+         convert_b
+         dup
+         iffalse ofs00a9
+         pop
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"visible")
+         convert_b
+         ofs00a9:iffalse ofs00da
+         getlocal_3
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 2
+         getlocal 4
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 2
+         ofs00da:inclocal_i 6
+         ofs00dc:getlocal 6
+         getlocal 5
+         iflt ofs0087
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"registerSnaps") 2
+         ofs00ec:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

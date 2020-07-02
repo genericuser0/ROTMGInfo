@@ -1,0 +1,249 @@
+package io.decagames.rotmg.social.tasks
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   
+   public class GuildDataRequestTask extends BaseTask implements ISocialTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      private var _requestURL:String;
+      
+      private var _xml:XML;
+      
+      public function GuildDataRequestTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.social.tasks:GuildDataRequestTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushbyte 8
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"415"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"415"),"_requestURL")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"415"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs001d
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_2
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         initproperty Qname(PrivateNamespace(null,"415"),"_xml")
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         jump ofs0026
+         ofs001d:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushfalse
+         getlocal_2
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get requestURL() : String
+      {
+         trait getter Qname(PackageNamespace(""),"requestURL")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"415"),"_requestURL")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set requestURL(param1:String) : void
+      {
+         trait setter Qname(PackageNamespace(""),"requestURL")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"415"),"_requestURL")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get xml() : XML
+      {
+         trait getter Qname(PackageNamespace(""),"xml")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"XML")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"415"),"_xml")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set xml(param1:XML) : void
+      {
+         trait setter Qname(PackageNamespace(""),"xml")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"415"),"_xml")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

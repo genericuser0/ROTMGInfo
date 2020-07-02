@@ -1,0 +1,226 @@
+package kabam.rotmg.account.web.services
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.SendConfirmEmailAddressTask;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   
+   public class WebSendVerificationEmailTask extends BaseTask implements SendConfirmEmailAddressTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      public function WebSendVerificationEmailTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web.services:WebSendVerificationEmailTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"814"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/account/sendVerifyEmail"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"814"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"814"),"onSent") 0
+         jump ofs0016
+         ofs0010:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"814"),"onError") 1
+         ofs0016:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSent() : void
+      {
+         trait method Qname(PrivateNamespace(null,"814"),"onSent")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"814"),"trackEmailSent") 0
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function trackEmailSent() : void
+      {
+         trait method Qname(PrivateNamespace(null,"814"),"trackEmailSent")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_1
+         getlocal_1
+         pushstring "account"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_1
+         pushstring "verifyEmailSent"
+         setproperty Qname(PackageNamespace(""),"action")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"814"),"onError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"clear") 0
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushfalse
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

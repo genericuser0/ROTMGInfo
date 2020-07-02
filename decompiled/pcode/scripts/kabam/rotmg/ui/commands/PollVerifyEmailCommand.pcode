@@ -1,0 +1,309 @@
+package kabam.rotmg.ui.commands
+{
+   import com.company.util.MoreObjectUtil;
+   import flash.events.TimerEvent;
+   import flash.utils.Timer;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   
+   public class PollVerifyEmailCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var closeDialog:CloseDialogsSignal;
+      
+      private var _pollTimer:Timer;
+      
+      private var _params:Object;
+      
+      private var _aeClient:AppEngineClient;
+      
+      public function PollVerifyEmailCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"207"),"_aeClient")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"207"),"_params")
+         getlex Qname(PackageNamespace("com.company.util"),"MoreObjectUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_params")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(PackageNamespace(""),"addToObject") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"207"),"setupTimer") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"207"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_2
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         getlocal_3
+         pushstring "True"
+         equals
+         setlocal 4
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs001e
+         pop
+         getlocal 4
+         convert_b
+         ofs001e:iffalse ofs0041
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"207"),"removeTimerListeners") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal 4
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"verify") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialog")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0041:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setupTimer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"207"),"setupTimer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 30000
+         pushbyte 10
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"onTimer")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"onTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTimerComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"207"),"onTimerComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"207"),"removeTimerListeners") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeTimerListeners() : void
+      {
+         trait method Qname(PrivateNamespace(null,"207"),"removeTimerListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"onTimer")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_pollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"onTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTimer(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"207"),"onTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_aeClient")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_aeClient")
+         pushstring "account/isEmailVerified"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"207"),"_params")
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

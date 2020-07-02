@@ -1,0 +1,942 @@
+package io.decagames.rotmg.social.widgets
+{
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.social.config.FriendsActions;
+   import io.decagames.rotmg.social.model.FriendRequestVO;
+   import io.decagames.rotmg.social.model.SocialModel;
+   import io.decagames.rotmg.social.signals.FriendActionSignal;
+   import io.decagames.rotmg.social.signals.RefreshListSignal;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.popups.modal.ConfirmationModal;
+   import io.decagames.rotmg.ui.popups.modal.error.ErrorModal;
+   import io.decagames.rotmg.ui.popups.signals.CloseCurrentPopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.RemoveLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.chat.control.ShowChatInputSignal;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.game.model.GameInitData;
+   import kabam.rotmg.game.signals.PlayGameSignal;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.signals.EnterGameSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class FriendListItemMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:FriendListItem;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var showFade:ShowLockFade;
+      
+      [Inject]
+      public var friendsAction:FriendActionSignal;
+      
+      [Inject]
+      public var showPopup:ShowPopupSignal;
+      
+      [Inject]
+      public var removeFade:RemoveLockFade;
+      
+      [Inject]
+      public var model:SocialModel;
+      
+      [Inject]
+      public var refreshSignal:RefreshListSignal;
+      
+      [Inject]
+      public var chatSignal:ShowChatInputSignal;
+      
+      [Inject]
+      public var closeCurrentPopup:CloseCurrentPopupSignal;
+      
+      [Inject]
+      public var enterGame:EnterGameSignal;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var playGame:PlayGameSignal;
+      
+      public function FriendListItemMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         iffalse ofs0022
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRemoveClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0022:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"acceptButton")
+         iffalse ofs0042
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"acceptButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onAcceptClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0042:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"rejectButton")
+         iffalse ofs0062
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"rejectButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRejectClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0062:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         iffalse ofs0082
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onMessageClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0082:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         iffalse ofs00a2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onTeleportClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs00a2:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"blockButton")
+         iffalse ofs00c2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"blockButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onBlockClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs00c2:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMessageClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onMessageClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatSignal")
+         pushtrue
+         pushstring "/tell "
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         add
+         pushstring " "
+         add
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopup")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         iffalse ofs0022
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRemoveClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0022:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"acceptButton")
+         iffalse ofs0042
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"acceptButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onAcceptClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0042:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"rejectButton")
+         iffalse ofs0062
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"rejectButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRejectClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0062:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         iffalse ofs0082
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onMessageClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0082:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         iffalse ofs00a2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onTeleportClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs00a2:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"blockButton")
+         iffalse ofs00c2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"blockButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onBlockClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs00c2:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTeleportClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onTeleportClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getproperty Qname(PackageNamespace(""),"currentCharId")
+         callproperty Qname(PackageNamespace(""),"getCharacterById") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_3
+         getlocal_3
+         iffalse ofs0030
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"charXML_")
+         getproperty Multiname("IsChallenger",[PrivateNamespace(null,"419"),PackageNamespace(""),PrivateNamespace(null,"1486"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         convert_b
+         setlocal_2
+         ofs0030:getlocal_2
+         iffalse ofs004e
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace(""),"getServerName") 0
+         setproperty Multiname("preferredChallengerServer",[PrivateNamespace(null,"419"),PackageNamespace(""),PrivateNamespace(null,"1486"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         jump ofs0063
+         ofs004e:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace(""),"getServerName") 0
+         setproperty Multiname("preferredServer",[PrivateNamespace(null,"419"),PackageNamespace(""),PrivateNamespace(null,"1486"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:FriendListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         ofs0063:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"enterGame")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         dup
+         setlocal 4
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"createCharacter")
+         getlocal 4
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"charId") 0
+         setproperty Qname(PackageNamespace(""),"charId")
+         getlocal 4
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isNewGame")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playGame")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopup")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveConfirmed(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onRemoveConfirmed")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"REMOVE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRemoveCallback")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"friendsAction")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBlockConfirmed(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onBlockConfirmed")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"BLOCK")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onBlockCallback")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"friendsAction")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveCallback(param1:Boolean, param2:Object, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onRemoveCallback")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0014
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"removeFriend") 1
+         jump ofs0038
+         ofs0014:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Friends List Error"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0038:getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"refreshSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.signals"),"RefreshListSignal")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_FRIENDS_LIST")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBlockCallback(param1:Boolean, param2:Object, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onBlockCallback")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0014
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"removeInvitation") 1
+         jump ofs0038
+         ofs0014:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Friends List Error"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0038:getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"refreshSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.signals"),"RefreshListSignal")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_FRIENDS_LIST")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAcceptCallback(param1:Boolean, param2:Object, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onAcceptCallback")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0022
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"removeInvitation") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         callpropvoid Qname(PackageNamespace(""),"seedFriends") 1
+         jump ofs0046
+         ofs0022:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Friends List Error"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0046:getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"refreshSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.signals"),"RefreshListSignal")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_FRIENDS_LIST")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRejectCallback(param1:Boolean, param2:Object, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onRejectCallback")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0014
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"removeInvitation") 1
+         jump ofs0038
+         ofs0014:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Friends List Error"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0038:getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"refreshSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.signals"),"RefreshListSignal")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_FRIENDS_LIST")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onRemoveClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal")
+         pushshort 350
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_REMOVE_TITLE")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_REMOVE_TEXT")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_REMOVE_BUTTON")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRAME_CANCEL")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         pushshort 130
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal") 6
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"confirmButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRemoveConfirmed")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAcceptClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onAcceptClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"ACCEPT")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onAcceptCallback")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"friendsAction")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRejectClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onRejectClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"REJECT")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onRejectCallback")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendRequestVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"friendsAction")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBlockClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"419"),"onBlockClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal")
+         pushshort 350
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_BLOCK_TITLE")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_BLOCK_TEXT")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_BLOCK_BUTTON")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRAME_CANCEL")
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         pushshort 130
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal") 6
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"confirmButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"419"),"onBlockConfirmed")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

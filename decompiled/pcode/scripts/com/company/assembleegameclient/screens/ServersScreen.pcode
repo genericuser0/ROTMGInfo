@@ -1,0 +1,596 @@
+package com.company.assembleegameclient.screens
+{
+   import com.company.assembleegameclient.ui.Scrollbar;
+   import flash.display.Graphics;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.filters.DropShadowFilter;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   import kabam.rotmg.servers.api.Server;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.view.ButtonFactory;
+   import kabam.rotmg.ui.view.components.MenuOptionsBar;
+   import kabam.rotmg.ui.view.components.ScreenBase;
+   import org.osflash.signals.Signal;
+   
+   public class ServersScreen extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var selectServerText_:TextFieldDisplayConcrete;
+      
+      private var lines_:Shape;
+      
+      private var content_:Sprite;
+      
+      private var serverBoxes_:ServerBoxes;
+      
+      private var scrollBar_:Scrollbar;
+      
+      private var servers:Vector.<Server>;
+      
+      private var _isChallenger:Boolean;
+      
+      private var _buttonFactory:ButtonFactory;
+      
+      public var gotoTitle:Signal;
+      
+      public function ServersScreen(param1:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"ButtonFactory")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"ButtonFactory") 0
+         initproperty Qname(PrivateNamespace(null,"270"),"_buttonFactory")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"270"),"_isChallenger")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"ScreenBase")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"ScreenBase") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"gotoTitle")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"ScreenBase")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"ScreenBase") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"AccountScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"AccountScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onScrollBarChange(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"onScrollBarChange")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         pushbyte 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         callproperty Qname(PackageNamespace(""),"pos") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushshort 400
+         subtract
+         multiply
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function initialize(param1:Vector.<Server>) : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.servers.api"),"Server")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"270"),"servers")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"270"),"makeSelectServerText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"270"),"makeLines") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"270"),"makeContainer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"270"),"makeServerBoxes") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushshort 400
+         greaterthan
+         coerce_a
+         dup
+         iffalse ofs0033
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"270"),"makeScrollbar") 0
+         coerce_a
+         ofs0033:pop
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"270"),"makeMenuBar") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         setlocal_2
+         getlocal_2
+         iffalse ofs005a
+         getlocal_2
+         pushstring "/serversScreen"
+         callpropvoid Qname(PackageNamespace(""),"trackPageView") 1
+         ofs005a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeMenuBar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeMenuBar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"MenuOptionsBar")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"MenuOptionsBar") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"MenuOptionsBar")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"_buttonFactory")
+         callproperty Qname(PackageNamespace(""),"getDoneButton") 0
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"MenuOptionsBar")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"addButton") 2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"clicked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"onDone")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeScrollbar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeScrollbar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"Scrollbar")
+         pushbyte 16
+         pushshort 400
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"Scrollbar") 2
+         initproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         pushshort 800
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 4
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         pushbyte 104
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         pushshort 400
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"setIndicatorSize") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CHANGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"onScrollBarChange")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"scrollBar_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeServerBoxes() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeServerBoxes")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"ServerBoxes")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"servers")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"_isChallenger")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"ServerBoxes") 2
+         initproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         pushbyte 8
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"onDone")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"serverBoxes_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"270"),"content_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         pushbyte 100
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         coerce Qname(PackageNamespace("flash.display"),"Shape")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushshort 776
+         pushshort 430
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"mask")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"content_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeLines() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeLines")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"270"),"lines_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"lines_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         coerce Qname(PackageNamespace("flash.display"),"Graphics")
+         setlocal_1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_1
+         pushbyte 2
+         pushint 5526612
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlocal_1
+         pushbyte 0
+         pushbyte 100
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         pushbyte 100
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 0
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"lines_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSelectServerText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"makeSelectServerText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 11776947
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         initproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"SERVERS_SELECT")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         pushbyte 18
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         pushbyte 72
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"selectServerText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDone() : void
+      {
+         trait method Qname(PrivateNamespace(null,"270"),"onDone")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gotoTitle")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isChallenger() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isChallenger")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"270"),"_isChallenger")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

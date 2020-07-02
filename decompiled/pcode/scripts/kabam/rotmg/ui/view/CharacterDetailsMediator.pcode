@@ -1,0 +1,577 @@
+package kabam.rotmg.ui.view
+{
+   import com.company.assembleegameclient.objects.ImageFactory;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.icons.IconButtonFactory;
+   import com.company.assembleegameclient.ui.options.Options;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.social.SocialPopupView;
+   import io.decagames.rotmg.social.model.SocialModel;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.chat.model.TellModel;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.friends.view.FriendListView;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.signals.HUDModelInitialized;
+   import kabam.rotmg.ui.signals.NameChangedSignal;
+   import kabam.rotmg.ui.signals.UpdateHUDSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class CharacterDetailsMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:CharacterDetailsView;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var initHUDModelSignal:HUDModelInitialized;
+      
+      [Inject]
+      public var updateHUD:UpdateHUDSignal;
+      
+      [Inject]
+      public var nameChanged:NameChangedSignal;
+      
+      [Inject]
+      public var iconButtonFactory:IconButtonFactory;
+      
+      [Inject]
+      public var imageFactory:ImageFactory;
+      
+      [Inject]
+      public var tellModel:TellModel;
+      
+      [Inject]
+      public var socialModel:SocialModel;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      public function CharacterDetailsMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"215"),"injectFactories") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         callproperty Qname(PackageNamespace(""),"getPlayerName") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         callproperty Qname(PackageNamespace(""),"getButtonType") 0
+         callpropvoid Qname(PackageNamespace(""),"init") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onUpdateHUD")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onDraw")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nameChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onNameChange")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gotoNexus")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onGotoNexus")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gotoOptions")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onGotoOptions")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"USE_NEW_FRIENDS_UI")
+         iffalse ofs008a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"noInvitationSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"clearFriendsIndicator")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"socialDataSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onFriendsData")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         ofs008a:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"imageFactory")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"iconButtonFactory")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onFriendsBtnClicked")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"USE_NEW_FRIENDS_UI")
+         convert_b
+         dup
+         iffalse ofs00b0
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"hasInvitations")
+         convert_b
+         ofs00b0:callpropvoid Qname(PackageNamespace(""),"initFriendList") 4
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearFriendsIndicator() : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"clearFriendsIndicator")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearInvitationIndicator") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFriendsBtnClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onFriendsBtnClicked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"USE_NEW_FRIENDS_UI")
+         iffalse ofs0020
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.social"),"SocialPopupView")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.social"),"SocialPopupView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs002f
+         ofs0020:getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.friends.view"),"FriendListView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.friends.view"),"FriendListView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs002f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFriendsData(param1:String, param2:Boolean, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onFriendsData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         iffalse ofs0026
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"hasInvitations")
+         iffalse ofs001e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"addInvitationIndicator") 0
+         jump ofs0026
+         ofs001e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearInvitationIndicator") 0
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function injectFactories() : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"injectFactories")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"iconButtonFactory")
+         setproperty Qname(PackageNamespace(""),"iconButtonFactory")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"imageFactory")
+         setproperty Qname(PackageNamespace(""),"imageFactory")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onDraw")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nameChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onNameChange")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gotoNexus")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onGotoNexus")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gotoOptions")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onGotoOptions")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"friendsBtn")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onFriendsBtnClicked")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"USE_NEW_FRIENDS_UI")
+         iffalse ofs0076
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"noInvitationSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"clearFriendsIndicator")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getproperty Qname(PackageNamespace(""),"socialDataSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"215"),"onFriendsData")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         ofs0076:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onGotoNexus() : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onGotoNexus")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tellModel")
+         callpropvoid Qname(PackageNamespace(""),"clearRecipients") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"gsc_")
+         callpropvoid Qname(PackageNamespace(""),"escape") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0030
+         ofs0030:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("needsRandomRealm",[PrivateNamespace(null,"215"),PackageNamespace(""),PrivateNamespace(null,"1379"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CharacterDetailsMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CharacterDetailsMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onGotoOptions() : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onGotoOptions")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"mui_")
+         callpropvoid Qname(PackageNamespace(""),"clearInput") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0028
+         ofs0028:getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.options"),"Options")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.options"),"Options") 1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onUpdateHUD(param1:Player) : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onUpdateHUD")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"update") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDraw(param1:Player) : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onDraw")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"draw") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNameChange(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"215"),"onNameChange")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setName") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

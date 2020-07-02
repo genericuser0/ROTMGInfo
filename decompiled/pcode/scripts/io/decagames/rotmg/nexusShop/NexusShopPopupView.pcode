@@ -1,0 +1,743 @@
+package io.decagames.rotmg.nexusShop
+{
+   import com.company.assembleegameclient.objects.SellableObject;
+   import com.company.assembleegameclient.util.FilterUtil;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.geom.Rectangle;
+   import flash.text.TextFieldAutoSize;
+   import io.decagames.rotmg.shop.ShopBuyButton;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.popups.modal.ModalPopup;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.spinner.FixedNumbersSpinner;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.fortune.components.ItemWithTooltip;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import org.osflash.signals.Signal;
+   
+   public class NexusShopPopupView extends ModalPopup
+   {
+      
+      public static const TITLE:String = "Purchase";
+      
+      public static const WIDTH:int = 300;
+      
+      public static const HEIGHT:int = 170;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"TITLE")
+         pushstring "Purchase"
+         initproperty Qname(PackageNamespace(""),"TITLE")
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 300
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         findproperty Qname(PackageNamespace(""),"HEIGHT")
+         pushshort 170
+         initproperty Qname(PackageNamespace(""),"HEIGHT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var availableInventoryNumber:int;
+      
+      private var owner_:SellableObject;
+      
+      public var buyItem:Signal;
+      
+      public var buttonWidth:int;
+      
+      public var descriptionLabel:UILabel;
+      
+      private var nameText_:TextFieldDisplayConcrete;
+      
+      public var itemLabel:UILabel;
+      
+      private var quantity_:int = 1;
+      
+      private var buySectionContainer:Sprite;
+      
+      public var buyButton:ShopBuyButton;
+      
+      public var spinner:FixedNumbersSpinner;
+      
+      private var buyButtonBackground:SliceScalingBitmap;
+      
+      public function NexusShopPopupView(param1:Signal, param2:SellableObject, param3:Number, param4:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"SellableObject")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 10
+         localcount 5
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlex Qname(PackageNamespace(""),"TITLE")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getproperty Qname(PackageNamespace(""),"defaultSmallPopupTitle")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushbyte 0
+         dup
+         pushshort 525
+         pushshort 230
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         pushbyte 0
+         constructsuper 6
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"buyItem")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"buttonWidth")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PackageNamespace(""),"descriptionLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         pushint 10066329
+         callpropvoid Qname(PackageNamespace(""),"infoTooltipText") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         pushstring "Are you sure that you want to buy this item?"
+         setproperty Qname(PackageNamespace(""),"text")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"descriptionLabel")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"addItemContainer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"addBuyButton") 0
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FilterUtil")
+         callproperty Qname(PackageNamespace(""),"getStandardDropShadowFilter") 0
+         initproperty Qname(PackageNamespace(""),"filters")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addItemContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"addItemContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         callproperty Qname(PackageNamespace(""),"getSellableType") 0
+         pushbyte -1
+         ifeq ofs002a
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         callproperty Qname(PackageNamespace(""),"getSellableType") 0
+         pushbyte 80
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_2
+         ofs002a:getlocal_2
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 2
+         divide
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 5
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         callproperty Qname(PackageNamespace(""),"soldObjectName") 0
+         coerce_s
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"nameText_")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 55
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addBuyButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"addBuyButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         getproperty Qname(PackageNamespace(""),"price_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         getproperty Qname(PackageNamespace(""),"currency_")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton") 2
+         initproperty Qname(PackageNamespace(""),"buyButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"showCampaignTooltip")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         pushbyte 95
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "buy_button_background"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 60
+         add
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"73"),"buyButtonBackground")
+         getlex Multiname("Vector",[PrivateNamespace(null,"73"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.shop"),PrivateNamespace(null,"1327"),PackageNamespace("io.decagames.rotmg.nexusShop"),PackageInternalNs("io.decagames.rotmg.nexusShop"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.nexusShop:NexusShopPopupView"),StaticProtectedNs("io.decagames.rotmg.nexusShop:NexusShopPopupView"),StaticProtectedNs("io.decagames.rotmg.ui.popups.modal:ModalPopup"),StaticProtectedNs("io.decagames.rotmg.ui.popups:BasePopup"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"int")>)
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         pushbyte 0
+         ifeq ofs0095
+         pushbyte 1
+         setlocal_2
+         jump ofs0088
+         ofs007e:label
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 2
+         ofs0088:getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         ifle ofs007e
+         jump ofs00a5
+         ofs0095:getlocal_1
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"disabled")
+         ofs00a5:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"FixedNumbersSpinner")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "spinner_up_arrow"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         pushbyte 0
+         getlocal_1
+         pushstring "x"
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"FixedNumbersSpinner") 4
+         initproperty Qname(PackageNamespace(""),"spinner")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buyButtonBackground")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         pushbyte 100
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 45
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buyButtonBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 6
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushbyte -2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushbyte 32
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"buySectionContainer")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"countUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         getproperty Qname(PackageNamespace(""),"downArrow")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"countDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"refreshArrowDisable") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshArrowDisable() : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"refreshArrowDisable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         getproperty Qname(PackageNamespace(""),"downArrow")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         pushbyte 1
+         ifne ofs001a
+         pushdouble 0.5
+         convert_d
+         jump ofs001d
+         ofs001a:pushbyte 1
+         convert_d
+         ofs001d:setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         pushbyte 0
+         ifeq ofs0050
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         ifne ofs0045
+         pushdouble 0.5
+         convert_d
+         jump ofs0048
+         ofs0045:pushbyte 1
+         convert_d
+         ofs0048:setproperty Qname(PackageNamespace(""),"alpha")
+         jump ofs005d
+         ofs0050:getlocal_0
+         getproperty Qname(PackageNamespace(""),"spinner")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         pushdouble 0.5
+         setproperty Qname(PackageNamespace(""),"alpha")
+         ofs005d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function countUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"countUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"availableInventoryNumber")
+         ifnlt ofs0019
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         pushbyte 1
+         add
+         initproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         ofs0019:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"refreshValues") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function countDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"countDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         pushbyte 1
+         ifngt ofs0015
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         decrement
+         initproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         ofs0015:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"refreshValues") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshValues() : void
+      {
+         trait method Qname(PrivateNamespace(null,"73"),"refreshValues")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"73"),"refreshArrowDisable") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         getproperty Qname(PackageNamespace(""),"price_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         multiply
+         setproperty Qname(PackageNamespace(""),"price")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get getBuyButton() : ShopBuyButton
+      {
+         trait getter Qname(PackageNamespace(""),"getBuyButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get getBuyItem() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"getBuyItem")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyItem")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get getOwner() : SellableObject
+      {
+         trait getter Qname(PackageNamespace(""),"getOwner")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.objects"),"SellableObject")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"owner_")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get getQuantity() : int
+      {
+         trait getter Qname(PackageNamespace(""),"getQuantity")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"73"),"quantity_")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

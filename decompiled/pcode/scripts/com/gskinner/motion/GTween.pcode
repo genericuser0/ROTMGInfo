@@ -1,0 +1,2082 @@
+package com.gskinner.motion
+{
+   import flash.display.Shape;
+   import flash.events.Event;
+   import flash.events.EventDispatcher;
+   import flash.events.IEventDispatcher;
+   import flash.utils.Dictionary;
+   import flash.utils.getTimer;
+   
+   public class GTween extends EventDispatcher
+   {
+      
+      public static var version:Number = 2.01;
+      
+      public static var defaultDispatchEvents:Boolean = false;
+      
+      public static var defaultEase:Function;
+      
+      public static var pauseAll:Boolean = false;
+      
+      public static var timeScaleAll:Number = 1;
+      
+      protected static var hasStarPlugins:Boolean = false;
+      
+      protected static var plugins:Object;
+      
+      protected static var shape:Shape;
+      
+      protected static var time:Number;
+      
+      protected static var tickList:Dictionary;
+      
+      protected static var gcLockList:Dictionary;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"version")
+         pushdouble 2.01
+         setproperty Qname(PackageNamespace(""),"version")
+         findproperty Qname(PackageNamespace(""),"defaultDispatchEvents")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"defaultDispatchEvents")
+         findproperty Qname(PackageNamespace(""),"defaultEase")
+         getlex Qname(PackageNamespace(""),"linearEase")
+         setproperty Qname(PackageNamespace(""),"defaultEase")
+         findproperty Qname(PackageNamespace(""),"pauseAll")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"pauseAll")
+         findproperty Qname(PackageNamespace(""),"timeScaleAll")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"timeScaleAll")
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         pushfalse
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         newobject 0
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"tickList")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         pushtrue
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 1
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"tickList")
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"gcLockList")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         pushfalse
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 1
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"gcLockList")
+         findpropstrict Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"staticInit")
+         callpropvoid Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"staticInit") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected var _delay:Number = 0;
+      
+      protected var _values:Object;
+      
+      protected var _paused:Boolean = true;
+      
+      protected var _position:Number;
+      
+      protected var _inited:Boolean;
+      
+      protected var _initValues:Object;
+      
+      protected var _rangeValues:Object;
+      
+      protected var _proxy:TargetProxy;
+      
+      public var autoPlay:Boolean = true;
+      
+      public var data;
+      
+      public var duration:Number;
+      
+      public var ease:Function;
+      
+      public var nextTween:GTween;
+      
+      public var pluginData:Object;
+      
+      public var reflect:Boolean;
+      
+      public var repeatCount:int = 1;
+      
+      public var target:Object;
+      
+      public var useFrames:Boolean;
+      
+      public var timeScale:Number = 1;
+      
+      public var positionOld:Number;
+      
+      public var ratio:Number;
+      
+      public var ratioOld:Number;
+      
+      public var calculatedPosition:Number;
+      
+      public var calculatedPositionOld:Number;
+      
+      public var suppressEvents:Boolean;
+      
+      public var dispatchEvents:Boolean;
+      
+      public var onComplete:Function;
+      
+      public var onChange:Function;
+      
+      public var onInit:Function;
+      
+      public function GTween(param1:Object = null, param2:Number = 1, param3:Object = null, param4:Object = null, param5:Object = null)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         optional 1
+         optional null
+         optional null
+         optional null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 7
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal 6
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"defaultEase")
+         initproperty Qname(PackageNamespace(""),"ease")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"defaultDispatchEvents")
+         initproperty Qname(PackageNamespace(""),"dispatchEvents")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"target")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"duration")
+         getlocal_0
+         getlocal_0
+         getlocal 5
+         newobject 0
+         callproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"copy") 2
+         initproperty Qname(PackageNamespace(""),"pluginData")
+         getlocal 4
+         iffalse ofs0045
+         getlocal 4
+         getproperty Multiname("swapValues",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_b
+         setlocal 6
+         getlocal 4
+         deleteproperty Multiname("swapValues",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         ofs0045:getlocal_0
+         getlocal 4
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"copy") 2
+         getlocal_0
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"resetValues") 1
+         getlocal 6
+         iffalse ofs005e
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"swapValues") 0
+         ofs005e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         pushbyte 0
+         equals
+         dup
+         iffalse ofs0072
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"delay")
+         pushbyte 0
+         equals
+         ofs0072:dup
+         iffalse ofs007d
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"autoPlay")
+         convert_b
+         ofs007d:iffalse ofs0087
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PackageNamespace(""),"position")
+         ofs0087:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function installPlugin(param1:Object, param2:Array, param3:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"installPlugin")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Array")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal 5
+         pushbyte 0
+         convert_u
+         setlocal 4
+         jump ofs007a
+         ofs000f:label
+         getlocal_2
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         dup
+         setlocal 5
+         pushstring "*"
+         ifne ofs002b
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         pushtrue
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         ofs002b:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushnull
+         ifne ofs004b
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal 5
+         getlocal_1
+         newarray 1
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         jump ofs0074
+         ofs004b:getlocal_3
+         iffalse ofs0064
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         callpropvoid Multiname("unshift",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         jump ofs0074
+         ofs0064:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         callpropvoid Multiname("push",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         ofs0074:getlocal 4
+         increment
+         convert_u
+         setlocal 4
+         ofs007a:getlocal 4
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs000f
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function linearEase(param1:Number, param2:Number, param3:Number, param4:Number) : Number
+      {
+         trait method Qname(PackageNamespace(""),"linearEase")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected static function staticInit() : void
+      {
+         trait method Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"staticInit")
+         flag FINAL
+         dispid 5
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"shape")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         dup
+         setlocal_1
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"shape")
+         getlocal_1
+         kill 1
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"staticTick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         pushshort 1000
+         divide
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected static function staticTick(param1:Event) : void
+      {
+         trait method Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"staticTick")
+         flag FINAL
+         dispid 6
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         setlocal 5
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         convert_d
+         setlocal_2
+         findproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         pushshort 1000
+         divide
+         setproperty Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         getlex Qname(PackageNamespace(""),"pauseAll")
+         iffalse ofs0030
+         returnvoid
+         ofs0030:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"time")
+         getlocal_2
+         subtract
+         getlex Qname(PackageNamespace(""),"timeScaleAll")
+         multiply
+         convert_d
+         setlocal_3
+         pushbyte 0
+         setlocal 6
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"tickList")
+         coerce_a
+         setlocal 7
+         jump ofs0081
+         ofs004c:label
+         getlocal 7
+         getlocal 6
+         nextname
+         coerce Qname(PackageNamespace(""),"Object")
+         dup
+         setlocal 4
+         getlex Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         astypelate
+         coerce Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         dup
+         dup
+         setlocal 5
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"useFrames")
+         iffalse ofs0075
+         getlex Qname(PackageNamespace(""),"timeScaleAll")
+         coerce_a
+         jump ofs0077
+         ofs0075:getlocal_3
+         coerce_a
+         ofs0077:getlocal 5
+         getproperty Qname(PackageNamespace(""),"timeScale")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"position")
+         ofs0081:hasnext2 7 6
+         iftrue ofs004c
+         kill 7
+         kill 6
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get paused() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"paused")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_paused")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set paused(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"paused")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_paused")
+         ifne ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_paused")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_paused")
+         iffalse ofs004e
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"tickList")
+         getlocal_0
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlex Qname(PackageNamespace("flash.events"),"IEventDispatcher")
+         istypelate
+         iffalse ofs0040
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         pushstring "_"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"invalidate")
+         callpropvoid Multiname("removeEventListener",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 2
+         ofs0040:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"gcLockList")
+         getlocal_0
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         jump ofs00ef
+         ofs004e:findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         dup
+         iftrue ofs007e
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         pushbyte 0
+         equals
+         not
+         dup
+         iffalse ofs007e
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         multiply
+         greaterequals
+         ofs007e:iffalse ofs00ba
+         getlocal_0
+         pushfalse
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_inited")
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         pushbyte 0
+         dup
+         setlocal_2
+         initproperty Qname(PackageNamespace(""),"positionOld")
+         getlocal_2
+         kill 2
+         dup
+         setlocal_2
+         initproperty Qname(PackageNamespace(""),"ratioOld")
+         getlocal_2
+         kill 2
+         dup
+         setlocal_2
+         initproperty Qname(PackageNamespace(""),"ratio")
+         getlocal_2
+         kill 2
+         dup
+         setlocal_2
+         initproperty Qname(PackageNamespace(""),"calculatedPositionOld")
+         getlocal_2
+         kill 2
+         initproperty Qname(PackageNamespace(""),"calculatedPosition")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"delay")
+         negate
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         ofs00ba:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"tickList")
+         getlocal_0
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlex Qname(PackageNamespace("flash.events"),"IEventDispatcher")
+         istypelate
+         iffalse ofs00e5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         pushstring "_"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"invalidate")
+         callpropvoid Multiname("addEventListener",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 2
+         jump ofs00ef
+         ofs00e5:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"gcLockList")
+         getlocal_0
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs00ef:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get position() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"position")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set position(param1:Number) : void
+      {
+         trait setter Qname(PackageNamespace(""),"position")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 13
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal 4
+         pushnan
+         setlocal 5
+         pushnan
+         setlocal 6
+         pushnan
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 8
+         pushbyte 0
+         convert_u
+         setlocal 9
+         pushbyte 0
+         convert_u
+         setlocal 10
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         initproperty Qname(PackageNamespace(""),"positionOld")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ratio")
+         initproperty Qname(PackageNamespace(""),"ratioOld")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPosition")
+         initproperty Qname(PackageNamespace(""),"calculatedPositionOld")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         multiply
+         convert_d
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         greaterequals
+         dup
+         iffalse ofs0051
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         pushbyte 0
+         greaterthan
+         ofs0051:convert_b
+         setlocal_3
+         getlocal_3
+         iffalse ofs0092
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPositionOld")
+         getlocal_2
+         ifne ofs0062
+         returnvoid
+         ofs0062:getlocal_0
+         getlocal_2
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"reflect")
+         convert_b
+         dup
+         iffalse ofs007b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         pushbyte 1
+         bitand
+         not
+         ofs007b:iffalse ofs0086
+         pushbyte 0
+         convert_d
+         jump ofs008b
+         ofs0086:getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         convert_d
+         ofs008b:initproperty Qname(PackageNamespace(""),"calculatedPosition")
+         jump ofs00e0
+         ofs0092:getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         lessthan
+         iffalse ofs00aa
+         pushbyte 0
+         convert_d
+         jump ofs00b4
+         ofs00aa:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         modulo
+         convert_d
+         ofs00b4:initproperty Qname(PackageNamespace(""),"calculatedPosition")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"reflect")
+         convert_b
+         dup
+         iffalse ofs00cf
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         divide
+         pushbyte 1
+         bitand
+         convert_b
+         ofs00cf:iffalse ofs00e0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPosition")
+         subtract
+         initproperty Qname(PackageNamespace(""),"calculatedPosition")
+         ofs00e0:getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         pushbyte 0
+         equals
+         dup
+         iffalse ofs00f5
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         greaterequals
+         ofs00f5:iffalse ofs0100
+         pushbyte 1
+         convert_d
+         jump ofs0114
+         ofs0100:getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPosition")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         divide
+         pushbyte 0
+         pushbyte 1
+         dup
+         callproperty Qname(PackageNamespace(""),"ease") 4
+         convert_d
+         ofs0114:initproperty Qname(PackageNamespace(""),"ratio")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs0139
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         greaterequals
+         dup
+         iftrue ofs0137
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"positionOld")
+         pushbyte 0
+         greaterequals
+         ofs0137:coerce_a
+         convert_b
+         ofs0139:dup
+         iffalse ofs0149
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPosition")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"calculatedPositionOld")
+         equals
+         not
+         ofs0149:iffalse ofs0220
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_inited")
+         iftrue ofs015a
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"init") 0
+         ofs015a:pushbyte 0
+         setlocal 11
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         coerce_a
+         setlocal 12
+         jump ofs0215
+         ofs0169:label
+         getlocal 12
+         getlocal 11
+         nextname
+         coerce_s
+         setlocal 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_d
+         setlocal 5
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_d
+         setlocal 6
+         getlocal 5
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ratio")
+         multiply
+         add
+         convert_d
+         setlocal 7
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 8
+         iffalse ofs0209
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal 9
+         pushbyte 0
+         convert_u
+         setlocal 10
+         jump ofs01e2
+         ofs01bd:label
+         getlocal 8
+         getlocal 10
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getlocal 4
+         getlocal 7
+         getlocal 5
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ratio")
+         getlocal_3
+         callproperty Multiname("tween",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 7
+         convert_d
+         setlocal 7
+         getlocal 10
+         increment
+         convert_u
+         setlocal 10
+         ofs01e2:getlocal 10
+         getlocal 9
+         iflt ofs01bd
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 7
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         iftrue ofs0205
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlocal 4
+         getlocal 7
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0205:jump ofs0215
+         ofs0209:getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlocal 4
+         getlocal 7
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0215:hasnext2 12 11
+         iftrue ofs0169
+         kill 12
+         kill 11
+         ofs0220:getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         iffalse ofs0278
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         pushstring "*"
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 8
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal 9
+         pushbyte 0
+         convert_u
+         setlocal 10
+         jump ofs0270
+         ofs0247:label
+         getlocal 8
+         getlocal 10
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         pushstring "*"
+         getlex Qname(PackageNamespace(""),"NaN")
+         getlex Qname(PackageNamespace(""),"NaN")
+         getlex Qname(PackageNamespace(""),"NaN")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ratio")
+         getlocal_3
+         callpropvoid Multiname("tween",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 7
+         getlocal 10
+         increment
+         convert_u
+         setlocal 10
+         ofs0270:getlocal 10
+         getlocal 9
+         iflt ofs0247
+         ofs0278:getlocal_0
+         getproperty Qname(PackageNamespace(""),"suppressEvents")
+         iftrue ofs029f
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dispatchEvents")
+         iffalse ofs0290
+         getlocal_0
+         pushstring "change"
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"dispatchEvt") 1
+         ofs0290:getlocal_0
+         getproperty Qname(PackageNamespace(""),"onChange")
+         pushnull
+         ifeq ofs029f
+         getlocal_0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"onChange") 1
+         ofs029f:getlocal_3
+         iffalse ofs02e0
+         getlocal_0
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"paused")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nextTween")
+         iffalse ofs02b9
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nextTween")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"paused")
+         ofs02b9:getlocal_0
+         getproperty Qname(PackageNamespace(""),"suppressEvents")
+         iftrue ofs02e0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dispatchEvents")
+         iffalse ofs02d1
+         getlocal_0
+         pushstring "complete"
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"dispatchEvt") 1
+         ofs02d1:getlocal_0
+         getproperty Qname(PackageNamespace(""),"onComplete")
+         pushnull
+         ifeq ofs02e0
+         getlocal_0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"onComplete") 1
+         ofs02e0:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get delay() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"delay")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_delay")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set delay(param1:Number) : void
+      {
+         trait setter Qname(PackageNamespace(""),"delay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         ifnle ofs0012
+         getlocal_0
+         getlocal_1
+         negate
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         ofs0012:getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_delay")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get proxy() : TargetProxy
+      {
+         trait getter Qname(PackageNamespace(""),"proxy")
+         dispid 0
+         method
+         name null
+         returns Qname(PrivateNamespace(null,"4"),"TargetProxy")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_proxy")
+         pushnull
+         ifne ofs0017
+         getlocal_0
+         findpropstrict Qname(PrivateNamespace(null,"4"),"TargetProxy")
+         getlocal_0
+         constructprop Qname(PrivateNamespace(null,"4"),"TargetProxy") 1
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_proxy")
+         ofs0017:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_proxy")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setValue(param1:String, param2:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"setValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_1
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"invalidate") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getValue(param1:String) : Number
+      {
+         trait method Qname(PackageNamespace(""),"getValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function deleteValue(param1:String) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"deleteValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal_1
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal_1
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_1
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setValues(param1:Object) : void
+      {
+         trait method Qname(PackageNamespace(""),"setValues")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Object")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"copy") 3
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"invalidate") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function resetValues(param1:Object = null) : void
+      {
+         trait method Qname(PackageNamespace(""),"resetValues")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         newobject 0
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setValues") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getValues() : Object
+      {
+         trait method Qname(PackageNamespace(""),"getValues")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         newobject 0
+         callproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"copy") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getInitValue(param1:String) : Number
+      {
+         trait method Qname(PackageNamespace(""),"getInitValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function swapValues() : void
+      {
+         trait method Qname(PackageNamespace(""),"swapValues")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         pushnan
+         setlocal_3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_inited")
+         iftrue ofs0014
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"init") 0
+         ofs0014:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         coerce_a
+         setlocal 5
+         jump ofs0054
+         ofs0037:label
+         getlocal 5
+         getlocal 4
+         nextname
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         multiply
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0054:hasnext2 5 4
+         iftrue ofs0037
+         kill 5
+         kill 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         ifnlt ofs0086
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"positionOld")
+         convert_d
+         setlocal_3
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PackageNamespace(""),"position")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"positionOld")
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"positionOld")
+         jump ofs008e
+         ofs0086:getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         initproperty Qname(PackageNamespace(""),"position")
+         ofs008e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function init() : void
+      {
+         trait method Qname(PackageNamespace(""),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 9
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         pushbyte 0
+         convert_u
+         setlocal_3
+         pushnan
+         setlocal 4
+         pushbyte 0
+         convert_u
+         setlocal 5
+         getlocal_0
+         pushtrue
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_inited")
+         getlocal_0
+         newobject 0
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal_0
+         newobject 0
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         pushbyte 0
+         setlocal 6
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         coerce_a
+         setlocal 7
+         jump ofs010a
+         ofs0035:label
+         getlocal 7
+         getlocal 6
+         nextname
+         coerce_s
+         setlocal_1
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs00de
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal_3
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         in
+         iffalse ofs0074
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_d
+         jump ofs0079
+         ofs0074:getlex Qname(PackageNamespace(""),"NaN")
+         convert_d
+         ofs0079:convert_d
+         setlocal 4
+         pushbyte 0
+         convert_u
+         setlocal 5
+         jump ofs009f
+         ofs0085:label
+         getlocal_2
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getlocal_1
+         getlocal 4
+         callproperty Multiname("init",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 3
+         convert_d
+         setlocal 4
+         getlocal 5
+         increment
+         convert_u
+         setlocal 5
+         ofs009f:getlocal 5
+         getlocal_3
+         iflt ofs0085
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         iftrue ofs00da
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal_1
+         getlocal 4
+         dup
+         setlocal 8
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal 8
+         kill 8
+         subtract
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs00da:jump ofs010a
+         ofs00de:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_rangeValues")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_values")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_initValues")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"target")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         dup
+         setlocal 8
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal 8
+         kill 8
+         subtract
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs010a:hasnext2 7 6
+         iftrue ofs0035
+         kill 7
+         kill 6
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"hasStarPlugins")
+         iffalse ofs015c
+         getlex Qname(StaticProtectedNs("com.gskinner.motion:GTween"),"plugins")
+         pushstring "*"
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal_3
+         pushbyte 0
+         convert_u
+         setlocal 5
+         jump ofs0155
+         ofs013a:label
+         getlocal_2
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         pushstring "*"
+         getlex Qname(PackageNamespace(""),"NaN")
+         callpropvoid Multiname("init",[PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")]) 3
+         getlocal 5
+         increment
+         convert_u
+         setlocal 5
+         ofs0155:getlocal 5
+         getlocal_3
+         iflt ofs013a
+         ofs015c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"suppressEvents")
+         iftrue ofs0183
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dispatchEvents")
+         iffalse ofs0174
+         getlocal_0
+         pushstring "init"
+         callpropvoid Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"dispatchEvt") 1
+         ofs0174:getlocal_0
+         getproperty Qname(PackageNamespace(""),"onInit")
+         pushnull
+         ifeq ofs0183
+         getlocal_0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"onInit") 1
+         ofs0183:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function beginning() : void
+      {
+         trait method Qname(PackageNamespace(""),"beginning")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PackageNamespace(""),"position")
+         getlocal_0
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"paused")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function end() : void
+      {
+         trait method Qname(PackageNamespace(""),"end")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         pushbyte 0
+         ifngt ofs001b
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeatCount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         multiply
+         convert_d
+         jump ofs0020
+         ofs001b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"duration")
+         convert_d
+         ofs0020:initproperty Qname(PackageNamespace(""),"position")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function invalidate() : void
+      {
+         trait method Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"invalidate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_inited")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         pushbyte 0
+         ifngt ofs0017
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"_position")
+         ofs0017:getlocal_0
+         getproperty Qname(PackageNamespace(""),"autoPlay")
+         iffalse ofs0024
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"paused")
+         ofs0024:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function copy(param1:Object, param2:Object, param3:Boolean = false) : Object
+      {
+         trait method Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"copy")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 4
+         localcount 7
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         getlocal_1
+         coerce_a
+         setlocal 6
+         jump ofs004a
+         ofs0012:label
+         getlocal 6
+         getlocal 5
+         nextname
+         coerce_s
+         setlocal 4
+         getlocal_3
+         convert_b
+         dup
+         iffalse ofs002c
+         pop
+         getlocal_1
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushnull
+         equals
+         ofs002c:iffalse ofs003c
+         getlocal_2
+         getlocal 4
+         deleteproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         jump ofs004a
+         ofs003c:getlocal_2
+         getlocal 4
+         getlocal_1
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         setproperty MultinameL([PrivateNamespace(null,"1609"),PackageNamespace(""),StaticProtectedNs("com.gskinner.motion:GTween"),PrivateNamespace(null,"4"),PackageNamespace("com.gskinner.motion"),PackageInternalNs("com.gskinner.motion"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.gskinner.motion:GTween"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs004a:hasnext2 6 5
+         iftrue ofs0012
+         kill 6
+         kill 5
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function dispatchEvt(param1:String) : void
+      {
+         trait method Qname(ProtectedNamespace("com.gskinner.motion:GTween"),"dispatchEvt")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"hasEventListener")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"hasEventListener") 1
+         iffalse ofs001b
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs001b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}
+
+import com.gskinner.motion.GTween;
+import flash.utils.Proxy;
+import flash.utils.flash_proxy;
+
+dynamic class TargetProxy extends Proxy
+{
+   
+   {
+      method
+      name null
+      returns null
+      
+      body
+      maxstack 1
+      localcount 1
+      initscopedepth 4
+      maxscopedepth 5
+      
+      code
+      getlocal_0
+      pushscope
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   private var tween:GTween;
+   
+   function TargetProxy(param1:GTween)
+   {
+      method
+      name null
+      param Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+      returns Qname(PackageNamespace(""),"void")
+      
+      body
+      maxstack 2
+      localcount 2
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      constructsuper 0
+      getlocal_0
+      getlocal_1
+      initproperty Qname(PrivateNamespace(null,"605"),"tween")
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override flash_proxy function callProperty(param1:*, ... rest) : *
+   {
+      trait method Qname(Namespace("http://www.adobe.com/2006/actionscript/flash/proxy"),"callProperty")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      flag NEED_REST
+      param null
+      returns null
+      
+      body
+      maxstack 3
+      localcount 3
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      getproperty Qname(PackageNamespace(""),"target")
+      getlocal_1
+      getproperty MultinameL([PackageNamespace(""),PrivateNamespace(null,"4"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"605"),ProtectedNamespace("GTween.as$35:TargetProxy"),StaticProtectedNs("GTween.as$35:TargetProxy"),StaticProtectedNs("flash.utils:Proxy")])
+      pushnull
+      getlocal_2
+      callproperty Multiname("apply",[PackageNamespace(""),PrivateNamespace(null,"4"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"605"),ProtectedNamespace("GTween.as$35:TargetProxy"),StaticProtectedNs("GTween.as$35:TargetProxy"),StaticProtectedNs("flash.utils:Proxy")]) 2
+      returnvalue
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override flash_proxy function getProperty(param1:*) : *
+   {
+      trait method Qname(Namespace("http://www.adobe.com/2006/actionscript/flash/proxy"),"getProperty")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      param null
+      returns null
+      
+      body
+      maxstack 2
+      localcount 3
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      getlocal_1
+      callproperty Qname(PackageNamespace(""),"getValue") 1
+      convert_d
+      setlocal_2
+      findpropstrict Qname(PackageNamespace(""),"isNaN")
+      getlocal_2
+      callproperty Qname(PackageNamespace(""),"isNaN") 1
+      iffalse ofs002c
+      getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      getproperty Qname(PackageNamespace(""),"target")
+      getlocal_1
+      getproperty MultinameL([PackageNamespace(""),PrivateNamespace(null,"4"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"605"),ProtectedNamespace("GTween.as$35:TargetProxy"),StaticProtectedNs("GTween.as$35:TargetProxy"),StaticProtectedNs("flash.utils:Proxy")])
+      coerce_a
+      jump ofs002e
+      ofs002c:getlocal_2
+      coerce_a
+      ofs002e:returnvalue
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override flash_proxy function setProperty(param1:*, param2:*) : void
+   {
+      trait method Qname(Namespace("http://www.adobe.com/2006/actionscript/flash/proxy"),"setProperty")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      param null
+      param null
+      returns Qname(PackageNamespace(""),"void")
+      
+      body
+      maxstack 4
+      localcount 3
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_2
+      getlex Qname(PackageNamespace(""),"Boolean")
+      istypelate
+      dup
+      iftrue ofs0010
+      pop
+      getlocal_2
+      getlex Qname(PackageNamespace(""),"String")
+      istypelate
+      ofs0010:dup
+      iftrue ofs0021
+      pop
+      findpropstrict Qname(PackageNamespace(""),"isNaN")
+      getlocal_2
+      callproperty Qname(PackageNamespace(""),"isNaN") 1
+      convert_b
+      ofs0021:iffalse ofs0036
+      getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      getproperty Qname(PackageNamespace(""),"target")
+      getlocal_1
+      getlocal_2
+      setproperty MultinameL([PackageNamespace(""),PrivateNamespace(null,"4"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"605"),ProtectedNamespace("GTween.as$35:TargetProxy"),StaticProtectedNs("GTween.as$35:TargetProxy"),StaticProtectedNs("flash.utils:Proxy")])
+      jump ofs004a
+      ofs0036:getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      findpropstrict Qname(PackageNamespace(""),"String")
+      getlocal_1
+      callproperty Qname(PackageNamespace(""),"String") 1
+      findpropstrict Qname(PackageNamespace(""),"Number")
+      getlocal_2
+      callproperty Qname(PackageNamespace(""),"Number") 1
+      callpropvoid Qname(PackageNamespace(""),"setValue") 2
+      ofs004a:returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override flash_proxy function deleteProperty(param1:*) : Boolean
+   {
+      trait method Qname(Namespace("http://www.adobe.com/2006/actionscript/flash/proxy"),"deleteProperty")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      param null
+      returns Qname(PackageNamespace(""),"Boolean")
+      
+      body
+      maxstack 2
+      localcount 2
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      getproperty Qname(PrivateNamespace(null,"605"),"tween")
+      getlocal_1
+      callpropvoid Qname(PackageNamespace(""),"deleteValue") 1
+      pushtrue
+      returnvalue
+      end ; code
+      end ; body
+      end ; method
+   }
+}

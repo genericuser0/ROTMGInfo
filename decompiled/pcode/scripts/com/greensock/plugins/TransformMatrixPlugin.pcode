@@ -1,0 +1,1076 @@
+package com.greensock.plugins
+{
+   import com.greensock.TweenLite;
+   import flash.geom.Matrix;
+   import flash.geom.Transform;
+   
+   public class TransformMatrixPlugin extends TweenPlugin
+   {
+      
+      public static const API:Number = 2;
+      
+      private static const _DEG2RAD:Number = 0.017453292519943295;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"API")
+         pushbyte 2
+         initproperty Qname(PackageNamespace(""),"API")
+         findproperty Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushshort 180
+         divide
+         initproperty Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected var _dChange:Number;
+      
+      protected var _txStart:Number;
+      
+      protected var _cStart:Number;
+      
+      protected var _matrix:Matrix;
+      
+      protected var _tyStart:Number;
+      
+      protected var _aStart:Number;
+      
+      protected var _angleChange:Number = 0;
+      
+      protected var _transform:Transform;
+      
+      protected var _aChange:Number;
+      
+      protected var _bChange:Number;
+      
+      protected var _tyChange:Number;
+      
+      protected var _txChange:Number;
+      
+      protected var _cChange:Number;
+      
+      protected var _dStart:Number;
+      
+      protected var _bStart:Number;
+      
+      public function TransformMatrixPlugin()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "transformMatrix,x,y,scaleX,scaleY,rotation,width,height,transformAroundPoint,transformAroundCenter"
+         constructsuper 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function setRatio(param1:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"setRatio")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal_2
+         pushnan
+         setlocal_3
+         pushnan
+         setlocal 4
+         pushnan
+         setlocal 5
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"a")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"b")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"c")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"d")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_angleChange")
+         iffalse ofs00cd
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_angleChange")
+         getlocal_1
+         multiply
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         convert_d
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_angleChange")
+         getlocal_1
+         multiply
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         convert_d
+         setlocal_3
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"a")
+         convert_d
+         setlocal 4
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"c")
+         convert_d
+         setlocal 5
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlocal 4
+         getlocal_2
+         multiply
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"b")
+         getlocal_3
+         multiply
+         subtract
+         setproperty Qname(PackageNamespace(""),"a")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlocal 4
+         getlocal_3
+         multiply
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"b")
+         getlocal_2
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"b")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlocal 5
+         getlocal_2
+         multiply
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"d")
+         getlocal_3
+         multiply
+         subtract
+         setproperty Qname(PackageNamespace(""),"c")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlocal 5
+         getlocal_3
+         multiply
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"d")
+         getlocal_2
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"d")
+         ofs00cd:getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"tx")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyStart")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"ty")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_transform")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         setproperty Qname(PackageNamespace(""),"matrix")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function _onInitTween(param1:Object, param2:*, param3:TweenLite) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"_onInitTween")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Object")
+         param null
+         param Qname(PackageNamespace("com.greensock"),"TweenLite")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 6
+         localcount 16
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal 5
+         pushnan
+         setlocal 6
+         pushnan
+         setlocal 7
+         pushnan
+         setlocal 8
+         pushnan
+         setlocal 9
+         pushnan
+         setlocal 10
+         pushnan
+         setlocal 11
+         pushnan
+         setlocal 12
+         pushnan
+         setlocal 13
+         pushnan
+         setlocal 14
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_transform")
+         getlocal_1
+         getproperty Multiname("transform",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PackageNamespace("flash.geom"),"Transform")
+         astypelate
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_transform")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_transform")
+         getproperty Qname(PackageNamespace(""),"matrix")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         callproperty Qname(PackageNamespace(""),"clone") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         setlocal 4
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"tx")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txStart")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"ty")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyStart")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aStart")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bStart")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cStart")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dStart")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dStart")
+         pushstring "x"
+         getlocal_2
+         in
+         iffalse ofs00d6
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         getlocal_2
+         getproperty Multiname("x",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs00b4
+         getlocal_2
+         getproperty Multiname("x",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txStart")
+         subtract
+         convert_d
+         jump ofs00cf
+         ofs00b4:findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("x",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         pushstring "="
+         callproperty Multiname("split",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         pushstring ""
+         callproperty Multiname("join",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         convert_d
+         ofs00cf:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         jump ofs00fb
+         ofs00d6:pushstring "tx"
+         getlocal_2
+         in
+         iffalse ofs00f3
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         getlocal_2
+         getproperty Multiname("tx",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         jump ofs00fb
+         ofs00f3:findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         pushbyte 0
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_txChange")
+         ofs00fb:pushstring "y"
+         getlocal_2
+         in
+         iffalse ofs0145
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         getlocal_2
+         getproperty Multiname("y",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs0123
+         getlocal_2
+         getproperty Multiname("y",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyStart")
+         subtract
+         convert_d
+         jump ofs013e
+         ofs0123:findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("y",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         pushstring "="
+         callproperty Multiname("split",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         pushstring ""
+         callproperty Multiname("join",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         convert_d
+         ofs013e:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         jump ofs016a
+         ofs0145:pushstring "ty"
+         getlocal_2
+         in
+         iffalse ofs0162
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         getlocal_2
+         getproperty Multiname("ty",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         jump ofs016a
+         ofs0162:findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         pushbyte 0
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_tyChange")
+         ofs016a:findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aChange")
+         pushstring "a"
+         getlocal_2
+         in
+         iffalse ofs0184
+         getlocal_2
+         getproperty Multiname("a",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aStart")
+         subtract
+         convert_d
+         jump ofs0187
+         ofs0184:pushbyte 0
+         convert_d
+         ofs0187:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bChange")
+         pushstring "b"
+         getlocal_2
+         in
+         iffalse ofs01a4
+         getlocal_2
+         getproperty Multiname("b",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bStart")
+         subtract
+         convert_d
+         jump ofs01a7
+         ofs01a4:pushbyte 0
+         convert_d
+         ofs01a7:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cChange")
+         pushstring "c"
+         getlocal_2
+         in
+         iffalse ofs01c4
+         getlocal_2
+         getproperty Multiname("c",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cStart")
+         subtract
+         convert_d
+         jump ofs01c7
+         ofs01c4:pushbyte 0
+         convert_d
+         ofs01c7:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dChange")
+         pushstring "d"
+         getlocal_2
+         in
+         iffalse ofs01e4
+         getlocal_2
+         getproperty Multiname("d",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dStart")
+         subtract
+         convert_d
+         jump ofs01e7
+         ofs01e4:pushbyte 0
+         convert_d
+         ofs01e7:initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dChange")
+         pushstring "rotation"
+         getlocal_2
+         in
+         dup
+         iftrue ofs01fb
+         pop
+         pushstring "shortRotation"
+         getlocal_2
+         in
+         ofs01fb:dup
+         iftrue ofs0213
+         pop
+         pushstring "scale"
+         getlocal_2
+         in
+         dup
+         iffalse ofs0213
+         pop
+         getlocal_2
+         getlex Qname(PackageNamespace("flash.geom"),"Matrix")
+         istypelate
+         not
+         ofs0213:dup
+         iftrue ofs021e
+         pop
+         pushstring "scaleX"
+         getlocal_2
+         in
+         ofs021e:dup
+         iftrue ofs0229
+         pop
+         pushstring "scaleY"
+         getlocal_2
+         in
+         ofs0229:dup
+         iftrue ofs0235
+         pop
+         pushstring "skewX"
+         getlocal_2
+         in
+         ofs0235:dup
+         iftrue ofs0241
+         pop
+         pushstring "skewY"
+         getlocal_2
+         in
+         ofs0241:dup
+         iftrue ofs024d
+         pop
+         pushstring "skewX2"
+         getlocal_2
+         in
+         ofs024d:dup
+         iftrue ofs0259
+         pop
+         pushstring "skewY2"
+         getlocal_2
+         in
+         ofs0259:iffalse ofs076e
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         multiply
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         multiply
+         add
+         callproperty Qname(PackageNamespace(""),"sqrt") 1
+         convert_d
+         dup
+         setlocal 7
+         pushbyte 0
+         ifne ofs029c
+         getlocal 4
+         pushdouble 1.0E-4
+         dup
+         setlocal 15
+         convert_d
+         setlocal 7
+         getlocal 15
+         kill 15
+         setproperty Qname(PackageNamespace(""),"a")
+         jump ofs02bc
+         ofs029c:getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         pushbyte 0
+         lessthan
+         dup
+         iffalse ofs02b2
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         pushbyte 0
+         greaterthan
+         ofs02b2:iffalse ofs02bc
+         getlocal 7
+         negate
+         convert_d
+         setlocal 7
+         ofs02bc:getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         multiply
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         multiply
+         add
+         callproperty Qname(PackageNamespace(""),"sqrt") 1
+         convert_d
+         dup
+         setlocal 8
+         pushbyte 0
+         ifne ofs02fb
+         getlocal 4
+         pushdouble 1.0E-4
+         dup
+         setlocal 15
+         convert_d
+         setlocal 8
+         getlocal 15
+         kill 15
+         setproperty Qname(PackageNamespace(""),"d")
+         jump ofs031b
+         ofs02fb:getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         pushbyte 0
+         lessthan
+         dup
+         iffalse ofs0311
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         pushbyte 0
+         greaterthan
+         ofs0311:iffalse ofs031b
+         getlocal 8
+         negate
+         convert_d
+         setlocal 8
+         ofs031b:getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         callproperty Qname(PackageNamespace(""),"atan2") 2
+         convert_d
+         setlocal 9
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         pushbyte 0
+         lessthan
+         dup
+         iffalse ofs0347
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         pushbyte 0
+         greaterequals
+         ofs0347:iffalse ofs0370
+         getlocal 9
+         getlocal 9
+         pushbyte 0
+         ifnle ofs0362
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         coerce_a
+         jump ofs036c
+         ofs0362:getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         negate
+         coerce_a
+         ofs036c:add
+         convert_d
+         setlocal 9
+         ofs0370:getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"c")
+         negate
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_matrix")
+         getproperty Qname(PackageNamespace(""),"d")
+         callproperty Qname(PackageNamespace(""),"atan2") 2
+         getlocal 9
+         subtract
+         convert_d
+         setlocal 10
+         getlocal 9
+         convert_d
+         setlocal 11
+         pushstring "shortRotation"
+         getlocal_2
+         in
+         iffalse ofs0405
+         getlocal_2
+         getproperty Multiname("shortRotation",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         getlocal 9
+         subtract
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushbyte 2
+         multiply
+         modulo
+         convert_d
+         dup
+         setlocal 13
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         ifngt ofs03d9
+         getlocal 13
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushbyte 2
+         multiply
+         subtract
+         convert_d
+         setlocal 13
+         jump ofs03f9
+         ofs03d9:getlocal 13
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         negate
+         ifnlt ofs03f9
+         getlocal 13
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushbyte 2
+         multiply
+         add
+         convert_d
+         setlocal 13
+         ofs03f9:getlocal 11
+         getlocal 13
+         add
+         convert_d
+         setlocal 11
+         jump ofs0451
+         ofs0405:pushstring "rotation"
+         getlocal_2
+         in
+         iffalse ofs0451
+         getlocal_2
+         getproperty Multiname("rotation",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs042b
+         getlocal_2
+         getproperty Multiname("rotation",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         convert_d
+         jump ofs044e
+         ofs042b:findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("rotation",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         pushstring "="
+         callproperty Multiname("split",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         pushstring ""
+         callproperty Multiname("join",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         getlocal 9
+         add
+         convert_d
+         ofs044e:convert_d
+         setlocal 11
+         ofs0451:pushstring "skewX"
+         getlocal_2
+         in
+         iffalse ofs04a4
+         getlocal_2
+         getproperty Multiname("skewX",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs047d
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("skewX",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         convert_d
+         jump ofs04a0
+         ofs047d:findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("skewX",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         pushstring "="
+         callproperty Multiname("split",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         pushstring ""
+         callproperty Multiname("join",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         getlocal 10
+         add
+         convert_d
+         ofs04a0:jump ofs04a7
+         ofs04a4:pushbyte 0
+         convert_d
+         ofs04a7:convert_d
+         setlocal 12
+         pushstring "skewY"
+         getlocal_2
+         in
+         iffalse ofs050a
+         getlocal_2
+         getproperty Multiname("skewY",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs04d1
+         getlocal_2
+         getproperty Multiname("skewY",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         convert_d
+         jump ofs04f4
+         ofs04d1:findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("skewY",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         pushstring "="
+         callproperty Multiname("split",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         pushstring ""
+         callproperty Multiname("join",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")]) 1
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         getlocal 10
+         subtract
+         convert_d
+         ofs04f4:convert_d
+         setlocal 14
+         getlocal 11
+         getlocal 14
+         getlocal 10
+         add
+         add
+         convert_d
+         setlocal 11
+         getlocal 12
+         getlocal 14
+         subtract
+         convert_d
+         setlocal 12
+         ofs050a:getlocal 11
+         getlocal 9
+         ifeq ofs0547
+         pushstring "rotation"
+         getlocal_2
+         in
+         dup
+         iftrue ofs0523
+         pop
+         pushstring "shortRotation"
+         getlocal_2
+         in
+         ofs0523:iffalse ofs053b
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_angleChange")
+         getlocal 11
+         getlocal 9
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_angleChange")
+         getlocal 9
+         convert_d
+         setlocal 11
+         jump ofs0547
+         ofs053b:getlocal 4
+         getlocal 11
+         getlocal 9
+         subtract
+         callpropvoid Qname(PackageNamespace(""),"rotate") 1
+         ofs0547:pushstring "scale"
+         getlocal_2
+         in
+         iffalse ofs0593
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("scale",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlocal 7
+         divide
+         convert_d
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("scale",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlocal 8
+         divide
+         convert_d
+         setlocal 6
+         getlocal_2
+         getproperty Multiname("scale",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifeq ofs058f
+         getlocal 5
+         pushbyte 1
+         add
+         convert_d
+         setlocal 5
+         getlocal 6
+         pushbyte 1
+         add
+         convert_d
+         setlocal 6
+         ofs058f:jump ofs05f1
+         ofs0593:pushstring "scaleX"
+         getlocal_2
+         in
+         iffalse ofs05c2
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("scaleX",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlocal 7
+         divide
+         convert_d
+         setlocal 5
+         getlocal_2
+         getproperty Multiname("scaleX",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifeq ofs05c2
+         getlocal 5
+         pushbyte 1
+         add
+         convert_d
+         setlocal 5
+         ofs05c2:pushstring "scaleY"
+         getlocal_2
+         in
+         iffalse ofs05f1
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("scaleY",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlocal 8
+         divide
+         convert_d
+         setlocal 6
+         getlocal_2
+         getproperty Multiname("scaleY",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifeq ofs05f1
+         getlocal 6
+         pushbyte 1
+         add
+         convert_d
+         setlocal 6
+         ofs05f1:getlocal 12
+         getlocal 10
+         ifeq ofs0626
+         getlocal 4
+         getlocal 8
+         negate
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 12
+         getlocal 11
+         add
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         multiply
+         setproperty Qname(PackageNamespace(""),"c")
+         getlocal 4
+         getlocal 8
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 12
+         getlocal 11
+         add
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         multiply
+         setproperty Qname(PackageNamespace(""),"d")
+         ofs0626:pushstring "skewX2"
+         getlocal_2
+         in
+         iffalse ofs0683
+         getlocal_2
+         getproperty Multiname("skewX2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs065d
+         getlocal 4
+         getlex Qname(PackageNamespace(""),"Math")
+         pushbyte 0
+         getlocal_2
+         getproperty Multiname("skewX2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         subtract
+         callproperty Qname(PackageNamespace(""),"tan") 1
+         setproperty Qname(PackageNamespace(""),"c")
+         jump ofs0683
+         ofs065d:getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         getlex Qname(PackageNamespace(""),"Math")
+         pushbyte 0
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("skewX2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         subtract
+         callproperty Qname(PackageNamespace(""),"tan") 1
+         add
+         setproperty Qname(PackageNamespace(""),"c")
+         ofs0683:pushstring "skewY2"
+         getlocal_2
+         in
+         iffalse ofs06da
+         getlocal_2
+         getproperty Multiname("skewY2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         typeof
+         pushstring "number"
+         ifne ofs06b7
+         getlocal 4
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getproperty Multiname("skewY2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         callproperty Qname(PackageNamespace(""),"tan") 1
+         setproperty Qname(PackageNamespace(""),"b")
+         jump ofs06da
+         ofs06b7:getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         getlex Qname(PackageNamespace(""),"Math")
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_2
+         getproperty Multiname("skewY2",[PrivateNamespace(null,"1252"),PackageNamespace(""),ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),PrivateNamespace(null,"1719"),PackageNamespace("com.greensock.plugins"),PackageInternalNs("com.greensock.plugins"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock.plugins:TransformMatrixPlugin"),StaticProtectedNs("com.greensock.plugins:TweenPlugin"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PrivateNamespace(null,"1252"),"_DEG2RAD")
+         multiply
+         callproperty Qname(PackageNamespace(""),"tan") 1
+         add
+         setproperty Qname(PackageNamespace(""),"b")
+         ofs06da:getlocal 5
+         convert_b
+         dup
+         iftrue ofs06e8
+         pop
+         getlocal 5
+         pushbyte 0
+         equals
+         ofs06e8:iffalse ofs0706
+         getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         getlocal 5
+         multiply
+         setproperty Qname(PackageNamespace(""),"a")
+         getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         getlocal 5
+         multiply
+         setproperty Qname(PackageNamespace(""),"b")
+         ofs0706:getlocal 6
+         convert_b
+         dup
+         iftrue ofs0714
+         pop
+         getlocal 6
+         pushbyte 0
+         equals
+         ofs0714:iffalse ofs0732
+         getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         getlocal 6
+         multiply
+         setproperty Qname(PackageNamespace(""),"c")
+         getlocal 4
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         getlocal 6
+         multiply
+         setproperty Qname(PackageNamespace(""),"d")
+         ofs0732:findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aChange")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"a")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_aChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bChange")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"b")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_bChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cChange")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"c")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_cChange")
+         findproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dChange")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"d")
+         getlex Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dStart")
+         subtract
+         initproperty Qname(ProtectedNamespace("com.greensock.plugins:TransformMatrixPlugin"),"_dChange")
+         ofs076e:pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

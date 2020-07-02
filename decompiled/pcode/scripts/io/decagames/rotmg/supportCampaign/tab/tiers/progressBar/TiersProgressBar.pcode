@@ -1,0 +1,538 @@
+package io.decagames.rotmg.supportCampaign.tab.tiers.progressBar
+{
+   import flash.display.Sprite;
+   import io.decagames.rotmg.supportCampaign.data.vo.RankVO;
+   import io.decagames.rotmg.supportCampaign.tab.tiers.button.TierButton;
+   import io.decagames.rotmg.supportCampaign.tab.tiers.button.status.TierButtonStatus;
+   import io.decagames.rotmg.ui.ProgressBar;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   
+   public class TiersProgressBar extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _ranks:Vector.<RankVO>;
+      
+      private var _componentWidth:int;
+      
+      private var _currentRank:int;
+      
+      private var _claimed:int;
+      
+      private var buttonAreReady:Boolean;
+      
+      private var _buttons:Vector.<TierButton>;
+      
+      private var _progressBar:ProgressBar;
+      
+      private var _points:int;
+      
+      private var supportIcon:SliceScalingBitmap;
+      
+      public function TiersProgressBar(param1:Vector.<RankVO>, param2:int)
+      {
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")>)
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"883"),"_ranks")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"883"),"_componentWidth")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"883"),PrivateNamespace(null,"1840"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "campaign_Points"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         initproperty Qname(PrivateNamespace(null,"883"),"supportIcon")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function show(param1:int, param2:int, param3:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"show")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"883"),"_currentRank")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"883"),"_claimed")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"883"),"_points")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"buttonAreReady")
+         iftrue ofs0023
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"883"),"renderProgressBar") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"883"),"renderButtons") 0
+         ofs0023:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"883"),"updateProgressBar") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"883"),"updateButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getStatusByTier(param1:int) : int
+      {
+         trait method Qname(PrivateNamespace(null,"883"),"getStatusByTier")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_claimed")
+         getlocal_1
+         ifnge ofs0013
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"CLAIMED")
+         returnvalue
+         ofs0013:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_currentRank")
+         getlocal_1
+         ifnge ofs0024
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"UNLOCKED")
+         returnvalue
+         ofs0024:getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"LOCKED")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"883"),"updateButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal_2
+         pushfalse
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         coerce_a
+         setlocal 4
+         jump ofs005b
+         ofs0017:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"tier")
+         callproperty Qname(PrivateNamespace(null,"883"),"getStatusByTier") 1
+         callpropvoid Qname(PackageNamespace(""),"updateStatus") 1
+         getlocal_1
+         not
+         dup
+         iffalse ofs0047
+         pop
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"tier")
+         callproperty Qname(PrivateNamespace(null,"883"),"getStatusByTier") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"UNLOCKED")
+         equals
+         ofs0047:iffalse ofs0056
+         pushtrue
+         setlocal_1
+         getlocal_2
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"selected")
+         jump ofs005b
+         ofs0056:getlocal_2
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs005b:hasnext2 4 3
+         iftrue ofs0017
+         kill 4
+         kill 3
+         getlocal_1
+         iftrue ofs00aa
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_currentRank")
+         pushbyte 0
+         ifeq ofs00aa
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         coerce_a
+         setlocal 4
+         jump ofs009f
+         ofs0083:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_currentRank")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"tier")
+         ifne ofs009f
+         pushtrue
+         setlocal_1
+         getlocal_2
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs009f:hasnext2 4 3
+         iftrue ofs0083
+         kill 4
+         kill 3
+         ofs00aa:getlocal_1
+         iftrue ofs00bd
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"883"),PrivateNamespace(null,"1840"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs00bd:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateProgressBar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"883"),"updateProgressBar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_points")
+         convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getproperty Qname(PackageNamespace(""),"value")
+         getlocal_1
+         ifeq ofs004a
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getproperty Qname(PackageNamespace(""),"maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getproperty Qname(PackageNamespace(""),"minValue")
+         subtract
+         ifngt ofs0042
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getproperty Qname(PackageNamespace(""),"maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getproperty Qname(PackageNamespace(""),"minValue")
+         subtract
+         setproperty Qname(PackageNamespace(""),"value")
+         jump ofs004a
+         ofs0042:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"value")
+         ofs004a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function renderProgressBar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"883"),"renderProgressBar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 11
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui"),"ProgressBar")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_componentWidth")
+         pushbyte 4
+         pushstring ""
+         pushstring ""
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_ranks")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"883"),PrivateNamespace(null,"1840"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"points")
+         pushbyte 0
+         pushint 5526612
+         pushint 1029573
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui"),"ProgressBar") 9
+         initproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         pushbyte 7
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"shouldAnimate")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_progressBar")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"supportIcon")
+         pushbyte -4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"supportIcon")
+         pushbyte 5
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"supportIcon")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function renderButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"883"),"renderButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 11
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal 8
+         pushbyte 1
+         setlocal_1
+         pushbyte 0
+         setlocal 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_ranks")
+         coerce_a
+         setlocal 10
+         jump ofs005e
+         ofs0034:label
+         getlocal 10
+         getlocal 9
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         getlocal_1
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"883"),"getStatusByTier") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         getlocal 7
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 1
+         ofs005e:hasnext2 10 9
+         iftrue ofs0034
+         kill 10
+         kill 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_componentWidth")
+         getlocal_3
+         divide
+         convert_i
+         setlocal 4
+         pushbyte 1
+         setlocal 5
+         getlocal_3
+         decrement
+         convert_i
+         setlocal 6
+         jump ofs00b6
+         ofs0088:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_buttons")
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"883"),PrivateNamespace(null,"1840"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.tiers.progressBar:TiersProgressBar"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button"),"TierButton")
+         dup
+         setlocal 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"883"),"_componentWidth")
+         getlocal 5
+         getlocal 4
+         multiply
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         inclocal_i 5
+         getlocal 6
+         decrement_i
+         setlocal 6
+         ofs00b6:getlocal 6
+         pushbyte 0
+         ifge ofs0088
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"883"),"buttonAreReady")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

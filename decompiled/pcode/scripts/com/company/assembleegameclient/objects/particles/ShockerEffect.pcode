@@ -1,0 +1,489 @@
+package com.company.assembleegameclient.objects.particles
+{
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.AssetLibrary;
+   import com.company.util.ImageSet;
+   import flash.display.BitmapData;
+   import flash.events.TimerEvent;
+   import flash.geom.Point;
+   import flash.utils.Timer;
+   
+   public class ShockerEffect extends ParticleEffect
+   {
+      
+      public static var images:Vector.<BitmapData>;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var start_:Point;
+      
+      public var end_:Point;
+      
+      public var objectId:uint;
+      
+      public var go:GameObject;
+      
+      private var innerRadius:Number;
+      
+      private var outerRadius:Number;
+      
+      private var radians:Number;
+      
+      private var particleScale:uint;
+      
+      private var timer:Timer;
+      
+      private var isDestroyed:Boolean = false;
+      
+      public function ShockerEffect(param1:GameObject)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"go")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"texture_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 8
+         ifne ofs002d
+         getlocal_0
+         pushdouble 0.4
+         initproperty Qname(PrivateNamespace(null,"923"),"innerRadius")
+         getlocal_0
+         pushdouble 1.3
+         initproperty Qname(PrivateNamespace(null,"923"),"outerRadius")
+         getlocal_0
+         pushbyte 30
+         initproperty Qname(PrivateNamespace(null,"923"),"particleScale")
+         jump ofs003f
+         ofs002d:getlocal_0
+         pushdouble 0.7
+         initproperty Qname(PrivateNamespace(null,"923"),"innerRadius")
+         getlocal_0
+         pushbyte 2
+         initproperty Qname(PrivateNamespace(null,"923"),"outerRadius")
+         getlocal_0
+         pushbyte 40
+         initproperty Qname(PrivateNamespace(null,"923"),"particleScale")
+         ofs003f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseBitmapDataFromImageSet() : void
+      {
+         trait method Qname(PrivateNamespace(null,"923"),"parseBitmapDataFromImageSet")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         convert_u
+         setlocal_2
+         findproperty Qname(PackageNamespace(""),"images")
+         getlex Multiname("Vector",[PrivateNamespace(null,"923"),PackageNamespace(""),PrivateNamespace(null,"1866"),PackageNamespace("com.company.assembleegameclient.objects.particles"),PackageInternalNs("com.company.assembleegameclient.objects.particles"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.objects.particles:ShockerEffect"),StaticProtectedNs("com.company.assembleegameclient.objects.particles:ShockerEffect"),StaticProtectedNs("com.company.assembleegameclient.objects.particles:ParticleEffect"),StaticProtectedNs("com.company.assembleegameclient.objects:GameObject"),StaticProtectedNs("com.company.assembleegameclient.objects:BasicObject"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"BitmapData")
+         applytype 1
+         construct 0
+         setproperty Qname(PackageNamespace(""),"images")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiParticlesShocker"
+         callproperty Qname(PackageNamespace(""),"getImageSet") 1
+         coerce Qname(PackageNamespace("com.company.util"),"ImageSet")
+         setlocal_1
+         pushbyte 9
+         convert_u
+         setlocal_3
+         pushbyte 0
+         convert_u
+         setlocal_2
+         jump ofs005a
+         ofs0034:label
+         getlex Qname(PackageNamespace(""),"images")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"images_")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"923"),PackageNamespace(""),PrivateNamespace(null,"1866"),PackageNamespace("com.company.assembleegameclient.objects.particles"),PackageInternalNs("com.company.assembleegameclient.objects.particles"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.objects.particles:ShockerEffect"),StaticProtectedNs("com.company.assembleegameclient.objects.particles:ShockerEffect"),StaticProtectedNs("com.company.assembleegameclient.objects.particles:ParticleEffect"),StaticProtectedNs("com.company.assembleegameclient.objects:GameObject"),StaticProtectedNs("com.company.assembleegameclient.objects:BasicObject")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"particleScale")
+         pushtrue
+         pushbyte 0
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"redraw") 5
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_2
+         increment
+         convert_u
+         setlocal_2
+         ofs005a:getlocal_2
+         getlocal_3
+         iflt ofs0034
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function update(param1:int, param2:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"isDestroyed")
+         iffalse ofs000c
+         pushfalse
+         returnvalue
+         ofs000c:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         iftrue ofs0019
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"923"),"initialize") 0
+         ofs0019:findproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"x_")
+         initproperty Qname(PackageNamespace(""),"x_")
+         findproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"y_")
+         initproperty Qname(PackageNamespace(""),"y_")
+         pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initialize() : void
+      {
+         trait method Qname(PrivateNamespace(null,"923"),"initialize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 200
+         pushbyte 10
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"923"),"timer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"onTimer")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"onTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"923"),"parseBitmapDataFromImageSet") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTimer(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"923"),"onTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 10
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"map_")
+         iffalse ofs00e3
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlex Qname(PackageNamespace(""),"Math")
+         callproperty Qname(PackageNamespace(""),"random") 0
+         pushshort 360
+         multiply
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushshort 180
+         divide
+         multiply
+         initproperty Qname(PrivateNamespace(null,"923"),"radians")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"radians")
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"innerRadius")
+         multiply
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"radians")
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"innerRadius")
+         multiply
+         add
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PackageNamespace(""),"start_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"radians")
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"outerRadius")
+         multiply
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"radians")
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"outerRadius")
+         multiply
+         add
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PackageNamespace(""),"end_")
+         getlex Qname(PackageNamespace(""),"map_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.objects.particles"),"ShockParticle")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"objectId")
+         pushbyte 25
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"particleScale")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"start_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"end_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"radians")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go")
+         getlex Qname(PackageNamespace(""),"images")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.objects.particles"),"ShockParticle") 8
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"start_")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"start_")
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"addObj") 3
+         ofs00e3:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTimerComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"923"),"onTimerComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"destroy") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         iffalse ofs003b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"onTimer")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"onTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"923"),"timer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"923"),"timer")
+         ofs003b:getlocal_0
+         pushnull
+         initproperty Qname(PackageNamespace(""),"go")
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"923"),"isDestroyed")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function removeFromMap() : void
+      {
+         trait method Qname(PackageNamespace(""),"removeFromMap")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"destroy") 0
+         getlocal_0
+         callsupervoid Qname(PackageNamespace(""),"removeFromMap") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

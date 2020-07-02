@@ -1,0 +1,699 @@
+package io.decagames.rotmg.utils.date
+{
+   import mx.utils.StringUtil;
+   
+   public class TimeSpan
+   {
+      
+      public static const MILLISECONDS_IN_DAY:Number = 86400000;
+      
+      public static const MILLISECONDS_IN_HOUR:Number = 3600000;
+      
+      public static const MILLISECONDS_IN_MINUTE:Number = 60000;
+      
+      public static const MILLISECONDS_IN_SECOND:Number = 1000;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_DAY")
+         pushint 86400000
+         initproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_DAY")
+         findproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_HOUR")
+         pushint 3600000
+         initproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_HOUR")
+         findproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_MINUTE")
+         pushint 60000
+         initproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_MINUTE")
+         findproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_SECOND")
+         pushshort 1000
+         initproperty Qname(PackageNamespace(""),"MILLISECONDS_IN_SECOND")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _totalMilliseconds:Number;
+      
+      public function TimeSpan(param1:Number)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"floor") 1
+         initproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function distanceOfTimeInWords(param1:Date, param2:Date, param3:Boolean = false) : String
+      {
+         trait method Qname(PackageNamespace(""),"distanceOfTimeInWords")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Date")
+         param Qname(PackageNamespace(""),"Date")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getglobalscope
+         getslot 1
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"fromDates") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"totalMinutes")
+         pushbyte 1
+         ifnlt ofs0065
+         getlocal_3
+         iffalse ofs0060
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalSeconds")
+         pushbyte 0
+         equals
+         dup
+         iftrue ofs0036
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalSeconds")
+         pushbyte 1
+         equals
+         ofs0036:iffalse ofs003f
+         pushstring "now"
+         returnvalue
+         ofs003f:getlex Qname(PackageNamespace("mx.utils"),"StringUtil")
+         pushstring "{0} seconds ago"
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalSeconds")
+         callproperty Qname(PackageNamespace(""),"round") 1
+         newarray 1
+         callproperty Qname(PackageNamespace(""),"substitute") 2
+         returnvalue
+         jump ofs0060
+         ofs0060:pushstring "minute ago"
+         returnvalue
+         ofs0065:getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalMinutes")
+         pushbyte 1
+         greaterequals
+         dup
+         iffalse ofs007b
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalMinutes")
+         pushbyte 2
+         lessthan
+         ofs007b:iffalse ofs0084
+         pushstring "1 minute ago"
+         returnvalue
+         ofs0084:getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalMinutes")
+         pushbyte 60
+         ifnlt ofs00ac
+         getlex Qname(PackageNamespace("mx.utils"),"StringUtil")
+         pushstring "{0} minutes ago"
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalMinutes")
+         callproperty Qname(PackageNamespace(""),"round") 1
+         newarray 1
+         callproperty Qname(PackageNamespace(""),"substitute") 2
+         returnvalue
+         ofs00ac:getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalHours")
+         pushbyte 1
+         greaterequals
+         dup
+         iffalse ofs00c2
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalHours")
+         pushbyte 2
+         lessthan
+         ofs00c2:iffalse ofs00cb
+         pushstring "1 hour ago"
+         returnvalue
+         ofs00cb:getlex Qname(PackageNamespace("mx.utils"),"StringUtil")
+         pushstring "{0} hours ago"
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"totalHours")
+         callproperty Qname(PackageNamespace(""),"round") 1
+         newarray 1
+         callproperty Qname(PackageNamespace(""),"substitute") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromDates(param1:Date, param2:Date) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromDates")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         param Qname(PackageNamespace(""),"Date")
+         param Qname(PackageNamespace(""),"Date")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"time")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"time")
+         subtract
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromMilliseconds(param1:Number) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromMilliseconds")
+         flag FINAL
+         dispid 5
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromSeconds(param1:Number) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromSeconds")
+         flag FINAL
+         dispid 6
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_SECOND")
+         multiply
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromMinutes(param1:Number) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromMinutes")
+         flag FINAL
+         dispid 7
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_MINUTE")
+         multiply
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromHours(param1:Number) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromHours")
+         flag FINAL
+         dispid 8
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_HOUR")
+         multiply
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function fromDays(param1:Number) : TimeSpan
+      {
+         trait method Qname(PackageNamespace(""),"fromDays")
+         flag FINAL
+         dispid 9
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_DAY")
+         multiply
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get days() : int
+      {
+         trait getter Qname(PackageNamespace(""),"days")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_DAY")
+         divide
+         callproperty Qname(PackageNamespace(""),"int") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get hours() : int
+      {
+         trait getter Qname(PackageNamespace(""),"hours")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_HOUR")
+         divide
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 24
+         modulo
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get minutes() : int
+      {
+         trait getter Qname(PackageNamespace(""),"minutes")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_MINUTE")
+         divide
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 60
+         modulo
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get seconds() : int
+      {
+         trait getter Qname(PackageNamespace(""),"seconds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_SECOND")
+         divide
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 60
+         modulo
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get milliseconds() : int
+      {
+         trait getter Qname(PackageNamespace(""),"milliseconds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushshort 1000
+         modulo
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get totalDays() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"totalDays")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_DAY")
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get totalHours() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"totalHours")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_HOUR")
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get totalMinutes() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"totalMinutes")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_MINUTE")
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get totalSeconds() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"totalSeconds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         getlex Qname(PackageNamespace(""),"MILLISECONDS_IN_SECOND")
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get totalMilliseconds() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"totalMilliseconds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"620"),"_totalMilliseconds")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function add(param1:Date) : Date
+      {
+         trait method Qname(PackageNamespace(""),"add")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Date")
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"time")
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_2
+         getlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"milliseconds")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"totalMilliseconds")
+         add
+         setproperty Qname(PackageNamespace(""),"milliseconds")
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,269 @@
+package kabam.rotmg.packages.services
+{
+   import com.company.assembleegameclient.map.QueueStatusTextSignal;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.packages.control.BuyPackageSuccessfulSignal;
+   import kabam.rotmg.packages.model.PackageInfo;
+   import kabam.rotmg.text.model.TextKey;
+   
+   public class BuyPackageTask extends BaseTask
+   {
+      
+      private static const ERROR_MESSAGES_THAT_REFRESH:Array;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"585"),"ERROR_MESSAGES_THAT_REFRESH")
+         pushstring "Package is not Available"
+         pushstring "Package is not Available Right Now"
+         pushstring "Invalid PackageId"
+         newarray 3
+         initproperty Qname(PrivateNamespace(null,"585"),"ERROR_MESSAGES_THAT_REFRESH")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var getPackageTask:GetPackagesTask;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var queueStatusText:QueueStatusTextSignal;
+      
+      [Inject]
+      public var packageInfo:PackageInfo;
+      
+      [Inject]
+      public var buyPackageSuccessful:BuyPackageSuccessfulSignal;
+      
+      public function BuyPackageTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.packages.services:BuyPackageTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"585"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/account/purchasePackage"
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"585"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_2
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         getlocal_1
+         iffalse ofs001a
+         getlocal_0
+         getlocal_3
+         callpropvoid Qname(PrivateNamespace(null,"585"),"completePurchase") 1
+         jump ofs0020
+         ofs001a:getlocal_0
+         getlocal_3
+         callpropvoid Qname(PrivateNamespace(null,"585"),"abandonPurchase") 1
+         ofs0020:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         getlocal_2
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function completePurchase(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"585"),"completePurchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"queueStatusText")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BUYPACKAGETASK_NEWGIFTS")
+         pushint 11495650
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyPackageSuccessful")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function abandonPurchase(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"585"),"abandonPurchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"585"),PackageNamespace(""),PrivateNamespace(null,"1595"),PackageNamespace("kabam.rotmg.packages.services"),PackageInternalNs("kabam.rotmg.packages.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.packages.services:BuyPackageTask"),StaticProtectedNs("kabam.rotmg.packages.services:BuyPackageTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         callpropvoid Qname(PrivateNamespace(null,"585"),"reportFailureAndRefreshPackages") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function reportFailureAndRefreshPackages(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"585"),"reportFailureAndRefreshPackages")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"queueStatusText")
+         getlocal_1
+         pushint 16744576
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         getlex Qname(PrivateNamespace(null,"585"),"ERROR_MESSAGES_THAT_REFRESH")
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         ifeq ofs0026
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getPackageTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,650 @@
+package io.decagames.rotmg.pets.panels
+{
+   import com.company.assembleegameclient.game.AGameSprite;
+   import com.company.assembleegameclient.ui.panels.Panel;
+   import com.company.assembleegameclient.ui.tooltip.ToolTip;
+   import flash.display.Bitmap;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.pets.components.tooltip.PetTooltip;
+   import io.decagames.rotmg.pets.data.vo.PetVO;
+   import io.decagames.rotmg.pets.utils.PetsConstants;
+   import io.decagames.rotmg.pets.utils.PetsViewAssetFactory;
+   import kabam.rotmg.editor.view.StaticTextButton;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import org.osflash.signals.Signal;
+   import org.osflash.signals.natives.NativeSignal;
+   
+   public class PetPanel extends Panel
+   {
+      
+      private static const FONT_SIZE:int = 16;
+      
+      private static const INVENTORY_PADDING:int = 6;
+      
+      private static const HUD_PADDING:int = 5;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"319"),"FONT_SIZE")
+         pushbyte 16
+         initproperty Qname(PrivateNamespace(null,"319"),"FONT_SIZE")
+         findproperty Qname(PrivateNamespace(null,"319"),"INVENTORY_PADDING")
+         pushbyte 6
+         initproperty Qname(PrivateNamespace(null,"319"),"INVENTORY_PADDING")
+         findproperty Qname(PrivateNamespace(null,"319"),"HUD_PADDING")
+         pushbyte 5
+         initproperty Qname(PrivateNamespace(null,"319"),"HUD_PADDING")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var petBitmapRollover:NativeSignal;
+      
+      public var petBitmapContainer:Sprite;
+      
+      public var followButton:StaticTextButton;
+      
+      public var releaseButton:StaticTextButton;
+      
+      public var unFollowButton:StaticTextButton;
+      
+      public var petVO:PetVO;
+      
+      public const addToolTip:Signal;
+      
+      private const nameTextField:TextFieldDisplayConcrete;
+      
+      private const rarityTextField:TextFieldDisplayConcrete;
+      
+      private var petBitmap:Bitmap;
+      
+      public function PetPanel(param1:AGameSprite, param2:PetVO)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"AGameSprite")
+         param Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         returns null
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PackageNamespace(""),"petBitmapContainer")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"ToolTip")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"addToolTip")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         pushint 16777215
+         pushbyte 16
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"returnTextfield") 3
+         initproperty Qname(PrivateNamespace(null,"319"),"nameTextField")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         pushint 11974326
+         pushbyte 12
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"returnTextfield") 3
+         initproperty Qname(PrivateNamespace(null,"319"),"rarityTextField")
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"petVO")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petBitmapContainer")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OVER")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal") 2
+         initproperty Qname(PackageNamespace(""),"petBitmapRollover")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petBitmapRollover")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"onRollOver")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getSkinBitmap") 0
+         initproperty Qname(PrivateNamespace(null,"319"),"petBitmap")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"addChildren") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"positionChildren") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"updateTextFields") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"createButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function sendToBottom(param1:StaticTextButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"sendToBottom")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.editor.view"),"StaticTextButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 4
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"createButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PET_PANEL_FOLLOW")
+         callproperty Qname(PrivateNamespace(null,"319"),"makeButton") 1
+         initproperty Qname(PackageNamespace(""),"followButton")
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"RELEASE")
+         callproperty Qname(PrivateNamespace(null,"319"),"makeButton") 1
+         initproperty Qname(PackageNamespace(""),"releaseButton")
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PET_PANEL_UNFOLLOW")
+         callproperty Qname(PrivateNamespace(null,"319"),"makeButton") 1
+         initproperty Qname(PackageNamespace(""),"unFollowButton")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"alignButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeButton(param1:String) : StaticTextButton
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"makeButton")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("kabam.rotmg.editor.view"),"StaticTextButton")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.editor.view"),"StaticTextButton")
+         getlex Qname(PrivateNamespace(null,"319"),"FONT_SIZE")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.editor.view"),"StaticTextButton") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.editor.view"),"StaticTextButton")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setState(param1:uint) : void
+      {
+         trait method Qname(PackageNamespace(""),"setState")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsConstants")
+         getproperty Qname(PackageNamespace(""),"INTERACTING")
+         equals
+         callpropvoid Qname(PackageNamespace(""),"toggleButtons") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toggleButtons(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"toggleButtons")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"followButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"releaseButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"unFollowButton")
+         getlocal_1
+         not
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addChildren() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"addChildren")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petBitmapContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"petBitmap")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petBitmapContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"nameTextField")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"rarityTextField")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateTextFields() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"updateTextFields")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"nameTextField")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petVO")
+         getproperty Qname(PackageNamespace(""),"name")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callproperty Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petVO")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"color")
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petVO")
+         getproperty Qname(PackageNamespace(""),"name")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 17
+         greaterthan
+         iffalse ofs0041
+         pushbyte 11
+         jump ofs0043
+         ofs0041:pushbyte 15
+         ofs0043:callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"rarityTextField")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petVO")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"rarityKey")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionChildren() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"positionChildren")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"petBitmap")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"petBitmap")
+         pushbyte -3
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"nameTextField")
+         pushbyte 58
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"nameTextField")
+         pushbyte 21
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"rarityTextField")
+         pushbyte 58
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"319"),"rarityTextField")
+         pushbyte 35
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function alignButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"alignButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"positionFollow") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"positionRelease") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"319"),"positionUnfollow") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionFollow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"positionFollow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"followButton")
+         getlex Qname(PrivateNamespace(null,"319"),"INVENTORY_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PrivateNamespace(null,"319"),"sendToBottom")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"followButton")
+         callpropvoid Qname(PrivateNamespace(null,"319"),"sendToBottom") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionRelease() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"positionRelease")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"releaseButton")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"releaseButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         getlex Qname(PrivateNamespace(null,"319"),"INVENTORY_PADDING")
+         subtract
+         getlex Qname(PrivateNamespace(null,"319"),"HUD_PADDING")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PrivateNamespace(null,"319"),"sendToBottom")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"releaseButton")
+         callpropvoid Qname(PrivateNamespace(null,"319"),"sendToBottom") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionUnfollow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"positionUnfollow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"unFollowButton")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"unFollowButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PrivateNamespace(null,"319"),"sendToBottom")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"unFollowButton")
+         callpropvoid Qname(PrivateNamespace(null,"319"),"sendToBottom") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRollOver(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"319"),"onRollOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.components.tooltip"),"PetTooltip")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"petVO")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.pets.components.tooltip"),"PetTooltip") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.tooltip"),"PetTooltip")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"attachToTarget") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addToolTip")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

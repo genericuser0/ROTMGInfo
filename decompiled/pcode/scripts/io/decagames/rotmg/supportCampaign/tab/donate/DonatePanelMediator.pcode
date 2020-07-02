@@ -1,0 +1,633 @@
+package io.decagames.rotmg.supportCampaign.tab.donate
+{
+   import com.company.assembleegameclient.ui.tooltip.TextToolTip;
+   import flash.events.Event;
+   import io.decagames.rotmg.supportCampaign.data.SupporterCampaignModel;
+   import io.decagames.rotmg.supportCampaign.signals.MaxRankReachedSignal;
+   import io.decagames.rotmg.supportCampaign.signals.UpdateCampaignProgress;
+   import io.decagames.rotmg.supportCampaign.tab.donate.popup.DonateConfirmationPopup;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.core.signals.HideTooltipsSignal;
+   import kabam.rotmg.core.signals.ShowTooltipSignal;
+   import kabam.rotmg.tooltips.HoverTooltipDelegate;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class DonatePanelMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:DonatePanel;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var model:SupporterCampaignModel;
+      
+      [Inject]
+      public var showTooltipSignal:ShowTooltipSignal;
+      
+      [Inject]
+      public var hideTooltipSignal:HideTooltipsSignal;
+      
+      [Inject]
+      public var maxRankReachedSignal:MaxRankReachedSignal;
+      
+      [Inject]
+      public var updateCampaignProgress:UpdateCampaignProgress;
+      
+      private var infoToolTip:TextToolTip;
+      
+      private var hoverTooltipDelegate:HoverTooltipDelegate;
+      
+      public function DonatePanelMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxRankReachedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"onMaxRankReached")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateCampaignProgress")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onCampaignUpdate")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"isEnded")
+         iftrue ofs005e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"upClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"downArrow")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"downClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"amountTextfield")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CHANGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"onAmountChange")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs005e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"hasMaxRank") 0
+         iffalse ofs0079
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"495"),"setDonateButtonState") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"495"),"onMaxRankReached") 0
+         jump ofs0096
+         ofs0079:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"donateButton")
+         iffalse ofs0096
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"donateButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"donateClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         ofs0096:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"donatePointsRatio")
+         pushbyte 0
+         ifne ofs00f9
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip")
+         pushint 3552822
+         pushint 15585539
+         pushstring "Donation not possible"
+         pushstring "You cannot spend Gold to progress in this Campaign"
+         pushshort 220
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip") 5
+         initproperty Qname(PrivateNamespace(null,"495"),"infoToolTip")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate")
+         constructprop Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate") 0
+         initproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showTooltipSignal")
+         callpropvoid Qname(PackageNamespace(""),"setShowToolTipSignal") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hideTooltipSignal")
+         callpropvoid Qname(PackageNamespace(""),"setHideToolTipsSignal") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"setDisplayObject") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"infoToolTip")
+         setproperty Qname(PackageNamespace(""),"tooltip")
+         ofs00f9:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onCampaignUpdate() : void
+      {
+         trait method Qname(PackageNamespace(""),"onCampaignUpdate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"495"),"onAmountChange") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMaxRankReached() : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"onMaxRankReached")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"495"),"setDonateButtonState") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"campaignTitle")
+         pushstring " Complete!"
+         add
+         callpropvoid Qname(PackageNamespace(""),"setCompleteText") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setDonateButtonState(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"setDonateButtonState")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"donateButton")
+         iffalse ofs0018
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"donateButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"disabled")
+         ofs0018:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"isEnded")
+         iftrue ofs0058
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"upClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"downArrow")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"downClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"donateButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"donateClickHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"amountTextfield")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CHANGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"onAmountChange")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0058:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"donatePointsRatio")
+         pushbyte 0
+         ifne ofs006f
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"495"),"hoverTooltipDelegate")
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"495"),"infoToolTip")
+         ofs006f:getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxRankReachedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"495"),"onMaxRankReached")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateCampaignProgress")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onCampaignUpdate")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAmountChange(param1:Event = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"onAmountChange")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"Event")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"495"),PackageNamespace(""),PrivateNamespace(null,"1529"),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.donate"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.donate"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"points")
+         subtract
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"donatePointsRatio")
+         divide
+         convert_i
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"amountTextfield")
+         getproperty Qname(PackageNamespace(""),"text")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_2
+         ifngt ofs004e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"amountTextfield")
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         setproperty Qname(PackageNamespace(""),"text")
+         ofs004e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"updateDonateAmount") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function upClickHandler(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"upClickHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"495"),PackageNamespace(""),PrivateNamespace(null,"1529"),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.donate"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.donate"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"points")
+         subtract
+         pushbyte 0
+         ifngt ofs003a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data"),"SupporterCampaignModel")
+         getproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_SPINNER_STEP")
+         callproperty Qname(PrivateNamespace(null,"495"),"getDonationPoints") 1
+         callpropvoid Qname(PackageNamespace(""),"addDonateAmount") 1
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function downClickHandler(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"downClickHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data"),"SupporterCampaignModel")
+         getproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_SPINNER_STEP")
+         negate
+         callproperty Qname(PrivateNamespace(null,"495"),"getDonationPoints") 1
+         callpropvoid Qname(PackageNamespace(""),"addDonateAmount") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function donateClickHandler(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"donateClickHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.donate.popup"),"DonateConfirmationPopup")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gold")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"gold")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"donatePointsRatio")
+         multiply
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.donate.popup"),"DonateConfirmationPopup") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getDonationPoints(param1:int) : int
+      {
+         trait method Qname(PrivateNamespace(null,"495"),"getDonationPoints")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"amountTextfield")
+         getproperty Qname(PackageNamespace(""),"text")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"495"),PackageNamespace(""),PrivateNamespace(null,"1529"),PackageNamespace("io.decagames.rotmg.supportCampaign.tab.donate"),PackageInternalNs("io.decagames.rotmg.supportCampaign.tab.donate"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.tab.donate:DonatePanelMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"points")
+         subtract
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"donatePointsRatio")
+         divide
+         convert_i
+         setlocal 4
+         getlocal_3
+         getlocal_1
+         add
+         getlocal 4
+         ifngt ofs005d
+         getlocal 4
+         getlocal_3
+         subtract
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"disabled")
+         jump ofs006b
+         ofs005d:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upArrow")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"disabled")
+         getlocal_1
+         convert_i
+         setlocal_2
+         ofs006b:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

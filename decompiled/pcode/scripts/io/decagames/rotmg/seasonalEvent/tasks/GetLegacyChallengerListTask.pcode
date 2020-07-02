@@ -1,0 +1,357 @@
+package io.decagames.rotmg.seasonalEvent.tasks
+{
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalItemDataFactory;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLeaderBoardItemData;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.signals.SeasonalLeaderBoardErrorSignal;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.legends.model.LegendFactory;
+   
+   public class GetLegacyChallengerListTask extends BaseTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var player:PlayerModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var factory:LegendFactory;
+      
+      [Inject]
+      public var seasonalItemDataFactory:SeasonalItemDataFactory;
+      
+      [Inject]
+      public var seasonId:String;
+      
+      [Inject]
+      public var isTop20:Boolean;
+      
+      [Inject]
+      public var seasonalLeaderBoardErrorSignal:SeasonalLeaderBoardErrorSignal;
+      
+      public var charId:int;
+      
+      public function GetLegacyChallengerListTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.seasonalEvent.tasks:GetLegacyChallengerListTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"685"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonId")
+         pushstring ""
+         equals
+         not
+         dup
+         iffalse ofs0026
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonId")
+         pushnull
+         equals
+         not
+         ofs0026:iffalse ofs0070
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"isTop20")
+         iffalse ofs004c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/fame/challengerLeaderboard?season="
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonId")
+         add
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"685"),"makeRequestObject") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         jump ofs0070
+         ofs004c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/fame/challengerAccountLeaderboard?season="
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonId")
+         add
+         pushstring "&account="
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getUserName") 0
+         add
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"685"),"makeRequestObject") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs0070:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"685"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0011
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"685"),"updateFameListData") 1
+         jump ofs0017
+         ofs0011:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"685"),"onFameListError") 1
+         ofs0017:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFameListError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"685"),"onFameListError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalLeaderBoardErrorSignal")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateFameListData(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"685"),"updateFameListData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalItemDataFactory")
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         callproperty Qname(PackageNamespace(""),"createSeasonalLeaderBoardItemDatas") 1
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")>)
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"isTop20")
+         iffalse ofs0030
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"leaderboardLegacyTop20ItemDatas")
+         jump ofs0042
+         ofs0030:getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"685"),"fameSort")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sort") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"leaderboardLegacyPlayerItemDatas")
+         ofs0042:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function fameSort(param1:SeasonalLeaderBoardItemData, param2:SeasonalLeaderBoardItemData) : int
+      {
+         trait method Qname(PrivateNamespace(null,"685"),"fameSort")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         param Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"totalFame")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"totalFame")
+         ifngt ofs0011
+         pushbyte -1
+         returnvalue
+         ofs0011:getlocal_1
+         getproperty Qname(PackageNamespace(""),"totalFame")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"totalFame")
+         ifnlt ofs0020
+         pushbyte 1
+         returnvalue
+         ofs0020:pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeRequestObject() : Object
+      {
+         trait method Qname(PrivateNamespace(null,"685"),"makeRequestObject")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         callproperty Qname(PackageNamespace(""),"getAccountId") 0
+         setproperty Multiname("accountId",[PrivateNamespace(null,"685"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1682"),PackageNamespace("io.decagames.rotmg.seasonalEvent.tasks"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.tasks"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.tasks:GetLegacyChallengerListTask"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.tasks:GetLegacyChallengerListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charId")
+         setproperty Multiname("charId",[PrivateNamespace(null,"685"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1682"),PackageNamespace("io.decagames.rotmg.seasonalEvent.tasks"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.tasks"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.tasks:GetLegacyChallengerListTask"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.tasks:GetLegacyChallengerListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,398 @@
+package com.company.assembleegameclient.account.ui
+{
+   import com.company.assembleegameclient.ui.dialogs.ErrorDialog;
+   import com.company.assembleegameclient.util.offer.Offer;
+   import kabam.lib.tasks.Task;
+   import kabam.rotmg.account.core.model.MoneyConfig;
+   import kabam.rotmg.account.core.model.OfferModel;
+   import kabam.rotmg.account.core.services.GetOffersTask;
+   import kabam.rotmg.account.core.signals.PurchaseGoldSignal;
+   import kabam.rotmg.account.core.view.MoneyFrame;
+   import kabam.rotmg.arena.model.CurrentArenaRunModel;
+   import kabam.rotmg.arena.view.ContinueOrQuitDialog;
+   import kabam.rotmg.core.signals.MoneyFrameEnableCancelSignal;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.ui.model.HUDModel;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class MoneyFrameMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:MoneyFrame;
+      
+      [Inject]
+      public var model:OfferModel;
+      
+      [Inject]
+      public var config:MoneyConfig;
+      
+      [Inject]
+      public var purchaseGold:PurchaseGoldSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var closeDialogs:CloseDialogsSignal;
+      
+      [Inject]
+      public var moneyFrameEnableCancelSignal:MoneyFrameEnableCancelSignal;
+      
+      [Inject]
+      public var getOffers:GetOffersTask;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var currentArenaRun:CurrentArenaRunModel;
+      
+      public function MoneyFrameMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyNow")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onBuyNow")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"cancel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onCancel")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"moneyFrameEnableCancelSignal")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onMoneyFrameEnableCancel")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"434"),"initializeViewWhenOffersAreAvailable") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initializeViewWhenOffersAreAvailable() : void
+      {
+         trait method Qname(PrivateNamespace(null,"434"),"initializeViewWhenOffersAreAvailable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"offers")
+         iffalse ofs0024
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"offers")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"config")
+         callpropvoid Qname(PackageNamespace(""),"initialize") 2
+         jump ofs0029
+         ofs0024:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"434"),"requestOffersData") 0
+         ofs0029:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function requestOffersData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"434"),"requestOffersData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getOffers")
+         getproperty Qname(PackageNamespace(""),"finished")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"434"),"onOffersReceived")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getOffers")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onOffersReceived(param1:Task, param2:Boolean, param3:String = "") : void
+      {
+         trait method Qname(PrivateNamespace(null,"434"),"onOffersReceived")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         optional ""
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         iffalse ofs001e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"offers")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"config")
+         callpropvoid Qname(PackageNamespace(""),"initialize") 2
+         jump ofs0031
+         ofs001e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         pushstring "Unable to get gold offer information"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0031:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"name_")
+         pushstring "Arena"
+         ifne ofs002e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.arena.view"),"ContinueOrQuitDialog")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentArenaRun")
+         getproperty Qname(PackageNamespace(""),"costOfContinue")
+         pushtrue
+         constructprop Qname(PackageNamespace("kabam.rotmg.arena.view"),"ContinueOrQuitDialog") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs002e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyNow")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onBuyNow")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"cancel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onCancel")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onBuyNow(param1:Offer, param2:String) : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onBuyNow")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.util.offer"),"Offer")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "offer {0}, paymentMethod {1}"
+         getlocal_1
+         getlocal_2
+         newarray 2
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"purchaseGold")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onMoneyFrameEnableCancel() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onMoneyFrameEnableCancel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"enableOnlyCancel") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onCancel() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.account.ui:MoneyFrameMediator"),"onCancel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogs")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,140 @@
+package kabam.rotmg.account.kongregate.services
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.lib.tasks.Task;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.LoadAccountTask;
+   
+   public class KongregateLoadAccountTask extends BaseTask implements LoadAccountTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var loadApi:KongregateLoadApiTask;
+      
+      [Inject]
+      public var getCredentials:KongregateGetCredentialsTask;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      public function KongregateLoadAccountTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateLoadAccountTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loadApi")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getCredentials")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"lastly")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"849"),"onTasksComplete")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTasksComplete(param1:Task, param2:Boolean, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"849"),"onTasksComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

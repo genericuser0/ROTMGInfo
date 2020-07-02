@@ -1,0 +1,1364 @@
+package kabam.rotmg.game.view
+{
+   import com.company.assembleegameclient.map.AbstractMap;
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.greensock.TweenMax;
+   import flash.display.Bitmap;
+   import flash.display.Graphics;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFormatAlign;
+   import flash.utils.getTimer;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.game.model.QuestModel;
+   
+   public class RealmQuestsDisplay extends Sprite
+   {
+      
+      public static const NUMBER_OF_QUESTS:int = 3;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"NUMBER_OF_QUESTS")
+         pushbyte 3
+         initproperty Qname(PackageNamespace(""),"NUMBER_OF_QUESTS")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const CONTENT_ALPHA:Number = 0.7;
+      
+      private const QUEST_DESCRIPTION:String = "Free %s from Oryx\'s Minions!";
+      
+      private const REQUIREMENT_TEXT_01:String = "Reach <font color=\'#00FF00\'><b>Level 20</b></font> and become stronger.";
+      
+      private const REQUIREMENT_TEXT_02:String = "Defeat <font color=\'#00FF00\'><b>%d remaining</b></font> Heroes of Oryx.";
+      
+      private const REQUIREMENT_TEXT_03:String = "Defeat <font color=\'#00FF00\'><b>Oryx the Mad God</b></font> in his Castle.";
+      
+      private const REQUIREMENTS_TEXTS:Vector.<String>;
+      
+      private var _realmLabel:UILabel;
+      
+      private var _realmName:String;
+      
+      private var _isOpen:Boolean;
+      
+      private var _content:Sprite;
+      
+      private var _buttonContainer:Sprite;
+      
+      private var _buttonContainerGraphics:Graphics;
+      
+      private var _buttonDiamondContainer:Sprite;
+      
+      private var _buttonNameContainer:Sprite;
+      
+      private var _buttonContent:Sprite;
+      
+      private var _arrow:Bitmap;
+      
+      private var _realmQuestDiamonds:Vector.<Bitmap>;
+      
+      private var _realmQuestItems:Vector.<RealmQuestItem>;
+      
+      private var _map:AbstractMap;
+      
+      private var _requirementsStates:Vector.<Boolean>;
+      
+      private var _currentQuestHero:String;
+      
+      public function RealmQuestsDisplay(param1:AbstractMap)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.map"),"AbstractMap")
+         returns null
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"350"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"String")
+         applytype 1
+         pushbyte 3
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENT_TEXT_01")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENT_TEXT_02")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENT_TEXT_03")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENTS_TEXTS")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"tabChildren")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"350"),"_map")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toggleOpenState() : void
+      {
+         trait method Qname(PackageNamespace(""),"toggleOpenState")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         not
+         initproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"CONTENT_ALPHA")
+         callpropvoid Qname(PrivateNamespace(null,"350"),"alphaTweenContent") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         iffalse ofs0027
+         pushbyte 1
+         convert_d
+         jump ofs002a
+         ofs0027:pushbyte -1
+         convert_d
+         ofs002a:setproperty Qname(PackageNamespace(""),"scaleY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         iffalse ofs0040
+         pushbyte 3
+         convert_d
+         jump ofs004b
+         ofs0040:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         add
+         convert_d
+         ofs004b:setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         not
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         setproperty Multiname("expandRealmQuestsDisplay",[PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function init() : void
+      {
+         trait method Qname(PackageNamespace(""),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getproperty Qname(PackageNamespace(""),"quest_")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callproperty Qname(PackageNamespace(""),"getObject") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0044
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getproperty Qname(PackageNamespace(""),"quest_")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callproperty Qname(PackageNamespace(""),"getObject") 1
+         getproperty Qname(PackageNamespace(""),"name_")
+         initproperty Qname(PrivateNamespace(null,"350"),"_currentQuestHero")
+         ofs0044:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createContainers") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createArrow") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createRealmLabel") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createDiamonds") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createRealmQuestItems") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("expandRealmQuestsDisplay",[PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs0070
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"toggleOpenState") 0
+         ofs0070:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContainers() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createContainers")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"CONTENT_ALPHA")
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OVER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"onRollOver")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"onRollOut")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         initproperty Qname(PrivateNamespace(null,"350"),"_buttonContainerGraphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"buttonMode")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"onMouseClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_isOpen")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"350"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("flash.display"),"Bitmap")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"350"),"_realmQuestDiamonds")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createArrow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createArrow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "spinner_up_arrow"
+         callproperty Qname(PackageNamespace(""),"getTexture") 2
+         initproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createRealmLabel() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createRealmLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         pushbyte 16
+         pushint 16777215
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createDiamonds() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createDiamonds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_3
+         pushbyte 0
+         setlocal_1
+         jump ofs0074
+         ofs0010:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs0026
+         pushstring "checkbox_filled"
+         jump ofs002a
+         ofs0026:pushstring "checkbox_empty"
+         ofs002a:coerce_s
+         setlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getTexture") 2
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 5
+         add
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_arrow")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 5
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContainer")
+         callpropvoid Qname(PrivateNamespace(null,"350"),"setHitArea") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestDiamonds")
+         getlocal_3
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 1
+         ofs0074:getlocal_1
+         getlex Qname(PackageNamespace(""),"NUMBER_OF_QUESTS")
+         iflt ofs0010
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function disposeDiamonds() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"disposeDiamonds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"NUMBER_OF_QUESTS")
+         decrement
+         convert_i
+         setlocal_1
+         jump ofs0037
+         ofs0011:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestDiamonds")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonDiamondContainer")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlocal_1
+         decrement_i
+         setlocal_1
+         ofs0037:getlocal_1
+         pushbyte 0
+         ifge ofs0011
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createRealmQuestItems() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createRealmQuestItems")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         setlocal_3
+         pushbyte 28
+         setlocal_1
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"350"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"350"),"_realmQuestItems")
+         pushbyte 0
+         setlocal_2
+         jump ofs0078
+         ofs0026:label
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENTS_TEXTS")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         setlocal_3
+         getlocal_3
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"updateItemState") 1
+         getlocal_3
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getlocal_1
+         pushbyte 5
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestItems")
+         getlocal_3
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 2
+         ofs0078:getlocal_2
+         getlex Qname(PackageNamespace(""),"NUMBER_OF_QUESTS")
+         iflt ofs0026
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createQuestDescription() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"createQuestDescription")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         setlocal_1
+         getlocal_1
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 15
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"QUEST_DESCRIPTION")
+         pushstring "%s"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmName")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         setproperty Qname(PackageNamespace(""),"text")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_1
+         pushbyte 12
+         pushint 16763904
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 3
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonContent")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function alphaTweenContent(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"alphaTweenContent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         callproperty Qname(PackageNamespace(""),"isTweening") 1
+         iffalse ofs001e
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         ofs001e:getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         pushdouble 0.3
+         pushstring "alpha"
+         getlocal_1
+         newobject 1
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setHitArea(param1:Sprite) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"setHitArea")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"Sprite")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16763904
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateDiamonds() : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"updateDiamonds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"disposeDiamonds") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createDiamonds") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function completeRealmQuestItem(param1:RealmQuestItem) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"completeRealmQuestItem")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"updateItemState") 1
+         getlocal_1
+         pushstring "<font color=\'#a8a8a8\'>"
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"label")
+         getproperty Qname(PackageNamespace(""),"text")
+         add
+         pushstring "</font>"
+         add
+         callpropvoid Qname(PackageNamespace(""),"updateItemText") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"onMouseClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"toggleOpenState") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRollOver(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"onRollOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         callproperty Qname(PackageNamespace(""),"isTweening") 1
+         iffalse ofs001e
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         ofs001e:getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_content")
+         pushdouble 0.3
+         pushstring "alpha"
+         pushbyte 1
+         newobject 1
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRollOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"onRollOut")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"CONTENT_ALPHA")
+         callpropvoid Qname(PrivateNamespace(null,"350"),"alphaTweenContent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"onMouseUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callproperty Qname(PackageNamespace(""),"isGpuRender") 0
+         iffalse ofs001e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getproperty Qname(PackageNamespace(""),"mapHitArea")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         jump ofs0027
+         ofs001e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs0027:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"350"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callproperty Qname(PackageNamespace(""),"isGpuRender") 0
+         iffalse ofs001e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getproperty Qname(PackageNamespace(""),"mapHitArea")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         jump ofs0027
+         ofs001e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_map")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs0027:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set realmName(param1:String) : void
+      {
+         trait setter Qname(PackageNamespace(""),"realmName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"350"),"_realmName")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmName")
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_buttonNameContainer")
+         callpropvoid Qname(PrivateNamespace(null,"350"),"setHitArea") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"createQuestDescription") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set level(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"level")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestItems")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"LEVEL_REQUIREMENT")
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         setlocal_2
+         getlocal_1
+         pushbyte 20
+         equals
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"LEVEL_REQUIREMENT")
+         getlocal_3
+         setproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_3
+         iffalse ofs0039
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"350"),"completeRealmQuestItem") 1
+         jump ofs003f
+         ofs0039:getlocal_2
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"updateItemState") 1
+         ofs003f:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"updateDiamonds") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set remainingHeroes(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"remainingHeroes")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestItems")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"REMAINING_HEROES_REQUIREMENT")
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"REQUIREMENT_TEXT_02")
+         pushstring "%d"
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         callpropvoid Qname(PackageNamespace(""),"updateItemText") 1
+         getlocal_1
+         pushbyte 0
+         equals
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"REMAINING_HEROES_REQUIREMENT")
+         getlocal_3
+         setproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_3
+         iffalse ofs004c
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"350"),"completeRealmQuestItem") 1
+         jump ofs0052
+         ofs004c:getlocal_2
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"updateItemState") 1
+         ofs0052:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"updateDiamonds") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setOryxCompleted() : void
+      {
+         trait method Qname(PackageNamespace(""),"setOryxCompleted")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"ORYX_KILLED")
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_realmQuestItems")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"ORYX_KILLED")
+         getproperty MultinameL([PrivateNamespace(null,"350"),PackageNamespace(""),PrivateNamespace(null,"1429"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("kabam.rotmg.game.view:RealmQuestsDisplay"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestItem")
+         setlocal_1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"350"),"completeRealmQuestItem") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"350"),"updateDiamonds") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set requirementsStates(param1:Vector.<Boolean>) : void
+      {
+         trait setter Qname(PackageNamespace(""),"requirementsStates")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"Boolean")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get requirementsStates() : Vector.<Boolean>
+      {
+         trait getter Qname(PackageNamespace(""),"requirementsStates")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"Boolean")>)
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"350"),"_requirementsStates")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

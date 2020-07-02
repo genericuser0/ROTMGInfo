@@ -1,0 +1,2578 @@
+package com.greensock
+{
+   import com.greensock.core.Animation;
+   import com.greensock.easing.Ease;
+   import com.greensock.events.TweenEvent;
+   import flash.events.Event;
+   import flash.events.EventDispatcher;
+   import flash.events.IEventDispatcher;
+   
+   public class TimelineMax extends TimelineLite implements IEventDispatcher
+   {
+      
+      protected static var _easeNone:Ease;
+      
+      public static const version:String = "12.1.5";
+      
+      protected static var _listenerLookup:Object;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 11
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"version")
+         pushstring "12.1.5"
+         initproperty Qname(PackageNamespace(""),"version")
+         findproperty Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_listenerLookup")
+         pushstring "onCompleteListener"
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         pushstring "onUpdateListener"
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"UPDATE")
+         pushstring "onStartListener"
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"START")
+         pushstring "onRepeatListener"
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"REPEAT")
+         pushstring "onReverseCompleteListener"
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"REVERSE_COMPLETE")
+         newobject 5
+         setproperty Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_listenerLookup")
+         findproperty Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_easeNone")
+         findpropstrict Qname(PackageNamespace("com.greensock.easing"),"Ease")
+         pushnull
+         pushnull
+         pushbyte 1
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.greensock.easing"),"Ease") 4
+         setproperty Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_easeNone")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected var _dispatcher:EventDispatcher;
+      
+      protected var _yoyo:Boolean;
+      
+      protected var _hasUpdateListener:Boolean;
+      
+      protected var _cycle:int = 0;
+      
+      protected var _locked:Boolean;
+      
+      protected var _repeatDelay:Number;
+      
+      protected var _repeat:int;
+      
+      public function TimelineMax(param1:Object = null)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("repeat",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_i
+         dup
+         iftrue ofs001a
+         pop
+         pushbyte 0
+         ofs001a:initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("repeatDelay",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_d
+         dup
+         iftrue ofs0032
+         pop
+         pushbyte 0
+         convert_d
+         ofs0032:initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("yoyo",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushtrue
+         equals
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         findproperty Qname(PackageNamespace(""),"_dirty")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"_dirty")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onCompleteListener",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_b
+         dup
+         iftrue ofs0064
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onUpdateListener",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_b
+         ofs0064:dup
+         iftrue ofs0073
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onStartListener",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_b
+         ofs0073:dup
+         iftrue ofs0082
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onRepeatListener",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_b
+         ofs0082:dup
+         iftrue ofs0091
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onReverseCompleteListener",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_b
+         ofs0091:iffalse ofs009c
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_initDispatcher")
+         callpropvoid Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_initDispatcher") 0
+         ofs009c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected static function _getGlobalPaused(param1:Animation) : Boolean
+      {
+         trait method Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_getGlobalPaused")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("com.greensock.core"),"Animation")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0019
+         ofs0006:label
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"_paused")
+         iffalse ofs0011
+         pushtrue
+         returnvalue
+         ofs0011:getlocal_1
+         getproperty Qname(PackageNamespace(""),"_timeline")
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal_1
+         ofs0019:getlocal_1
+         iftrue ofs0006
+         pushfalse
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function dispatchEvent(param1:Event) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"dispatchEvent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifne ofs000f
+         pushfalse
+         jump ofs0018
+         ofs000f:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"dispatchEvent") 1
+         convert_b
+         ofs0018:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function currentLabel(param1:String = null) : *
+      {
+         trait method Qname(PackageNamespace(""),"currentLabel")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"String")
+         optional null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs0018
+         findpropstrict Qname(PackageNamespace(""),"getLabelBefore")
+         getlex Qname(PackageNamespace(""),"_time")
+         pushdouble 1.0E-8
+         add
+         callproperty Qname(PackageNamespace(""),"getLabelBefore") 1
+         returnvalue
+         ofs0018:findpropstrict Qname(PackageNamespace(""),"seek")
+         getlocal_1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"seek") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasEventListener(param1:String) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasEventListener")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifne ofs000f
+         pushfalse
+         jump ofs0018
+         ofs000f:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"hasEventListener") 1
+         convert_b
+         ofs0018:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeEventListener(param1:String, param2:Function, param3:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"removeEventListener")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Function")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifeq ofs0014
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 3
+         ofs0014:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addCallback(param1:Function, param2:*, param3:Array = null) : TimelineMax
+      {
+         trait method Qname(PackageNamespace(""),"addCallback")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Function")
+         param null
+         param Qname(PackageNamespace(""),"Array")
+         optional null
+         returns Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"add")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenLite")
+         pushbyte 0
+         getlocal_1
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"delayedCall") 3
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"add") 2
+         getglobalscope
+         getslot 1
+         astypelate
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tweenFromTo(param1:*, param2:*, param3:Object = null) : TweenLite
+      {
+         trait method Qname(PackageNamespace(""),"tweenFromTo")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param null
+         param null
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         returns Qname(PackageNamespace("com.greensock"),"TweenLite")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         coerce Qname(PackageNamespace(""),"Object")
+         dup
+         iftrue ofs000f
+         pop
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         ofs000f:coerce Qname(PackageNamespace(""),"Object")
+         setlocal_3
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel")
+         getlocal_1
+         callproperty Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel") 1
+         coerce_a
+         setlocal_1
+         getlocal_3
+         pushstring "onComplete"
+         getlex Qname(PackageNamespace(""),"seek")
+         pushstring "onCompleteParams"
+         getlocal_1
+         newarray 1
+         newobject 2
+         setproperty Multiname("startAt",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal_3
+         getlocal_3
+         getproperty Multiname("immediateRender",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushfalse
+         strictequals
+         not
+         setproperty Multiname("immediateRender",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         findpropstrict Qname(PackageNamespace(""),"tweenTo")
+         getlocal_2
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"tweenTo") 2
+         coerce Qname(PackageNamespace("com.greensock"),"TweenLite")
+         dup
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("time",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal_1
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlex Qname(PackageNamespace(""),"_timeScale")
+         divide
+         convert_d
+         dup
+         iftrue ofs006d
+         pop
+         pushdouble 0.001
+         convert_d
+         ofs006d:callproperty Qname(PackageNamespace(""),"duration") 1
+         getlex Qname(PackageNamespace("com.greensock"),"TweenLite")
+         astypelate
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addEventListener(param1:String, param2:Function, param3:Boolean = false, param4:int = 0, param5:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"addEventListener")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Function")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         optional 0
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 6
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifne ofs0018
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("flash.events"),"EventDispatcher")
+         getlocal_0
+         constructprop Qname(PackageNamespace("flash.events"),"EventDispatcher") 1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         ofs0018:getlocal_1
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"UPDATE")
+         ifne ofs002b
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_hasUpdateListener")
+         pushtrue
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_hasUpdateListener")
+         ofs002b:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tweenTo(param1:*, param2:Object = null) : TweenLite
+      {
+         trait method Qname(PackageNamespace(""),"tweenTo")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ACTIVATION
+         param null
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         returns Qname(PackageNamespace("com.greensock"),"TweenLite")
+         
+         body
+         maxstack 9
+         localcount 6
+         initscopedepth 8
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_3
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 4
+         getscopeobject 1
+         pushnan
+         setslot 5
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("com.greensock"),"TweenLite")
+         setslot 6
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         coerce Qname(PackageNamespace(""),"Object")
+         dup
+         iftrue ofs0035
+         pop
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         ofs0035:coerce Qname(PackageNamespace(""),"Object")
+         setslot 2
+         getscopeobject 1
+         pushstring "ease"
+         getlex Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_easeNone")
+         pushstring "overwrite"
+         getscopeobject 1
+         getslot 2
+         getproperty Multiname("delay",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         iffalse ofs0059
+         pushbyte 2
+         coerce_a
+         jump ofs005c
+         ofs0059:pushbyte 1
+         coerce_a
+         ofs005c:pushstring "useFrames"
+         findpropstrict Qname(PackageNamespace(""),"usesFrames")
+         callproperty Qname(PackageNamespace(""),"usesFrames") 0
+         pushstring "immediateRender"
+         pushfalse
+         newobject 4
+         coerce Qname(PackageNamespace(""),"Object")
+         setslot 3
+         pushbyte 0
+         setlocal 4
+         getscopeobject 1
+         getslot 2
+         coerce_a
+         setlocal 5
+         jump ofs00a3
+         ofs0080:label
+         getscopeobject 1
+         getlocal 5
+         getlocal 4
+         nextname
+         coerce_s
+         setslot 4
+         getscopeobject 1
+         getslot 3
+         getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 4
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         setproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         ofs00a3:hasnext2 5 4
+         iftrue ofs0080
+         kill 5
+         kill 4
+         getscopeobject 1
+         getslot 3
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel")
+         getscopeobject 1
+         getslot 1
+         callproperty Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel") 1
+         setproperty Multiname("time",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getscopeobject 1
+         getlex Qname(PackageNamespace(""),"Math")
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getscopeobject 1
+         getslot 3
+         getproperty Multiname("time",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         getlex Qname(PackageNamespace(""),"_time")
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlex Qname(PackageNamespace(""),"_timeScale")
+         divide
+         convert_d
+         dup
+         iftrue ofs00ea
+         pop
+         pushdouble 0.001
+         convert_d
+         ofs00ea:convert_d
+         setslot 5
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("com.greensock"),"TweenLite")
+         getlocal_0
+         getscopeobject 1
+         getslot 5
+         getscopeobject 1
+         getslot 3
+         constructprop Qname(PackageNamespace("com.greensock"),"TweenLite") 3
+         coerce Qname(PackageNamespace("com.greensock"),"TweenLite")
+         setslot 6
+         getscopeobject 1
+         getslot 3
+         newfunction 11022
+         setproperty Multiname("onStart",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getscopeobject 1
+         getslot 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function repeat(param1:Number = 0) : *
+      {
+         trait method Qname(PackageNamespace(""),"repeat")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         optional 0
+         returns null
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs000e
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         returnvalue
+         ofs000e:findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         findpropstrict Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache")
+         pushtrue
+         callproperty Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getLabelBefore(param1:Number = NaN) : String
+      {
+         trait method Qname(PackageNamespace(""),"getLabelBefore")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         optional NaN
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iftrue ofs0013
+         getlocal_1
+         pushbyte 0
+         ifeq ofs0013
+         getlex Qname(PackageNamespace(""),"_time")
+         convert_d
+         setlocal_1
+         ofs0013:findpropstrict Qname(PackageNamespace(""),"getLabelsArray")
+         callproperty Qname(PackageNamespace(""),"getLabelsArray") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         jump ofs0042
+         ofs0027:label
+         getlocal_2
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getproperty Multiname("time",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal_1
+         ifnlt ofs0042
+         getlocal_2
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getproperty Multiname("name",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         returnvalue
+         ofs0042:getlocal_3
+         decrement_i
+         dup
+         convert_i
+         setlocal_3
+         pushbyte -1
+         ifgt ofs0027
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function willTrigger(param1:String) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"willTrigger")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifne ofs000f
+         pushfalse
+         jump ofs0018
+         ofs000f:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"willTrigger") 1
+         convert_b
+         ofs0018:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function totalProgress(param1:Number = NaN, param2:Boolean = true) : *
+      {
+         trait method Qname(PackageNamespace(""),"totalProgress")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional NaN
+         optional true
+         returns null
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs001a
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         findpropstrict Qname(PackageNamespace(""),"totalDuration")
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         divide
+         coerce_a
+         jump ofs002c
+         ofs001a:findpropstrict Qname(PackageNamespace(""),"totalTime")
+         findpropstrict Qname(PackageNamespace(""),"totalDuration")
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         getlocal_1
+         multiply
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"totalTime") 2
+         coerce_a
+         ofs002c:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getLabelsArray() : Array
+      {
+         trait method Qname(PackageNamespace(""),"getLabelsArray")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 6
+         localcount 7
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_3
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         setlocal 4
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_labels")
+         coerce_a
+         setlocal 5
+         jump ofs0042
+         ofs001b:label
+         getlocal 5
+         getlocal 4
+         nextname
+         coerce_s
+         setlocal_3
+         getlocal_1
+         getlocal_2
+         dup
+         increment_i
+         setlocal_2
+         dup
+         setlocal 6
+         pushstring "time"
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_labels")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushstring "name"
+         getlocal_3
+         newobject 2
+         setproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         kill 6
+         ofs0042:hasnext2 5 4
+         iftrue ofs001b
+         kill 5
+         kill 4
+         getlocal_1
+         pushstring "time"
+         getlex Qname(PackageNamespace(""),"Array")
+         getproperty Qname(PackageNamespace(""),"NUMERIC")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sortOn") 2
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function render(param1:Number, param2:Boolean = false, param3:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"render")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 27
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 12
+         pushfalse
+         setlocal 13
+         pushnull
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 14
+         pushnan
+         setlocal 15
+         pushnull
+         coerce_s
+         setlocal 16
+         pushfalse
+         setlocal 17
+         pushnan
+         setlocal 18
+         pushfalse
+         setlocal 19
+         pushfalse
+         setlocal 20
+         pushnan
+         setlocal 21
+         pushbyte 0
+         setlocal 22
+         pushnan
+         setlocal 23
+         pushnan
+         setlocal 24
+         getlex Qname(PackageNamespace(""),"_gc")
+         iffalse ofs0041
+         findpropstrict Qname(PackageNamespace(""),"_enabled")
+         pushtrue
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"_enabled") 2
+         ofs0041:getlex Qname(PackageNamespace(""),"_dirty")
+         iftrue ofs0050
+         getlex Qname(PackageNamespace(""),"_totalDuration")
+         convert_d
+         jump ofs0058
+         ofs0050:findpropstrict Qname(PackageNamespace(""),"totalDuration")
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         convert_d
+         ofs0058:convert_d
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"_time")
+         convert_d
+         setlocal 5
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         convert_d
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"_startTime")
+         convert_d
+         setlocal 7
+         getlex Qname(PackageNamespace(""),"_timeScale")
+         convert_d
+         setlocal 8
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         convert_d
+         setlocal 9
+         getlex Qname(PackageNamespace(""),"_paused")
+         convert_b
+         setlocal 10
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         convert_i
+         setlocal 11
+         getlocal_1
+         getlocal 4
+         ifnge ofs0191
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         iftrue ofs00a4
+         findproperty Qname(PackageNamespace(""),"_totalTime")
+         getlocal 4
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         ofs00a4:getlex Qname(PackageNamespace(""),"_reversed")
+         iftrue ofs0113
+         findpropstrict Qname(PackageNamespace(""),"_hasPausedChild")
+         callproperty Qname(PackageNamespace(""),"_hasPausedChild") 0
+         iftrue ofs0113
+         pushtrue
+         setlocal 13
+         pushstring "onComplete"
+         setlocal 16
+         getlex Qname(PackageNamespace(""),"_duration")
+         pushbyte 0
+         ifstrictne ofs0113
+         getlocal_1
+         pushbyte 0
+         strictequals
+         dup
+         iftrue ofs00d7
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         lessthan
+         ofs00d7:dup
+         iftrue ofs00e5
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(StaticProtectedNs("com.greensock.core:Animation"),"_tinyNum")
+         strictequals
+         ofs00e5:iffalse ofs0113
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal_1
+         strictequals
+         not
+         dup
+         iffalse ofs00fb
+         pop
+         getlex Qname(PackageNamespace(""),"_first")
+         pushnull
+         equals
+         not
+         ofs00fb:iffalse ofs0113
+         pushtrue
+         setlocal 17
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(StaticProtectedNs("com.greensock.core:Animation"),"_tinyNum")
+         ifngt ofs0113
+         pushstring "onReverseComplete"
+         setlocal 16
+         ofs0113:findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(PackageNamespace(""),"_duration")
+         coerce_a
+         dup
+         iftrue ofs0123
+         pop
+         getlocal_2
+         not
+         coerce_a
+         ofs0123:coerce_a
+         convert_b
+         dup
+         iftrue ofs0132
+         pop
+         getlocal_1
+         pushbyte 0
+         strictequals
+         not
+         coerce_a
+         convert_b
+         ofs0132:dup
+         iftrue ofs013d
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal_1
+         strictequals
+         ofs013d:iffalse ofs0147
+         getlocal_1
+         convert_d
+         jump ofs014c
+         ofs0147:getlex Qname(StaticProtectedNs("com.greensock.core:Animation"),"_tinyNum")
+         convert_d
+         ofs014c:initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         convert_b
+         dup
+         iffalse ofs0163
+         pop
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 1
+         bitand
+         pushbyte 0
+         equals
+         not
+         ofs0163:iffalse ofs017c
+         findproperty Qname(PackageNamespace(""),"_time")
+         pushbyte 0
+         dup
+         setlocal 25
+         convert_d
+         setlocal_1
+         getlocal 25
+         kill 25
+         initproperty Qname(PackageNamespace(""),"_time")
+         jump ofs018d
+         ofs017c:findproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         initproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         pushdouble 1.0E-4
+         add
+         convert_d
+         setlocal_1
+         ofs018d:jump ofs0393
+         ofs0191:getlocal_1
+         pushdouble 1.0E-7
+         ifnlt ofs0297
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         iftrue ofs01b4
+         findproperty Qname(PackageNamespace(""),"_totalTime")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 0
+         dup
+         setlocal 25
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 25
+         kill 25
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         ofs01b4:findproperty Qname(PackageNamespace(""),"_time")
+         pushbyte 0
+         initproperty Qname(PackageNamespace(""),"_time")
+         getlocal 5
+         pushbyte 0
+         strictequals
+         not
+         dup
+         iftrue ofs0209
+         pop
+         getlex Qname(PackageNamespace(""),"_duration")
+         pushbyte 0
+         strictequals
+         dup
+         iffalse ofs01dd
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(StaticProtectedNs("com.greensock.core:Animation"),"_tinyNum")
+         strictequals
+         not
+         ofs01dd:dup
+         iffalse ofs01ff
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         greaterthan
+         dup
+         iftrue ofs01ff
+         pop
+         getlocal_1
+         pushbyte 0
+         lessthan
+         dup
+         iffalse ofs01ff
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         greaterequals
+         ofs01ff:dup
+         iffalse ofs0209
+         pop
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         not
+         ofs0209:iffalse ofs0219
+         pushstring "onReverseComplete"
+         setlocal 16
+         getlex Qname(PackageNamespace(""),"_reversed")
+         convert_b
+         setlocal 13
+         ofs0219:getlocal_1
+         pushbyte 0
+         ifnlt ofs0249
+         findproperty Qname(PackageNamespace(""),"_active")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"_active")
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         greaterequals
+         dup
+         iffalse ofs0237
+         pop
+         getlex Qname(PackageNamespace(""),"_first")
+         convert_b
+         ofs0237:iffalse ofs023e
+         pushtrue
+         setlocal 17
+         ofs023e:findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         jump ofs0293
+         ofs0249:findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlex Qname(PackageNamespace(""),"_duration")
+         coerce_a
+         dup
+         iftrue ofs0259
+         pop
+         getlocal_2
+         not
+         coerce_a
+         ofs0259:coerce_a
+         convert_b
+         dup
+         iftrue ofs0268
+         pop
+         getlocal_1
+         pushbyte 0
+         strictequals
+         not
+         coerce_a
+         convert_b
+         ofs0268:dup
+         iftrue ofs0273
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal_1
+         strictequals
+         ofs0273:iffalse ofs027d
+         getlocal_1
+         convert_d
+         jump ofs0282
+         ofs027d:getlex Qname(StaticProtectedNs("com.greensock.core:Animation"),"_tinyNum")
+         convert_d
+         ofs0282:initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         convert_d
+         setlocal_1
+         getlex Qname(PackageNamespace(""),"_initted")
+         iftrue ofs0293
+         pushtrue
+         setlocal 17
+         ofs0293:jump ofs0393
+         ofs0297:getlex Qname(PackageNamespace(""),"_duration")
+         pushbyte 0
+         strictequals
+         dup
+         iffalse ofs02a9
+         pop
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         pushbyte 0
+         lessthan
+         ofs02a9:iffalse ofs02b0
+         pushtrue
+         setlocal 17
+         ofs02b0:findproperty Qname(PackageNamespace(""),"_time")
+         findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal_1
+         dup
+         setlocal 25
+         initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal 25
+         kill 25
+         initproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         iftrue ofs0393
+         findproperty Qname(PackageNamespace(""),"_totalTime")
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte 0
+         ifeq ofs0393
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         add
+         convert_d
+         setlocal 18
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         getlocal 18
+         divide
+         pushbyte 0
+         rshift
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 0
+         ifstricteq ofs0321
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         getlocal 18
+         divide
+         ifstrictne ofs0321
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         dup
+         setlocal 25
+         getproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         decrement_i
+         setlocal 26
+         getlocal 25
+         getlocal 26
+         setproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         kill 26
+         kill 25
+         ofs0321:findproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 18
+         multiply
+         subtract
+         initproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         iffalse ofs0351
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 1
+         bitand
+         pushbyte 0
+         ifeq ofs0351
+         findproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(PackageNamespace(""),"_time")
+         subtract
+         initproperty Qname(PackageNamespace(""),"_time")
+         ofs0351:getlex Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         ifngt ofs0370
+         findproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         initproperty Qname(PackageNamespace(""),"_time")
+         getlex Qname(PackageNamespace(""),"_duration")
+         pushdouble 1.0E-4
+         add
+         convert_d
+         setlocal_1
+         jump ofs0393
+         ofs0370:getlex Qname(PackageNamespace(""),"_time")
+         pushbyte 0
+         ifnlt ofs038e
+         findproperty Qname(PackageNamespace(""),"_time")
+         pushbyte 0
+         dup
+         setlocal 25
+         convert_d
+         setlocal_1
+         getlocal 25
+         kill 25
+         initproperty Qname(PackageNamespace(""),"_time")
+         jump ofs0393
+         ofs038e:getlex Qname(PackageNamespace(""),"_time")
+         convert_d
+         setlocal_1
+         ofs0393:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 11
+         ifeq ofs04f9
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         iftrue ofs04f9
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         convert_b
+         dup
+         iffalse ofs03b6
+         pop
+         getlocal 11
+         pushbyte 1
+         bitand
+         pushbyte 0
+         strictequals
+         not
+         ofs03b6:convert_b
+         dup
+         setlocal 19
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         dup
+         iffalse ofs03cd
+         pop
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 1
+         bitand
+         pushbyte 0
+         strictequals
+         not
+         ofs03cd:equals
+         setlocal 20
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         convert_d
+         setlocal 21
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         convert_i
+         setlocal 22
+         getlex Qname(PackageNamespace(""),"_rawPrevTime")
+         convert_d
+         setlocal 23
+         getlex Qname(PackageNamespace(""),"_time")
+         convert_d
+         setlocal 24
+         findproperty Qname(PackageNamespace(""),"_totalTime")
+         getlocal 11
+         getlex Qname(PackageNamespace(""),"_duration")
+         multiply
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 11
+         ifnlt ofs0406
+         getlocal 19
+         not
+         setlocal 19
+         jump ofs0413
+         ofs0406:findproperty Qname(PackageNamespace(""),"_totalTime")
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         getlex Qname(PackageNamespace(""),"_duration")
+         add
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         ofs0413:findproperty Qname(PackageNamespace(""),"_time")
+         getlocal 5
+         initproperty Qname(PackageNamespace(""),"_time")
+         findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal 9
+         initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 11
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         pushtrue
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         getlocal 19
+         iffalse ofs043f
+         pushbyte 0
+         convert_d
+         jump ofs0443
+         ofs043f:getlex Qname(PackageNamespace(""),"_duration")
+         convert_d
+         ofs0443:convert_d
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"render")
+         getlocal 5
+         getlocal_2
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         getlocal_2
+         iftrue ofs0498
+         getlex Qname(PackageNamespace(""),"_gc")
+         iftrue ofs0498
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onRepeat",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         iffalse ofs047c
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onRepeat",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushnull
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onRepeatParams",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callpropvoid Multiname("apply",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")]) 2
+         ofs047c:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         iffalse ofs0498
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"REPEAT")
+         constructprop Qname(PackageNamespace("com.greensock.events"),"TweenEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs0498:getlocal 20
+         iffalse ofs04c0
+         getlocal 19
+         iffalse ofs04af
+         getlex Qname(PackageNamespace(""),"_duration")
+         pushdouble 1.0E-4
+         add
+         convert_d
+         jump ofs04b2
+         ofs04af:pushdouble -1.0E-4
+         convert_d
+         ofs04b2:convert_d
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"render")
+         getlocal 5
+         pushtrue
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         ofs04c0:findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         pushfalse
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         getlex Qname(PackageNamespace(""),"_paused")
+         convert_b
+         dup
+         iffalse ofs04d4
+         pop
+         getlocal 10
+         not
+         ofs04d4:iffalse ofs04d9
+         returnvoid
+         ofs04d9:findproperty Qname(PackageNamespace(""),"_time")
+         getlocal 24
+         initproperty Qname(PackageNamespace(""),"_time")
+         findproperty Qname(PackageNamespace(""),"_totalTime")
+         getlocal 21
+         initproperty Qname(PackageNamespace(""),"_totalTime")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlocal 22
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         findproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         getlocal 23
+         initproperty Qname(PackageNamespace(""),"_rawPrevTime")
+         ofs04f9:getlex Qname(PackageNamespace(""),"_time")
+         getlocal 5
+         equals
+         dup
+         iftrue ofs0509
+         pop
+         getlex Qname(PackageNamespace(""),"_first")
+         not
+         ofs0509:dup
+         iffalse ofs0511
+         pop
+         getlocal_3
+         not
+         ofs0511:dup
+         iffalse ofs051a
+         pop
+         getlocal 17
+         not
+         ofs051a:iffalse ofs0558
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         ifstricteq ofs0553
+         getlex Qname(ProtectedNamespace("com.greensock.core:Animation"),"_onUpdate")
+         pushnull
+         ifeq ofs0553
+         getlocal_2
+         iftrue ofs0553
+         getlex Qname(ProtectedNamespace("com.greensock.core:Animation"),"_onUpdate")
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onUpdateScope",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         coerce_a
+         dup
+         iftrue ofs0547
+         pop
+         getlocal_0
+         coerce_a
+         ofs0547:getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onUpdateParams",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"apply") 2
+         ofs0553:returnvoid
+         jump ofs0558
+         ofs0558:getlex Qname(PackageNamespace(""),"_initted")
+         iftrue ofs0566
+         findproperty Qname(PackageNamespace(""),"_initted")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"_initted")
+         ofs0566:getlex Qname(PackageNamespace(""),"_active")
+         iftrue ofs0593
+         getlex Qname(PackageNamespace(""),"_paused")
+         not
+         dup
+         iffalse ofs057e
+         pop
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         getlocal 6
+         strictequals
+         not
+         ofs057e:dup
+         iffalse ofs0588
+         pop
+         getlocal_1
+         pushbyte 0
+         greaterthan
+         ofs0588:iffalse ofs0593
+         findproperty Qname(PackageNamespace(""),"_active")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"_active")
+         ofs0593:getlocal 6
+         pushbyte 0
+         ifne ofs05e4
+         getlex Qname(PackageNamespace(""),"_totalTime")
+         pushbyte 0
+         ifeq ofs05e4
+         getlocal_2
+         iftrue ofs05e4
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onStart",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         iffalse ofs05c8
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onStart",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onStartParams",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callpropvoid Multiname("apply",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")]) 2
+         ofs05c8:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         iffalse ofs05e4
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"START")
+         constructprop Qname(PackageNamespace("com.greensock.events"),"TweenEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs05e4:getlex Qname(PackageNamespace(""),"_time")
+         getlocal 5
+         ifnge ofs06b1
+         getlex Qname(PackageNamespace(""),"_first")
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 12
+         jump ofs06a7
+         ofs05f9:label
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_next")
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 14
+         getlex Qname(PackageNamespace(""),"_paused")
+         convert_b
+         dup
+         iffalse ofs0611
+         pop
+         getlocal 10
+         not
+         ofs0611:iffalse ofs061d
+         jump ofs06ad
+         jump ofs061d
+         ofs061d:getlocal 12
+         getproperty Qname(PackageNamespace(""),"_active")
+         convert_b
+         dup
+         iftrue ofs064a
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         getlex Qname(PackageNamespace(""),"_time")
+         lessequals
+         dup
+         iffalse ofs063e
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_paused")
+         not
+         ofs063e:dup
+         iffalse ofs064a
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_gc")
+         not
+         ofs064a:iffalse ofs06a0
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_reversed")
+         iftrue ofs0670
+         getlocal 12
+         getlocal_1
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         subtract
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_timeScale")
+         multiply
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         jump ofs06a0
+         ofs0670:getlocal 12
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_dirty")
+         iftrue ofs0685
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_totalDuration")
+         coerce_a
+         jump ofs068c
+         ofs0685:getlocal 12
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         coerce_a
+         ofs068c:getlocal_1
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         subtract
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_timeScale")
+         multiply
+         subtract
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         ofs06a0:getlocal 14
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 12
+         ofs06a7:getlocal 12
+         iftrue ofs05f9
+         ofs06ad:jump ofs0770
+         ofs06b1:getlex Qname(PackageNamespace(""),"_last")
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 12
+         jump ofs076a
+         ofs06bd:label
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_prev")
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 14
+         getlex Qname(PackageNamespace(""),"_paused")
+         convert_b
+         dup
+         iffalse ofs06d5
+         pop
+         getlocal 10
+         not
+         ofs06d5:iffalse ofs06e1
+         jump ofs0770
+         jump ofs06e1
+         ofs06e1:getlocal 12
+         getproperty Qname(PackageNamespace(""),"_active")
+         convert_b
+         dup
+         iftrue ofs070d
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         getlocal 5
+         lessequals
+         dup
+         iffalse ofs0701
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_paused")
+         not
+         ofs0701:dup
+         iffalse ofs070d
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_gc")
+         not
+         ofs070d:iffalse ofs0763
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_reversed")
+         iftrue ofs0733
+         getlocal 12
+         getlocal_1
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         subtract
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_timeScale")
+         multiply
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         jump ofs0763
+         ofs0733:getlocal 12
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_dirty")
+         iftrue ofs0748
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_totalDuration")
+         coerce_a
+         jump ofs074f
+         ofs0748:getlocal 12
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         coerce_a
+         ofs074f:getlocal_1
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         subtract
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"_timeScale")
+         multiply
+         subtract
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"render") 3
+         ofs0763:getlocal 14
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 12
+         ofs076a:getlocal 12
+         iftrue ofs06bd
+         ofs0770:getlex Qname(ProtectedNamespace("com.greensock.core:Animation"),"_onUpdate")
+         pushnull
+         ifeq ofs078d
+         getlocal_2
+         iftrue ofs078d
+         getlex Qname(ProtectedNamespace("com.greensock.core:Animation"),"_onUpdate")
+         pushnull
+         getlex Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("onUpdateParams",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"apply") 2
+         ofs078d:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_hasUpdateListener")
+         iffalse ofs07ae
+         getlocal_2
+         iftrue ofs07ae
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"UPDATE")
+         constructprop Qname(PackageNamespace("com.greensock.events"),"TweenEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs07ae:getlocal 16
+         iffalse ofs0874
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_locked")
+         iftrue ofs0874
+         getlex Qname(PackageNamespace(""),"_gc")
+         iftrue ofs0874
+         getlocal 7
+         getlex Qname(PackageNamespace(""),"_startTime")
+         strictequals
+         dup
+         iftrue ofs07d5
+         pop
+         getlocal 8
+         getlex Qname(PackageNamespace(""),"_timeScale")
+         strictequals
+         not
+         ofs07d5:iffalse ofs0874
+         getlex Qname(PackageNamespace(""),"_time")
+         pushbyte 0
+         strictequals
+         dup
+         iftrue ofs07ef
+         pop
+         getlocal 4
+         findpropstrict Qname(PackageNamespace(""),"totalDuration")
+         callproperty Qname(PackageNamespace(""),"totalDuration") 0
+         greaterequals
+         ofs07ef:iffalse ofs0874
+         getlocal 13
+         iffalse ofs0813
+         getlex Qname(PackageNamespace(""),"_timeline")
+         getproperty Qname(PackageNamespace(""),"autoRemoveChildren")
+         iffalse ofs080c
+         findpropstrict Qname(PackageNamespace(""),"_enabled")
+         pushfalse
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"_enabled") 2
+         ofs080c:findproperty Qname(PackageNamespace(""),"_active")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"_active")
+         ofs0813:getlocal_2
+         iftrue ofs0874
+         getlex Qname(PackageNamespace(""),"vars")
+         getlocal 16
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         iffalse ofs0842
+         getlex Qname(PackageNamespace(""),"vars")
+         getlocal 16
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushnull
+         getlex Qname(PackageNamespace(""),"vars")
+         getlocal 16
+         pushstring "Params"
+         add
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         callpropvoid Multiname("apply",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")]) 2
+         ofs0842:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         iffalse ofs0874
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getlocal 16
+         pushstring "onComplete"
+         ifne ofs0864
+         getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         coerce_s
+         jump ofs086c
+         ofs0864:getlex Qname(PackageNamespace("com.greensock.events"),"TweenEvent")
+         getproperty Qname(PackageNamespace(""),"REVERSE_COMPLETE")
+         coerce_s
+         ofs086c:constructprop Qname(PackageNamespace("com.greensock.events"),"TweenEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs0874:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeCallback(param1:Function, param2:* = null) : TimelineMax
+      {
+         trait method Qname(PackageNamespace(""),"removeCallback")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Function")
+         param null
+         optional null
+         returns Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushnan
+         setlocal 5
+         getlocal_1
+         pushnull
+         ifeq ofs0075
+         getlocal_2
+         pushnull
+         ifne ofs0026
+         findpropstrict Qname(PackageNamespace(""),"_kill")
+         pushnull
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"_kill") 2
+         jump ofs0075
+         ofs0026:findpropstrict Qname(PackageNamespace(""),"getTweensOf")
+         getlocal_1
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"getTweensOf") 2
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal 4
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel")
+         getlocal_2
+         callproperty Qname(ProtectedNamespace("com.greensock:TimelineLite"),"_parseTimeOrLabel") 1
+         convert_d
+         setlocal 5
+         jump ofs0068
+         ofs0048:label
+         getlocal_3
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getproperty Multiname("_startTime",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal 5
+         ifstrictne ofs0068
+         getlocal_3
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushfalse
+         pushfalse
+         callpropvoid Multiname("_enabled",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")]) 2
+         ofs0068:getlocal 4
+         decrement_i
+         dup
+         convert_i
+         setlocal 4
+         pushbyte -1
+         ifgt ofs0048
+         ofs0075:getlocal_0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function yoyo(param1:Boolean = false) : *
+      {
+         trait method Qname(PackageNamespace(""),"yoyo")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs000e
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         returnvalue
+         ofs000e:findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         getlocal_0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function progress(param1:Number = NaN, param2:Boolean = false) : *
+      {
+         trait method Qname(PackageNamespace(""),"progress")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional NaN
+         optional false
+         returns null
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs001a
+         getlex Qname(PackageNamespace(""),"_time")
+         findpropstrict Qname(PackageNamespace(""),"duration")
+         callproperty Qname(PackageNamespace(""),"duration") 0
+         divide
+         coerce_a
+         jump ofs005a
+         ofs001a:findpropstrict Qname(PackageNamespace(""),"totalTime")
+         findpropstrict Qname(PackageNamespace(""),"duration")
+         callproperty Qname(PackageNamespace(""),"duration") 0
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         convert_b
+         dup
+         iffalse ofs0038
+         pop
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 1
+         bitand
+         pushbyte 0
+         strictequals
+         not
+         ofs0038:iffalse ofs0045
+         pushbyte 1
+         getlocal_1
+         subtract
+         coerce_a
+         jump ofs0047
+         ofs0045:getlocal_1
+         coerce_a
+         ofs0047:multiply
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         add
+         multiply
+         add
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"totalTime") 2
+         coerce_a
+         ofs005a:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function repeatDelay(param1:Number = 0) : *
+      {
+         trait method Qname(PackageNamespace(""),"repeatDelay")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         optional 0
+         returns null
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs000e
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         returnvalue
+         ofs000e:findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         findpropstrict Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache")
+         pushtrue
+         callproperty Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function time(param1:Number = NaN, param2:Boolean = false) : *
+      {
+         trait method Qname(PackageNamespace(""),"time")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional NaN
+         optional false
+         returns null
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs000e
+         getlex Qname(PackageNamespace(""),"_time")
+         returnvalue
+         ofs000e:getlex Qname(PackageNamespace(""),"_dirty")
+         iffalse ofs001c
+         findpropstrict Qname(PackageNamespace(""),"totalDuration")
+         callpropvoid Qname(PackageNamespace(""),"totalDuration") 0
+         ofs001c:getlocal_1
+         getlex Qname(PackageNamespace(""),"_duration")
+         ifngt ofs0029
+         getlex Qname(PackageNamespace(""),"_duration")
+         convert_d
+         setlocal_1
+         ofs0029:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         convert_b
+         dup
+         iffalse ofs003d
+         pop
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         pushbyte 1
+         bitand
+         pushbyte 0
+         strictequals
+         not
+         ofs003d:iffalse ofs0058
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlocal_1
+         subtract
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         add
+         multiply
+         add
+         convert_d
+         setlocal_1
+         jump ofs0070
+         ofs0058:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte 0
+         ifeq ofs0070
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_cycle")
+         getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         add
+         multiply
+         add
+         convert_d
+         setlocal_1
+         ofs0070:findpropstrict Qname(PackageNamespace(""),"totalTime")
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"totalTime") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function _initDispatcher() : Boolean
+      {
+         trait method Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_initDispatcher")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 6
+         localcount 5
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         pushfalse
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlex Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_listenerLookup")
+         coerce_a
+         setlocal 4
+         jump ofs0068
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextname
+         coerce_s
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"vars")
+         in
+         iffalse ofs0068
+         getlex Qname(PackageNamespace(""),"vars")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlex Qname(PackageNamespace(""),"Function")
+         istypelate
+         iffalse ofs0068
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         pushnull
+         ifne ofs004a
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         findpropstrict Qname(PackageNamespace("flash.events"),"EventDispatcher")
+         getlocal_0
+         constructprop Qname(PackageNamespace("flash.events"),"EventDispatcher") 1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         ofs004a:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_dispatcher")
+         getlex Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_listenerLookup")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlex Qname(PackageNamespace(""),"vars")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         pushtrue
+         setlocal_1
+         ofs0068:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function invalidate() : *
+      {
+         trait method Qname(PackageNamespace(""),"invalidate")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("yoyo",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         pushtrue
+         equals
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_yoyo")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("repeat",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_i
+         dup
+         iftrue ofs002b
+         pop
+         pushbyte 0
+         ofs002b:initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vars")
+         getproperty Multiname("repeatDelay",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         convert_d
+         dup
+         iftrue ofs0043
+         pop
+         pushbyte 0
+         convert_d
+         ofs0043:initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         findproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_hasUpdateListener")
+         pushfalse
+         initproperty Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_hasUpdateListener")
+         findpropstrict Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_initDispatcher")
+         callpropvoid Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_initDispatcher") 0
+         findpropstrict Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("com.greensock.core:Animation"),"_uncache") 1
+         getlocal_0
+         callsuper Qname(PackageNamespace(""),"invalidate") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getActive(param1:Boolean = true, param2:Boolean = true, param3:Boolean = false) : Array
+      {
+         trait method Qname(PackageNamespace(""),"getActive")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         optional true
+         optional false
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 4
+         localcount 11
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         setlocal 9
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 4
+         findpropstrict Qname(PackageNamespace(""),"getChildren")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"getChildren") 3
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal 7
+         pushbyte 0
+         setlocal 8
+         jump ofs009f
+         ofs0034:label
+         getlocal 5
+         getlocal 8
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         coerce Qname(PackageNamespace("com.greensock.core"),"Animation")
+         dup
+         setlocal 9
+         getproperty Qname(PackageNamespace(""),"_paused")
+         iftrue ofs009d
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_timeline")
+         getproperty Qname(PackageNamespace(""),"_time")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         ifnge ofs009d
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_timeline")
+         getproperty Qname(PackageNamespace(""),"_time")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_startTime")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_totalDuration")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_timeScale")
+         divide
+         add
+         ifnlt ofs009d
+         findpropstrict Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_getGlobalPaused")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"_timeline")
+         callproperty Qname(StaticProtectedNs("com.greensock:TimelineMax"),"_getGlobalPaused") 1
+         iftrue ofs009d
+         getlocal 4
+         getlocal 6
+         dup
+         increment_i
+         setlocal 6
+         dup
+         setlocal 10
+         getlocal 9
+         setproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         kill 10
+         ofs009d:inclocal_i 8
+         ofs009f:getlocal 8
+         getlocal 7
+         iflt ofs0034
+         getlocal 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getLabelAfter(param1:Number = NaN) : String
+      {
+         trait method Qname(PackageNamespace(""),"getLabelAfter")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         optional NaN
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 4
+         getlocal_1
+         iftrue ofs0017
+         getlocal_1
+         pushbyte 0
+         ifeq ofs0017
+         getlex Qname(PackageNamespace(""),"_time")
+         convert_d
+         setlocal_1
+         ofs0017:findpropstrict Qname(PackageNamespace(""),"getLabelsArray")
+         callproperty Qname(PackageNamespace(""),"getLabelsArray") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         jump ofs004e
+         ofs002f:label
+         getlocal_2
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getproperty Multiname("time",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getlocal_1
+         ifngt ofs004c
+         getlocal_2
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         getproperty Multiname("name",[PrivateNamespace(null,"1698"),PackageNamespace(""),StaticProtectedNs("com.greensock:TimelineMax"),ProtectedNamespace("com.greensock:TimelineMax"),PrivateNamespace(null,"1699"),PackageNamespace("com.greensock"),PackageInternalNs("com.greensock"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.greensock:TimelineLite"),StaticProtectedNs("com.greensock.core:SimpleTimeline"),StaticProtectedNs("com.greensock.core:Animation"),StaticProtectedNs("Object")])
+         returnvalue
+         ofs004c:inclocal_i 4
+         ofs004e:getlocal 4
+         getlocal_3
+         iflt ofs002f
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function totalDuration(param1:Number = NaN) : *
+      {
+         trait method Qname(PackageNamespace(""),"totalDuration")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ARGUMENTS
+         param Qname(PackageNamespace(""),"Number")
+         optional NaN
+         returns null
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iftrue ofs0043
+         getlex Qname(PackageNamespace(""),"_dirty")
+         iffalse ofs003f
+         getlocal_0
+         callsupervoid Qname(PackageNamespace(""),"totalDuration") 0
+         findproperty Qname(PackageNamespace(""),"_totalDuration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte -1
+         ifne ofs0029
+         pushdouble 9.99999999999E11
+         convert_d
+         jump ofs003c
+         ofs0029:getlex Qname(PackageNamespace(""),"_duration")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte 1
+         add
+         multiply
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         multiply
+         add
+         convert_d
+         ofs003c:initproperty Qname(PackageNamespace(""),"_totalDuration")
+         ofs003f:getlex Qname(PackageNamespace(""),"_totalDuration")
+         returnvalue
+         ofs0043:getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte -1
+         ifne ofs0052
+         getlocal_0
+         coerce_a
+         jump ofs006a
+         ofs0052:findpropstrict Qname(PackageNamespace(""),"duration")
+         getlocal_1
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeatDelay")
+         multiply
+         subtract
+         getlex Qname(ProtectedNamespace("com.greensock:TimelineMax"),"_repeat")
+         pushbyte 1
+         add
+         divide
+         callproperty Qname(PackageNamespace(""),"duration") 1
+         coerce_a
+         ofs006a:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

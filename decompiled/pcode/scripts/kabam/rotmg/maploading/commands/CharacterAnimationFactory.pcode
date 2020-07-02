@@ -1,0 +1,227 @@
+package kabam.rotmg.maploading.commands
+{
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import kabam.rotmg.assets.model.Animation;
+   import kabam.rotmg.assets.services.CharacterFactory;
+   import kabam.rotmg.classes.model.CharacterClass;
+   import kabam.rotmg.classes.model.CharacterSkin;
+   import kabam.rotmg.classes.model.ClassesModel;
+   import kabam.rotmg.core.model.PlayerModel;
+   
+   public class CharacterAnimationFactory
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var factory:CharacterFactory;
+      
+      [Inject]
+      public var classesModel:ClassesModel;
+      
+      private var currentChar:SavedCharacter;
+      
+      private var characterClass:CharacterClass;
+      
+      private var skin:CharacterSkin;
+      
+      private var tex2:int;
+      
+      private var tex1:int;
+      
+      public function CharacterAnimationFactory()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function make() : Animation
+      {
+         trait method Qname(PackageNamespace(""),"make")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.assets.model"),"Animation")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getproperty Qname(PackageNamespace(""),"currentCharId")
+         callproperty Qname(PackageNamespace(""),"getCharacterById") 1
+         initproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         iffalse ofs0029
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"607"),"getCurrentCharacterClass") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterClass")
+         jump ofs0030
+         ofs0029:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"607"),"getDefaultCharacterClass") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterClass")
+         ofs0030:initproperty Qname(PrivateNamespace(null,"607"),"characterClass")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"characterClass")
+         getproperty Qname(PackageNamespace(""),"skins")
+         callproperty Qname(PackageNamespace(""),"getSelectedSkin") 0
+         initproperty Qname(PrivateNamespace(null,"607"),"skin")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         iffalse ofs0058
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         callproperty Qname(PackageNamespace(""),"tex1") 0
+         convert_i
+         jump ofs005a
+         ofs0058:pushbyte 0
+         ofs005a:initproperty Qname(PrivateNamespace(null,"607"),"tex1")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         iffalse ofs0073
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         callproperty Qname(PackageNamespace(""),"tex2") 0
+         convert_i
+         jump ofs0075
+         ofs0073:pushbyte 0
+         ofs0075:initproperty Qname(PrivateNamespace(null,"607"),"tex2")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"skinTypes16")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"skin")
+         getproperty Qname(PackageNamespace(""),"id")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         ifeq ofs0097
+         pushbyte 70
+         jump ofs0099
+         ofs0097:pushbyte 100
+         ofs0099:convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"factory")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"skin")
+         getproperty Qname(PackageNamespace(""),"template")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"tex1")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"tex2")
+         callproperty Qname(PackageNamespace(""),"makeWalkingIcon") 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getDefaultCharacterClass() : CharacterClass
+      {
+         trait method Qname(PrivateNamespace(null,"607"),"getDefaultCharacterClass")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterClass")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"classesModel")
+         callproperty Qname(PackageNamespace(""),"getSelected") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getCurrentCharacterClass() : CharacterClass
+      {
+         trait method Qname(PrivateNamespace(null,"607"),"getCurrentCharacterClass")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterClass")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"classesModel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"607"),"currentChar")
+         callproperty Qname(PackageNamespace(""),"objectType") 0
+         callproperty Qname(PackageNamespace(""),"getCharacterClass") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

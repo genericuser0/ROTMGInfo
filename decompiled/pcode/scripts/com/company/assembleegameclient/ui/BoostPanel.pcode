@@ -1,0 +1,628 @@
+package com.company.assembleegameclient.ui
+{
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.AssetLibrary;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.Sprite;
+   import flash.events.TimerEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.utils.Timer;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StringBuilder;
+   import kabam.rotmg.ui.view.SignalWaiter;
+   import org.osflash.signals.Signal;
+   
+   public class BoostPanel extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public const resized:Signal;
+      
+      private const SPACE:uint = 40;
+      
+      private var timer:Timer;
+      
+      private var player:Player;
+      
+      private var tierBoostTimer:BoostTimer;
+      
+      private var dropBoostTimer:BoostTimer;
+      
+      private var posY:int;
+      
+      public function BoostPanel(param1:Player)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"resized")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"979"),"player")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"createHeader") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"createBoostTimers") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"createTimer") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createTimer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"createTimer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 1000
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"979"),"timer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"timer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"update")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"timer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function update(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"update")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"tierBoost")
+         callpropvoid Qname(PrivateNamespace(null,"979"),"updateTimer") 2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"dropBoost")
+         callpropvoid Qname(PrivateNamespace(null,"979"),"updateTimer") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateTimer(param1:BoostTimer, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"updateTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0020
+         getlocal_2
+         iffalse ofs0016
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"setTime") 1
+         jump ofs0020
+         ofs0016:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"destroyBoostTimers") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"createBoostTimers") 0
+         ofs0020:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createHeader() : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"createHeader")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterfaceBig"
+         pushbyte 22
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         pushbyte 20
+         pushtrue
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"redraw") 4
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlocal_2
+         pushbyte -3
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         pushbyte -1
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 65280
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlocal_3
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BOOSTPANEL_ACTIVEBOOSTS")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_3
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         getlocal_3
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_3
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createBackground() : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"createBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 2
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushint 3355443
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushshort 150
+         getlex Qname(PackageNamespace(""),"height")
+         pushbyte 5
+         add
+         pushbyte 10
+         callpropvoid Qname(PackageNamespace(""),"drawRoundRect") 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"resized")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createBoostTimers() : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"createBoostTimers")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushbyte 25
+         initproperty Qname(PrivateNamespace(null,"979"),"posY")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         setlocal_1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"979"),"addDropTimerIfAble") 1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"979"),"addTierBoostIfAble") 1
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"isEmpty") 0
+         iffalse ofs002e
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"979"),"createBackground") 0
+         jump ofs003a
+         ofs002e:getlocal_1
+         getproperty Qname(PackageNamespace(""),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"createBackground")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addTierBoostIfAble(param1:SignalWaiter) : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"addTierBoostIfAble")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"tierBoost")
+         iffalse ofs0039
+         getlocal_0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BOOSTPANEL_TIERLEVELINCREASED")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"tierBoost")
+         callproperty Qname(PrivateNamespace(null,"979"),"returnBoostTimer") 2
+         initproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         getlocal_0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         callpropvoid Qname(PrivateNamespace(null,"979"),"addTimer") 2
+         ofs0039:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addDropTimerIfAble(param1:SignalWaiter) : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"addDropTimerIfAble")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"dropBoost")
+         iffalse ofs0047
+         pushstring "1.5x"
+         setlocal_2
+         getlocal_0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BOOSTPANEL_DROPRATE")
+         pushstring "rate"
+         getlocal_2
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"player")
+         getproperty Qname(PackageNamespace(""),"dropBoost")
+         callproperty Qname(PrivateNamespace(null,"979"),"returnBoostTimer") 2
+         initproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         getlocal_0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         callpropvoid Qname(PrivateNamespace(null,"979"),"addTimer") 2
+         ofs0047:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addTimer(param1:SignalWaiter, param2:BoostTimer) : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"addTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         param Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"posY")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"posY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"SPACE")
+         add
+         initproperty Qname(PrivateNamespace(null,"979"),"posY")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function destroyBoostTimers() : void
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"destroyBoostTimers")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0015:iffalse ofs0024
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0024:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         convert_b
+         dup
+         iffalse ofs0037
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0037:iffalse ofs0046
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0046:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"979"),"tierBoostTimer")
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"979"),"dropBoostTimer")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function returnBoostTimer(param1:StringBuilder, param2:int) : BoostTimer
+      {
+         trait method Qname(PrivateNamespace(null,"979"),"returnBoostTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StringBuilder")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer") 0
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui"),"BoostTimer")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setLabelBuilder") 1
+         getlocal_3
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"setTime") 1
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

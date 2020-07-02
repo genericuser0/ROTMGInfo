@@ -1,0 +1,740 @@
+package kabam.rotmg.util.components
+{
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import kabam.lib.ui.api.List;
+   import kabam.lib.ui.api.Size;
+   import kabam.lib.ui.impl.LayoutList;
+   import kabam.lib.ui.impl.VerticalLayout;
+   import org.osflash.signals.Signal;
+   
+   public class VerticalScrollingList extends Sprite implements List
+   {
+      
+      public static const SCROLLBAR_PADDING:int = 2;
+      
+      public static const SCROLLBAR_GUTTER:int;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"SCROLLBAR_PADDING")
+         pushbyte 2
+         initproperty Qname(PackageNamespace(""),"SCROLLBAR_PADDING")
+         findproperty Qname(PackageNamespace(""),"SCROLLBAR_GUTTER")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar")
+         getproperty Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"SCROLLBAR_PADDING")
+         add
+         initproperty Qname(PackageNamespace(""),"SCROLLBAR_GUTTER")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public const scrollStateChanged:Signal;
+      
+      private var layout:VerticalLayout;
+      
+      private var list:LayoutList;
+      
+      private var scrollbar:VerticalScrollbar;
+      
+      private var isEnabled:Boolean = true;
+      
+      private var size:Size;
+      
+      public function VerticalScrollingList()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"Boolean")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"scrollStateChanged")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"548"),"makeLayout") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"548"),"makeVerticalList") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"548"),"makeScrollbar") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getIsEnabled() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"getIsEnabled")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"isEnabled")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setIsEnabled(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setIsEnabled")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"548"),"isEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setIsEnabled") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setSize(param1:Size) : void
+      {
+         trait method Qname(PackageNamespace(""),"setSize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.lib.ui.api"),"Size")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"548"),"size")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"isScrollbarVisible") 0
+         iffalse ofs0028
+         findpropstrict Qname(PackageNamespace("kabam.lib.ui.api"),"Size")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlex Qname(PackageNamespace(""),"SCROLLBAR_GUTTER")
+         subtract
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         constructprop Qname(PackageNamespace("kabam.lib.ui.api"),"Size") 2
+         coerce Qname(PackageNamespace("kabam.lib.ui.api"),"Size")
+         setlocal_1
+         ofs0028:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"548"),"refreshScrollbar") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getSize() : Size
+      {
+         trait method Qname(PackageNamespace(""),"getSize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.ui.api"),"Size")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"size")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setPadding(param1:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"setPadding")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"layout")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setPadding") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callpropvoid Qname(PackageNamespace(""),"updateLayout") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"548"),"refreshScrollbar") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addItem(param1:DisplayObject) : void
+      {
+         trait method Qname(PackageNamespace(""),"addItem")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addItem") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setItems(param1:Vector.<DisplayObject>) : void
+      {
+         trait method Qname(PackageNamespace(""),"setItems")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("flash.display"),"DisplayObject")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setItems") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getItemAt(param1:int) : DisplayObject
+      {
+         trait method Qname(PackageNamespace(""),"getItemAt")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("flash.display"),"DisplayObject")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getItemAt") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getItemCount() : int
+      {
+         trait method Qname(PackageNamespace(""),"getItemCount")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getItemCount") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getListHeight() : int
+      {
+         trait method Qname(PackageNamespace(""),"getListHeight")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSizeOfItems") 0
+         getproperty Qname(PackageNamespace(""),"height")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeLayout() : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"makeLayout")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.lib.ui.impl"),"VerticalLayout")
+         constructprop Qname(PackageNamespace("kabam.lib.ui.impl"),"VerticalLayout") 0
+         initproperty Qname(PrivateNamespace(null,"548"),"layout")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isScrollbarVisible() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isScrollbarVisible")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getproperty Qname(PackageNamespace(""),"visible")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeVerticalList() : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"makeVerticalList")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.lib.ui.impl"),"LayoutList")
+         constructprop Qname(PackageNamespace("kabam.lib.ui.impl"),"LayoutList") 0
+         initproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getproperty Qname(PackageNamespace(""),"itemsChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"refreshScrollbar")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"layout")
+         callpropvoid Qname(PackageNamespace(""),"setLayout") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshScrollbar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"refreshScrollbar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_3
+         pushfalse
+         setlocal 4
+         pushfalse
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSize") 0
+         coerce Qname(PackageNamespace("kabam.lib.ui.api"),"Size")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSizeOfItems") 0
+         getproperty Qname(PackageNamespace(""),"height")
+         convert_i
+         setlocal_3
+         getlocal_3
+         getlocal_2
+         greaterthan
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getproperty Qname(PackageNamespace(""),"visible")
+         getlocal 4
+         equals
+         not
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setIsEnabled") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getlocal 4
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal 4
+         coerce_a
+         dup
+         iffalse ofs0061
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setIsEnabled") 1
+         coerce_a
+         ofs0061:pop
+         getlocal 4
+         coerce_a
+         dup
+         iffalse ofs0073
+         pop
+         getlocal_0
+         getlocal_2
+         getlocal_3
+         callproperty Qname(PrivateNamespace(null,"548"),"updateScrollbarSize") 2
+         coerce_a
+         ofs0073:pop
+         getlocal 5
+         coerce_a
+         dup
+         iffalse ofs0085
+         pop
+         getlocal_0
+         getlocal 4
+         callproperty Qname(PrivateNamespace(null,"548"),"updateUiAndDispatchStateChange") 1
+         coerce_a
+         ofs0085:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateUiAndDispatchStateChange(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"updateUiAndDispatchStateChange")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"size")
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"scrollStateChanged")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateScrollbarSize(param1:int, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"updateScrollbarSize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_1
+         getlocal_2
+         divide
+         multiply
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getlocal_3
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setSize") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSize") 0
+         getproperty Qname(PackageNamespace(""),"width")
+         getlex Qname(PackageNamespace(""),"SCROLLBAR_PADDING")
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeScrollbar() : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"makeScrollbar")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar") 0
+         initproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         getproperty Qname(PackageNamespace(""),"positionChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"onPositionChanged")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"scrollbar")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPositionChanged(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"548"),"onPositionChanged")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSizeOfItems") 0
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         callproperty Qname(PackageNamespace(""),"getSize") 0
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"548"),"list")
+         getlocal_2
+         getlocal_1
+         multiply
+         callpropvoid Qname(PackageNamespace(""),"setOffset") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

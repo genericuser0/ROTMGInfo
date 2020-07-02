@@ -1,0 +1,340 @@
+package kabam.rotmg.account.web.commands
+{
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import com.company.assembleegameclient.screens.CharacterTypeSelectionScreen;
+   import flash.display.Sprite;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.lib.tasks.BranchingTask;
+   import kabam.lib.tasks.DispatchSignalTask;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.LoginTask;
+   import kabam.rotmg.account.core.signals.UpdateAccountInfoSignal;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.core.model.ScreenModel;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.InvalidateDataSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.core.signals.TaskErrorSignal;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.mysterybox.services.GetMysteryBoxesTask;
+   import kabam.rotmg.packages.services.GetPackagesTask;
+   
+   public class WebLoginCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var data:AccountData;
+      
+      [Inject]
+      public var loginTask:LoginTask;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      [Inject]
+      public var closeDialogs:CloseDialogsSignal;
+      
+      [Inject]
+      public var loginError:TaskErrorSignal;
+      
+      [Inject]
+      public var updateLogin:UpdateAccountInfoSignal;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      [Inject]
+      public var invalidate:InvalidateDataSignal;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var screenModel:ScreenModel;
+      
+      [Inject]
+      public var getPackageTask:GetPackagesTask;
+      
+      [Inject]
+      public var mysteryBoxTask:GetMysteryBoxesTask;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      private var setScreenTask:DispatchSignalTask;
+      
+      public function WebLoginCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loginTask")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"823"),"makeSuccessTask") 0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"823"),"makeFailureTask") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask") 3
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSuccessTask() : TaskSequence
+      {
+         trait method Qname(PrivateNamespace(null,"823"),"makeSuccessTask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"823"),"getTargetScreen") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         initproperty Qname(PrivateNamespace(null,"823"),"setScreenTask")
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogs")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateLogin")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"invalidate")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getPackageTask")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mysteryBoxTask")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"823"),"setScreenTask")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeFailureTask() : TaskSequence
+      {
+         trait method Qname(PrivateNamespace(null,"823"),"makeFailureTask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loginError")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loginTask")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getTargetScreen() : Sprite
+      {
+         trait method Qname(PrivateNamespace(null,"823"),"getTargetScreen")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"screenModel")
+         callproperty Qname(PackageNamespace(""),"getCurrentScreenType") 0
+         coerce Qname(PackageNamespace(""),"Class")
+         setlocal_1
+         getlocal_1
+         pushnull
+         equals
+         dup
+         iftrue ofs001a
+         pop
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         equals
+         ofs001a:iffalse ofs003f
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isSeasonalMode")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         iffalse ofs0037
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterTypeSelectionScreen")
+         coerce Qname(PackageNamespace(""),"Class")
+         jump ofs003c
+         ofs0037:getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         coerce Qname(PackageNamespace(""),"Class")
+         ofs003c:coerce Qname(PackageNamespace(""),"Class")
+         setlocal_1
+         ofs003f:getlocal_1
+         construct 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getTrackingData() : TrackingData
+      {
+         trait method Qname(PrivateNamespace(null,"823"),"getTrackingData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_1
+         getlocal_1
+         pushstring "account"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_1
+         pushstring "signedIn"
+         setproperty Qname(PackageNamespace(""),"action")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

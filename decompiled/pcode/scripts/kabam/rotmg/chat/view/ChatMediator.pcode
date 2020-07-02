@@ -1,0 +1,769 @@
+package kabam.rotmg.chat.view
+{
+   import flash.display.Sprite;
+   import flash.display.Stage;
+   import flash.events.Event;
+   import flash.events.KeyboardEvent;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.signals.RegisterSignal;
+   import kabam.rotmg.account.core.view.RegisterPromptDialog;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.chat.control.ScrollListSignal;
+   import kabam.rotmg.chat.control.ShowChatInputSignal;
+   import kabam.rotmg.chat.model.ChatModel;
+   import kabam.rotmg.chat.model.ChatShortcutModel;
+   import kabam.rotmg.chat.model.TellModel;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.ui.model.HUDModel;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class ChatMediator extends Mediator
+   {
+      
+      private static const SCROLL_BUFFER_SIZE:int = 10;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"724"),"SCROLL_BUFFER_SIZE")
+         pushbyte 10
+         initproperty Qname(PrivateNamespace(null,"724"),"SCROLL_BUFFER_SIZE")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:Chat;
+      
+      [Inject]
+      public var model:ChatModel;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var shortcuts:ChatShortcutModel;
+      
+      [Inject]
+      public var showChatInput:ShowChatInputSignal;
+      
+      [Inject]
+      public var scrollList:ScrollListSignal;
+      
+      [Inject]
+      public var tellModel:TellModel;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var closeDialog:CloseDialogsSignal;
+      
+      [Inject]
+      public var register:RegisterSignal;
+      
+      private var stage:Stage;
+      
+      private var scrollDirection:int;
+      
+      private var scrollBuffer:int;
+      
+      private var listenersAdded:Boolean = false;
+      
+      public function ChatMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"bounds")
+         getproperty Qname(PackageNamespace(""),"left")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"bounds")
+         getproperty Qname(PackageNamespace(""),"top")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         callpropvoid Qname(PackageNamespace(""),"setup") 2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"stage")
+         initproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"724"),"addListeners") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showChatInput")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onShowChatInput")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onOpenDialog")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialog")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onCloseDialog")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"register")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onRegister")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onOpenDialog(param1:Sprite) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onOpenDialog")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"Sprite")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"724"),"removeListeners") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCloseDialog() : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onCloseDialog")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"724"),"addListeners") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onShowChatInput(param1:Boolean, param2:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onShowChatInput")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs001b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         setproperty Qname(PackageNamespace(""),"focus")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         jump ofs0028
+         ofs001b:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"724"),"addListeners") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"focus")
+         ofs0028:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRegister(param1:AccountData) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onRegister")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.account.web.model"),"AccountData")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"error")
+         pushnull
+         ifne ofs0013
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"removeRegisterBlock") 0
+         ofs0013:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"724"),"removeListeners") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showChatInput")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onShowChatInput")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onOpenDialog")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialog")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onCloseDialog")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"register")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onRegister")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"724"),"stage")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addListeners() : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"addListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         iftrue ofs0035
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onKeyUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         ofs0035:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeListeners() : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"removeListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         iffalse ofs0047
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"onKeyUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"iterate")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         ofs0047:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyDown(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onKeyDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getScrollUp") 0
+         ifne ofs001e
+         getlocal_0
+         pushbyte -1
+         callpropvoid Qname(PrivateNamespace(null,"724"),"setupScroll") 1
+         jump ofs0036
+         ofs001e:getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getScrollDown") 0
+         ifne ofs0036
+         getlocal_0
+         pushbyte 1
+         callpropvoid Qname(PrivateNamespace(null,"724"),"setupScroll") 1
+         ofs0036:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setupScroll(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"setupScroll")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"724"),"scrollDirection")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"scrollList")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"724"),"scrollBuffer")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"iterate")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function iterate(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"iterate")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"724"),"scrollBuffer")
+         dup
+         increment_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"724"),"scrollBuffer")
+         kill 3
+         kill 2
+         getlex Qname(PrivateNamespace(null,"724"),"SCROLL_BUFFER_SIZE")
+         ifnge ofs0028
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"scrollList")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"scrollDirection")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0028:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyUp(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"onKeyUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"listenersAdded")
+         iffalse ofs0014
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         callpropvoid Qname(PrivateNamespace(null,"724"),"checkForInputTrigger") 1
+         ofs0014:getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getScrollUp") 0
+         equals
+         dup
+         iftrue ofs0036
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getScrollDown") 0
+         equals
+         ofs0036:iffalse ofs004c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"iterate")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs004c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function checkForInputTrigger(param1:uint) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"checkForInputTrigger")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"724"),"stage")
+         getproperty Qname(PackageNamespace(""),"focus")
+         pushnull
+         equals
+         dup
+         iftrue ofs001b
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getTellShortcut") 0
+         equals
+         ofs001b:iffalse ofs008e
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getCommandShortcut") 0
+         ifne ofs0038
+         getlocal_0
+         pushstring "/"
+         callpropvoid Qname(PrivateNamespace(null,"724"),"triggerOrPromptRegistration") 1
+         jump ofs008e
+         ofs0038:getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getChatShortcut") 0
+         ifne ofs0050
+         getlocal_0
+         pushstring ""
+         callpropvoid Qname(PrivateNamespace(null,"724"),"triggerOrPromptRegistration") 1
+         jump ofs008e
+         ofs0050:getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getGuildShortcut") 0
+         ifne ofs006a
+         getlocal_0
+         pushstring "/g "
+         callpropvoid Qname(PrivateNamespace(null,"724"),"triggerOrPromptRegistration") 1
+         jump ofs008e
+         ofs006a:getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shortcuts")
+         callproperty Qname(PackageNamespace(""),"getTellShortcut") 0
+         ifne ofs008e
+         getlocal_0
+         pushstring "/tell "
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tellModel")
+         callproperty Qname(PackageNamespace(""),"getNext") 0
+         add
+         pushstring " "
+         add
+         callpropvoid Qname(PrivateNamespace(null,"724"),"triggerOrPromptRegistration") 1
+         ofs008e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function triggerOrPromptRegistration(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"724"),"triggerOrPromptRegistration")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         iffalse ofs001c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showChatInput")
+         pushtrue
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         jump ofs0052
+         ofs001c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0038
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         convert_b
+         ofs0038:iffalse ofs0052
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"CHAT_REGISTER_TO_CHAT")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0052:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

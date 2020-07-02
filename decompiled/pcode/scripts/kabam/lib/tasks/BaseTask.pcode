@@ -1,0 +1,510 @@
+package kabam.lib.tasks
+{
+   import flash.errors.IllegalOperationError;
+   import org.osflash.signals.Signal;
+   
+   public class BaseTask implements Task
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _started:TaskStartedSignal;
+      
+      private var _finished:TaskResultSignal;
+      
+      private var _lastly:TaskResultSignal;
+      
+      private var _isStarted:Boolean;
+      
+      private var _isFinished:Boolean;
+      
+      private var _isOK:Boolean;
+      
+      private var _error:String;
+      
+      public function BaseTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public final function start() : void
+      {
+         trait method Qname(PackageNamespace(""),"start")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isStarted")
+         iftrue ofs002a
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"51"),"_isStarted")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_started")
+         coerce_a
+         dup
+         iffalse ofs0024
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_started")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"dispatch") 1
+         coerce_a
+         ofs0024:pop
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"startTask") 0
+         ofs002a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public final function reset() : void
+      {
+         trait method Qname(PackageNamespace(""),"reset")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isStarted")
+         iffalse ofs0025
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"51"),"_isStarted")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isFinished")
+         iftrue ofs0025
+         findpropstrict Qname(PackageNamespace("flash.errors"),"IllegalOperationError")
+         pushstring "Unable to Task.reset() when a task is ongoing"
+         constructprop Qname(PackageNamespace("flash.errors"),"IllegalOperationError") 1
+         throw
+         ofs0025:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_started")
+         coerce_a
+         dup
+         iffalse ofs0039
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_started")
+         callproperty Qname(PackageNamespace(""),"removeAll") 0
+         coerce_a
+         ofs0039:pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         coerce_a
+         dup
+         iffalse ofs004e
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         callproperty Qname(PackageNamespace(""),"removeAll") 0
+         coerce_a
+         ofs004e:pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         coerce_a
+         dup
+         iffalse ofs0063
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         callproperty Qname(PackageNamespace(""),"removeAll") 0
+         coerce_a
+         ofs0063:pop
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"onReset") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"startTask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onReset() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"onReset")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected final function completeTask(param1:Boolean, param2:String = "") : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         optional ""
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"51"),"_isOK")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"51"),"_error")
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"51"),"_isFinished")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         coerce_a
+         dup
+         iffalse ofs0028
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"dispatch") 3
+         coerce_a
+         ofs0028:pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         coerce_a
+         dup
+         iffalse ofs0040
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"dispatch") 3
+         coerce_a
+         ofs0040:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public final function get started() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"started")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_started")
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskStartedSignal")
+         dup
+         iftrue ofs001a
+         pop
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskStartedSignal")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskStartedSignal") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskStartedSignal")
+         ofs001a:dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"51"),"_started")
+         getlocal_1
+         kill 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public final function get finished() : TaskResultSignal
+      {
+         trait getter Qname(PackageNamespace(""),"finished")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         dup
+         iftrue ofs0016
+         pop
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         ofs0016:dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"51"),"_finished")
+         getlocal_1
+         kill 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public final function get lastly() : TaskResultSignal
+      {
+         trait getter Qname(PackageNamespace(""),"lastly")
+         flag FINAL
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         dup
+         iftrue ofs0016
+         pop
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskResultSignal")
+         ofs0016:dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"51"),"_lastly")
+         getlocal_1
+         kill 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isStarted() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isStarted")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isStarted")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isFinished() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isFinished")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isFinished")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isOK() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isOK")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_isOK")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get error() : String
+      {
+         trait getter Qname(PackageNamespace(""),"error")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"51"),"_error")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

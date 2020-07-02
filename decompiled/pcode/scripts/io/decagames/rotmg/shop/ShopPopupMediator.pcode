@@ -1,0 +1,1385 @@
+package io.decagames.rotmg.shop
+{
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.tooltip.TextToolTip;
+   import com.greensock.TweenMax;
+   import flash.events.TimerEvent;
+   import flash.text.TextFormatAlign;
+   import flash.utils.Timer;
+   import io.decagames.rotmg.shop.genericBox.GenericBoxTile;
+   import io.decagames.rotmg.shop.genericBox.data.GenericBoxInfo;
+   import io.decagames.rotmg.shop.mysteryBox.MysteryBoxTile;
+   import io.decagames.rotmg.shop.packages.PackageBoxTile;
+   import io.decagames.rotmg.supportCampaign.data.SupporterCampaignModel;
+   import io.decagames.rotmg.supportCampaign.tab.SupporterShopTabView;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.buttons.SliceScalingButton;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.gird.UIGrid;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.popups.header.PopupHeader;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.tabs.TabButton;
+   import io.decagames.rotmg.ui.tabs.UITab;
+   import io.decagames.rotmg.ui.tabs.UITabs;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.account.core.signals.OpenMoneyWindowSignal;
+   import kabam.rotmg.application.DynamicSettings;
+   import kabam.rotmg.core.signals.HideTooltipsSignal;
+   import kabam.rotmg.core.signals.ShowTooltipSignal;
+   import kabam.rotmg.game.model.GameModel;
+   import kabam.rotmg.mysterybox.model.MysteryBoxInfo;
+   import kabam.rotmg.mysterybox.services.GetMysteryBoxesTask;
+   import kabam.rotmg.mysterybox.services.MysteryBoxModel;
+   import kabam.rotmg.packages.model.PackageInfo;
+   import kabam.rotmg.packages.services.GetPackagesTask;
+   import kabam.rotmg.packages.services.PackageModel;
+   import kabam.rotmg.tooltips.HoverTooltipDelegate;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class ShopPopupMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:ShopPopupView;
+      
+      [Inject]
+      public var mysteryBoxModel:MysteryBoxModel;
+      
+      [Inject]
+      public var packageBoxModel:PackageModel;
+      
+      [Inject]
+      public var gameModel:GameModel;
+      
+      [Inject]
+      public var openMoneyWindow:OpenMoneyWindowSignal;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var showTooltipSignal:ShowTooltipSignal;
+      
+      [Inject]
+      public var hideTooltipSignal:HideTooltipsSignal;
+      
+      [Inject]
+      public var supporterModel:SupporterCampaignModel;
+      
+      [Inject]
+      public var getMysteryBoxesTask:GetMysteryBoxesTask;
+      
+      [Inject]
+      public var getPackagesTask:GetPackagesTask;
+      
+      private var closeButton:SliceScalingButton;
+      
+      private var addButton:SliceScalingButton;
+      
+      private var mysteryBoxesGrid:UIGrid;
+      
+      private var packageBoxesGrid:UIGrid;
+      
+      private var toolTip:TextToolTip = null;
+      
+      private var hoverTooltipDelegate:HoverTooltipDelegate;
+      
+      private var tabs:UITabs;
+      
+      private var packageTab:TabButton;
+      
+      private var updateLabel:UILabel;
+      
+      private var updateTimer:Timer;
+      
+      public function ShopPopupMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createPackageBoxTab() : UITab
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"createPackageBoxTab")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         
+         body
+         maxstack 8
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         pushstring "Packages"
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid")
+         pushshort 550
+         pushbyte 2
+         pushbyte 6
+         pushshort 384
+         pushbyte 3
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid") 6
+         initproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         pushstring "tabs_tile_decor"
+         setproperty Qname(PackageNamespace(""),"decorBitmap")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updatePackages") 0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"addContent") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createMysteryBoxTab() : UITab
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"createMysteryBoxTab")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         
+         body
+         maxstack 8
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         pushstring "Mystery Boxes"
+         pushtrue
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid")
+         pushshort 550
+         pushbyte 3
+         pushbyte 6
+         pushshort 384
+         pushbyte 3
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid") 6
+         initproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         pushstring "tabs_tile_decor"
+         setproperty Qname(PackageNamespace(""),"decorBitmap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updateMysteryBoxes") 0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"addContent") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateMysteryBoxes() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"updateMysteryBoxes")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"GenericBoxTile")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"clearGrid") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mysteryBoxModel")
+         callproperty Qname(PackageNamespace(""),"getBoxesForGrid") 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")>)
+         setlocal_1
+         pushbyte 0
+         setlocal 4
+         getlocal_1
+         coerce_a
+         setlocal 5
+         jump ofs0079
+         ofs002c:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         setlocal_2
+         getlocal_2
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0053
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"endTime")
+         not
+         dup
+         iftrue ofs0053
+         pop
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getSecondsToEnd") 0
+         pushbyte 0
+         greaterthan
+         ofs0053:iffalse ofs0079
+         getlocal_0
+         getlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox"),"MysteryBoxTile")
+         callproperty Qname(PrivateNamespace(null,"171"),"createBoxTile") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"GenericBoxTile")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateMysteryBoxes")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addGridElement") 1
+         ofs0079:hasnext2 5 4
+         iftrue ofs002c
+         kill 5
+         kill 4
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updatePackages() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"updatePackages")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"GenericBoxTile")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"clearGrid") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         callproperty Qname(PackageNamespace(""),"getTargetingBoxesForGrid") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         callproperty Qname(PackageNamespace(""),"getBoxesForGrid") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 1
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")>)
+         setlocal_1
+         pushbyte 0
+         setlocal 4
+         getlocal_1
+         coerce_a
+         setlocal 5
+         jump ofs0083
+         ofs0037:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")
+         setlocal_2
+         getlocal_2
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs005d
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"endTime")
+         not
+         dup
+         iftrue ofs005d
+         pop
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getSecondsToEnd") 0
+         pushbyte 0
+         greaterthan
+         ofs005d:iffalse ofs0083
+         getlocal_0
+         getlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages"),"PackageBoxTile")
+         callproperty Qname(PrivateNamespace(null,"171"),"createBoxTile") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"GenericBoxTile")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updatePackages")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addGridElement") 1
+         ofs0083:hasnext2 5 4
+         iftrue ofs0037
+         kill 5
+         kill 4
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createBoxTile(param1:GenericBoxInfo, param2:Class) : GenericBoxTile
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"createBoxTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox.data"),"GenericBoxInfo")
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"GenericBoxTile")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         getlocal_1
+         construct 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 7
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")
+         setlocal 4
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "close_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(PrivateNamespace(null,"171"),"closeButton")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "add_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(PrivateNamespace(null,"171"),"addButton")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs")
+         pushshort 590
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs") 1
+         initproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"supporterModel")
+         getproperty Qname(PackageNamespace(""),"hasValidData")
+         iffalse ofs0078
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab"),"SupporterShopTabView")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"supporterModel")
+         getproperty Qname(PackageNamespace(""),"campaignTitle")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"supporterModel")
+         getproperty Qname(PackageNamespace(""),"campaignDescription")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab"),"SupporterShopTabView") 2
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addTab") 2
+         ofs0078:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"171"),"createMysteryBoxTab") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"supporterModel")
+         getproperty Qname(PackageNamespace(""),"hasValidData")
+         not
+         callpropvoid Qname(PackageNamespace(""),"addTab") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"171"),"createPackageBoxTab") 0
+         callpropvoid Qname(PackageNamespace(""),"addTab") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         pushbyte 115
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         pushbyte 3
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushstring "Shop"
+         pushshort 319
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getproperty Qname(PackageNamespace(""),"defaultPopupTitle")
+         callpropvoid Qname(PackageNamespace(""),"setTitle") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushshort 132
+         callproperty Qname(PackageNamespace(""),"showCoins") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"credits_")
+         setproperty Qname(PackageNamespace(""),"coinsAmount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushshort 132
+         callproperty Qname(PackageNamespace(""),"showFame") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"fame_")
+         setproperty Qname(PackageNamespace(""),"fameAmount")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"closeButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"closeButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.header"),"PopupHeader")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         callpropvoid Qname(PackageNamespace(""),"addButton") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"addButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onAdd")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"addButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.header"),"PopupHeader")
+         getproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         callpropvoid Qname(PackageNamespace(""),"addButton") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         pushbyte 12
+         pushint 16773120
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"createTextFormat") 4
+         setproperty Qname(PackageNamespace(""),"defaultTextFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushstring "Updating shop..."
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 15
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushshort 582
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         callproperty Qname(PackageNamespace(""),"getTargetingBoxesForGrid") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         callproperty Qname(PackageNamespace(""),"getBoxesForGrid") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 1
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")>)
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "packages_indicator"
+         getproperty MultinameL([PrivateNamespace(null,"171"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1363"),PackageNamespace("io.decagames.rotmg.shop"),PackageInternalNs("io.decagames.rotmg.shop"),ProtectedNamespace("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setTime") 1
+         pushfalse
+         setlocal_3
+         pushbyte 0
+         setlocal 5
+         getlocal_1
+         coerce_a
+         setlocal 6
+         jump ofs0254
+         ofs01ee:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.packages.model"),"PackageInfo")
+         dup
+         setlocal 4
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0217
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"endTime")
+         not
+         dup
+         iftrue ofs0217
+         pop
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"getSecondsToEnd") 0
+         pushbyte 0
+         greaterthan
+         ofs0217:iffalse ofs0254
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"isNew") 0
+         convert_b
+         dup
+         iffalse ofs024e
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"startTime")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         greaterthan
+         dup
+         iftrue ofs024e
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "packages_indicator"
+         getproperty MultinameL([PrivateNamespace(null,"171"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1363"),PackageNamespace("io.decagames.rotmg.shop"),PackageInternalNs("io.decagames.rotmg.shop"),ProtectedNamespace("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         not
+         ofs024e:iffalse ofs0254
+         pushtrue
+         setlocal_3
+         ofs0254:hasnext2 6 5
+         iftrue ofs01ee
+         kill 6
+         kill 5
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         pushstring "Packages"
+         callproperty Qname(PackageNamespace(""),"getTabButtonByLabel") 1
+         initproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         iffalse ofs028e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"showIndicator")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onPackageClick")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         ofs028e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"creditsWereChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"refreshCoins")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"fameWasChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"refreshFame")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip")
+         pushint 3552822
+         pushint 10197915
+         pushstring "Buy Gold"
+         pushstring "Click to buy more Realm Gold!"
+         pushshort 200
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip") 5
+         initproperty Qname(PrivateNamespace(null,"171"),"toolTip")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate")
+         constructprop Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate") 0
+         initproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showTooltipSignal")
+         callpropvoid Qname(PackageNamespace(""),"setShowToolTipSignal") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hideTooltipSignal")
+         callpropvoid Qname(PackageNamespace(""),"setHideToolTipsSignal") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"addButton")
+         callpropvoid Qname(PackageNamespace(""),"setDisplayObject") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"toolTip")
+         setproperty Qname(PackageNamespace(""),"tooltip")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateInterval")
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateShop")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         getproperty Qname(PackageNamespace(""),"tabSelectedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onTabChange")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"supporterModel")
+         getproperty Qname(PackageNamespace(""),"hasValidData")
+         iftrue ofs0348
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updateShop") 1
+         ofs0348:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTabChange(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onTabChange")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         iffalse ofs0012
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         callpropvoid Qname(PackageNamespace(""),"reset") 0
+         ofs0012:getlocal_1
+         pushstring "Campaign"
+         ifeq ofs0025
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updateShop") 1
+         jump ofs003b
+         ofs0025:getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         ofs003b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function get updateInterval() : int
+      {
+         trait getter Qname(PrivateNamespace(null,"171"),"updateInterval")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.application"),"DynamicSettings")
+         pushstring "MysteryBoxRefresh"
+         callproperty Qname(PackageNamespace(""),"settingExists") 1
+         iffalse ofs0023
+         getlex Qname(PackageNamespace("kabam.rotmg.application"),"DynamicSettings")
+         pushstring "MysteryBoxRefresh"
+         callproperty Qname(PackageNamespace(""),"getSettingValue") 1
+         pushshort 1000
+         multiply
+         returnvalue
+         ofs0023:getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopConfiguration")
+         getproperty Qname(PackageNamespace(""),"DEFAULT_SHOP_REFRESH_COOLDOWN")
+         pushshort 1000
+         multiply
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateShop(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"updateShop")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs001f
+         ofs0006:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"tryUpdateMysteryBoxes") 0
+         jump ofs0061
+         ofs0010:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"tryUpdatePackages") 0
+         jump ofs0061
+         ofs001a:label
+         jump ofs0061
+         ofs001f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         getproperty Qname(PackageNamespace(""),"currentTabLabel")
+         setlocal_2
+         pushstring "Mystery Boxes"
+         getlocal_2
+         ifstrictne ofs0036
+         pushbyte 0
+         jump ofs0051
+         ofs0036:pushstring "Packages"
+         getlocal_2
+         ifstrictne ofs0045
+         pushbyte 1
+         jump ofs0051
+         ofs0045:jump ofs004f
+         pushbyte 2
+         jump ofs004f
+         ofs004f:pushbyte 2
+         ofs0051:kill 2
+         lookupswitch ofs001a 2 ofs0006 ofs0010 ofs001a
+         ofs0061:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function tryUpdateMysteryBoxes() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"tryUpdateMysteryBoxes")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mysteryBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onBoxUpdate")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getMysteryBoxesTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushdouble 0.6
+         pushstring "alpha"
+         pushbyte 0
+         pushstring "yoyo"
+         pushtrue
+         pushstring "repeat"
+         pushbyte -1
+         newobject 3
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function tryUpdatePackages() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"tryUpdatePackages")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onPackageUpdate")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"getPackagesTask")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushdouble 0.6
+         pushstring "alpha"
+         pushbyte 0
+         pushstring "yoyo"
+         pushtrue
+         pushstring "repeat"
+         pushbyte -1
+         newobject 3
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBoxUpdate() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onBoxUpdate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mysteryBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onBoxUpdate")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updateMysteryBoxes") 0
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPackageUpdate() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onPackageUpdate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onPackageUpdate")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"171"),"updatePackages") 0
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateLabel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPackageClick(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onPackageClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton")
+         getlocal_1
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton") 1
+         getproperty Qname(PackageNamespace(""),"hasIndicator")
+         iffalse ofs0035
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "packages_indicator"
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         setproperty MultinameL([PrivateNamespace(null,"171"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1363"),PackageNamespace("io.decagames.rotmg.shop"),PackageInternalNs("io.decagames.rotmg.shop"),ProtectedNamespace("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("io.decagames.rotmg.shop:ShopPopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton")
+         getlocal_1
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton") 1
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"showIndicator")
+         ofs0035:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"updateTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tryUpdateMysteryBoxes")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mysteryBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onBoxUpdate")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageBoxModel")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onPackageUpdate")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"addButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"creditsWereChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"refreshCoins")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"fameWasChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"refreshFame")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"tabs")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"mysteryBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageBoxesGrid")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"171"),"toolTip")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         callpropvoid Qname(PackageNamespace(""),"removeDisplayObject") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"171"),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         iffalse ofs00b7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"packageTab")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"171"),"onPackageClick")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         ofs00b7:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshCoins() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"refreshCoins")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushshort 132
+         callproperty Qname(PackageNamespace(""),"showCoins") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"credits_")
+         setproperty Qname(PackageNamespace(""),"coinsAmount")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function refreshFame() : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"refreshFame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushshort 132
+         callproperty Qname(PackageNamespace(""),"showFame") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         getproperty Qname(PackageNamespace(""),"fame_")
+         setproperty Qname(PackageNamespace(""),"fameAmount")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAdd(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onAdd")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openMoneyWindow")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"171"),"onClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

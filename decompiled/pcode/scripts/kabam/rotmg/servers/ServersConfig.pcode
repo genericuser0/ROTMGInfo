@@ -1,0 +1,261 @@
+package kabam.rotmg.servers
+{
+   import kabam.rotmg.account.core.signals.CharListDataSignal;
+   import kabam.rotmg.build.api.BuildData;
+   import kabam.rotmg.build.api.BuildEnvironment;
+   import kabam.rotmg.servers.api.ServerModel;
+   import kabam.rotmg.servers.control.ParseServerDataCommand;
+   import kabam.rotmg.servers.model.FixedIPServerModel;
+   import kabam.rotmg.servers.model.LiveServerModel;
+   import kabam.rotmg.servers.model.LocalhostServerModel;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
+   import robotlegs.bender.framework.api.IConfig;
+   
+   public class ServersConfig implements IConfig
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var injector:Injector;
+      
+      [Inject]
+      public var data:BuildData;
+      
+      [Inject]
+      public var commandMap:ISignalCommandMap;
+      
+      public function ServersConfig()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function configure() : void
+      {
+         trait method Qname(PackageNamespace(""),"configure")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         callproperty Qname(Namespace("kabam.rotmg.build.api:BuildData"),"getEnvironment") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         setlocal_1
+         jump ofs0033
+         ofs0011:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"22"),"configureFixedIP") 0
+         jump ofs0087
+         ofs001b:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"22"),"configureLocalhost") 0
+         jump ofs0087
+         ofs0025:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"22"),"configureLiveServers") 0
+         jump ofs0087
+         jump ofs0033
+         ofs0033:getlocal_1
+         setlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"FIXED_IP")
+         getlocal_2
+         ifstrictne ofs0046
+         pushbyte 0
+         jump ofs0074
+         ofs0046:getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"LOCALHOST")
+         getlocal_2
+         ifstrictne ofs0057
+         pushbyte 1
+         jump ofs0074
+         ofs0057:getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"PRIVATE")
+         getlocal_2
+         ifstrictne ofs0068
+         pushbyte 2
+         jump ofs0074
+         ofs0068:jump ofs0072
+         pushbyte 3
+         jump ofs0072
+         ofs0072:pushbyte 3
+         ofs0074:kill 2
+         lookupswitch ofs0025 3 ofs0011 ofs001b ofs001b ofs0025
+         ofs0087:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function configureLocalhost() : void
+      {
+         trait method Qname(PrivateNamespace(null,"22"),"configureLocalhost")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.api"),"ServerModel")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.model"),"LocalhostServerModel")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function configureFixedIP() : void
+      {
+         trait method Qname(PrivateNamespace(null,"22"),"configureFixedIP")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.api"),"ServerModel")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"22"),"makeFixedIPServerModel") 0
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeFixedIPServerModel() : FixedIPServerModel
+      {
+         trait method Qname(PrivateNamespace(null,"22"),"makeFixedIPServerModel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.servers.model"),"FixedIPServerModel")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.servers.model"),"FixedIPServerModel")
+         constructprop Qname(PackageNamespace("kabam.rotmg.servers.model"),"FixedIPServerModel") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         callproperty Qname(Namespace("kabam.rotmg.build.api:BuildData"),"getEnvironmentString") 0
+         callproperty Qname(PackageNamespace(""),"setIP") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function configureLiveServers() : void
+      {
+         trait method Qname(PrivateNamespace(null,"22"),"configureLiveServers")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.api"),"ServerModel")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.model"),"LiveServerModel")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"CharListDataSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.servers.control"),"ParseServerDataCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

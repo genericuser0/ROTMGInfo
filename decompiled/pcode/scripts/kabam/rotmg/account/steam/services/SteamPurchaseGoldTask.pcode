@@ -1,0 +1,423 @@
+package kabam.rotmg.account.steam.services
+{
+   import com.company.assembleegameclient.ui.dialogs.DebugDialog;
+   import com.company.assembleegameclient.util.offer.Offer;
+   import flash.utils.setTimeout;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.PurchaseGoldTask;
+   import kabam.rotmg.account.steam.SteamApi;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.signals.MoneyFrameEnableCancelSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.external.command.RequestPlayerCreditsSignal;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class SteamPurchaseGoldTask extends BaseTask implements PurchaseGoldTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var steam:SteamApi;
+      
+      [Inject]
+      public var offer:Offer;
+      
+      [Inject]
+      public var paymentMethod:String;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var moneyFrameEnableCancelSignal:MoneyFrameEnableCancelSignal;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      public var first:AppEngineClient;
+      
+      [Inject]
+      public var second:AppEngineClient;
+      
+      [Inject]
+      public var requestPlayerCredits:RequestPlayerCreditsSignal;
+      
+      public function SteamPurchaseGoldTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.steam.services:SteamPurchaseGoldTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steam")
+         getproperty Qname(Namespace("kabam.rotmg.account.steam:SteamApi"),"isOverlayEnabled")
+         iftrue ofs0026
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "isOverlayEnabled false!"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         pushstring "Can’t process purchase, because Steam Overlay is disabled for the RotMG! To enabled it go to you games library, right click on the \"Realm of the Mad God\" and select \"Properties\" from the drop-down menu. On the \"Properties\" popup, select \"GENERAL\" tab and select option \"Enable the Steam Overlay while in-game\". Next, restart the game and try again."
+         callpropvoid Qname(PrivateNamespace(null,"840"),"reportError") 1
+         jump ofs007e
+         ofs0026:getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "SteamPurchaseGoldTask startTask"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steam")
+         getproperty Qname(Namespace("kabam.rotmg.account.steam:SteamApi"),"paymentAuthorized")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"840"),"onPaymentAuthorized")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"first")
+         pushbyte 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"first")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"840"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"first")
+         pushstring "/steamworks/purchaseOffer"
+         pushstring "steamid"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steam")
+         callproperty Qname(Namespace("kabam.rotmg.account.steam:SteamApi"),"getSteamId") 0
+         pushstring "data"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"data_")
+         newobject 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs007e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"840"),"onPurchaseOfferComplete") 0
+         jump ofs0016
+         ofs0010:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"840"),"reportError") 1
+         ofs0016:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPurchaseOfferComplete() : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"onPurchaseOfferComplete")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_1
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "SteamPurchaseGoldTask purchaseOffer confirmed by AppEngine"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         findpropstrict Qname(PackageNamespace("flash.utils"),"setTimeout")
+         newfunction 13915
+         pushshort 1100
+         callpropvoid Qname(PackageNamespace("flash.utils"),"setTimeout") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPaymentAuthorized(param1:uint, param2:String, param3:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"onPaymentAuthorized")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         pushfalse
+         ifne ofs0048
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "SteamPurchaseGoldTask payment canceled by user"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"second")
+         pushbyte 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"second")
+         pushstring "/steamworks/finalizePurchase"
+         pushstring "appid"
+         getlocal_1
+         pushstring "orderid"
+         getlocal_2
+         pushstring "authorized"
+         pushbyte 0
+         newobject 3
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         jump ofs0098
+         ofs0048:getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "SteamPurchaseGoldTask payment authorized by Steam"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"second")
+         pushbyte 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"second")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"840"),"onAuthorized")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"second")
+         pushstring "/steamworks/finalizePurchase"
+         pushstring "appid"
+         getlocal_1
+         pushstring "orderid"
+         getlocal_2
+         pushstring "authorized"
+         getlocal_3
+         iffalse ofs008f
+         pushbyte 1
+         coerce_a
+         jump ofs0092
+         ofs008f:pushbyte 0
+         coerce_a
+         ofs0092:newobject 3
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs0098:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAuthorized(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"onAuthorized")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"840"),"onPurchaseFinalizeComplete") 0
+         jump ofs0016
+         ofs0010:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"840"),"reportError") 1
+         ofs0016:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPurchaseFinalizeComplete() : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"onPurchaseFinalizeComplete")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "SteamPurchaseGoldTask purchase finalized"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"requestPlayerCredits")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function reportError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"840"),"reportError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "Error: "
+         getlocal_1
+         add
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "finalize error {0}"
+         getlocal_2
+         newarray 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"DebugDialog")
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"DebugDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushfalse
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,896 @@
+package kabam.rotmg.ui.view
+{
+   import com.company.assembleegameclient.game.AGameSprite;
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.ui.TradePanel;
+   import com.company.assembleegameclient.ui.panels.InteractPanel;
+   import com.company.assembleegameclient.ui.panels.itemgrids.EquippedGrid;
+   import com.company.util.GraphicsUtil;
+   import com.company.util.SpriteUtil;
+   import flash.display.GraphicsPath;
+   import flash.display.GraphicsSolidFill;
+   import flash.display.IGraphicsData;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.geom.Point;
+   import io.decagames.rotmg.classes.NewClassUnlockNotification;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.game.view.components.TabStripView;
+   import kabam.rotmg.messaging.impl.incoming.TradeAccepted;
+   import kabam.rotmg.messaging.impl.incoming.TradeChanged;
+   import kabam.rotmg.messaging.impl.incoming.TradeStart;
+   import kabam.rotmg.minimap.view.MiniMapImp;
+   
+   public class HUDView extends Sprite implements UnFocusAble
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const BG_POSITION:Point;
+      
+      private const MAP_POSITION:Point;
+      
+      private const CHARACTER_DETAIL_PANEL_POSITION:Point;
+      
+      private const STAT_METERS_POSITION:Point;
+      
+      private const EQUIPMENT_INVENTORY_POSITION:Point;
+      
+      private const TAB_STRIP_POSITION:Point;
+      
+      private const INTERACT_PANEL_POSITION:Point;
+      
+      private var background:CharacterWindowBackground;
+      
+      private var miniMap:MiniMapImp;
+      
+      private var newClassUnlockNotification:NewClassUnlockNotification;
+      
+      private var equippedGrid:EquippedGrid;
+      
+      private var statMeters:StatMetersView;
+      
+      private var characterDetails:CharacterDetailsView;
+      
+      private var equippedGridBG:Sprite;
+      
+      private var player:Player;
+      
+      public var tabStrip:TabStripView;
+      
+      public var interactPanel:InteractPanel;
+      
+      public var tradePanel:TradePanel;
+      
+      public function HUDView()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 0
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"BG_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"MAP_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 0
+         pushshort 198
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"CHARACTER_DETAIL_PANEL_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 12
+         pushshort 230
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"STAT_METERS_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 14
+         pushshort 304
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"EQUIPMENT_INVENTORY_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 7
+         pushshort 346
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"TAB_STRIP_POSITION")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         pushbyte 0
+         pushshort 500
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"INTERACT_PANEL_POSITION")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"createAssets") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"addAssets") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"positionAssets") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createAssets() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"createAssets")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterWindowBackground") 0
+         initproperty Qname(PrivateNamespace(null,"195"),"background")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.minimap.view"),"MiniMapImp")
+         pushshort 192
+         pushshort 192
+         constructprop Qname(PackageNamespace("kabam.rotmg.minimap.view"),"MiniMapImp") 2
+         initproperty Qname(PrivateNamespace(null,"195"),"miniMap")
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"SeasonalEventModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         getproperty Multiname("isChallenger",[PrivateNamespace(null,"195"),PackageNamespace("kabam.rotmg.ui.view"),PackageNamespace(""),PrivateNamespace(null,"1370"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         iftrue ofs0043
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.classes"),"NewClassUnlockNotification")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.classes"),"NewClassUnlockNotification") 0
+         initproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         ofs0043:getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view.components"),"TabStripView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view.components"),"TabStripView") 0
+         initproperty Qname(PackageNamespace(""),"tabStrip")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterDetailsView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterDetailsView") 0
+         initproperty Qname(PrivateNamespace(null,"195"),"characterDetails")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"StatMetersView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"StatMetersView") 0
+         initproperty Qname(PrivateNamespace(null,"195"),"statMeters")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addAssets() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"addAssets")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"background")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"miniMap")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         iffalse ofs002b
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs002b:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tabStrip")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"characterDetails")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"statMeters")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionAssets() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"positionAssets")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"BG_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"BG_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"miniMap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"MAP_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"miniMap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"MAP_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         iffalse ofs005e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"MAP_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"newClassUnlockNotification")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"MAP_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs005e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"tabStrip")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"TAB_STRIP_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tabStrip")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"TAB_STRIP_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"characterDetails")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"CHARACTER_DETAIL_PANEL_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"characterDetails")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"CHARACTER_DETAIL_PANEL_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"statMeters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"STAT_METERS_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"statMeters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"STAT_METERS_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setPlayerDependentAssets(param1:GameSprite) : void
+      {
+         trait method Qname(PackageNamespace(""),"setPlayerDependentAssets")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         initproperty Qname(PrivateNamespace(null,"195"),"player")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"createEquippedGridBackground") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"createEquippedGrid") 0
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"195"),"createInteractPanel") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createInteractPanel(param1:GameSprite) : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"createInteractPanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"InteractPanel")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"player")
+         pushshort 200
+         pushbyte 100
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"InteractPanel") 4
+         initproperty Qname(PackageNamespace(""),"interactPanel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"INTERACT_PANEL_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"INTERACT_PANEL_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createEquippedGrid() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"createEquippedGrid")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids"),"EquippedGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"player")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"player")
+         getproperty Qname(PackageNamespace(""),"slotTypes_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"player")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids"),"EquippedGrid") 3
+         initproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"EQUIPMENT_INVENTORY_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"EQUIPMENT_INVENTORY_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createEquippedGridBackground() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"createEquippedGridBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 10
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 6776679
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         coerce Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"195"),PackageNamespace("kabam.rotmg.ui.view"),PackageNamespace(""),PrivateNamespace(null,"1370"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"195"),PackageNamespace("kabam.rotmg.ui.view"),PackageNamespace(""),PrivateNamespace(null,"1370"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         coerce Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         setlocal_2
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"195"),PackageNamespace("kabam.rotmg.ui.view"),PackageNamespace(""),PrivateNamespace(null,"1370"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("kabam.rotmg.ui.view:HUDView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 3
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_1
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_2
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("flash.display"),"IGraphicsData")>)
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte 0
+         dup
+         pushshort 178
+         pushbyte 46
+         pushbyte 6
+         pushbyte 1
+         dup
+         dup
+         pushbyte 1
+         newarray 4
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"EQUIPMENT_INVENTORY_POSITION")
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 3
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"EQUIPMENT_INVENTORY_POSITION")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 3
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function draw() : void
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         iffalse ofs0012
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         ofs0012:getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         iffalse ofs0022
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         ofs0022:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function startTrade(param1:AGameSprite, param2:TradeStart) : void
+      {
+         trait method Qname(PackageNamespace(""),"startTrade")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"AGameSprite")
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"TradeStart")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         iftrue ofs0044
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"TradePanel")
+         getlocal_1
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"TradePanel") 2
+         initproperty Qname(PackageNamespace(""),"tradePanel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         pushshort 200
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CANCEL")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"onTradeCancel")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"195"),"setNonTradePanelAssetsVisible") 1
+         ofs0044:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setNonTradePanelAssetsVisible(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"setNonTradePanelAssetsVisible")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"characterDetails")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"statMeters")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tabStrip")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGrid")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"equippedGridBG")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"interactPanel")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tradeDone() : void
+      {
+         trait method Qname(PackageNamespace(""),"tradeDone")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"removeTradePanel") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tradeChanged(param1:TradeChanged) : void
+      {
+         trait method Qname(PackageNamespace(""),"tradeChanged")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"TradeChanged")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         iffalse ofs0016
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"offer_")
+         callpropvoid Qname(PackageNamespace(""),"setYourOffer") 1
+         ofs0016:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function tradeAccepted(param1:TradeAccepted) : void
+      {
+         trait method Qname(PackageNamespace(""),"tradeAccepted")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"TradeAccepted")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         iffalse ofs001a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"myOffer_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"yourOffer_")
+         callpropvoid Qname(PackageNamespace(""),"youAccepted") 2
+         ofs001a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTradeCancel(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"onTradeCancel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"195"),"removeTradePanel") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeTradePanel() : void
+      {
+         trait method Qname(PrivateNamespace(null,"195"),"removeTradePanel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         iffalse ofs0034
+         getlex Qname(PackageNamespace("com.company.util"),"SpriteUtil")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         callpropvoid Qname(PackageNamespace(""),"safeRemoveChild") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tradePanel")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CANCEL")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"195"),"onTradeCancel")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushnull
+         initproperty Qname(PackageNamespace(""),"tradePanel")
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"195"),"setNonTradePanelAssetsVisible") 1
+         ofs0034:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

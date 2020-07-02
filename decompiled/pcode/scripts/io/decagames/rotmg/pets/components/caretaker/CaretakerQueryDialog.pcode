@@ -1,0 +1,697 @@
+package io.decagames.rotmg.pets.components.caretaker
+{
+   import com.company.assembleegameclient.ui.DeprecatedTextButton;
+   import flash.display.BitmapData;
+   import flash.display.DisplayObjectContainer;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.text.TextFieldAutoSize;
+   import io.decagames.rotmg.pets.utils.PetsViewAssetFactory;
+   import kabam.rotmg.pets.view.components.PopupWindowBackground;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.view.SignalWaiter;
+   import kabam.rotmg.util.graphics.ButtonLayoutHelper;
+   import org.osflash.signals.Signal;
+   import org.osflash.signals.natives.NativeMappedSignal;
+   
+   public class CaretakerQueryDialog extends Sprite
+   {
+      
+      public static const WIDTH:int = 480;
+      
+      public static const HEIGHT:int = 428;
+      
+      public static const TITLE:String = "CaretakerQueryDialog.title";
+      
+      public static const QUERY:String = "CaretakerQueryDialog.query";
+      
+      public static const CLOSE:String = "Close.text";
+      
+      public static const BACK:String = "Screens.back";
+      
+      public static const CATEGORIES:Array;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 10
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 480
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         findproperty Qname(PackageNamespace(""),"HEIGHT")
+         pushshort 428
+         initproperty Qname(PackageNamespace(""),"HEIGHT")
+         findproperty Qname(PackageNamespace(""),"TITLE")
+         pushstring "CaretakerQueryDialog.title"
+         initproperty Qname(PackageNamespace(""),"TITLE")
+         findproperty Qname(PackageNamespace(""),"QUERY")
+         pushstring "CaretakerQueryDialog.query"
+         initproperty Qname(PackageNamespace(""),"QUERY")
+         findproperty Qname(PackageNamespace(""),"CLOSE")
+         pushstring "Close.text"
+         initproperty Qname(PackageNamespace(""),"CLOSE")
+         findproperty Qname(PackageNamespace(""),"BACK")
+         pushstring "Screens.back"
+         initproperty Qname(PackageNamespace(""),"BACK")
+         findproperty Qname(PackageNamespace(""),"CATEGORIES")
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_petYard"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_petYard"
+         newobject 2
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_pets"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_pets"
+         newobject 2
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_abilities"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_abilities"
+         newobject 2
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_feedingPets"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_feedingPets"
+         newobject 2
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_fusingPets"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_fusingPets"
+         newobject 2
+         pushstring "category"
+         pushstring "CaretakerQueryDialog.category_evolution"
+         pushstring "info"
+         pushstring "CaretakerQueryDialog.info_evolution"
+         newobject 2
+         newarray 6
+         initproperty Qname(PackageNamespace(""),"CATEGORIES")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const layoutWaiter:SignalWaiter;
+      
+      private const container:DisplayObjectContainer;
+      
+      private const background:PopupWindowBackground;
+      
+      private const caretaker:CaretakerQueryDialogCaretaker;
+      
+      private const title:TextFieldDisplayConcrete;
+      
+      private const categories:CaretakerQueryDialogCategoryList;
+      
+      private const backButton:DeprecatedTextButton;
+      
+      private const closeButton:DeprecatedTextButton;
+      
+      public const closed:Signal;
+      
+      public function CaretakerQueryDialog()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeDeferredLayout") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"layoutWaiter")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeContainer") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeBackground") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"background")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeCaretaker") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"caretaker")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeTitle") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"title")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeCategoryList") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"categories")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeBackButton") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"backButton")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"306"),"makeCloseButton") 0
+         initproperty Qname(PrivateNamespace(null,"306"),"closeButton")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"closeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal") 2
+         initproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeDeferredLayout() : SignalWaiter
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeDeferredLayout")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"onLayout")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onLayout() : void
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"onLayout")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.graphics"),"ButtonLayoutHelper")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.graphics"),"ButtonLayoutHelper") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.util.graphics"),"ButtonLayoutHelper")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"layout") 2
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"backButton")
+         callpropvoid Qname(PackageNamespace(""),"layout") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeContainer() : DisplayObjectContainer
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_1
+         getlocal_1
+         pushshort 800
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushshort 600
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeBackground() : PopupWindowBackground
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         getproperty Qname(PackageNamespace(""),"HORIZONTAL_DIVISION")
+         pushbyte 34
+         callpropvoid Qname(PackageNamespace(""),"divide") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCaretaker() : CaretakerQueryDialogCaretaker
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeCaretaker")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCaretaker")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCaretaker")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCaretaker")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCaretaker") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCaretaker")
+         setlocal_1
+         getlocal_1
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTitle() : TextFieldDisplayConcrete
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeTitle")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         pushint 16777215
+         pushbyte 18
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"returnTextfield") 3
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace(""),"TITLE")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 24
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeBackButton() : DeprecatedTextButton
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeBackButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlex Qname(PackageNamespace(""),"BACK")
+         pushbyte 80
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 3
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         setlocal_1
+         getlocal_1
+         pushshort 382
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"onBack")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"layoutWaiter")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBack(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"onBack")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"caretaker")
+         callpropvoid Qname(PackageNamespace(""),"showSpeech") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"categories")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"closeButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"backButton")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCloseButton() : DeprecatedTextButton
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeCloseButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlex Qname(PackageNamespace(""),"CLOSE")
+         pushbyte 110
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 3
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         setlocal_1
+         getlocal_1
+         pushshort 382
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"layoutWaiter")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCategoryList() : CaretakerQueryDialogCategoryList
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"makeCategoryList")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCategoryList")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCategoryList")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCategoryList")
+         getlex Qname(PackageNamespace(""),"CATEGORIES")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCategoryList") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.caretaker"),"CaretakerQueryDialogCategoryList")
+         setlocal_1
+         getlocal_1
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 110
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"selected")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"onCategorySelected")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"container")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"layoutWaiter")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"ready")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCategorySelected(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"306"),"onCategorySelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"categories")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"closeButton")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"backButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"caretaker")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"showDetail") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setCaretakerIcon(param1:BitmapData) : void
+      {
+         trait method Qname(PackageNamespace(""),"setCaretakerIcon")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"BitmapData")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"306"),"caretaker")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setCaretakerIcon") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

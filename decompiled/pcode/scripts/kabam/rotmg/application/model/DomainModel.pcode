@@ -1,0 +1,319 @@
+package kabam.rotmg.application.model
+{
+   import flash.net.LocalConnection;
+   import flash.system.Security;
+   
+   public class DomainModel
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const LOCALHOST:String = "localhost";
+      
+      private const PRODUCTION_WHITELIST:Array;
+      
+      private const TESTING_WHITELIST:Array;
+      
+      private const TESTING2_WHITELIST:Array;
+      
+      private const TRANSLATION_WHITELIST:Array;
+      
+      private const WHITELIST:Array;
+      
+      [Inject]
+      public var client:PlatformModel;
+      
+      private var localDomain:String;
+      
+      public function DomainModel()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "www.realmofthemadgod.com"
+         pushstring "realmofthemadgodhrd.appspot.com"
+         pushstring "realmofthemadgod.appspot.com"
+         newarray 3
+         initproperty Qname(PrivateNamespace(null,"384"),"PRODUCTION_WHITELIST")
+         getlocal_0
+         pushstring "test.realmofthemadgod.com"
+         pushstring "testing.realmofthemadgod.com"
+         pushstring "rotmgtesting.appspot.com"
+         pushstring "rotmghrdtesting.appspot.com"
+         newarray 4
+         initproperty Qname(PrivateNamespace(null,"384"),"TESTING_WHITELIST")
+         getlocal_0
+         pushstring "realmtesting2.appspot.com"
+         pushstring "test2.realmofthemadgod.com"
+         newarray 2
+         initproperty Qname(PrivateNamespace(null,"384"),"TESTING2_WHITELIST")
+         getlocal_0
+         pushstring "xlate.kabam.com"
+         newarray 1
+         initproperty Qname(PrivateNamespace(null,"384"),"TRANSLATION_WHITELIST")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"PRODUCTION_WHITELIST")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"TESTING_WHITELIST")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"TRANSLATION_WHITELIST")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"TESTING2_WHITELIST")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 1
+         initproperty Qname(PrivateNamespace(null,"384"),"WHITELIST")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function applyDomainSecurity() : void
+      {
+         trait method Qname(PackageNamespace(""),"applyDomainSecurity")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"WHITELIST")
+         coerce_a
+         setlocal_3
+         jump ofs0022
+         ofs0012:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce_s
+         setlocal_1
+         getlex Qname(PackageNamespace("flash.system"),"Security")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"allowDomain") 1
+         ofs0022:hasnext2 3 2
+         iftrue ofs0012
+         kill 3
+         kill 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isLocalDomainValid() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isLocalDomainValid")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         callproperty Qname(PackageNamespace(""),"isDesktop") 0
+         convert_b
+         dup
+         iftrue ofs0017
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"384"),"isLocalDomainInWhiteList") 0
+         convert_b
+         ofs0017:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isLocalDomainProduction() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isLocalDomainProduction")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"384"),"getLocalDomain") 0
+         coerce_s
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"PRODUCTION_WHITELIST")
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isLocalDomainInWhiteList() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"384"),"isLocalDomainInWhiteList")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 6
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_3
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"384"),"getLocalDomain") 0
+         coerce_s
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"LOCALHOST")
+         equals
+         setlocal_2
+         pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"WHITELIST")
+         coerce_a
+         setlocal 5
+         jump ofs0037
+         ofs0022:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce_s
+         setlocal_3
+         getlocal_2
+         convert_b
+         dup
+         iftrue ofs0035
+         pop
+         getlocal_1
+         getlocal_3
+         equals
+         ofs0035:convert_b
+         setlocal_2
+         ofs0037:hasnext2 5 4
+         iftrue ofs0022
+         kill 5
+         kill 4
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getLocalDomain() : String
+      {
+         trait method Qname(PrivateNamespace(null,"384"),"getLocalDomain")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"384"),"localDomain")
+         coerce_s
+         dup
+         iftrue ofs0019
+         pop
+         findpropstrict Qname(PackageNamespace("flash.net"),"LocalConnection")
+         constructprop Qname(PackageNamespace("flash.net"),"LocalConnection") 0
+         getproperty Qname(PackageNamespace(""),"domain")
+         coerce_s
+         ofs0019:dup
+         setlocal_1
+         initproperty Qname(PrivateNamespace(null,"384"),"localDomain")
+         getlocal_1
+         kill 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

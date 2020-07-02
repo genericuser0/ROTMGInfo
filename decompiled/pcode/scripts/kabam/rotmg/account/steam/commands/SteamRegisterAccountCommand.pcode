@@ -1,0 +1,189 @@
+package kabam.rotmg.account.steam.commands
+{
+   import kabam.lib.tasks.BranchingTask;
+   import kabam.lib.tasks.DispatchSignalTask;
+   import kabam.lib.tasks.Task;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.RegisterAccountTask;
+   import kabam.rotmg.account.core.signals.UpdateAccountInfoSignal;
+   import kabam.rotmg.account.steam.view.SteamAccountDetailDialog;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.core.signals.TaskErrorSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   
+   public class SteamRegisterAccountCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var data:AccountData;
+      
+      [Inject]
+      public var task:RegisterAccountTask;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      [Inject]
+      public var update:UpdateAccountInfoSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var taskError:TaskErrorSignal;
+      
+      public function SteamRegisterAccountCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"844"),"onSuccess") 0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"844"),"onFailure") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask") 3
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSuccess() : TaskSequence
+      {
+         trait method Qname(PrivateNamespace(null,"844"),"onSuccess")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"update")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.steam.view"),"SteamAccountDetailDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.steam.view"),"SteamAccountDetailDialog") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFailure() : Task
+      {
+         trait method Qname(PrivateNamespace(null,"844"),"onFailure")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"taskError")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

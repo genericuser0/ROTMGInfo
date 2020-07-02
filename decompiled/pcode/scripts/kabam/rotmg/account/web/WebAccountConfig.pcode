@@ -1,0 +1,401 @@
+package kabam.rotmg.account.web
+{
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.model.MoneyConfig;
+   import kabam.rotmg.account.core.services.ChangePasswordTask;
+   import kabam.rotmg.account.core.services.LoadAccountTask;
+   import kabam.rotmg.account.core.services.LoginTask;
+   import kabam.rotmg.account.core.services.MakePaymentTask;
+   import kabam.rotmg.account.core.services.PurchaseGoldTask;
+   import kabam.rotmg.account.core.services.RegisterAccountTask;
+   import kabam.rotmg.account.core.services.SendConfirmEmailAddressTask;
+   import kabam.rotmg.account.core.services.SendPasswordReminderTask;
+   import kabam.rotmg.account.core.signals.CharListDataSignal;
+   import kabam.rotmg.account.core.signals.LoginSignal;
+   import kabam.rotmg.account.core.signals.LogoutSignal;
+   import kabam.rotmg.account.core.signals.OpenAccountInfoSignal;
+   import kabam.rotmg.account.core.signals.OpenVerifyEmailSignal;
+   import kabam.rotmg.account.core.signals.RegisterSignal;
+   import kabam.rotmg.account.core.signals.SendPasswordReminderSignal;
+   import kabam.rotmg.account.web.commands.WebChangePasswordCommand;
+   import kabam.rotmg.account.web.commands.WebLoginCommand;
+   import kabam.rotmg.account.web.commands.WebLogoutCommand;
+   import kabam.rotmg.account.web.commands.WebOpenAccountInfoCommand;
+   import kabam.rotmg.account.web.commands.WebOpenVerifyEmailCommand;
+   import kabam.rotmg.account.web.commands.WebRegisterAccountCommand;
+   import kabam.rotmg.account.web.commands.WebSendPasswordReminderCommand;
+   import kabam.rotmg.account.web.commands.WebSetPaymentDataCommand;
+   import kabam.rotmg.account.web.model.WebMoneyConfig;
+   import kabam.rotmg.account.web.services.WebChangePasswordTask;
+   import kabam.rotmg.account.web.services.WebLoadAccountTask;
+   import kabam.rotmg.account.web.services.WebLoginTask;
+   import kabam.rotmg.account.web.services.WebMakePaymentTask;
+   import kabam.rotmg.account.web.services.WebPurchaseGoldTask;
+   import kabam.rotmg.account.web.services.WebRegisterAccountTask;
+   import kabam.rotmg.account.web.services.WebSendPasswordReminderTask;
+   import kabam.rotmg.account.web.services.WebSendVerificationEmailTask;
+   import kabam.rotmg.account.web.signals.WebChangePasswordSignal;
+   import kabam.rotmg.account.web.view.WebAccountDetailDialog;
+   import kabam.rotmg.account.web.view.WebAccountDetailMediator;
+   import kabam.rotmg.account.web.view.WebAccountInfoMediator;
+   import kabam.rotmg.account.web.view.WebAccountInfoView;
+   import kabam.rotmg.account.web.view.WebChangePasswordDialog;
+   import kabam.rotmg.account.web.view.WebChangePasswordDialogForced;
+   import kabam.rotmg.account.web.view.WebChangePasswordMediator;
+   import kabam.rotmg.account.web.view.WebChangePasswordMediatorForced;
+   import kabam.rotmg.account.web.view.WebForgotPasswordDialog;
+   import kabam.rotmg.account.web.view.WebForgotPasswordMediator;
+   import kabam.rotmg.account.web.view.WebLoginDialog;
+   import kabam.rotmg.account.web.view.WebLoginDialogForced;
+   import kabam.rotmg.account.web.view.WebLoginMediator;
+   import kabam.rotmg.account.web.view.WebLoginMediatorForced;
+   import kabam.rotmg.account.web.view.WebRegisterDialog;
+   import kabam.rotmg.account.web.view.WebRegisterMediator;
+   import kabam.rotmg.account.web.view.WebVerifyEmailDialog;
+   import kabam.rotmg.account.web.view.WebVerifyEmailMediator;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
+   import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
+   import robotlegs.bender.framework.api.IConfig;
+   
+   public class WebAccountConfig implements IConfig
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var injector:Injector;
+      
+      [Inject]
+      public var mediatorMap:IMediatorMap;
+      
+      [Inject]
+      public var commandMap:ISignalCommandMap;
+      
+      public function WebAccountConfig()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function configure() : void
+      {
+         trait method Qname(PackageNamespace(""),"configure")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapModel") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapCommands") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapMediators") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapTasks") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function mapModel() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapModel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.model"),"MoneyConfig")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.model"),"WebMoneyConfig")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function mapCommands() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapCommands")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"OpenAccountInfoSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebOpenAccountInfoCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"OpenVerifyEmailSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebOpenVerifyEmailCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"LoginSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebLoginCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"LogoutSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebLogoutCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.signals"),"WebChangePasswordSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebChangePasswordCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"SendPasswordReminderSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebSendPasswordReminderCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"RegisterSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebRegisterAccountCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"CharListDataSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.commands"),"WebSetPaymentDataCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function mapMediators() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapMediators")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountInfoView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountInfoMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebChangePasswordDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebChangePasswordMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebForgotPasswordDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebForgotPasswordMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountDetailDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebAccountDetailMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebVerifyEmailDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebVerifyEmailMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebRegisterDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebRegisterMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialogForced")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginMediatorForced")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebChangePasswordDialogForced")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebChangePasswordMediatorForced")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function mapTasks() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web:WebAccountConfig"),"mapTasks")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"ChangePasswordTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebChangePasswordTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"LoadAccountTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebLoadAccountTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"LoginTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebLoginTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"MakePaymentTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebMakePaymentTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"PurchaseGoldTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebPurchaseGoldTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"RegisterAccountTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebRegisterAccountTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"SendPasswordReminderTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebSendPasswordReminderTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"SendConfirmEmailAddressTask")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web.services"),"WebSendVerificationEmailTask")
+         callpropvoid Qname(PackageNamespace(""),"toType") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,225 @@
+package org.swiftsuspenders.dependencyproviders
+{
+   import flash.utils.Dictionary;
+   import flash.utils.getQualifiedClassName;
+   import org.swiftsuspenders.Injector;
+   import org.swiftsuspenders.InjectorError;
+   import org.swiftsuspenders.typedescriptions.PreDestroyInjectionPoint;
+   import org.swiftsuspenders.typedescriptions.TypeDescription;
+   import org.swiftsuspenders.utils.SsInternal;
+   
+   public class SingletonProvider implements DependencyProvider
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _responseType:Class;
+      
+      private var _creatingInjector:Injector;
+      
+      private var _response:Object;
+      
+      private var _destroyed:Boolean;
+      
+      public function SingletonProvider(param1:Class, param2:Injector)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         param Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"917"),"_responseType")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"917"),"_creatingInjector")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function apply(param1:Class, param2:Injector, param3:Dictionary) : Object
+      {
+         trait method Qname(PackageNamespace(""),"apply")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         param Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         param Qname(PackageNamespace("flash.utils"),"Dictionary")
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_response")
+         coerce Qname(PackageNamespace(""),"Object")
+         dup
+         iftrue ofs001a
+         pop
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_creatingInjector")
+         callproperty Qname(PrivateNamespace(null,"917"),"createResponse") 1
+         coerce Qname(PackageNamespace(""),"Object")
+         ofs001a:dup
+         setlocal 4
+         initproperty Qname(PrivateNamespace(null,"917"),"_response")
+         getlocal 4
+         kill 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createResponse(param1:Injector) : Object
+      {
+         trait method Qname(PrivateNamespace(null,"917"),"createResponse")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_destroyed")
+         iffalse ofs0024
+         findpropstrict Qname(PackageNamespace("org.swiftsuspenders"),"InjectorError")
+         pushstring "Forbidden usage of unmapped singleton provider for type "
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getQualifiedClassName")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_responseType")
+         callproperty Qname(PackageNamespace("flash.utils"),"getQualifiedClassName") 1
+         add
+         constructprop Qname(PackageNamespace("org.swiftsuspenders"),"InjectorError") 1
+         throw
+         ofs0024:getlocal_1
+         dup
+         setlocal_2
+         getlex Qname(PackageNamespace("org.swiftsuspenders.utils"),"SsInternal")
+         coerce Qname(PackageNamespace(""),"Namespace")
+         getproperty RTQname("instantiateUnmapped")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_responseType")
+         call 1
+         kill 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"917"),"_destroyed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_response")
+         iftrue ofs0010
+         returnvoid
+         ofs0010:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_creatingInjector")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_responseType")
+         callproperty Qname(PackageNamespace(""),"getTypeDescription") 1
+         coerce Qname(PackageNamespace("org.swiftsuspenders.typedescriptions"),"TypeDescription")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"preDestroyMethods")
+         coerce Qname(PackageNamespace("org.swiftsuspenders.typedescriptions"),"PreDestroyInjectionPoint")
+         setlocal_2
+         jump ofs004c
+         ofs002b:label
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_response")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_responseType")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"917"),"_creatingInjector")
+         callpropvoid Qname(PackageNamespace(""),"applyInjection") 3
+         findpropstrict Qname(PackageNamespace("org.swiftsuspenders.typedescriptions"),"PreDestroyInjectionPoint")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"next")
+         callproperty Qname(PackageNamespace("org.swiftsuspenders.typedescriptions"),"PreDestroyInjectionPoint") 1
+         coerce Qname(PackageNamespace("org.swiftsuspenders.typedescriptions"),"PreDestroyInjectionPoint")
+         setlocal_2
+         ofs004c:getlocal_2
+         iftrue ofs002b
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"917"),"_response")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

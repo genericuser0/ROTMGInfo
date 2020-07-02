@@ -1,0 +1,770 @@
+package kabam.rotmg.account.web.view
+{
+   import com.company.assembleegameclient.screens.TitleMenuOption;
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFieldAutoSize;
+   import kabam.rotmg.account.core.view.AccountInfoView;
+   import kabam.rotmg.build.api.BuildData;
+   import kabam.rotmg.build.api.BuildEnvironment;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   import org.osflash.signals.Signal;
+   import org.osflash.signals.natives.NativeMappedSignal;
+   
+   public class WebAccountInfoView extends Sprite implements AccountInfoView
+   {
+      
+      private static const FONT_SIZE:int = 18;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         pushbyte 18
+         initproperty Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _login:Signal;
+      
+      private var _register:Signal;
+      
+      private var _reset:Signal;
+      
+      private var userName:String = "";
+      
+      private var isRegistered:Boolean;
+      
+      private var accountText:TextFieldDisplayConcrete;
+      
+      private var registerButton:TitleMenuOption;
+      
+      private var loginButton:TitleMenuOption;
+      
+      private var resetButton:TitleMenuOption;
+      
+      public function WebAccountInfoView()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeUIElements") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeSignals") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get login() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"login")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"_login")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get register() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"register")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"_register")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get reset() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"reset")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"_reset")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeUIElements() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeUIElements")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeAccountText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeLoginButton") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeRegisterButton") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"makeResetButton") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSignals() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeSignals")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal") 2
+         initproperty Qname(PrivateNamespace(null,"632"),"_login")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"registerButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal") 2
+         initproperty Qname(PrivateNamespace(null,"632"),"_register")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"resetButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeMappedSignal") 2
+         initproperty Qname(PrivateNamespace(null,"632"),"_reset")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeAccountText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeAccountText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"632"),"makeTextFieldConcrete") 0
+         initproperty Qname(PrivateNamespace(null,"632"),"accountText")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTextFieldConcrete() : TextFieldDisplayConcrete
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeTextFieldConcrete")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         
+         body
+         maxstack 8
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_1
+         getlex Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 11776947
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeLoginButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeLoginButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"LOG_IN")
+         getlex Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         pushfalse
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption") 3
+         initproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeResetButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeResetButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption")
+         pushstring "reset"
+         getlex Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         pushfalse
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption") 3
+         initproperty Qname(PrivateNamespace(null,"632"),"resetButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"resetButton")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeRegisterButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeRegisterButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"REGISTER")
+         getlex Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         pushfalse
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"TitleMenuOption") 3
+         initproperty Qname(PrivateNamespace(null,"632"),"registerButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"registerButton")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeDividerText() : DisplayObject
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"makeDividerText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"DisplayObject")
+         
+         body
+         maxstack 8
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         getlocal_1
+         pushint 11776947
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         callproperty Qname(PackageNamespace(""),"setAutoSize") 1
+         getlex Qname(PrivateNamespace(null,"632"),"FONT_SIZE")
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring " - "
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setInfo(param1:String, param2:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setInfo")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"632"),"userName")
+         getlocal_0
+         getlocal_2
+         setproperty Qname(PrivateNamespace(null,"632"),"isRegistered")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"updateUI") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateUI() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"updateUI")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"removeUIElements") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"isRegistered")
+         iffalse ofs0018
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"showUIForRegisteredAccount") 0
+         jump ofs001d
+         ofs0018:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"632"),"showUIForGuestAccount") 0
+         ofs001d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeUIElements() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"removeUIElements")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0010
+         ofs0006:label
+         findpropstrict Qname(PackageNamespace(""),"removeChildAt")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"removeChildAt") 1
+         ofs0010:getlex Qname(PackageNamespace(""),"numChildren")
+         iftrue ofs0006
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showUIForRegisteredAccount() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"showUIForRegisteredAccount")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"accountText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"LOGGED_IN_TEXT")
+         pushstring "userName"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"userName")
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildData")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildData")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"LOG_OUT")
+         callpropvoid Qname(PackageNamespace(""),"setTextKey") 1
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.build.api:BuildData"),"getEnvironment") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"TESTING")
+         equals
+         dup
+         iftrue ofs0065
+         pop
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.build.api:BuildData"),"getEnvironment") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"LOCALHOST")
+         equals
+         ofs0065:iffalse ofs007f
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"accountText")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"632"),"makeDividerText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         callpropvoid Qname(PrivateNamespace(null,"632"),"addAndAlignHorizontally") 3
+         jump ofs008c
+         ofs007f:getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"accountText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         callpropvoid Qname(PrivateNamespace(null,"632"),"addAndAlignHorizontally") 2
+         ofs008c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showUIForGuestAccount() : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"showUIForGuestAccount")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"LOG_IN")
+         callpropvoid Qname(PackageNamespace(""),"setTextKey") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"registerButton")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"632"),"makeDividerText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"632"),"loginButton")
+         callpropvoid Qname(PrivateNamespace(null,"632"),"addAndAlignHorizontally") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addAndAlignHorizontally(... rest) : void
+      {
+         trait method Qname(PrivateNamespace(null,"632"),"addAndAlignHorizontally")
+         dispid 0
+         method
+         name null
+         flag NEED_REST
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 8
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         getlocal_1
+         coerce_a
+         setlocal 7
+         jump ofs002f
+         ofs001e:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs002f:hasnext2 7 6
+         iftrue ofs001e
+         kill 7
+         kill 6
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal 4
+         jump ofs0062
+         ofs0048:label
+         getlocal_1
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"632"),PackageNamespace(""),PrivateNamespace(null,"1635"),PackageNamespace("kabam.rotmg.account.web.view"),PackageInternalNs("kabam.rotmg.account.web.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.web.view:WebAccountInfoView"),StaticProtectedNs("kabam.rotmg.account.web.view:WebAccountInfoView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         dup
+         setlocal 5
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         convert_i
+         setlocal_3
+         ofs0062:getlocal 4
+         dup
+         decrement_i
+         setlocal 4
+         iftrue ofs0048
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

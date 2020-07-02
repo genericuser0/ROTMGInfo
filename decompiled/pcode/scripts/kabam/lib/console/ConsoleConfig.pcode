@@ -1,0 +1,363 @@
+package kabam.lib.console
+{
+   import kabam.lib.console.controller.AddDefaultConsoleActionsCommand;
+   import kabam.lib.console.controller.ListActionsCommand;
+   import kabam.lib.console.controller.RegisterConsoleActionCommand;
+   import kabam.lib.console.model.Console;
+   import kabam.lib.console.services.ConsoleLogTarget;
+   import kabam.lib.console.signals.AddDefaultConsoleActionsSignal;
+   import kabam.lib.console.signals.ClearConsoleSignal;
+   import kabam.lib.console.signals.ConsoleLogSignal;
+   import kabam.lib.console.signals.ConsoleUnwatchSignal;
+   import kabam.lib.console.signals.ConsoleWatchSignal;
+   import kabam.lib.console.signals.CopyConsoleTextSignal;
+   import kabam.lib.console.signals.HideConsoleSignal;
+   import kabam.lib.console.signals.ListActionsSignal;
+   import kabam.lib.console.signals.RegisterConsoleActionSignal;
+   import kabam.lib.console.signals.RemoveConsoleSignal;
+   import kabam.lib.console.signals.ShowConsoleSignal;
+   import kabam.lib.console.signals.ToggleConsoleSignal;
+   import kabam.lib.console.view.ConsoleInputMediator;
+   import kabam.lib.console.view.ConsoleInputView;
+   import kabam.lib.console.view.ConsoleKeyMediator;
+   import kabam.lib.console.view.ConsoleMediator;
+   import kabam.lib.console.view.ConsoleOutputMediator;
+   import kabam.lib.console.view.ConsoleOutputView;
+   import kabam.lib.console.view.ConsoleView;
+   import kabam.rotmg.core.view.Layers;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
+   import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
+   import robotlegs.bender.framework.api.IContext;
+   
+   public class ConsoleConfig
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var context:IContext;
+      
+      [Inject]
+      public var injector:Injector;
+      
+      [Inject]
+      public var mediatorMap:IMediatorMap;
+      
+      [Inject]
+      public var commandMap:ISignalCommandMap;
+      
+      public function ConsoleConfig()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [PostConstruct]
+      public function setup() : void
+      {
+         trait method Qname(PackageNamespace(""),"setup")
+         flag METADATA
+         metadata"PostConstruct"
+         end ; metadata
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"536"),"mapModel") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"536"),"mapCommands") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"536"),"mapViewSignals") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"536"),"mapMediators") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"lifecycle")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"536"),"init")
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILifecycle"),"afterInitializing") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapModel() : void
+      {
+         trait method Qname(PrivateNamespace(null,"536"),"mapModel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.model"),"Console")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ConsoleLogSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ConsoleWatchSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ConsoleUnwatchSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"RemoveConsoleSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapCommands() : void
+      {
+         trait method Qname(PrivateNamespace(null,"536"),"mapCommands")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"RegisterConsoleActionSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.controller"),"RegisterConsoleActionCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ListActionsSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.controller"),"ListActionsCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"AddDefaultConsoleActionsSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.controller"),"AddDefaultConsoleActionsCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapViewSignals() : void
+      {
+         trait method Qname(PrivateNamespace(null,"536"),"mapViewSignals")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ClearConsoleSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"CopyConsoleTextSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ToggleConsoleSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"ShowConsoleSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"HideConsoleSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapMediators() : void
+      {
+         trait method Qname(PrivateNamespace(null,"536"),"mapMediators")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleInputView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleInputMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleOutputView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleOutputMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleKeyMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function init() : void
+      {
+         trait method Qname(PrivateNamespace(null,"536"),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"context")
+         findpropstrict Qname(PackageNamespace("kabam.lib.console.services"),"ConsoleLogTarget")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"context")
+         constructprop Qname(PackageNamespace("kabam.lib.console.services"),"ConsoleLogTarget") 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:IContext"),"addLogTarget") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.lib.console.signals"),"AddDefaultConsoleActionsSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"536"),PackageNamespace(""),PrivateNamespace(null,"1547"),PackageNamespace("kabam.lib.console"),PackageInternalNs("kabam.lib.console"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.lib.console:ConsoleConfig"),StaticProtectedNs("kabam.lib.console:ConsoleConfig")]) 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.core.view"),"Layers")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.view"),"Layers")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"console")
+         findpropstrict Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleView")
+         constructprop Qname(PackageNamespace("kabam.lib.console.view"),"ConsoleView") 0
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

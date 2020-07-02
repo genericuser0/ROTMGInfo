@@ -1,0 +1,659 @@
+package kabam.rotmg.friends.view
+{
+   import com.company.assembleegameclient.ui.icons.IconButton;
+   import com.company.assembleegameclient.ui.icons.IconButtonFactory;
+   import com.company.util.AssetLibrary;
+   import flash.display.Bitmap;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.social.config.FriendsActions;
+   import io.decagames.rotmg.social.model.FriendVO;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   
+   public class FriendListItem extends FListItem
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const ONLINE_COLOR:uint = 3407650;
+      
+      private const NORMAL_COLOR:uint = 11776947;
+      
+      private var _senderName:String;
+      
+      private var _serverName:String;
+      
+      private var _isOnline:Boolean;
+      
+      private var _portrait:Bitmap;
+      
+      private var _nameText:TextFieldDisplayConcrete;
+      
+      private var _serverText:TextFieldDisplayConcrete;
+      
+      private var _whisperButton:IconButton;
+      
+      private var _jumpButton:IconButton;
+      
+      private var _removeButton:FriendRemoveButton;
+      
+      public function FriendListItem(param1:FriendVO, param2:Number, param3:Number, param4:String)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendVO")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"String")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(ProtectedNamespace("kabam.rotmg.friends.view:FriendListItem"),"init") 2
+         getlocal_0
+         getlocal_1
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"update") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function init(param1:Number, param2:Number) : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.friends.view:FriendListItem"),"init")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 6710886
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_1
+         getlocal_2
+         pushbyte 10
+         dup
+         callpropvoid Qname(PackageNamespace(""),"drawRoundRect") 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 0
+         initproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         pushbyte -8
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         pushdouble 1.2
+         dup
+         setlocal 4
+         setproperty Qname(PackageNamespace(""),"scaleY")
+         getlocal 4
+         kill 4
+         setproperty Qname(PackageNamespace(""),"scaleX")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_isOnline")
+         iffalse ofs0085
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"ONLINE_COLOR")
+         convert_u
+         jump ofs008a
+         ofs0085:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"NORMAL_COLOR")
+         convert_u
+         ofs008a:callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"NORMAL_COLOR")
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushshort 250
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.icons"),"IconButtonFactory")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.icons"),"IconButtonFactory")
+         setlocal_3
+         getlocal_0
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterface2"
+         pushbyte 3
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_TELEPORT_TITLE")
+         pushstring ""
+         pushstring ""
+         callproperty Qname(PackageNamespace(""),"create") 4
+         initproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_TELEPORT_TITLE")
+         callpropvoid Qname(PackageNamespace(""),"setToolTipTitle") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushshort 270
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onJumpClicked")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterfaceBig"
+         pushbyte 21
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PLAYERMENU_PM")
+         pushstring ""
+         pushstring ""
+         callproperty Qname(PackageNamespace(""),"create") 4
+         initproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushshort 130
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onWhisperClicked")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.friends.view"),"FriendRemoveButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_REMOVE_BUTTON")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_REMOVE_BUTTON_DESC")
+         constructprop Qname(PackageNamespace("kabam.rotmg.friends.view"),"FriendRemoveButton") 2
+         initproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onRemoveClicked")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 30
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         pushbyte 11
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onRemovedFromState")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function update(param1:FriendVO, param2:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.social.model"),"FriendVO")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getPortrait") 0
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getName") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         ifeq ofs005a
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getName") 0
+         initproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 8
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 16
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs005a:getlocal_1
+         callproperty Qname(PackageNamespace(""),"getServerName") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         ifeq ofs0083
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getServerName") 0
+         initproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         ofs0083:getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"isOnline")
+         initproperty Qname(PrivateNamespace(null,"794"),"_isOnline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_isOnline")
+         iffalse ofs00a0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"ONLINE_COLOR")
+         convert_u
+         jump ofs00a5
+         ofs00a0:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"NORMAL_COLOR")
+         convert_u
+         ofs00a5:callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_isOnline")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_isOnline")
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_TELEPORT_DESC")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         newobject 1
+         callpropvoid Qname(PackageNamespace(""),"setToolTipText") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         getlocal_2
+         equals
+         not
+         setproperty Qname(PackageNamespace(""),"enabled")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0011
+         ofs0006:label
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"numChildren")
+         decrement
+         callpropvoid Qname(PackageNamespace(""),"removeChildAt") 1
+         ofs0011:getlex Qname(PackageNamespace(""),"numChildren")
+         pushbyte 0
+         ifgt ofs0006
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_portrait")
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_nameText")
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_serverText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onWhisperClicked")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_whisperButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onJumpClicked")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_jumpButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onRemoveClicked")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         callpropvoid Qname(PackageNamespace(""),"destroy") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"794"),"_removeButton")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromState(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"794"),"onRemovedFromState")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"onRemovedFromState")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"destroy") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"794"),"onRemoveClicked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"actionSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"REMOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onWhisperClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"794"),"onWhisperClicked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"actionSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"WHISPER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_senderName")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onJumpClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"794"),"onJumpClicked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"actionSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"JUMP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"794"),"_serverName")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

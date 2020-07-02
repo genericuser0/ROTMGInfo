@@ -1,0 +1,1501 @@
+package com.junkbyte.console.view
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.ConsoleConfig;
+   import com.junkbyte.console.ConsoleStyle;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.BlendMode;
+   import flash.display.Graphics;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.geom.Matrix;
+   import flash.geom.Point;
+   import flash.geom.Rectangle;
+   import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormat;
+   import flash.text.TextFormatAlign;
+   import flash.ui.Mouse;
+   
+   public class Ruler extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _master:Console;
+      
+      private var _config:ConsoleConfig;
+      
+      private var _area:Rectangle;
+      
+      private var _pointer:Shape;
+      
+      private var _posTxt:TextField;
+      
+      private var _zoom:Bitmap;
+      
+      private var _points:Array;
+      
+      public function Ruler(param1:Console)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"config")
+         initproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         findproperty Qname(PackageNamespace(""),"buttonMode")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"buttonMode")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         initproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"globalToLocal")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"globalToLocal") 1
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         negate
+         pushdouble 1.5
+         multiply
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         add
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         negate
+         pushdouble 1.5
+         multiply
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         add
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         pushbyte 3
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         pushbyte 3
+         multiply
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         initproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"style")
+         getproperty Qname(PackageNamespace(""),"backgroundColor")
+         pushdouble 0.2
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         pushstring "positionText"
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"makeTF") 2
+         initproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 0
+         initproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         pushbyte 2
+         dup
+         setlocal_3
+         setproperty Qname(PackageNamespace(""),"scaleX")
+         getlocal_3
+         kill 3
+         setproperty Qname(PackageNamespace(""),"scaleY")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"onMouseClick")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"onMouseMove")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1206"),"onMouseMove") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"rulerHidesMouse")
+         iffalse ofs0187
+         getlex Qname(PackageNamespace("flash.ui"),"Mouse")
+         callpropvoid Qname(PackageNamespace(""),"hide") 0
+         ofs0187:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "<b>Ruler started. Click on two locations to measure.</b>"
+         pushbyte -1
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseMove(param1:MouseEvent = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"onMouseMove")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 15
+         try from ofs00eb to ofs012e target ofs0132 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"err")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         setslot 4
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 11193344
+         pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"mouseY")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         getlex Qname(PackageNamespace(""),"mouseY")
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         getlex Qname(PackageNamespace("flash.display"),"BlendMode")
+         getproperty Qname(PackageNamespace(""),"INVERT")
+         setproperty Qname(PackageNamespace(""),"blendMode")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         pushstring "<low>"
+         getlex Qname(PackageNamespace(""),"mouseX")
+         add
+         pushstring ","
+         add
+         getlex Qname(PackageNamespace(""),"mouseY")
+         add
+         pushstring "</low>"
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.display"),"BitmapData")
+         pushbyte 30
+         dup
+         constructprop Qname(PackageNamespace("flash.display"),"BitmapData") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setslot 2
+         ofs00eb:getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         setslot 4
+         getscopeobject 1
+         getslot 4
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         negate
+         pushbyte 15
+         add
+         setproperty Qname(PackageNamespace(""),"tx")
+         getscopeobject 1
+         getslot 4
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         negate
+         pushbyte 15
+         add
+         setproperty Qname(PackageNamespace(""),"ty")
+         getscopeobject 1
+         getslot 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getscopeobject 1
+         getslot 4
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         ofs012e:jump ofs0149
+         ofs0132:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setslot 2
+         popscope
+         kill 3
+         ofs0149:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getscopeobject 1
+         getslot 2
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         getscopeobject 1
+         pushbyte 10
+         setslot 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         getscopeobject 1
+         getslot 3
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlex Qname(PackageNamespace(""),"mouseY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         getscopeobject 1
+         getslot 3
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 16
+         ifnlt ofs01fa
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         getscopeobject 1
+         getslot 3
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs01fa:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 38
+         ifnlt ofs0232
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getlex Qname(PackageNamespace(""),"mouseY")
+         getscopeobject 1
+         getslot 3
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0232:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"onMouseClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 16
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 9
+         pushnan
+         setlocal 10
+         pushnan
+         setlocal 11
+         pushnan
+         setlocal 12
+         pushnull
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         setlocal 13
+         pushnan
+         setlocal 14
+         pushnan
+         setlocal 15
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"stopPropagation") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"style")
+         coerce Qname(PackageNamespace("com.junkbyte.console"),"ConsoleStyle")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifne ofs00a3
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"localX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"localY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 16711680
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 3
+         callpropvoid Qname(PackageNamespace(""),"drawCircle") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         getlocal_2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         jump ofs05c4
+         ofs00a3:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 1
+         ifne ofs05bf
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_zoom")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"rulerHidesMouse")
+         iffalse ofs00cf
+         getlex Qname(PackageNamespace("flash.ui"),"Mouse")
+         callpropvoid Qname(PackageNamespace(""),"show") 0
+         ofs00cf:findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_pointer")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_posTxt")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"onMouseMove")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1206"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2127"),PackageNamespace("com.junkbyte.console.view"),ProtectedNamespace("com.junkbyte.console.view:Ruler"),StaticProtectedNs("com.junkbyte.console.view:Ruler"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"localX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"localY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_points")
+         getlocal 4
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"backgroundColor")
+         pushdouble 0.4
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushdouble 1.5
+         pushint 16711680
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 4
+         callpropvoid Qname(PackageNamespace(""),"drawCircle") 3
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushdouble 1.5
+         pushint 16750848
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 4
+         callpropvoid Qname(PackageNamespace(""),"drawCircle") 3
+         getlex Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_2
+         getlocal 4
+         pushdouble 0.5
+         callproperty Qname(PackageNamespace(""),"interpolate") 3
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 5
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 11184810
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 4
+         callpropvoid Qname(PackageNamespace(""),"drawCircle") 3
+         getlocal_2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 6
+         getlocal 4
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 7
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         ifngt ofs0212
+         getlocal 4
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 6
+         getlocal_2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 7
+         ofs0212:getlocal_2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 8
+         getlocal 4
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 9
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         ifngt ofs0239
+         getlocal 4
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 8
+         getlocal_2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 9
+         ofs0239:getlocal 7
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         convert_d
+         setlocal 10
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         convert_d
+         setlocal 11
+         getlex Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_2
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"distance") 2
+         convert_d
+         setlocal 12
+         getlocal_0
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"highColor")
+         callproperty Qname(PrivateNamespace(null,"1206"),"makeTxtField") 1
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         dup
+         setlocal 13
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         pushstring ","
+         add
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal 13
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 13
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 8
+         getlocal_2
+         equals
+         iffalse ofs02ab
+         pushbyte 14
+         coerce_a
+         jump ofs02ae
+         ofs02ab:pushbyte 0
+         coerce_a
+         ofs02ae:subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 13
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"highColor")
+         callproperty Qname(PrivateNamespace(null,"1206"),"makeTxtField") 1
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         dup
+         setlocal 13
+         getlocal_0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         pushstring ","
+         add
+         getlocal_0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal 13
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 13
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 8
+         getlocal 4
+         equals
+         iffalse ofs0309
+         pushbyte 14
+         coerce_a
+         jump ofs030c
+         ofs0309:pushbyte 0
+         coerce_a
+         ofs030c:subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 13
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal 10
+         pushbyte 40
+         greaterthan
+         dup
+         iftrue ofs0329
+         pop
+         getlocal 11
+         pushbyte 25
+         greaterthan
+         ofs0329:iffalse ofs0377
+         getlocal_0
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"lowColor")
+         callproperty Qname(PrivateNamespace(null,"1206"),"makeTxtField") 1
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         dup
+         setlocal 13
+         getlocal_0
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"x")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         pushstring ","
+         add
+         getlocal_0
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"y")
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 1
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal 13
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 13
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 13
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0377:getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 11193344
+         pushdouble 0.5
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 3
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_area")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getlocal_0
+         getlocal_2
+         getlocal 4
+         callproperty Qname(PrivateNamespace(null,"1206"),"angle") 2
+         pushbyte 100
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 2
+         convert_d
+         setlocal 14
+         getlocal_0
+         getlocal_0
+         getlocal 4
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"1206"),"angle") 2
+         pushbyte 100
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 2
+         convert_d
+         setlocal 15
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 11141120
+         pushdouble 0.8
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 3
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 10
+         getlocal_2
+         getlocal 14
+         pushbyte -90
+         callpropvoid Qname(PrivateNamespace(null,"1206"),"drawCircleSegment") 5
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 1
+         pushint 13404160
+         pushdouble 0.8
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 3
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 10
+         getlocal 4
+         getlocal 15
+         pushbyte -90
+         callpropvoid Qname(PrivateNamespace(null,"1206"),"drawCircleSegment") 5
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 2
+         pushint 65280
+         pushdouble 0.7
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 3
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Ruler results: (red) <b>["
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         add
+         pushstring ","
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         add
+         pushstring "]</b> to (orange) <b>["
+         add
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x")
+         add
+         pushstring ","
+         add
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y")
+         add
+         pushstring "]</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Distance: <b>"
+         getlocal_0
+         getlocal 12
+         pushbyte 100
+         callproperty Qname(PrivateNamespace(null,"1206"),"round") 2
+         add
+         pushstring "</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Mid point: <b>["
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"x")
+         add
+         pushstring ","
+         add
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"y")
+         add
+         pushstring "]</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Width:<b>"
+         getlocal 10
+         add
+         pushstring "</b>, Height: <b>"
+         add
+         getlocal 11
+         add
+         pushstring "</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Angle from first point (red): <b>"
+         getlocal 14
+         add
+         pushstring "°</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         pushstring "Angle from second point (orange): <b>"
+         getlocal 15
+         add
+         pushstring "°</b>"
+         add
+         pushbyte -2
+         callpropvoid Qname(PackageNamespace(""),"report") 2
+         jump ofs05c4
+         ofs05bf:getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"exit") 0
+         ofs05c4:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function exit() : void
+      {
+         trait method Qname(PackageNamespace(""),"exit")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1206"),"_master")
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTxtField(param1:Number, param2:Boolean = true) : TextField
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"makeTxtField")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         returns Qname(PackageNamespace("flash.text"),"TextField")
+         
+         body
+         maxstack 9
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"style")
+         getproperty Qname(PackageNamespace(""),"menuFont")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1206"),"_config")
+         getproperty Qname(PackageNamespace(""),"style")
+         getproperty Qname(PackageNamespace(""),"menuFontSize")
+         getlocal_1
+         getlocal_2
+         pushtrue
+         pushnull
+         pushnull
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         constructprop Qname(PackageNamespace("flash.text"),"TextFormat") 8
+         coerce Qname(PackageNamespace("flash.text"),"TextFormat")
+         setlocal_3
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextField")
+         constructprop Qname(PackageNamespace("flash.text"),"TextField") 0
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         dup
+         setlocal 4
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal 4
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"selectable")
+         getlocal 4
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"defaultTextFormat")
+         getlocal 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function round(param1:Number, param2:uint = 10) : Number
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"round")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"uint")
+         optional 10
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getlocal_2
+         multiply
+         callproperty Qname(PackageNamespace(""),"round") 1
+         getlocal_2
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function angle(param1:Point, param2:Point) : Number
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"angle")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.geom"),"Point")
+         param Qname(PackageNamespace("flash.geom"),"Point")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         callproperty Qname(PackageNamespace(""),"atan2") 2
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         divide
+         pushshort 180
+         multiply
+         convert_d
+         setlocal_3
+         getlocal_3
+         pushbyte 90
+         add
+         convert_d
+         setlocal_3
+         getlocal_3
+         pushshort 180
+         ifngt ofs0041
+         getlocal_3
+         pushshort 360
+         subtract
+         convert_d
+         setlocal_3
+         ofs0041:getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawCircleSegment(param1:Graphics, param2:Number, param3:Point, param4:Number = 180, param5:Number = 0) : Point
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"drawCircleSegment")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.display"),"Graphics")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace("flash.geom"),"Point")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         optional 180
+         optional 0
+         returns Qname(PackageNamespace("flash.geom"),"Point")
+         
+         body
+         maxstack 5
+         localcount 16
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal 12
+         pushnan
+         setlocal 13
+         pushnan
+         setlocal 14
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal 15
+         pushfalse
+         setlocal 6
+         getlocal 4
+         pushbyte 0
+         ifnlt ofs002c
+         pushtrue
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         convert_d
+         setlocal 4
+         ofs002c:getlocal 4
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         multiply
+         pushshort 180
+         divide
+         convert_d
+         setlocal 7
+         getlocal 5
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         multiply
+         pushshort 180
+         divide
+         convert_d
+         setlocal 8
+         getlocal_0
+         getlocal_2
+         getlocal 8
+         callproperty Qname(PrivateNamespace(null,"1206"),"getPointOnCircle") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         dup
+         setlocal 9
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"offset") 2
+         getlocal_1
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         pushbyte 0
+         convert_d
+         setlocal 10
+         pushbyte 1
+         setlocal 11
+         jump ofs013e
+         ofs0088:label
+         getlocal 11
+         getlocal 7
+         lessequals
+         iffalse ofs0099
+         getlocal 11
+         convert_d
+         jump ofs009c
+         ofs0099:getlocal 7
+         convert_d
+         ofs009c:convert_d
+         dup
+         setlocal 12
+         getlocal 10
+         subtract
+         convert_d
+         setlocal 13
+         pushbyte 1
+         pushdouble 0.12
+         getlocal 13
+         multiply
+         getlocal 13
+         multiply
+         add
+         convert_d
+         setlocal 14
+         getlocal_0
+         getlocal_2
+         getlocal 14
+         multiply
+         getlocal 12
+         getlocal 13
+         pushbyte 2
+         divide
+         subtract
+         getlocal 6
+         iffalse ofs00ce
+         pushbyte -1
+         coerce_a
+         jump ofs00d1
+         ofs00ce:pushbyte 1
+         coerce_a
+         ofs00d1:multiply
+         getlocal 8
+         add
+         callproperty Qname(PrivateNamespace(null,"1206"),"getPointOnCircle") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         dup
+         setlocal 15
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"offset") 2
+         getlocal_0
+         getlocal_2
+         getlocal 12
+         getlocal 6
+         iffalse ofs00fe
+         pushbyte -1
+         coerce_a
+         jump ofs0101
+         ofs00fe:pushbyte 1
+         coerce_a
+         ofs0101:multiply
+         getlocal 8
+         add
+         callproperty Qname(PrivateNamespace(null,"1206"),"getPointOnCircle") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         dup
+         setlocal 9
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"offset") 2
+         getlocal_1
+         getlocal 15
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 15
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal 9
+         getproperty Qname(PackageNamespace(""),"y")
+         callpropvoid Qname(PackageNamespace(""),"curveTo") 4
+         getlocal 12
+         convert_d
+         setlocal 10
+         inclocal_i 11
+         ofs013e:getlocal 11
+         getlocal 7
+         pushbyte 1
+         add
+         ifle ofs0088
+         getlocal 9
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getPointOnCircle(param1:Number, param2:Number) : Point
+      {
+         trait method Qname(PrivateNamespace(null,"1206"),"getPointOnCircle")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("flash.geom"),"Point")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         multiply
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         multiply
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

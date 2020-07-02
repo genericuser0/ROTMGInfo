@@ -1,0 +1,376 @@
+package robotlegs.bender.extensions.eventCommandMap.impl
+{
+   import flash.events.Event;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.commandCenter.api.ICommandMapping;
+   import robotlegs.bender.extensions.commandCenter.api.ICommandTrigger;
+   import robotlegs.bender.extensions.commandCenter.impl.CommandMappingList;
+   
+   public class EventCommandExecutor
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _trigger:ICommandTrigger;
+      
+      private var _mappings:Vector.<ICommandMapping>;
+      
+      private var _mappingList:CommandMappingList;
+      
+      private var _injector:Injector;
+      
+      private var _eventClass:Class;
+      
+      private var _factory:EventCommandFactory;
+      
+      public function EventCommandExecutor(param1:ICommandTrigger, param2:CommandMappingList, param3:Injector, param4:Class)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("robotlegs.bender.extensions.commandCenter.api"),"ICommandTrigger")
+         param Qname(PackageNamespace("robotlegs.bender.extensions.commandCenter.impl"),"CommandMappingList")
+         param Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         param Qname(PackageNamespace(""),"Class")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1156"),"_trigger")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"1156"),"_mappingList")
+         getlocal_0
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"createChildInjector") 0
+         initproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"1156"),"_eventClass")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("robotlegs.bender.extensions.eventCommandMap.impl"),"EventCommandFactory")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         constructprop Qname(PackageNamespace("robotlegs.bender.extensions.eventCommandMap.impl"),"EventCommandFactory") 1
+         initproperty Qname(PrivateNamespace(null,"1156"),"_factory")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute(param1:Event) : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushstring "constructor"
+         getproperty MultinameL([PrivateNamespace(null,"1156"),PackageNamespace(""),PackageNamespace("robotlegs.bender.extensions.eventCommandMap.impl"),PrivateNamespace(null,"2093"),PackageInternalNs("robotlegs.bender.extensions.eventCommandMap.impl"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("robotlegs.bender.extensions.eventCommandMap.impl:EventCommandExecutor"),StaticProtectedNs("robotlegs.bender.extensions.eventCommandMap.impl:EventCommandExecutor")])
+         getlex Qname(PackageNamespace(""),"Class")
+         astypelate
+         coerce Qname(PackageNamespace(""),"Class")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"1156"),"isTriggerEvent") 1
+         iffalse ofs0022
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"1156"),"runCommands") 2
+         ofs0022:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isTriggerEvent(param1:Class) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"isTriggerEvent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_eventClass")
+         not
+         dup
+         iftrue ofs0013
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_eventClass")
+         equals
+         ofs0013:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isStronglyTyped(param1:Class) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"isStronglyTyped")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapEventForInjection(param1:Event, param2:Class) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"mapEventForInjection")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"1156"),"isStronglyTyped") 1
+         iffalse ofs0037
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_eventClass")
+         coerce Qname(PackageNamespace(""),"Class")
+         dup
+         iftrue ofs002e
+         pop
+         getlocal_2
+         coerce Qname(PackageNamespace(""),"Class")
+         ofs002e:callproperty Qname(PackageNamespace(""),"map") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         ofs0037:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function unmapEventAfterInjection(param1:Class) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"unmapEventAfterInjection")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         callpropvoid Qname(PackageNamespace(""),"unmap") 1
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"1156"),"isStronglyTyped") 1
+         iffalse ofs002d
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_injector")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_eventClass")
+         coerce Qname(PackageNamespace(""),"Class")
+         dup
+         iftrue ofs0029
+         pop
+         getlocal_1
+         coerce Qname(PackageNamespace(""),"Class")
+         ofs0029:callpropvoid Qname(PackageNamespace(""),"unmap") 1
+         ofs002d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function runCommands(param1:Event, param2:Class) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"runCommands")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_mappingList")
+         getproperty Qname(PackageNamespace(""),"head")
+         coerce Qname(PackageNamespace("robotlegs.bender.extensions.commandCenter.api"),"ICommandMapping")
+         setlocal 4
+         jump ofs0053
+         ofs0016:label
+         getlocal 4
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.api:ICommandMapping"),"validate") 0
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"1156"),"mapEventForInjection") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_factory")
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"create") 1
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_3
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"1156"),"unmapEventAfterInjection") 1
+         getlocal_3
+         iffalse ofs0049
+         getlocal_0
+         getlocal 4
+         callpropvoid Qname(PrivateNamespace(null,"1156"),"removeFireOnceMapping") 1
+         getlocal_3
+         callpropvoid Multiname("execute",[PrivateNamespace(null,"1156"),PackageNamespace(""),PackageNamespace("robotlegs.bender.extensions.eventCommandMap.impl"),PrivateNamespace(null,"2093"),PackageInternalNs("robotlegs.bender.extensions.eventCommandMap.impl"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("robotlegs.bender.extensions.eventCommandMap.impl:EventCommandExecutor"),StaticProtectedNs("robotlegs.bender.extensions.eventCommandMap.impl:EventCommandExecutor")]) 0
+         ofs0049:getlocal 4
+         getproperty Qname(Namespace("robotlegs.bender.extensions.commandCenter.api:ICommandMapping"),"next")
+         coerce Qname(PackageNamespace("robotlegs.bender.extensions.commandCenter.api"),"ICommandMapping")
+         setlocal 4
+         ofs0053:getlocal 4
+         iftrue ofs0016
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeFireOnceMapping(param1:ICommandMapping) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1156"),"removeFireOnceMapping")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("robotlegs.bender.extensions.commandCenter.api"),"ICommandMapping")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(Namespace("robotlegs.bender.extensions.commandCenter.api:ICommandMapping"),"fireOnce")
+         iffalse ofs0013
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1156"),"_trigger")
+         getlocal_1
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.api:ICommandTrigger"),"removeMapping") 1
+         ofs0013:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

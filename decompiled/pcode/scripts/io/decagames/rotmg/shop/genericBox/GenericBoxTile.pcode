@@ -1,0 +1,1922 @@
+package io.decagames.rotmg.shop.genericBox
+{
+   import flash.display.Sprite;
+   import flash.geom.ColorTransform;
+   import io.decagames.rotmg.shop.ShopBoxTag;
+   import io.decagames.rotmg.shop.ShopBuyButton;
+   import io.decagames.rotmg.shop.genericBox.data.GenericBoxInfo;
+   import io.decagames.rotmg.ui.buttons.SliceScalingButton;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.gird.UIGridElement;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.spinner.FixedNumbersSpinner;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import io.decagames.rotmg.utils.colors.Tint;
+   import org.osflash.signals.Signal;
+   
+   public class GenericBoxTile extends UIGridElement
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected var background:SliceScalingBitmap;
+      
+      protected var backgroundTitle:SliceScalingBitmap;
+      
+      protected var buyButtonBitmapBackground:String;
+      
+      protected var backgroundButton:SliceScalingBitmap;
+      
+      protected var titleLabel:UILabel;
+      
+      protected var _buyButton:ShopBuyButton;
+      
+      protected var _infoButton:SliceScalingButton;
+      
+      protected var tags:Vector.<ShopBoxTag>;
+      
+      protected var _spinner:FixedNumbersSpinner;
+      
+      protected var _boxInfo:GenericBoxInfo;
+      
+      protected var _endTimeLabel:UILabel;
+      
+      protected var _startTimeLabel:UILabel;
+      
+      protected var originalPriceLabel:SalePriceTag;
+      
+      protected var _isPopup:Boolean;
+      
+      protected var _clickMask:Sprite;
+      
+      protected var boxHeight:int = 184;
+      
+      private var _isAvailable:Boolean = true;
+      
+      private var clickMaskAlpha:Number = 0;
+      
+      private var tagContainer:Sprite;
+      
+      protected var backgroundContainer:Sprite;
+      
+      public const selfRemoveSignal:Signal;
+      
+      public function GenericBoxTile(param1:GenericBoxInfo, param2:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox.data"),"GenericBoxInfo")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 8
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "shop_box_background"
+         pushbyte 10
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         getlocal_2
+         iftrue ofs0073
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "shop_title_background"
+         pushbyte 10
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tab_info_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         ofs0073:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"buyButtonBitmapBackground")
+         iffalse ofs0093
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"buyButtonBitmapBackground")
+         pushbyte 10
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         ofs0093:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"FixedNumbersSpinner")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "spinner_up_arrow"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         pushbyte 0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"142"),PackageNamespace(""),ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1353"),PackageNamespace("io.decagames.rotmg.shop.genericBox"),PackageInternalNs("io.decagames.rotmg.shop.genericBox"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),StaticProtectedNs("io.decagames.rotmg.ui.gird:UIGridElement"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         pushbyte 5
+         construct 1
+         dup
+         pushbyte 0
+         pushbyte 1
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         pushbyte 2
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         pushbyte 3
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 3
+         pushbyte 5
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 4
+         pushbyte 10
+         setproperty MultinameL([PackageNamespace("")])
+         pushstring "x"
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"FixedNumbersSpinner") 4
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         pushshort 131
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         pushbyte 43
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"title")
+         setproperty Qname(PackageNamespace(""),"text")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         callpropvoid Qname(PackageNamespace(""),"shopBoxTitle") 1
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         iffalse ofs0145
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleCurrency")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton") 2
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         jump ofs0156
+         ofs0145:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton") 2
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         ofs0156:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushbyte 95
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte 0
+         ifne ofs0171
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"soldOut")
+         ofs0171:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"showCampaignTooltip")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"142"),PackageNamespace(""),ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1353"),PackageNamespace("io.decagames.rotmg.shop.genericBox"),PackageInternalNs("io.decagames.rotmg.shop.genericBox"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),StaticProtectedNs("io.decagames.rotmg.ui.gird:UIGridElement"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"createBoxBackground") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         iffalse ofs01b1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs01b1:getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16711680
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"clickMaskAlpha")
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushbyte 95
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         iffalse ofs020e
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs020e:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         iffalse ofs0240
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"SalePriceTag")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox"),"SalePriceTag") 2
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0240:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         iftrue ofs0266
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0266:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"createBoxTags") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"createEndTime") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"createStartTime") 0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateStartTimeString") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateTimeEndString") 1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"updateBox")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateBox() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"updateBox")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"LEFT_TAG")
+         callproperty Qname(PrivateNamespace(null,"142"),"getTagByName") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0026
+         getlocal_1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"142"),"getLeftUnits") 0
+         pushstring " LEFT!"
+         add
+         callpropvoid Qname(PackageNamespace(""),"updateLabel") 1
+         ofs0026:getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte 0
+         equals
+         dup
+         iftrue ofs0040
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         getproperty Qname(PackageNamespace(""),"purchaseLeft")
+         pushbyte 0
+         equals
+         ofs0040:iffalse ofs0049
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"triggerSelfRemove") 0
+         ofs0049:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createEndTime() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"createEndTime")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         pushbyte 28
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         iffalse ofs0041
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"popupEndsIn") 1
+         jump ofs004d
+         ofs0041:getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"mysteryBoxEndsIn") 1
+         ofs004d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createStartTime() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"createStartTime")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         pushbyte 28
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         iffalse ofs0041
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"popupStartsIn") 1
+         jump ofs004d
+         ofs0041:getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         callpropvoid Qname(PackageNamespace(""),"mysteryBoxStartsIn") 1
+         ofs004d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getTagByName(param1:String) : ShopBoxTag
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"getTagByName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         coerce_a
+         setlocal 4
+         jump ofs0029
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"tagName")
+         getlocal_1
+         ifne ofs0029
+         getlocal_2
+         returnvalue
+         ofs0029:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createBoxTags() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"createBoxTags")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 6
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"clearTagContainer") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         callproperty Qname(PackageNamespace(""),"isNew") 0
+         iffalse ofs0038
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"NEW_TAG")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"BLUE_TAG")
+         pushstring "NEW"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag") 4
+         callpropvoid Qname(PackageNamespace(""),"addTag") 1
+         ofs0038:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"tags")
+         pushstring ","
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         coerce_a
+         setlocal 4
+         jump ofs00f2
+         ofs0055:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce_s
+         setlocal_2
+         jump ofs00b3
+         ofs0060:label
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"BEST_TAG")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"GREEN_TAG")
+         pushstring "BEST"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag") 4
+         callpropvoid Qname(PackageNamespace(""),"addTag") 1
+         jump ofs00f2
+         ofs0087:label
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"HOT_TAG")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"ORANGE_TAG")
+         pushstring "HOT"
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag") 4
+         callpropvoid Qname(PackageNamespace(""),"addTag") 1
+         jump ofs00f2
+         ofs00ae:label
+         jump ofs00f2
+         ofs00b3:getlocal_2
+         setlocal 5
+         pushstring "best_seller"
+         getlocal 5
+         ifstrictne ofs00c6
+         pushbyte 0
+         jump ofs00e2
+         ofs00c6:pushstring "hot"
+         getlocal 5
+         ifstrictne ofs00d6
+         pushbyte 1
+         jump ofs00e2
+         ofs00d6:jump ofs00e0
+         pushbyte 2
+         jump ofs00e0
+         ofs00e0:pushbyte 2
+         ofs00e2:kill 5
+         lookupswitch ofs00ae 2 ofs0060 ofs0087 ofs00ae
+         ofs00f2:hasnext2 4 3
+         iftrue ofs0055
+         kill 4
+         kill 3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         iffalse ofs0135
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"PROMOTION_TAG")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"RED_TAG")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         callproperty Qname(PrivateNamespace(null,"142"),"calculateBoxPromotionPercent") 1
+         pushstring "% OFF"
+         add
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag") 4
+         callpropvoid Qname(PackageNamespace(""),"addTag") 1
+         ofs0135:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte -1
+         equals
+         not
+         dup
+         iftrue ofs0151
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"purchaseLeft")
+         pushbyte -1
+         equals
+         not
+         ofs0151:iffalse ofs017d
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"LEFT_TAG")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         getproperty Qname(PackageNamespace(""),"PURPLE_TAG")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"142"),"getLeftUnits") 0
+         pushstring " LEFT!"
+         add
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag") 4
+         callpropvoid Qname(PackageNamespace(""),"addTag") 1
+         ofs017d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getLeftUnits() : int
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"getLeftUnits")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte -1
+         equals
+         iffalse ofs001b
+         getlex Qname(PackageNamespace(""),"int")
+         getproperty Qname(PackageNamespace(""),"MAX_VALUE")
+         convert_i
+         jump ofs0023
+         ofs001b:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         convert_i
+         ofs0023:convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"purchaseLeft")
+         pushbyte -1
+         equals
+         iffalse ofs003e
+         getlex Qname(PackageNamespace(""),"int")
+         getproperty Qname(PackageNamespace(""),"MAX_VALUE")
+         convert_i
+         jump ofs0046
+         ofs003e:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         getproperty Qname(PackageNamespace(""),"purchaseLeft")
+         convert_i
+         ofs0046:convert_i
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"min") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearTagContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"clearTagContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         iftrue ofs0010
+         returnvoid
+         ofs0010:jump ofs001f
+         ofs0014:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"removeChildAt") 1
+         ofs001f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         getproperty Qname(PackageNamespace(""),"numChildren")
+         pushbyte 0
+         ifgt ofs0014
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_1
+         getlocal_1
+         decrement
+         convert_i
+         setlocal_2
+         jump ofs0059
+         ofs003e:label
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_3
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_3
+         getlocal_2
+         decrement_i
+         setlocal_2
+         ofs0059:getlocal_2
+         pushbyte 0
+         ifge ofs003e
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function calculateBoxPromotionPercent(param1:GenericBoxInfo) : int
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"calculateBoxPromotionPercent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox.data"),"GenericBoxInfo")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         subtract
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         divide
+         pushbyte 100
+         multiply
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function createBoxBackground() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"createBoxBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function updateTimeEndString(param1:int) : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateTimeEndString")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"_isAvailable")
+         iftrue ofs000b
+         returnvoid
+         ofs000b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         callproperty Qname(PackageNamespace(""),"getEndTimeString") 0
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         callproperty Qname(PackageNamespace(""),"getStartTimeString") 0
+         coerce_s
+         setlocal_3
+         getlocal_3
+         pushstring ""
+         equals
+         dup
+         iffalse ofs002b
+         pop
+         getlocal_2
+         convert_b
+         ofs002b:iffalse ofs0056
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         jump ofs005f
+         ofs0056:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         pushstring ""
+         setproperty Qname(PackageNamespace(""),"text")
+         ofs005f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function updateStartTimeString(param1:int) : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateStartTimeString")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         callproperty Qname(PackageNamespace(""),"getStartTimeString") 0
+         coerce_s
+         setlocal_2
+         getlocal_2
+         iffalse ofs003d
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"142"),"isAvailable")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         jump ofs0053
+         ofs003d:getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"142"),"isAvailable")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         pushstring ""
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs0053:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function set isAvailable(param1:Boolean) : void
+      {
+         trait setter Qname(PrivateNamespace(null,"142"),"isAvailable")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"_isAvailable")
+         getlocal_1
+         ifne ofs000e
+         returnvoid
+         ofs000e:getlocal_1
+         iffalse ofs00da
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"createBoxTags") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"disabled")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         iftrue ofs006c
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         getproperty Qname(PackageNamespace(""),"alpha")
+         pushbyte 0
+         ifeq ofs006c
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         ofs006c:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundContainer")
+         iffalse ofs00bc
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundContainer")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         ofs00bc:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"buyButtonBitmapBackground")
+         iffalse ofs00d6
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         getproperty Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 0
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         ofs00d6:jump ofs017c
+         ofs00da:pushdouble 0.3
+         convert_d
+         setlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         iftrue ofs011e
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         getproperty Qname(PackageNamespace(""),"alpha")
+         pushbyte 0
+         ifeq ofs011e
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         ofs011e:getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundContainer")
+         iffalse ofs015e
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundContainer")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         ofs015e:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"disabled")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"buyButtonBitmapBackground")
+         iffalse ofs017c
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         pushbyte 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         ofs017c:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"142"),"_isAvailable")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function get height() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"height")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"height")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function resize(param1:int, param2:int = -1) : void
+      {
+         trait method Qname(PackageNamespace(""),"resize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         optional -1
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         getproperty Qname(PackageNamespace(""),"textWidth")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"titleLabel")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         iffalse ofs0085
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         pushshort 133
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 4
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getlocal_1
+         pushbyte 110
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         jump ofs009a
+         ofs0085:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         pushshort 137
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getlocal_1
+         pushbyte 110
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs009a:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         iffalse ofs00b5
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         pushshort 130
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         pushbyte 45
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs00b5:getlocal_0
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateSaleLabel") 0
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateClickMask") 1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateStartTimeString") 1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateTimeEndString") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function updateClickMask(param1:int) : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateClickMask")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         iftrue ofs0041
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "shop_title_background"
+         pushbyte 10
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushbyte 2
+         add
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0041:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         iffalse ofs0061
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         pushbyte 4
+         add
+         subtract
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         ofs0061:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushint 16711680
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"clickMaskAlpha")
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"boxHeight")
+         getlocal_2
+         subtract
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function updateSaleLabel() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateSaleLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         iffalse ofs003c
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 23
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 13
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs003c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function update() : void
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateStartTimeString") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"updateTimeEndString") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         not
+         dup
+         iffalse ofs0041
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_startTimeLabel")
+         getproperty Qname(PackageNamespace(""),"text")
+         pushstring ""
+         equals
+         not
+         dup
+         iftrue ofs0041
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getproperty Qname(PackageNamespace(""),"text")
+         pushstring ""
+         equals
+         not
+         ofs0041:iffalse ofs0052
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs005b
+         ofs0052:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs005b:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"_isAvailable")
+         convert_b
+         dup
+         iffalse ofs0070
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_endTimeLabel")
+         getproperty Qname(PackageNamespace(""),"text")
+         pushstring ""
+         equals
+         ofs0070:dup
+         iffalse ofs007e
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         getproperty Qname(PackageNamespace(""),"endTime")
+         convert_b
+         ofs007e:iffalse ofs0087
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"142"),"triggerSelfRemove") 0
+         ofs0087:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function triggerSelfRemove() : void
+      {
+         trait method Qname(PrivateNamespace(null,"142"),"triggerSelfRemove")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         callpropvoid Qname(PackageNamespace(""),"removeAll") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addTag(param1:ShopBoxTag) : void
+      {
+         trait method Qname(PackageNamespace(""),"addTag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"tagContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         pushbyte 33
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushbyte -5
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get spinner() : FixedNumbersSpinner
+      {
+         trait getter Qname(PackageNamespace(""),"spinner")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"FixedNumbersSpinner")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get buyButton() : ShopBuyButton
+      {
+         trait getter Qname(PackageNamespace(""),"buyButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get boxInfo() : GenericBoxInfo
+      {
+         trait getter Qname(PackageNamespace(""),"boxInfo")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox.data"),"GenericBoxInfo")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_boxInfo")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function dispose() : void
+      {
+         trait method Qname(PackageNamespace(""),"dispose")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"boxInfo")
+         getproperty Qname(PackageNamespace(""),"updateSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"142"),"updateBox")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selfRemoveSignal")
+         callpropvoid Qname(PackageNamespace(""),"removeAll") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"background")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         iffalse ofs0036
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundTitle")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         ofs0036:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"backgroundButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_buyButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         iffalse ofs0056
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         ofs0056:getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_spinner")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         iffalse ofs006e
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"originalPriceLabel")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         ofs006e:pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         coerce_a
+         setlocal_3
+         jump ofs0088
+         ofs007b:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBoxTag")
+         setlocal_1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         ofs0088:hasnext2 3 2
+         iftrue ofs007b
+         kill 3
+         kill 2
+         getlocal_0
+         pushnull
+         initproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"tags")
+         getlocal_0
+         callsupervoid Qname(PackageNamespace(""),"dispose") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get infoButton() : SliceScalingButton
+      {
+         trait getter Qname(PackageNamespace(""),"infoButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_infoButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isPopup() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isPopup")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_isPopup")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get clickMask() : Sprite
+      {
+         trait getter Qname(PackageNamespace(""),"clickMask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("io.decagames.rotmg.shop.genericBox:GenericBoxTile"),"_clickMask")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

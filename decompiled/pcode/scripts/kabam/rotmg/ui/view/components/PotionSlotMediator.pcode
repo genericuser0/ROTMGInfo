@@ -1,0 +1,457 @@
+package kabam.rotmg.ui.view.components
+{
+   import com.company.assembleegameclient.map.Map;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.panels.itemgrids.itemtiles.InteractiveItemTile;
+   import com.company.assembleegameclient.util.DisplayHierarchy;
+   import flash.display.DisplayObject;
+   import kabam.rotmg.constants.ItemConstants;
+   import kabam.rotmg.game.model.PotionInventoryModel;
+   import kabam.rotmg.game.model.UseBuyPotionVO;
+   import kabam.rotmg.game.signals.UseBuyPotionSignal;
+   import kabam.rotmg.messaging.impl.GameServerConnection;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.model.PotionModel;
+   import kabam.rotmg.ui.signals.UpdateHUDSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class PotionSlotMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:PotionSlotView;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var updateHUD:UpdateHUDSignal;
+      
+      [Inject]
+      public var potionInventoryModel:PotionInventoryModel;
+      
+      [Inject]
+      public var useBuyPotionSignal:UseBuyPotionSignal;
+      
+      private var blockingUpdate:Boolean = false;
+      
+      public function PotionSlotMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"initializeData")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"drop")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"onDrop")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyUse")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"onBuyUse")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"update")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"drop")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"onDrop")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyUse")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"onBuyUse")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"update")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initializeData(param1:Player) : void
+      {
+         trait method Qname(PrivateNamespace(null,"237"),"initializeData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"potionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"potionModels")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"position")
+         getproperty MultinameL([PrivateNamespace(null,"237"),PackageNamespace(""),PrivateNamespace(null,"1387"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotMediator"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"PotionModel")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callproperty Qname(PackageNamespace(""),"getPotionCount") 1
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_3
+         getlocal_2
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"currentCost") 1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"available")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callpropvoid Qname(PackageNamespace(""),"setData") 4
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function update(param1:Player) : void
+      {
+         trait method Qname(PrivateNamespace(null,"237"),"update")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"PotionModel")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"HEALTH_POTION_ID")
+         equals
+         dup
+         iftrue ofs002e
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"MAGIC_POTION_ID")
+         equals
+         ofs002e:dup
+         iffalse ofs0039
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"237"),"blockingUpdate")
+         not
+         ofs0039:iffalse ofs006e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"potionInventoryModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         callproperty Qname(PackageNamespace(""),"getPotionModel") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"PotionModel")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callproperty Qname(PackageNamespace(""),"getPotionCount") 1
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_3
+         getlocal_2
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"currentCost") 1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"available")
+         callpropvoid Qname(PackageNamespace(""),"setData") 3
+         ofs006e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDrop(param1:DisplayObject) : void
+      {
+         trait method Qname(PrivateNamespace(null,"237"),"onDrop")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"InteractiveItemTile")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"DisplayHierarchy")
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"InteractiveItemTile")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         callproperty Qname(PackageNamespace(""),"getParentWithTypeArray") 3
+         coerce_a
+         setlocal_3
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         istypelate
+         dup
+         iftrue ofs0047
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callproperty Qname(PackageNamespace(""),"isGpuRender") 0
+         convert_b
+         dup
+         iffalse ofs0047
+         pop
+         getlocal_3
+         pushnull
+         equals
+         ofs0047:iffalse ofs0070
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"instance")
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         callproperty Qname(PackageNamespace(""),"getPotionSlot") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         callpropvoid Qname(PackageNamespace(""),"invDrop") 3
+         jump ofs00db
+         ofs0070:getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"InteractiveItemTile")
+         istypelate
+         iffalse ofs00db
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"InteractiveItemTile")
+         astypelate
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"InteractiveItemTile")
+         dup
+         setlocal 4
+         callproperty Qname(PackageNamespace(""),"getItemId") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"ItemConstants")
+         getproperty Qname(PackageNamespace(""),"NO_ITEM")
+         equals
+         dup
+         iffalse ofs00a1
+         pop
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"ownerGrid")
+         getproperty Qname(PackageNamespace(""),"owner")
+         getlocal_2
+         equals
+         not
+         ofs00a1:iffalse ofs00db
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"instance")
+         getlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         callproperty Qname(PackageNamespace(""),"getPotionSlot") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"objectType")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"ownerGrid")
+         getproperty Qname(PackageNamespace(""),"owner")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"tileId")
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"ItemConstants")
+         getproperty Qname(PackageNamespace(""),"NO_ITEM")
+         callpropvoid Qname(PackageNamespace(""),"invSwapPotion") 7
+         ofs00db:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBuyUse() : void
+      {
+         trait method Qname(PrivateNamespace(null,"237"),"onBuyUse")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.game.model"),"UseBuyPotionVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"potionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"potionModels")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"position")
+         getproperty MultinameL([PrivateNamespace(null,"237"),PackageNamespace(""),PrivateNamespace(null,"1387"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotMediator"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"PotionModel")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"available")
+         iffalse ofs0044
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.model"),"UseBuyPotionVO")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"objectId")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"UseBuyPotionVO")
+         getproperty Qname(PackageNamespace(""),"SHIFTCLICK")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.model"),"UseBuyPotionVO") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.game.model"),"UseBuyPotionVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"useBuyPotionSignal")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0044:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

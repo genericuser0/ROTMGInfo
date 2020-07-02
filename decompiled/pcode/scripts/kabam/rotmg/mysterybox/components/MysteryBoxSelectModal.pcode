@@ -1,0 +1,569 @@
+package kabam.rotmg.mysterybox.components
+{
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormatAlign;
+   import io.decagames.rotmg.pets.utils.PetsViewAssetFactory;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.mysterybox.model.MysteryBoxInfo;
+   import kabam.rotmg.mysterybox.services.MysteryBoxModel;
+   import kabam.rotmg.pets.view.components.DialogCloseButton;
+   import kabam.rotmg.pets.view.components.PopupWindowBackground;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import org.swiftsuspenders.Injector;
+   
+   public class MysteryBoxSelectModal extends Sprite
+   {
+      
+      public static var modalWidth:int;
+      
+      public static var modalHeight:int;
+      
+      public static var aMysteryBoxHeight:int;
+      
+      public static const TEXT_MARGIN:int = 20;
+      
+      public static var open:Boolean;
+      
+      public static var backgroundImageEmbed:Class;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 20
+         initproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         findproperty Qname(PackageNamespace(""),"backgroundImageEmbed")
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal_backgroundImageEmbed")
+         setproperty Qname(PackageNamespace(""),"backgroundImageEmbed")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var closeButton:DialogCloseButton;
+      
+      private var box_:Sprite;
+      
+      private var mysteryData:Object;
+      
+      private var titleString:String = "MysteryBoxSelectModal.titleString";
+      
+      private var selectEntries:Vector.<MysteryBoxSelectEntry>;
+      
+      public function MysteryBoxSelectModal()
+      {
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlocal_0
+         constructsuper 0
+         findproperty Qname(PackageNamespace(""),"modalWidth")
+         pushshort 385
+         setproperty Qname(PackageNamespace(""),"modalWidth")
+         findproperty Qname(PackageNamespace(""),"modalHeight")
+         pushbyte 60
+         setproperty Qname(PackageNamespace(""),"modalHeight")
+         findproperty Qname(PackageNamespace(""),"aMysteryBoxHeight")
+         pushbyte 77
+         setproperty Qname(PackageNamespace(""),"aMysteryBoxHeight")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"782"),PackageNamespace(""),PackageNamespace("kabam.rotmg.mysterybox.components"),PrivateNamespace(null,"1792"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxSelectModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxSelectModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"782"),"selectEntries")
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"MysteryBoxModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"MysteryBoxModel")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getBoxesOrderByWeight") 0
+         initproperty Qname(PrivateNamespace(null,"782"),"mysteryData")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"782"),"addBoxChildren") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"782"),"positionAndStuff") 0
+         findproperty Qname(PackageNamespace(""),"open")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function getRightBorderX() : int
+      {
+         trait method Qname(PackageNamespace(""),"getRightBorderX")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         pushshort 300
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         pushbyte 2
+         divide
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function makeModalBackground(param1:int, param2:int) : PopupWindowBackground
+      {
+         trait method Qname(PrivateNamespace(null,"782"),"makeModalBackground")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         getproperty Qname(PackageNamespace(""),"TYPE_TRANSPARENT_WITH_HEADER")
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getText(param1:String, param2:int, param3:int) : TextFieldDisplayConcrete
+      {
+         trait method Qname(PackageNamespace(""),"getText")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 2
+         multiply
+         subtract
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         dup
+         setlocal 4
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal 4
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal 4
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setWordWrap") 1
+         getlocal 4
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         getlocal 4
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal 4
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         getlocal 4
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal 4
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionAndStuff() : void
+      {
+         trait method Qname(PrivateNamespace(null,"782"),"positionAndStuff")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         pushshort 600
+         pushbyte 2
+         divide
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         pushbyte 2
+         divide
+         getlex Qname(PackageNamespace(""),"modalHeight")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addBoxChildren() : void
+      {
+         trait method Qname(PrivateNamespace(null,"782"),"addBoxChildren")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal_2
+         pushbyte 0
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"mysteryData")
+         coerce_a
+         setlocal 8
+         jump ofs003f
+         ofs0024:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         setlocal_1
+         findproperty Qname(PackageNamespace(""),"modalHeight")
+         getlex Qname(PackageNamespace(""),"modalHeight")
+         getlex Qname(PackageNamespace(""),"aMysteryBoxHeight")
+         add
+         setproperty Qname(PackageNamespace(""),"modalHeight")
+         ofs003f:hasnext2 8 7
+         iftrue ofs0024
+         kill 8
+         kill 7
+         findpropstrict Qname(PackageNamespace(""),"backgroundImageEmbed")
+         constructprop Qname(PackageNamespace(""),"backgroundImageEmbed") 0
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         pushbyte 1
+         add
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"modalHeight")
+         pushbyte 25
+         subtract
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_2
+         pushbyte 27
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         pushdouble 0.95
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         findpropstrict Qname(PrivateNamespace(null,"782"),"makeModalBackground")
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         getlex Qname(PackageNamespace(""),"modalHeight")
+         callproperty Qname(PrivateNamespace(null,"782"),"makeModalBackground") 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         getlex Qname(PackageNamespace(""),"modalWidth")
+         callproperty Qname(PackageNamespace(""),"returnCloseButton") 1
+         initproperty Qname(PrivateNamespace(null,"782"),"closeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"titleString")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 6
+         callproperty Qname(PackageNamespace(""),"getText") 3
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         pushbyte 20
+         convert_d
+         setlocal_3
+         pushbyte 50
+         convert_d
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"mysteryData")
+         coerce_a
+         setlocal 8
+         jump ofs0148
+         ofs00f0:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         setlocal_1
+         getlocal 5
+         pushbyte 6
+         ifne ofs0106
+         jump ofs014f
+         ofs0106:findpropstrict Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         dup
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"x")
+         getlocal_3
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"y")
+         getlocal 4
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 4
+         getlex Qname(PackageNamespace(""),"aMysteryBoxHeight")
+         add
+         convert_d
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"box_")
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"selectEntries")
+         getlocal 6
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 5
+         ofs0148:hasnext2 8 7
+         iftrue ofs00f0
+         ofs014f:kill 8
+         kill 7
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateContent() : void
+      {
+         trait method Qname(PackageNamespace(""),"updateContent")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"782"),"selectEntries")
+         coerce_a
+         setlocal_3
+         jump ofs0021
+         ofs0014:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectEntry")
+         setlocal_1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"updateContent") 0
+         ofs0021:hasnext2 3 2
+         iftrue ofs0014
+         kill 3
+         kill 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"782"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"open")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

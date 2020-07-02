@@ -1,0 +1,329 @@
+package robotlegs.bender.extensions.modularity
+{
+   import flash.display.DisplayObjectContainer;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.modularity.impl.ContextViewBasedExistenceWatcher;
+   import robotlegs.bender.extensions.modularity.impl.ModularContextEvent;
+   import robotlegs.bender.extensions.modularity.impl.ViewManagerBasedExistenceWatcher;
+   import robotlegs.bender.extensions.viewManager.api.IViewManager;
+   import robotlegs.bender.framework.api.IContext;
+   import robotlegs.bender.framework.api.IExtension;
+   import robotlegs.bender.framework.api.ILogger;
+   import robotlegs.bender.framework.impl.UID;
+   
+   public class ModularityExtension implements IExtension
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const _uid:String;
+      
+      private var _context:IContext;
+      
+      private var _injector:Injector;
+      
+      private var _logger:ILogger;
+      
+      private var _inherit:Boolean;
+      
+      private var _expose:Boolean;
+      
+      public function ModularityExtension(param1:Boolean = true, param2:Boolean = true)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         optional true
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("robotlegs.bender.framework.impl"),"UID")
+         getlex Qname(PackageNamespace("robotlegs.bender.extensions.modularity"),"ModularityExtension")
+         callproperty Qname(PackageNamespace(""),"create") 1
+         initproperty Qname(PrivateNamespace(null,"517"),"_uid")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"517"),"_inherit")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"517"),"_expose")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function extend(param1:IContext) : void
+      {
+         trait method Qname(PackageNamespace(""),"extend")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("robotlegs.bender.framework.api"),"IContext")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"517"),"_context")
+         getlocal_0
+         getlocal_1
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"injector")
+         initproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlocal_0
+         getlocal_1
+         getlocal_0
+         callproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"getLogger") 1
+         initproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_context")
+         getproperty Qname(Namespace("robotlegs.bender.framework.api:IContext"),"lifecycle")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"beforeInitializing")
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILifecycle"),"beforeInitializing") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toString() : String
+      {
+         trait method Qname(PackageNamespace(""),"toString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_uid")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function beforeInitializing() : void
+      {
+         trait method Qname(PrivateNamespace(null,"517"),"beforeInitializing")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_inherit")
+         coerce_a
+         dup
+         iffalse ofs0013
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"517"),"broadcastContextExistence") 0
+         coerce_a
+         ofs0013:pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_expose")
+         coerce_a
+         dup
+         iffalse ofs0025
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"517"),"createContextWatcher") 0
+         coerce_a
+         ofs0025:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function broadcastContextExistence() : void
+      {
+         trait method Qname(PrivateNamespace(null,"517"),"broadcastContextExistence")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         callproperty Qname(PackageNamespace(""),"satisfiesDirectly") 1
+         iffalse ofs0048
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         pushstring "Context configured to inherit. Broadcasting existence event..."
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ModularContextEvent")
+         getlex Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ModularContextEvent")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_ADD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_context")
+         constructprop Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ModularContextEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         jump ofs0054
+         ofs0048:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         pushstring "Context has been configured to inherit dependencies but has no way to do so"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"warn") 1
+         ofs0054:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContextWatcher() : void
+      {
+         trait method Qname(PrivateNamespace(null,"517"),"createContextWatcher")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("robotlegs.bender.extensions.viewManager.api"),"IViewManager")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("robotlegs.bender.extensions.viewManager.api"),"IViewManager")
+         callproperty Qname(PackageNamespace(""),"satisfiesDirectly") 1
+         iffalse ofs0046
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         pushstring "Context has a ViewManager. Configuring view manager based context existence watcher..."
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("robotlegs.bender.extensions.viewManager.api"),"IViewManager")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("robotlegs.bender.extensions.viewManager.api"),"IViewManager")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ViewManagerBasedExistenceWatcher")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_context")
+         getlocal_1
+         constructprop Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ViewManagerBasedExistenceWatcher") 2
+         pop
+         jump ofs008a
+         ofs0046:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         callproperty Qname(PackageNamespace(""),"satisfiesDirectly") 1
+         iffalse ofs007e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         pushstring "Context has a ContextView. Configuring context view based context existence watcher..."
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_injector")
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ContextViewBasedExistenceWatcher")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_context")
+         getlocal_2
+         constructprop Qname(PackageNamespace("robotlegs.bender.extensions.modularity.impl"),"ContextViewBasedExistenceWatcher") 2
+         pop
+         jump ofs008a
+         ofs007e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"517"),"_logger")
+         pushstring "Context has been configured to expose its dependencies but has no way to do so"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"warn") 1
+         ofs008a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

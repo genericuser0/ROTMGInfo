@@ -1,0 +1,1093 @@
+package io.decagames.rotmg.dailyQuests.model
+{
+   import io.decagames.rotmg.dailyQuests.view.info.DailyQuestInfo;
+   import io.decagames.rotmg.dailyQuests.view.slot.DailyQuestItemSlot;
+   import kabam.rotmg.constants.GeneralConstants;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.signals.UpdateQuestSignal;
+   
+   public class DailyQuestsModel
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var currentQuest:DailyQuest;
+      
+      public var isPopupOpened:Boolean;
+      
+      public var categoriesWeight:Array;
+      
+      public var selectedItem:int = -1;
+      
+      private var _questsList:Vector.<DailyQuest>;
+      
+      private var _dailyQuestsList:Vector.<DailyQuest>;
+      
+      private var _eventQuestsList:Vector.<DailyQuest>;
+      
+      private var slots:Vector.<DailyQuestItemSlot>;
+      
+      private var _nextRefreshPrice:int;
+      
+      private var _hasQuests:Boolean;
+      
+      [Inject]
+      public var hud:HUDModel;
+      
+      [Inject]
+      public var updateQuestSignal:UpdateQuestSignal;
+      
+      public function DailyQuestsModel()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushbyte 1
+         pushbyte 0
+         pushbyte 2
+         pushbyte 3
+         pushbyte 4
+         newarray 5
+         initproperty Qname(PackageNamespace(""),"categoriesWeight")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"454"),"_dailyQuestsList")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.slot"),"DailyQuestItemSlot")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"454"),"slots")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function registerSelectableSlot(param1:DailyQuestItemSlot) : void
+      {
+         trait method Qname(PackageNamespace(""),"registerSelectableSlot")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.slot"),"DailyQuestItemSlot")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"slots")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function unregisterSelectableSlot(param1:DailyQuestItemSlot) : void
+      {
+         trait method Qname(PackageNamespace(""),"unregisterSelectableSlot")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.slot"),"DailyQuestItemSlot")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"slots")
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal_2
+         getlocal_2
+         pushbyte -1
+         ifeq ofs0021
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"slots")
+         getlocal_2
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs0021:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function unselectAllSlots(param1:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"unselectAllSlots")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.slot"),"DailyQuestItemSlot")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"slots")
+         coerce_a
+         setlocal 4
+         jump ofs002c
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.slot"),"DailyQuestItemSlot")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"itemID")
+         getlocal_1
+         ifeq ofs002c
+         getlocal_2
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs002c:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clear() : void
+      {
+         trait method Qname(PackageNamespace(""),"clear")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_dailyQuestsList")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"length")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"length")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         iffalse ofs0025
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"length")
+         ofs0025:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addQuests(param1:Vector.<DailyQuest>) : void
+      {
+         trait method Qname(PackageNamespace(""),"addQuests")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs001e
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"454"),"_hasQuests")
+         ofs001e:pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         coerce_a
+         setlocal 4
+         jump ofs003b
+         ofs002c:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addQuestToCategoryList") 1
+         ofs003b:hasnext2 4 3
+         iftrue ofs002c
+         kill 4
+         kill 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateQuestSignal")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"UpdateQuestSignal")
+         getproperty Qname(PackageNamespace(""),"QUEST_LIST_LOADED")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addQuestToCategoryList(param1:DailyQuest) : void
+      {
+         trait method Qname(PackageNamespace(""),"addQuestToCategoryList")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"category")
+         pushbyte 7
+         ifne ofs001a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         jump ofs0024
+         ofs001a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_dailyQuestsList")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0024:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function markAsCompleted(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"markAsCompleted")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         coerce_a
+         setlocal 4
+         jump ofs0038
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"id")
+         getlocal_1
+         equals
+         dup
+         iffalse ofs002f
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"repeatable")
+         not
+         ofs002f:iffalse ofs0038
+         getlocal_2
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"completed")
+         ofs0038:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get playerItemsFromInventory() : Vector.<int>
+      {
+         trait getter Qname(PackageNamespace(""),"playerItemsFromInventory")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"int")>)
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hud")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("player_",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         iffalse ofs004b
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hud")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("player_",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getproperty Multiname("equipment_",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"NUM_EQUIPMENT_SLOTS")
+         decrement
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"NUM_EQUIPMENT_SLOTS")
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"NUM_INVENTORY_SLOTS")
+         pushbyte 2
+         multiply
+         add
+         callproperty Multiname("slice",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")]) 2
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"int")>)
+         jump ofs0057
+         ofs004b:getlex Multiname("Vector",[PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"int")>)
+         ofs0057:coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"int")>)
+         setlocal_1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get numberOfActiveQuests() : int
+      {
+         trait getter Qname(PackageNamespace(""),"numberOfActiveQuests")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getproperty Qname(PackageNamespace(""),"length")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get numberOfCompletedQuests() : int
+      {
+         trait getter Qname(PackageNamespace(""),"numberOfCompletedQuests")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         coerce_a
+         setlocal 4
+         jump ofs002b
+         ofs0018:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"completed")
+         iffalse ofs002b
+         inclocal_i 1
+         ofs002b:hasnext2 4 3
+         iftrue ofs0018
+         kill 4
+         kill 3
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get questsList() : Vector.<DailyQuest>
+      {
+         trait getter Qname(PackageNamespace(""),"questsList")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")>)
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"concat") 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")>)
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"questsCompleteSort")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sort") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function questsNameSort(param1:DailyQuest, param2:DailyQuest) : int
+      {
+         trait method Qname(PrivateNamespace(null,"454"),"questsNameSort")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"name")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"name")
+         ifngt ofs0011
+         pushbyte 1
+         returnvalue
+         ofs0011:pushbyte -1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sortByCategory(param1:DailyQuest, param2:DailyQuest) : int
+      {
+         trait method Qname(PrivateNamespace(null,"454"),"sortByCategory")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"categoriesWeight")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"category")
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"categoriesWeight")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"category")
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         ifnlt ofs0021
+         pushbyte -1
+         returnvalue
+         ofs0021:getlocal_0
+         getproperty Qname(PackageNamespace(""),"categoriesWeight")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"category")
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"categoriesWeight")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"category")
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         ifngt ofs0040
+         pushbyte 1
+         returnvalue
+         ofs0040:getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"454"),"questsNameSort") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function questsReadySort(param1:DailyQuest, param2:DailyQuest) : int
+      {
+         trait method Qname(PrivateNamespace(null,"454"),"questsReadySort")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.info"),"DailyQuestInfo")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"requirements")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerItemsFromInventory")
+         callproperty Qname(PackageNamespace(""),"hasAllItems") 2
+         convert_b
+         setlocal_3
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.info"),"DailyQuestInfo")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"requirements")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerItemsFromInventory")
+         callproperty Qname(PackageNamespace(""),"hasAllItems") 2
+         convert_b
+         setlocal 4
+         getlocal_3
+         convert_b
+         dup
+         iffalse ofs0032
+         pop
+         getlocal 4
+         not
+         ofs0032:iffalse ofs0039
+         pushbyte -1
+         returnvalue
+         ofs0039:getlocal_3
+         convert_b
+         dup
+         iffalse ofs0044
+         pop
+         getlocal 4
+         convert_b
+         ofs0044:iffalse ofs0050
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"454"),"questsNameSort") 2
+         returnvalue
+         ofs0050:pushbyte 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function questsCompleteSort(param1:DailyQuest, param2:DailyQuest) : int
+      {
+         trait method Qname(PrivateNamespace(null,"454"),"questsCompleteSort")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"completed")
+         convert_b
+         dup
+         iffalse ofs0012
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"completed")
+         not
+         ofs0012:iffalse ofs0019
+         pushbyte 1
+         returnvalue
+         ofs0019:getlocal_1
+         getproperty Qname(PackageNamespace(""),"completed")
+         convert_b
+         dup
+         iffalse ofs0029
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"completed")
+         convert_b
+         ofs0029:iffalse ofs0035
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"454"),"sortByCategory") 2
+         returnvalue
+         ofs0035:getlocal_1
+         getproperty Qname(PackageNamespace(""),"completed")
+         not
+         dup
+         iffalse ofs0045
+         pop
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"completed")
+         not
+         ofs0045:iffalse ofs0051
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"454"),"sortByCategory") 2
+         returnvalue
+         ofs0051:pushbyte -1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getQuestById(param1:String) : DailyQuest
+      {
+         trait method Qname(PackageNamespace(""),"getQuestById")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         coerce_a
+         setlocal 4
+         jump ofs0029
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"id")
+         getlocal_1
+         ifne ofs0029
+         getlocal_2
+         returnvalue
+         ofs0029:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get first() : DailyQuest
+      {
+         trait getter Qname(PackageNamespace(""),"first")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs001a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"questsList")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         returnvalue
+         ofs001a:pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get nextRefreshPrice() : int
+      {
+         trait getter Qname(PackageNamespace(""),"nextRefreshPrice")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_nextRefreshPrice")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set nextRefreshPrice(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"nextRefreshPrice")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"454"),"_nextRefreshPrice")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get dailyQuestsList() : Vector.<DailyQuest>
+      {
+         trait getter Qname(PackageNamespace(""),"dailyQuestsList")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")>)
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_dailyQuestsList")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get eventQuestsList() : Vector.<DailyQuest>
+      {
+         trait getter Qname(PackageNamespace(""),"eventQuestsList")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")>)
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeQuestFromlist(param1:DailyQuest) : void
+      {
+         trait method Qname(PackageNamespace(""),"removeQuestFromlist")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.model"),"DailyQuest")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         jump ofs002c
+         ofs0009:label
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"id")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getproperty Qname(PackageNamespace(""),"id")
+         ifne ofs002a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         getlocal_2
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs002a:inclocal_i 2
+         ofs002c:getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_eventQuestsList")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0009
+         pushbyte 0
+         setlocal_3
+         jump ofs0062
+         ofs003f:label
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"id")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"454"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.dailyQuests.model"),PrivateNamespace(null,"1505"),PackageInternalNs("io.decagames.rotmg.dailyQuests.model"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.model:DailyQuestsModel")])
+         getproperty Qname(PackageNamespace(""),"id")
+         ifne ofs0060
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getlocal_3
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs0060:inclocal_i 3
+         ofs0062:getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_questsList")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs003f
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get hasQuests() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"hasQuests")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"454"),"_hasQuests")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

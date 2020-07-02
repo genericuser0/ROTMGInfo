@@ -1,0 +1,690 @@
+package io.decagames.rotmg.service.tracking
+{
+   import flash.crypto.generateRandomBytes;
+   import flash.display.Loader;
+   import flash.net.SharedObject;
+   import flash.net.URLRequest;
+   import flash.utils.ByteArray;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class GoogleAnalyticsTracker
+   {
+      
+      public static const VERSION:String = "1";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"VERSION")
+         pushstring "1"
+         initproperty Qname(PackageNamespace(""),"VERSION")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _debug:Boolean = false;
+      
+      private var trackingURL:String = "https://www.google-analytics.com/collect";
+      
+      private var account:String;
+      
+      private var logger:ILogger;
+      
+      private var clientID:String;
+      
+      public function GoogleAnalyticsTracker(param1:String, param2:ILogger, param3:String, param4:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("robotlegs.bender.framework.api"),"ILogger")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"887"),"account")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"887"),"logger")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"887"),"_debug")
+         getlocal 4
+         iffalse ofs0023
+         getlocal_0
+         pushstring "http://www.google-analytics.com/debug/collect"
+         initproperty Qname(PrivateNamespace(null,"887"),"trackingURL")
+         ofs0023:getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"887"),"getClientID") 0
+         initproperty Qname(PrivateNamespace(null,"887"),"clientID")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getClientID() : String
+      {
+         trait method Qname(PrivateNamespace(null,"887"),"getClientID")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 10
+         try from ofs0053 to ofs005e target ofs0062 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_1
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 2
+         getscopeobject 1
+         getlex Qname(PackageNamespace("flash.net"),"SharedObject")
+         pushstring "_ga2"
+         callproperty Qname(PackageNamespace(""),"getLocal") 1
+         coerce Qname(PackageNamespace("flash.net"),"SharedObject")
+         setslot 1
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Multiname("clientid",[PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         iftrue ofs0089
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"logger")
+         pushstring "CID not found, generate Client ID"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getscopeobject 1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"887"),"_generateUUID") 0
+         coerce_s
+         setslot 2
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"data")
+         getscopeobject 1
+         getslot 2
+         setproperty Multiname("clientid",[PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         ofs0053:getscopeobject 1
+         getslot 1
+         pushshort 1024
+         callpropvoid Qname(PackageNamespace(""),"flush") 1
+         ofs005e:jump ofs0085
+         ofs0062:getlocal_0
+         pushscope
+         getlocal_1
+         pushscope
+         newcatch 0
+         dup
+         setlocal_2
+         dup
+         pushscope
+         swap
+         setslot 1
+         getlex Qname(PrivateNamespace(null,"887"),"logger")
+         pushstring "Could not write SharedObject to disk: "
+         getscopeobject 2
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"message")
+         add
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         popscope
+         kill 2
+         ofs0085:jump ofs00b1
+         ofs0089:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"logger")
+         pushstring "CID found, restore from SharedObject: "
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Multiname("clientid",[PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         add
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Multiname("clientid",[PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         coerce_s
+         setslot 2
+         ofs00b1:getscopeobject 1
+         getslot 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function _generateUUID() : String
+      {
+         trait method Qname(PrivateNamespace(null,"887"),"_generateUUID")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_1
+         pushscope
+         getscopeobject 1
+         pushbyte 0
+         convert_u
+         setslot 4
+         getscopeobject 1
+         pushbyte 0
+         convert_u
+         setslot 6
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.crypto"),"generateRandomBytes")
+         pushbyte 16
+         callproperty Qname(PackageNamespace("flash.crypto"),"generateRandomBytes") 1
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setslot 1
+         getscopeobject 1
+         getslot 1
+         pushbyte 6
+         getscopeobject 1
+         getslot 1
+         pushbyte 6
+         getproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         pushbyte 15
+         bitand
+         setproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         getscopeobject 1
+         getslot 1
+         pushbyte 6
+         getscopeobject 1
+         getslot 1
+         pushbyte 6
+         getproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         pushbyte 64
+         bitor
+         setproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         getscopeobject 1
+         getslot 1
+         pushbyte 8
+         getscopeobject 1
+         getslot 1
+         pushbyte 8
+         getproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         pushbyte 63
+         bitand
+         setproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         getscopeobject 1
+         getslot 1
+         pushbyte 8
+         getscopeobject 1
+         getslot 1
+         pushbyte 8
+         getproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         pushshort 128
+         bitor
+         setproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         getscopeobject 1
+         newfunction 14391
+         coerce Qname(PackageNamespace(""),"Function")
+         setslot 2
+         getscopeobject 1
+         pushstring ""
+         setslot 3
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setslot 5
+         getscopeobject 1
+         getslot 1
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"position")
+         getscopeobject 1
+         pushbyte 0
+         convert_u
+         setslot 4
+         jump ofs00e4
+         ofs00b2:label
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 4
+         getproperty MultinameL([PrivateNamespace(null,"887"),PackageNamespace(""),PrivateNamespace(null,"1841"),PackageNamespace("io.decagames.rotmg.service.tracking"),PackageInternalNs("io.decagames.rotmg.service.tracking"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker"),StaticProtectedNs("io.decagames.rotmg.service.tracking:GoogleAnalyticsTracker")])
+         convert_u
+         setslot 6
+         getscopeobject 1
+         getscopeobject 1
+         getslot 3
+         getscopeobject 1
+         getslot 2
+         getglobalscope
+         getscopeobject 1
+         getslot 6
+         call 1
+         add
+         coerce_s
+         setslot 3
+         getscopeobject 1
+         getslot 4
+         increment
+         convert_u
+         getscopeobject 1
+         swap
+         setslot 4
+         ofs00e4:getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 5
+         iflt ofs00b2
+         getscopeobject 1
+         pushstring ""
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getscopeobject 1
+         getslot 3
+         pushbyte 0
+         pushbyte 8
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substr") 2
+         add
+         coerce_s
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "-"
+         add
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getscopeobject 1
+         getslot 3
+         pushbyte 8
+         pushbyte 4
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substr") 2
+         add
+         coerce_s
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "-"
+         add
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getscopeobject 1
+         getslot 3
+         pushbyte 12
+         pushbyte 4
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substr") 2
+         add
+         coerce_s
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "-"
+         add
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getscopeobject 1
+         getslot 3
+         pushbyte 16
+         pushbyte 4
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substr") 2
+         add
+         coerce_s
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "-"
+         add
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getscopeobject 1
+         getslot 3
+         pushbyte 20
+         pushbyte 12
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substr") 2
+         add
+         coerce_s
+         setslot 7
+         getscopeobject 1
+         getslot 7
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function trackEvent(param1:String, param2:String, param3:String = "", param4:Number = NaN) : void
+      {
+         trait method Qname(PackageNamespace(""),"trackEvent")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Number")
+         optional ""
+         optional NaN
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "&t=event"
+         pushstring "&ec="
+         add
+         getlocal_1
+         add
+         pushstring "&ea="
+         add
+         getlocal_2
+         add
+         getlocal_3
+         pushstring ""
+         ifeq ofs0027
+         pushstring "&el="
+         getlocal_3
+         add
+         coerce_a
+         jump ofs002a
+         ofs0027:pushstring ""
+         coerce_a
+         ofs002a:add
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         iftrue ofs0046
+         pushstring "&ev="
+         getlocal 4
+         add
+         coerce_a
+         jump ofs0049
+         ofs0046:pushstring ""
+         coerce_a
+         ofs0049:add
+         callpropvoid Qname(PrivateNamespace(null,"887"),"triggerEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function trackPageView(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"trackPageView")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "&t=pageview"
+         pushstring "&dp="
+         add
+         getlocal_1
+         add
+         callpropvoid Qname(PrivateNamespace(null,"887"),"triggerEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function prepareURL(param1:String) : String
+      {
+         trait method Qname(PrivateNamespace(null,"887"),"prepareURL")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"trackingURL")
+         pushstring "?v="
+         add
+         getlex Qname(PackageNamespace(""),"VERSION")
+         add
+         pushstring "&tid="
+         add
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"account")
+         add
+         pushstring "&cid="
+         add
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"clientID")
+         add
+         getlocal_1
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function triggerEvent(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"887"),"triggerEvent")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 10
+         try from ofs0042 to ofs006b target ofs006f type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Loader")
+         setslot 2
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.net"),"URLRequest")
+         setslot 3
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         callproperty Qname(PrivateNamespace(null,"887"),"prepareURL") 1
+         coerce_s
+         setslot 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"_debug")
+         iffalse ofs0042
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"logger")
+         pushstring "DEBUGGING GA:"
+         getscopeobject 1
+         getslot 1
+         add
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         returnvoid
+         ofs0042:getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Loader")
+         constructprop Qname(PackageNamespace("flash.display"),"Loader") 0
+         coerce Qname(PackageNamespace("flash.display"),"Loader")
+         setslot 2
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.net"),"URLRequest")
+         getscopeobject 1
+         getslot 1
+         constructprop Qname(PackageNamespace("flash.net"),"URLRequest") 1
+         coerce Qname(PackageNamespace("flash.net"),"URLRequest")
+         setslot 3
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(PackageNamespace(""),"load") 1
+         ofs006b:jump ofs00ae
+         ofs006f:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         getlex Qname(PrivateNamespace(null,"887"),"logger")
+         pushstring "Tracking Error:"
+         getscopeobject 2
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"message")
+         add
+         pushstring ", "
+         add
+         getscopeobject 2
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"name")
+         add
+         pushstring ", "
+         add
+         getscopeobject 2
+         getslot 1
+         callproperty Qname(PackageNamespace(""),"getStackTrace") 0
+         add
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"error") 1
+         popscope
+         kill 3
+         ofs00ae:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get debug() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"debug")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"887"),"_debug")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

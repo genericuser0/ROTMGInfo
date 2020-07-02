@@ -1,0 +1,3199 @@
+package kabam.rotmg.mysterybox.components
+{
+   import com.company.assembleegameclient.map.ParticleModalMap;
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.ui.dialogs.Dialog;
+   import com.company.assembleegameclient.util.Currency;
+   import com.gskinner.motion.GTween;
+   import com.gskinner.motion.easing.Sine;
+   import flash.display.Bitmap;
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.events.TimerEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.filters.GlowFilter;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormatAlign;
+   import flash.utils.Timer;
+   import io.decagames.rotmg.pets.utils.PetsViewAssetFactory;
+   import io.decagames.rotmg.shop.ShopConfiguration;
+   import io.decagames.rotmg.shop.ShopPopupView;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.assets.EmbeddedAssets;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.fortune.components.ItemWithTooltip;
+   import kabam.rotmg.game.model.GameModel;
+   import kabam.rotmg.mysterybox.model.MysteryBoxInfo;
+   import kabam.rotmg.mysterybox.services.GetMysteryBoxesTask;
+   import kabam.rotmg.pets.view.components.DialogCloseButton;
+   import kabam.rotmg.pets.view.components.PopupWindowBackground;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   import kabam.rotmg.ui.view.NotEnoughGoldDialog;
+   import kabam.rotmg.ui.view.components.Spinner;
+   import kabam.rotmg.util.components.LegacyBuyButton;
+   import kabam.rotmg.util.components.UIAssetsHelper;
+   import org.swiftsuspenders.Injector;
+   
+   public class MysteryBoxRollModal extends Sprite
+   {
+      
+      public static const WIDTH:int = 415;
+      
+      public static const HEIGHT:int = 400;
+      
+      public static const TEXT_MARGIN:int = 20;
+      
+      public static var open:Boolean;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 415
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         findproperty Qname(PackageNamespace(""),"HEIGHT")
+         pushshort 400
+         initproperty Qname(PackageNamespace(""),"HEIGHT")
+         findproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 20
+         initproperty Qname(PackageNamespace(""),"TEXT_MARGIN")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const ROLL_STATE:int = 1;
+      
+      private const IDLE_STATE:int = 0;
+      
+      private const iconSize:Number = 160;
+      
+      public var client:AppEngineClient;
+      
+      public var account:Account;
+      
+      public var parentSelectModal:MysteryBoxSelectModal;
+      
+      private var state:int;
+      
+      private var isShowReward:Boolean = false;
+      
+      private var rollCount:int = 0;
+      
+      private var rollTarget:int = 0;
+      
+      private var quantity_:int = 0;
+      
+      private var mbi:MysteryBoxInfo;
+      
+      private var spinners:Sprite;
+      
+      private var itemBitmaps:Vector.<Bitmap>;
+      
+      private var rewardsArray:Vector.<ItemWithTooltip>;
+      
+      private var closeButton:DialogCloseButton;
+      
+      private var particleModalMap:ParticleModalMap;
+      
+      private const playAgainString:String = "MysteryBoxRollModal.playAgainString";
+      
+      private const playAgainXTimesString:String = "MysteryBoxRollModal.playAgainXTimesString";
+      
+      private const youWonString:String = "MysteryBoxRollModal.youWonString";
+      
+      private const rewardsInVaultString:String = "MysteryBoxRollModal.rewardsInVaultString";
+      
+      private var minusNavSprite:Sprite;
+      
+      private var plusNavSprite:Sprite;
+      
+      private var boxButton:LegacyBuyButton;
+      
+      private var titleText:TextFieldDisplayConcrete;
+      
+      private var infoText:TextFieldDisplayConcrete;
+      
+      private var descTexts:Vector.<TextFieldDisplayConcrete>;
+      
+      private var swapImageTimer:Timer;
+      
+      private var totalRollTimer:Timer;
+      
+      private var nextRollTimer:Timer;
+      
+      private var indexInRolls:Vector.<int>;
+      
+      private var lastReward:String = "";
+      
+      private var requestComplete:Boolean = false;
+      
+      private var timerComplete:Boolean = false;
+      
+      private var goldBackground:DisplayObject;
+      
+      private var goldBackgroundMask:DisplayObject;
+      
+      private var rewardsList:Array;
+      
+      public function MysteryBoxRollModal(param1:MysteryBoxInfo, param2:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.mysterybox.model"),"MysteryBoxInfo")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"Bitmap")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"rewardsArray")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsViewAssetFactory")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         callproperty Qname(PackageNamespace(""),"returnCloseButton") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"playAgainString")
+         pushbyte 16
+         pushbyte 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"INVALID")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton") 4
+         initproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"descTexts")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushbyte 50
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 2000
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 800
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"nextRollTimer")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.assets"),"EmbeddedAssets")
+         constructprop Qname(PackageNamespace(""),"EvolveBackground") 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.assets"),"EmbeddedAssets")
+         constructprop Qname(PackageNamespace(""),"EvolveBackground") 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"disableLegacyCloseBehavior") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onCloseClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsInVaultString")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushshort 220
+         callproperty Qname(PackageNamespace(""),"getText") 3
+         pushbyte 20
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         pushbyte 40
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"addComponemts") 0
+         findproperty Qname(PackageNamespace(""),"open")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"open")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 100
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 43
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         pushshort 200
+         setproperty Qname(PackageNamespace(""),"_width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onRollClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getproperty Qname(PackageNamespace(""),"LEFT_NEVIGATOR")
+         pushbyte 3
+         callproperty Qname(PackageNamespace(""),"createLeftNevigatorIcon") 2
+         initproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onNavClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"GlowFilter")
+         pushbyte 0
+         pushbyte 1
+         pushbyte 2
+         dup
+         pushbyte 10
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.filters"),"GlowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 110
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 35
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"UIAssetsHelper")
+         getproperty Qname(PackageNamespace(""),"RIGHT_NEVIGATOR")
+         pushbyte 3
+         callproperty Qname(PackageNamespace(""),"createLeftNevigatorIcon") 2
+         initproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onNavClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"GlowFilter")
+         pushbyte 0
+         pushbyte 1
+         pushbyte 2
+         dup
+         pushbyte 10
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.filters"),"GlowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 110
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 50
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_3
+         getlocal_0
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PackageNamespace(""),"client")
+         getlocal_0
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PackageNamespace(""),"account")
+         pushbyte 0
+         convert_u
+         setlocal 4
+         jump ofs028f
+         ofs027d:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         pushbyte 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal 4
+         increment
+         convert_u
+         setlocal 4
+         ofs028f:getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"_rollsWithContents")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs027d
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"centerModal") 0
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"sendRollRequest") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function makeModalBackground(param1:int, param2:int) : PopupWindowBackground
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"makeModalBackground")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         getproperty Qname(PackageNamespace(""),"TYPE_TRANSPARENT_WITH_HEADER")
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function configureRollByQuantity(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         jump ofs00a1
+         ofs0011:label
+         getlocal_0
+         pushbyte 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         pushbyte 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"delay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         pushshort 2000
+         setproperty Qname(PackageNamespace(""),"delay")
+         jump ofs00ed
+         ofs0035:label
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         pushbyte 4
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"delay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         pushshort 1000
+         setproperty Qname(PackageNamespace(""),"delay")
+         jump ofs00ed
+         ofs0059:label
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         pushbyte 9
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"delay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         pushshort 1000
+         setproperty Qname(PackageNamespace(""),"delay")
+         jump ofs00ed
+         ofs007d:label
+         getlocal_0
+         pushbyte 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         pushbyte 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"delay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         pushshort 2000
+         setproperty Qname(PackageNamespace(""),"delay")
+         jump ofs00ed
+         ofs00a1:getlocal_1
+         setlocal 4
+         pushbyte 1
+         getlocal 4
+         ifstrictne ofs00b2
+         pushbyte 0
+         jump ofs00da
+         ofs00b2:pushbyte 5
+         getlocal 4
+         ifstrictne ofs00c0
+         pushbyte 1
+         jump ofs00da
+         ofs00c0:pushbyte 10
+         getlocal 4
+         ifstrictne ofs00ce
+         pushbyte 2
+         jump ofs00da
+         ofs00ce:jump ofs00d8
+         pushbyte 3
+         jump ofs00d8
+         ofs00d8:pushbyte 3
+         ofs00da:kill 4
+         lookupswitch ofs007d 3 ofs0011 ofs0035 ofs0059 ofs007d
+         ofs00ed:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         iffalse ofs0114
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         multiply
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleCurrency")
+         convert_i
+         setlocal_3
+         jump ofs012b
+         ofs0114:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         multiply
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         convert_i
+         setlocal_3
+         ofs012b:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         pushbyte 1
+         ifne ofs0149
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         callpropvoid Qname(PackageNamespace(""),"setPrice") 2
+         jump ofs0187
+         ofs0149:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"currency")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"price")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"playAgainXTimesString")
+         pushstring "cost"
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         pushstring "repeat"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         newobject 2
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         ofs0187:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getText(param1:String, param2:int, param3:int, param4:Boolean = false) : TextFieldDisplayConcrete
+      {
+         trait method Qname(PackageNamespace(""),"getText")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 2
+         multiply
+         subtract
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         dup
+         setlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal 4
+         iffalse ofs0044
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         jump ofs0056
+         ofs0044:getlocal 5
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         ofs0056:getlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setWordWrap") 1
+         getlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         getlocal 5
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal 5
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal 5
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 5
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addComponemts() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"addComponemts")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 7
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 27
+         setlocal_1
+         pushbyte 28
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         getlocal_1
+         dup
+         setlocal 6
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 6
+         kill 6
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         pushbyte 1
+         dup
+         setlocal 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 6
+         kill 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         decrement
+         dup
+         setlocal 6
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal 6
+         kill 6
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_2
+         subtract
+         dup
+         setlocal 6
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal 6
+         kill 6
+         setproperty Qname(PackageNamespace(""),"height")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackground")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner")
+         setlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"Spinner")
+         setlocal 4
+         getlocal_3
+         pushbyte 50
+         setproperty Qname(PackageNamespace(""),"degreesPerSecond")
+         getlocal 4
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"degreesPerSecond")
+         pushdouble 1.5
+         multiply
+         setproperty Qname(PackageNamespace(""),"degreesPerSecond")
+         pushdouble 0.7
+         convert_d
+         setlocal 5
+         getlocal 4
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal 5
+         multiply
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal 4
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal 5
+         multiply
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal 4
+         getlocal_3
+         pushdouble 0.7
+         dup
+         setlocal 6
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal 6
+         kill 6
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"goldBackgroundMask")
+         setproperty Qname(PackageNamespace(""),"mask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 30
+         subtract
+         pushbyte 3
+         divide
+         pushbyte 50
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PrivateNamespace(null,"1148"),"makeModalBackground")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         callproperty Qname(PrivateNamespace(null,"1148"),"makeModalBackground") 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.map"),"ParticleModalMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"ParticleModalMap")
+         getproperty Qname(PackageNamespace(""),"MODE_AUTO_UPDATE")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.map"),"ParticleModalMap") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"particleModalMap")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"particleModalMap")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sendRollRequest() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"sendRollRequest")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"moneyCheckPass") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"ROLL_STATE")
+         initproperty Qname(PrivateNamespace(null,"1148"),"state")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"id")
+         setproperty Multiname("boxId",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         iffalse ofs0064
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         setproperty Multiname("quantity",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         setproperty Multiname("price",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleCurrency")
+         setproperty Multiname("currency",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         jump ofs0085
+         ofs0064:getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         setproperty Multiname("quantity",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         setproperty Multiname("price",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         setproperty Multiname("currency",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0085:getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/account/purchaseMysteryBox"
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"title")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 6
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getText") 4
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         pushint 16768512
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"playRollAnimation") 0
+         getlocal_0
+         pushstring ""
+         initproperty Qname(PrivateNamespace(null,"1148"),"lastReward")
+         getlocal_0
+         newarray 0
+         initproperty Qname(PrivateNamespace(null,"1148"),"rewardsList")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1148"),"requestComplete")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1148"),"timerComplete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onTotalRollTimeComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function playRollAnimation() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"playRollAnimation")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         pushbyte 0
+         setlocal_1
+         jump ofs0043
+         ofs000d:label
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"_rollsWithContentsUnique")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"iconSize")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 3
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getlocal_2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 1
+         ofs0043:getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"_rollsWithContents")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs000d
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"displayItems") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapItemImage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTotalRollTimeComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onTotalRollTimeComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"1148"),"timerComplete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"requestComplete")
+         iffalse ofs001c
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"showReward") 0
+         ofs001c:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onTotalRollTimeComplete")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNextRollTimerComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onNextRollTimerComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"nextRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"nextRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onNextRollTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"shelveReward") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"clearReward") 0
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         increment_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         kill 3
+         kill 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"prepareNextRoll") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function prepareNextRoll() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"prepareNextRoll")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"title")
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         pushbyte 6
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getText") 4
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         initproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         pushint 16768512
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"playRollAnimation") 0
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1148"),"timerComplete")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsList")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"1148"),"lastReward")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onTotalRollTimeComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function swapItemImage(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"swapItemImage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         pushbyte 0
+         convert_u
+         setlocal_2
+         jump ofs0095
+         ofs0012:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"_rollsWithContentsUnique")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         ifnlt ofs004f
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         dup
+         setlocal_3
+         getlocal_2
+         dup
+         setlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         increment
+         setlocal 5
+         getlocal_3
+         getlocal 4
+         getlocal 5
+         setproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         kill 5
+         kill 3
+         kill 4
+         jump ofs005a
+         ofs004f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getlocal_2
+         pushbyte 0
+         setproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs005a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"_rollsWithContentsUnique")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"iconSize")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 3
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         getlocal_2
+         increment
+         convert_u
+         setlocal_2
+         ofs0095:getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"indexInRolls")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0012
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function displayItems(param1:Vector.<Bitmap>) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"displayItems")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("flash.display"),"Bitmap")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         jump ofs0179
+         ofs000a:label
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 40
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs01c4
+         ofs0048:label
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 20
+         add
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 100
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs01c4
+         ofs00bf:label
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushshort 140
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 40
+         subtract
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 60
+         add
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs01c4
+         ofs0170:label
+         jump ofs01c4
+         jump ofs0179
+         ofs0179:getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         setlocal_3
+         pushbyte 1
+         getlocal_3
+         ifstrictne ofs018b
+         pushbyte 0
+         jump ofs01b1
+         ofs018b:pushbyte 2
+         getlocal_3
+         ifstrictne ofs0198
+         pushbyte 1
+         jump ofs01b1
+         ofs0198:pushbyte 3
+         getlocal_3
+         ifstrictne ofs01a5
+         pushbyte 2
+         jump ofs01b1
+         ofs01a5:jump ofs01af
+         pushbyte 3
+         jump ofs01af
+         ofs01af:pushbyte 3
+         ofs01b1:kill 3
+         lookupswitch ofs0170 3 ofs000a ofs0048 ofs00bf ofs0170
+         ofs01c4:pushbyte 0
+         setlocal_3
+         getlocal_1
+         coerce_a
+         setlocal 4
+         jump ofs01df
+         ofs01cf:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs01df:hasnext2 4 3
+         iftrue ofs01cf
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 19
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal 7
+         pushnull
+         coerce_s
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         setlocal 9
+         pushnull
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal 10
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"GetMysteryBoxesTask")
+         setlocal 11
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 12
+         pushbyte 0
+         setlocal 13
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 14
+         pushbyte 0
+         setlocal 15
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 16
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"1148"),"requestComplete")
+         getlocal_1
+         iffalse ofs01cd
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_2
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         pushbyte 0
+         setlocal 17
+         getlocal_3
+         pushstring "Awards"
+         callproperty Multiname("elements",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         coerce_a
+         setlocal 18
+         jump ofs008b
+         ofs0071:label
+         getlocal 18
+         getlocal 17
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsList")
+         getlocal 4
+         callproperty Multiname("toString",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs008b:hasnext2 18 17
+         iftrue ofs0071
+         kill 18
+         kill 17
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsList")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"1148"),"lastReward")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"timerComplete")
+         iffalse ofs00b1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"showReward") 0
+         ofs00b1:getlocal_3
+         pushstring "Left"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         convert_b
+         dup
+         iffalse ofs00cd
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte -1
+         equals
+         not
+         ofs00cd:iffalse ofs00e2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Multiname("Left",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         setproperty Qname(PackageNamespace(""),"unitsLeft")
+         ofs00e2:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"GameModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         getproperty Multiname("player",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         dup
+         setlocal 5
+         pushnull
+         ifeq ofs013e
+         getlocal_3
+         pushstring "Gold"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         iffalse ofs0122
+         getlocal 5
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Multiname("Gold",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callpropvoid Qname(PackageNamespace(""),"setCredits") 1
+         jump ofs013a
+         ofs0122:getlocal_3
+         pushstring "Fame"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         iffalse ofs013a
+         getlocal 5
+         getlocal_3
+         getproperty Multiname("Fame",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         setproperty Qname(PackageNamespace(""),"fame_")
+         ofs013a:jump ofs0198
+         ofs013e:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         dup
+         setlocal 6
+         pushnull
+         ifeq ofs0198
+         getlocal_3
+         pushstring "Gold"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         iffalse ofs017a
+         getlocal 6
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Multiname("Gold",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callpropvoid Qname(PackageNamespace(""),"setCredits") 1
+         jump ofs0198
+         ofs017a:getlocal_3
+         pushstring "Fame"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         iffalse ofs0198
+         getlocal 6
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Multiname("Fame",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callpropvoid Qname(PackageNamespace(""),"setFame") 1
+         ofs0198:getlocal_3
+         pushstring "PurchaseLeft"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         convert_b
+         dup
+         iffalse ofs01b4
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"purchaseLeft")
+         pushbyte -1
+         equals
+         not
+         ofs01b4:iffalse ofs01c9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Multiname("PurchaseLeft",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         setproperty Qname(PackageNamespace(""),"purchaseLeft")
+         ofs01c9:jump ofs0394
+         ofs01cd:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onTotalRollTimeComplete")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"totalRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal 7
+         pushstring "MysteryBoxRollModal.pleaseTryAgainString"
+         setlocal 8
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         pushstring ""
+         ifeq ofs0214
+         getlocal_2
+         coerce_s
+         setlocal 8
+         ofs0214:getlocal_2
+         pushstring "MysteryBoxError.soldOut"
+         callproperty Multiname("indexOf",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         pushbyte 0
+         ifnge ofs02a2
+         getlocal_2
+         pushstring "|"
+         callproperty Multiname("split",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 12
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 2
+         ifne ofs02a2
+         getlocal 12
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         dup
+         setlocal 13
+         pushbyte 0
+         ifne ofs0258
+         pushstring "MysteryBoxError.soldOutAll"
+         setlocal 8
+         jump ofs02a2
+         ofs0258:getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "MysteryBoxError.soldOutLeft"
+         pushstring "left"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushstring "box"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"unitsLeft")
+         pushbyte 1
+         equals
+         iffalse ofs028b
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "MysteryBoxError.box"
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         coerce_a
+         jump ofs0298
+         ofs028b:getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "MysteryBoxError.boxes"
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         coerce_a
+         ofs0298:newobject 2
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 2
+         coerce_s
+         setlocal 8
+         ofs02a2:getlocal_2
+         pushstring "MysteryBoxError.maxPurchase"
+         callproperty Multiname("indexOf",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         pushbyte 0
+         ifnge ofs02fc
+         getlocal_2
+         pushstring "|"
+         callproperty Multiname("split",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 14
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 2
+         ifne ofs02fc
+         getlocal 14
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         dup
+         setlocal 15
+         pushbyte 0
+         ifne ofs02e6
+         pushstring "MysteryBoxError.maxPurchase"
+         setlocal 8
+         jump ofs02fc
+         ofs02e6:getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "MysteryBoxError.maxPurchaseLeft"
+         pushstring "left"
+         getlocal 15
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 2
+         coerce_s
+         setlocal 8
+         ofs02fc:getlocal_2
+         pushstring "blockedForUser"
+         callproperty Multiname("indexOf",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         pushbyte 0
+         ifnge ofs0340
+         getlocal_2
+         pushstring "|"
+         callproperty Multiname("split",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 16
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 2
+         ifne ofs0340
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "MysteryBoxError.blockedForUser"
+         pushstring "date"
+         getlocal 16
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 2
+         coerce_s
+         setlocal 8
+         ofs0340:findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         pushstring "MysteryBoxRollModal.purchaseFailedString"
+         getlocal 8
+         pushstring "MysteryBoxRollModal.okString"
+         pushnull
+         pushnull
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog") 5
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         dup
+         setlocal 9
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onErrorOk")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal 7
+         getlocal 9
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         dup
+         setlocal 10
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"GetMysteryBoxesTask")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"GetMysteryBoxesTask")
+         dup
+         setlocal 11
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"close") 1
+         ofs0394:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onErrorOk(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onErrorOk")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal_2
+         getlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal")
+         constructprop Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function moneyCheckPass() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"moneyCheckPass")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         setlocal 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         convert_b
+         dup
+         iffalse ofs002d
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         pushbyte 0
+         greaterthan
+         ofs002d:iffalse ofs0056
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleCurrency")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         multiply
+         convert_i
+         setlocal_2
+         jump ofs0077
+         ofs0056:findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"mbi")
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         multiply
+         convert_i
+         setlocal_2
+         ofs0077:pushtrue
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"GameModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         getproperty Multiname("player",[PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         dup
+         setlocal 6
+         pushnull
+         ifeq ofs00b3
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"credits_")
+         convert_i
+         setlocal 5
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"fame_")
+         convert_i
+         setlocal 4
+         jump ofs00df
+         ofs00b3:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         dup
+         setlocal 8
+         pushnull
+         ifeq ofs00df
+         getlocal 8
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         convert_i
+         setlocal 5
+         getlocal 8
+         callproperty Qname(PackageNamespace(""),"getFame") 0
+         convert_i
+         setlocal 4
+         ofs00df:getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         equals
+         dup
+         iffalse ofs00f2
+         pop
+         getlocal 5
+         getlocal_2
+         lessthan
+         ofs00f2:iffalse ofs011c
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         dup
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         pushfalse
+         setlocal_3
+         jump ofs0155
+         ofs011c:getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         equals
+         dup
+         iffalse ofs012f
+         pop
+         getlocal 4
+         getlocal_2
+         lessthan
+         ofs012f:iffalse ofs0155
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         dup
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         pushfalse
+         setlocal_3
+         ofs0155:getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onCloseClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"onCloseClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"close") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function close(param1:Boolean = false) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"close")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"state")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"ROLL_STATE")
+         ifne ofs0014
+         returnvoid
+         ofs0014:getlocal_1
+         iftrue ofs0071
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"parentSelectModal")
+         pushnull
+         ifeq ofs004a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"parentSelectModal")
+         callpropvoid Qname(PackageNamespace(""),"updateContent") 0
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"parentSelectModal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs0071
+         ofs004a:getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopConfiguration")
+         getproperty Qname(PackageNamespace(""),"USE_NEW_SHOP")
+         iffalse ofs0065
+         getlocal_2
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopPopupView")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopPopupView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs0071
+         ofs0065:getlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal")
+         constructprop Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0071:findproperty Qname(PackageNamespace(""),"open")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"open")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"open")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showReward() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"showReward")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal 4
+         pushbyte 0
+         convert_u
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapItemImage")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"swapImageTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"IDLE_STATE")
+         initproperty Qname(PrivateNamespace(null,"1148"),"state")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         ifnlt ofs0058
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"nextRollTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"onNextRollTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"nextRollTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         ofs0058:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"closeButton")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsList")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"shift") 0
+         coerce_s
+         setlocal_1
+         getlocal_1
+         pushstring ","
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"infoText")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"youWonString")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         pushint 16768512
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         pushbyte 40
+         setlocal_3
+         pushbyte 0
+         setlocal 7
+         getlocal_2
+         coerce_a
+         setlocal 8
+         jump ofs0113
+         ofs00b3:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce_s
+         setlocal 4
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"typeToDisplayId_")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"TEXT_MARGIN")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"getText") 3
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         dup
+         setlocal 6
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal 6
+         pushbyte 18
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         getlocal 6
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"descTexts")
+         getlocal 6
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_3
+         pushbyte 25
+         add
+         convert_i
+         setlocal_3
+         ofs0113:hasnext2 8 7
+         iftrue ofs00b3
+         kill 8
+         kill 7
+         pushbyte 0
+         convert_u
+         setlocal 5
+         jump ofs016b
+         ofs0127:label
+         getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getproperty Qname(PackageNamespace(""),"length")
+         ifnlt ofs0165
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_2
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"iconSize")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 3
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         ofs0165:getlocal 5
+         increment
+         convert_u
+         setlocal 5
+         ofs016b:getlocal 5
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0127
+         pushbyte 0
+         convert_u
+         setlocal 5
+         jump ofs01ac
+         ofs017e:label
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "scaleX"
+         pushdouble 1.25
+         pushstring "scaleY"
+         pushdouble 1.25
+         newobject 2
+         pushstring "scaleX"
+         pushbyte 1
+         pushstring "scaleY"
+         pushbyte 1
+         newobject 2
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation") 3
+         getlocal 5
+         increment
+         convert_u
+         setlocal 5
+         ofs01ac:getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs017e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollTarget")
+         ifne ofs021f
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         pushstring "alpha"
+         pushbyte 0
+         newobject 1
+         pushstring "alpha"
+         pushbyte 1
+         newobject 1
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation") 3
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         pushstring "alpha"
+         pushbyte 0
+         newobject 1
+         pushstring "alpha"
+         pushbyte 1
+         newobject 1
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation") 3
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         pushstring "alpha"
+         pushbyte 0
+         newobject 1
+         pushstring "alpha"
+         pushbyte 1
+         newobject 1
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation") 3
+         ofs021f:getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         pushstring "alpha"
+         pushbyte 0
+         newobject 1
+         pushstring "alpha"
+         pushbyte 1
+         newobject 1
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation") 3
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"1148"),"isShowReward")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function doEaseInAnimation(param1:DisplayObject, param2:Object = null, param3:Object = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"doEaseInAnimation")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         getlocal_1
+         pushdouble 0.5
+         getlocal_2
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.gskinner.motion.easing"),"Sine")
+         getproperty Qname(PackageNamespace(""),"easeOut")
+         newobject 1
+         constructprop Qname(PackageNamespace("com.gskinner.motion"),"GTween") 4
+         coerce Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         dup
+         setlocal 4
+         findpropstrict Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         getlocal_1
+         pushdouble 0.5
+         getlocal_3
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.gskinner.motion.easing"),"Sine")
+         getproperty Qname(PackageNamespace(""),"easeIn")
+         newobject 1
+         constructprop Qname(PackageNamespace("com.gskinner.motion"),"GTween") 4
+         setproperty Qname(PackageNamespace(""),"nextTween")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"nextTween")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"paused")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function shelveReward() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"shelveReward")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         pushbyte 0
+         setlocal 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"lastReward")
+         pushstring ","
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs011a
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 64
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 6
+         divide
+         pushbyte 10
+         subtract
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_3
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 65
+         subtract
+         convert_i
+         setlocal 4
+         getlocal_2
+         pushbyte 5
+         getlocal 4
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         pushbyte 5
+         divide
+         callproperty Qname(PackageNamespace(""),"int") 1
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         pushbyte 80
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         pushbyte 5
+         modulo
+         multiply
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         pushbyte 40
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"width")
+         pushdouble 0.5
+         multiply
+         add
+         convert_i
+         setlocal 5
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 3
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1148"),PackageNamespace(""),PrivateNamespace(null,"2091"),PackageNamespace("kabam.rotmg.mysterybox.components"),PackageInternalNs("kabam.rotmg.mysterybox.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("kabam.rotmg.mysterybox.components:MysteryBoxRollModal"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Qname(PackageNamespace(""),"height")
+         pushdouble 0.5
+         multiply
+         add
+         convert_i
+         setlocal 6
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         pushdouble 0.5
+         multiply
+         add
+         convert_i
+         setlocal 7
+         pushbyte 100
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rollCount")
+         pushbyte 5
+         modulo
+         multiply
+         add
+         pushdouble 0.5
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 6
+         divide
+         pushbyte 20
+         subtract
+         multiply
+         add
+         convert_i
+         setlocal 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"particleModalMap")
+         getlocal 5
+         getlocal 6
+         getlocal 7
+         getlocal 8
+         pushbyte 115
+         pushint 15787660
+         pushdouble 0.2
+         callpropvoid Qname(PackageNamespace(""),"doLightning") 7
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsArray")
+         getlocal_2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs011a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearReward() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"clearReward")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"spinners")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"alpha")
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"titleText")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"descTexts")
+         coerce_a
+         setlocal 4
+         jump ofs0051
+         ofs0041:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0051:hasnext2 4 3
+         iftrue ofs0041
+         kill 4
+         kill 3
+         jump ofs006a
+         ofs0060:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"descTexts")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         ofs006a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"descTexts")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifgt ofs0060
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"boxButton")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         coerce_a
+         setlocal 4
+         jump ofs00a0
+         ofs0090:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs00a0:hasnext2 4 3
+         iftrue ofs0090
+         kill 4
+         kill 3
+         jump ofs00b9
+         ofs00af:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         ofs00b9:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"itemBitmaps")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifgt ofs00af
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearShelveReward() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"clearShelveReward")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsArray")
+         coerce_a
+         setlocal_3
+         jump ofs0024
+         ofs0014:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.components"),"ItemWithTooltip")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0024:hasnext2 3 2
+         iftrue ofs0014
+         kill 3
+         kill 2
+         jump ofs003d
+         ofs0033:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsArray")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         ofs003d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"rewardsArray")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifgt ofs0033
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function centerModal() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"centerModal")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         pushbyte 2
+         divide
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         subtract
+         initproperty Qname(PackageNamespace(""),"x")
+         findproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         pushbyte 2
+         divide
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         pushbyte 2
+         divide
+         subtract
+         initproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNavClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onNavClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"minusNavSprite")
+         ifne ofs006f
+         jump ofs0030
+         ofs0013:label
+         getlocal_0
+         pushbyte 1
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         jump ofs006b
+         ofs001f:label
+         getlocal_0
+         pushbyte 5
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         jump ofs006b
+         ofs002b:label
+         jump ofs006b
+         ofs0030:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         setlocal_2
+         pushbyte 5
+         getlocal_2
+         ifstrictne ofs0042
+         pushbyte 0
+         jump ofs005b
+         ofs0042:pushbyte 10
+         getlocal_2
+         ifstrictne ofs004f
+         pushbyte 1
+         jump ofs005b
+         ofs004f:jump ofs0059
+         pushbyte 2
+         jump ofs0059
+         ofs0059:pushbyte 2
+         ofs005b:kill 2
+         lookupswitch ofs002b 2 ofs0013 ofs001f ofs002b
+         ofs006b:jump ofs00d8
+         ofs006f:getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"plusNavSprite")
+         ifne ofs00d8
+         jump ofs009d
+         ofs0080:label
+         getlocal_0
+         pushbyte 5
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         jump ofs00d8
+         ofs008c:label
+         getlocal_0
+         pushbyte 10
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         jump ofs00d8
+         ofs0098:label
+         jump ofs00d8
+         ofs009d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         setlocal_2
+         pushbyte 1
+         getlocal_2
+         ifstrictne ofs00af
+         pushbyte 0
+         jump ofs00c8
+         ofs00af:pushbyte 5
+         getlocal_2
+         ifstrictne ofs00bc
+         pushbyte 1
+         jump ofs00c8
+         ofs00bc:jump ofs00c6
+         pushbyte 2
+         jump ofs00c6
+         ofs00c6:pushbyte 2
+         ofs00c8:kill 2
+         lookupswitch ofs0098 2 ofs0080 ofs008c ofs0098
+         ofs00d8:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRollClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1148"),"onRollClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1148"),"quantity_")
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"configureRollByQuantity") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"clearReward") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"clearShelveReward") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1148"),"sendRollRequest") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

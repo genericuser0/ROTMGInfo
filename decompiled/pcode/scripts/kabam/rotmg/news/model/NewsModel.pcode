@@ -1,0 +1,971 @@
+package kabam.rotmg.news.model
+{
+   import com.company.assembleegameclient.parameters.Parameters;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.constants.GeneralConstants;
+   import kabam.rotmg.news.controller.NewsButtonRefreshSignal;
+   import kabam.rotmg.news.controller.NewsDataUpdatedSignal;
+   import kabam.rotmg.news.view.NewsModalPage;
+   
+   public class NewsModel
+   {
+      
+      private static const COUNT:int = 3;
+      
+      public static const MODAL_PAGE_COUNT:int = 4;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"102"),"COUNT")
+         pushbyte 3
+         initproperty Qname(PrivateNamespace(null,"102"),"COUNT")
+         findproperty Qname(PackageNamespace(""),"MODAL_PAGE_COUNT")
+         pushbyte 4
+         initproperty Qname(PackageNamespace(""),"MODAL_PAGE_COUNT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var update:NewsDataUpdatedSignal;
+      
+      [Inject]
+      public var updateNoParams:NewsButtonRefreshSignal;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      public var news:Vector.<NewsCellVO>;
+      
+      public var modalPageData:Vector.<NewsCellVO>;
+      
+      private var inGameNews:Vector.<InGameNews>;
+      
+      public function NewsModel()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addInGameNews(param1:InGameNews) : void
+      {
+         trait method Qname(PackageNamespace(""),"addInGameNews")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"showInModes")
+         callproperty Qname(PackageNamespace(""),"isInModeToBeShown") 1
+         convert_b
+         dup
+         iffalse ofs0019
+         pop
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"102"),"isValidForPlatform") 1
+         convert_b
+         ofs0019:iffalse ofs0027
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0027:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"102"),"sortNews") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clearNews() : void
+      {
+         trait method Qname(PackageNamespace(""),"clearNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         iffalse ofs0013
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"length")
+         ofs0013:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isInModeToBeShown(param1:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isInModeToBeShown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         convert_b
+         setlocal_3
+         jump ofs0034
+         ofs0016:label
+         pushtrue
+         setlocal_2
+         jump ofs008f
+         ofs001d:label
+         getlocal_3
+         not
+         setlocal_2
+         jump ofs008f
+         ofs0025:label
+         getlocal_3
+         convert_b
+         setlocal_2
+         jump ofs008f
+         ofs002d:label
+         pushtrue
+         setlocal_2
+         jump ofs008f
+         ofs0034:getlocal_1
+         setlocal 4
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MODE_ALL")
+         getlocal 4
+         ifstrictne ofs004a
+         pushbyte 0
+         jump ofs007c
+         ofs004a:getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MODE_ORIGINAL")
+         getlocal 4
+         ifstrictne ofs005d
+         pushbyte 1
+         jump ofs007c
+         ofs005d:getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MODE_RIFT")
+         getlocal 4
+         ifstrictne ofs0070
+         pushbyte 2
+         jump ofs007c
+         ofs0070:jump ofs007a
+         pushbyte 3
+         jump ofs007a
+         ofs007a:pushbyte 3
+         ofs007c:kill 4
+         lookupswitch ofs002d 3 ofs0016 ofs001d ofs0025 ofs002d
+         ofs008f:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sortNews() : void
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"sortNews")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_1
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         newfunction 1310
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sort") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function markAsRead() : void
+      {
+         trait method Qname(PackageNamespace(""),"markAsRead")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getFirstNews") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs002a
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "lastNewsKey"
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"newsKey")
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         ofs002a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasUpdates() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasUpdates")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getFirstNews") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         setlocal_1
+         getlocal_1
+         pushnull
+         equals
+         dup
+         iftrue ofs0026
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "lastNewsKey"
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"newsKey")
+         equals
+         ofs0026:iffalse ofs002c
+         pushfalse
+         returnvalue
+         ofs002c:pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getFirstNews() : InGameNews
+      {
+         trait method Qname(PackageNamespace(""),"getFirstNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         convert_b
+         dup
+         iffalse ofs0017
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         ofs0017:iffalse ofs0026
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         returnvalue
+         ofs0026:pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function initNews() : void
+      {
+         trait method Qname(PackageNamespace(""),"initNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         applytype 1
+         getlex Qname(PrivateNamespace(null,"102"),"COUNT")
+         pushtrue
+         construct 2
+         initproperty Qname(PackageNamespace(""),"news")
+         pushbyte 0
+         setlocal_1
+         jump ofs0030
+         ofs001c:label
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.news.model"),"DefaultNewsCellVO")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.news.model"),"DefaultNewsCellVO") 1
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         inclocal_i 1
+         ofs0030:getlocal_1
+         getlex Qname(PrivateNamespace(null,"102"),"COUNT")
+         iflt ofs001c
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateNews(param1:Vector.<NewsCellVO>) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateNews")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"initNews") 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")>)
+         setlocal_2
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         applytype 1
+         pushbyte 4
+         pushtrue
+         construct 2
+         initproperty Qname(PackageNamespace(""),"modalPageData")
+         pushbyte 0
+         setlocal 6
+         getlocal_1
+         coerce_a
+         setlocal 7
+         jump ofs00b7
+         ofs003d:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"slot")
+         pushbyte 3
+         ifnle ofs005b
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         jump ofs00b7
+         ofs005b:getlocal_3
+         getproperty Qname(PackageNamespace(""),"slot")
+         pushbyte 4
+         subtract
+         convert_i
+         dup
+         setlocal 4
+         pushbyte 1
+         add
+         convert_i
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"modalPageData")
+         getlocal 4
+         getlocal_3
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "newsTimestamp"
+         getlocal 5
+         add
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"endDate")
+         ifeq ofs00b7
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "newsTimestamp"
+         getlocal 5
+         add
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"endDate")
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushstring "hasNewsUpdate"
+         getlocal 5
+         add
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         ofs00b7:hasnext2 7 6
+         iftrue ofs003d
+         kill 7
+         kill 6
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"102"),"sortByPriority") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"update")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateNoParams")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sortByPriority(param1:Vector.<NewsCellVO>) : void
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"sortByPriority")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         coerce_a
+         setlocal 4
+         jump ofs0037
+         ofs0011:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"102"),"isNewsTimely") 1
+         convert_b
+         dup
+         iffalse ofs002d
+         pop
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"102"),"isValidForPlatformGlobal") 1
+         convert_b
+         ofs002d:iffalse ofs0037
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"102"),"prioritize") 1
+         ofs0037:hasnext2 4 3
+         iftrue ofs0011
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function prioritize(param1:NewsCellVO) : void
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"prioritize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"slot")
+         decrement
+         convert_u
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         iffalse ofs0028
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"102"),"comparePriority") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         setlocal_1
+         ofs0028:getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         getlocal_2
+         getlocal_1
+         setproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function comparePriority(param1:NewsCellVO, param2:NewsCellVO) : NewsCellVO
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"comparePriority")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         returns Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priority")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"priority")
+         ifnlt ofs0015
+         getlocal_1
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         jump ofs0018
+         ofs0015:getlocal_2
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         ofs0018:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isNewsTimely(param1:NewsCellVO) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"isNewsTimely")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         convert_d
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"startDate")
+         getlocal_2
+         lessthan
+         dup
+         iffalse ofs0020
+         pop
+         getlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"endDate")
+         lessthan
+         ofs0020:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasValidNews() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasValidNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0022
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         pushnull
+         equals
+         not
+         ofs0022:dup
+         iffalse ofs0035
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news")
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         pushnull
+         equals
+         not
+         ofs0035:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasValidModalNews() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasValidModalNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get numberOfNews() : int
+      {
+         trait getter Qname(PackageNamespace(""),"numberOfNews")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getproperty Qname(PackageNamespace(""),"length")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getModalPage(param1:int) : NewsModalPage
+      {
+         trait method Qname(PackageNamespace(""),"getModalPage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsModalPage")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         setlocal_2
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"hasValidModalNews") 0
+         iffalse ofs002a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"102"),"inGameNews")
+         getlocal_1
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"102"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("kabam.rotmg.news.model"),PrivateNamespace(null,"1342"),PackageInternalNs("kabam.rotmg.news.model"),ProtectedNamespace("kabam.rotmg.news.model:NewsModel"),StaticProtectedNs("kabam.rotmg.news.model:NewsModel")])
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsModalPage")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"title")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"text")
+         constructprop Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsModalPage") 2
+         returnvalue
+         ofs002a:findpropstrict Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsModalPage")
+         pushstring "No new information"
+         pushstring "Please check back later."
+         constructprop Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsModalPage") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isValidForPlatformGlobal(param1:NewsCellVO) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"isValidForPlatformGlobal")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsCellVO")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"playPlatform") 0
+         coerce_s
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"networks")
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isValidForPlatform(param1:InGameNews) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"102"),"isValidForPlatform")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.news.model"),"InGameNews")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetwork") 0
+         coerce_s
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"platform")
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

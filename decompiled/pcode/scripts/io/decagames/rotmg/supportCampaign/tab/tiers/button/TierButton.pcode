@@ -1,0 +1,669 @@
+package io.decagames.rotmg.supportCampaign.tab.tiers.button
+{
+   import com.greensock.TimelineMax;
+   import com.greensock.TweenMax;
+   import com.greensock.easing.Expo;
+   import flash.display.Sprite;
+   import flash.filters.BitmapFilterQuality;
+   import flash.filters.GlowFilter;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormatAlign;
+   import io.decagames.rotmg.supportCampaign.tab.tiers.button.status.TierButtonStatus;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import org.osflash.signals.Signal;
+   
+   public class TierButton extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var background:SliceScalingBitmap;
+      
+      private var _tier:int;
+      
+      private var _status:int;
+      
+      private var _selected:Boolean;
+      
+      private var tierLabel:UILabel;
+      
+      private var _removeToolTipSignal:Signal;
+      
+      private var tierTween:TimelineMax;
+      
+      private var claimTween:TimelineMax;
+      
+      private const OUTLINE_FILTER:GlowFilter;
+      
+      private const GLOW_FILTER:GlowFilter;
+      
+      public function TierButton(param1:int, param2:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 10
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PrivateNamespace(null,"492"),"_removeToolTipSignal")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.filters"),"GlowFilter")
+         pushint 16777215
+         pushbyte 1
+         pushbyte 3
+         dup
+         pushbyte 16
+         getlex Qname(PackageNamespace("flash.filters"),"BitmapFilterQuality")
+         getproperty Qname(PackageNamespace(""),"HIGH")
+         pushfalse
+         pushfalse
+         constructprop Qname(PackageNamespace("flash.filters"),"GlowFilter") 8
+         initproperty Qname(PrivateNamespace(null,"492"),"OUTLINE_FILTER")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.filters"),"GlowFilter")
+         pushint 409669
+         pushdouble 0.4
+         pushbyte 2
+         dup
+         pushbyte 16
+         getlex Qname(PackageNamespace("flash.filters"),"BitmapFilterQuality")
+         getproperty Qname(PackageNamespace(""),"HIGH")
+         pushfalse
+         pushfalse
+         constructprop Qname(PackageNamespace("flash.filters"),"GlowFilter") 8
+         initproperty Qname(PrivateNamespace(null,"492"),"GLOW_FILTER")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"492"),"_tier")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"492"),"_status")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"NONE")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"updateStatus") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateStatus(param1:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateStatus")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0015:iffalse ofs0024
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0024:jump ofs021a
+         ofs0028:label
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tier_locked"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         initproperty Qname(PrivateNamespace(null,"492"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChildAt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushbyte 12
+         pushint 3487029
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_tier")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs0271
+         ofs00a8:label
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tier_unlocked"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         initproperty Qname(PrivateNamespace(null,"492"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChildAt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushbyte 14
+         pushint 16777215
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getproperty Qname(PackageNamespace(""),"width")
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_tier")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushbyte 5
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"GLOW_FILTER")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         iftrue ofs01b4
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         pushstring "repeat"
+         pushbyte -1
+         newobject 1
+         constructprop Qname(PackageNamespace("com.greensock"),"TimelineMax") 1
+         initproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         pushdouble 0.2
+         pushstring "tint"
+         pushnull
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.greensock.easing"),"Expo")
+         getproperty Qname(PackageNamespace(""),"easeIn")
+         newobject 2
+         callproperty Qname(PackageNamespace(""),"to") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         pushdouble 0.2
+         pushstring "delay"
+         pushdouble 0.5
+         pushstring "tint"
+         pushint 16777215
+         newobject 2
+         callproperty Qname(PackageNamespace(""),"to") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         pushdouble 0.5
+         pushstring "tint"
+         pushnull
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.greensock.easing"),"Expo")
+         getproperty Qname(PackageNamespace(""),"easeOut")
+         newobject 2
+         callproperty Qname(PackageNamespace(""),"to") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         jump ofs01be
+         ofs01b4:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"play") 1
+         ofs01be:jump ofs0271
+         ofs01c2:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tier_claimed"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         initproperty Qname(PrivateNamespace(null,"492"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChildAt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         iffalse ofs0209
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"claimTween")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"pause") 1
+         ofs0209:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_removeToolTipSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         jump ofs0271
+         ofs0215:label
+         jump ofs0271
+         ofs021a:getlocal_1
+         setlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"LOCKED")
+         getlocal_2
+         ifstrictne ofs022e
+         pushbyte 0
+         jump ofs025e
+         ofs022e:getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"UNLOCKED")
+         getlocal_2
+         ifstrictne ofs0240
+         pushbyte 1
+         jump ofs025e
+         ofs0240:getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tab.tiers.button.status"),"TierButtonStatus")
+         getproperty Qname(PackageNamespace(""),"CLAIMED")
+         getlocal_2
+         ifstrictne ofs0252
+         pushbyte 2
+         jump ofs025e
+         ofs0252:jump ofs025c
+         pushbyte 3
+         jump ofs025c
+         ofs025c:pushbyte 3
+         ofs025e:kill 2
+         lookupswitch ofs0215 3 ofs0028 ofs00a8 ofs01c2 ofs0215
+         ofs0271:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"492"),"applySelectFilter") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get selected() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"selected")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_selected")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set selected(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"selected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"492"),"_selected")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"492"),"applySelectFilter") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function applySelectFilter() : void
+      {
+         trait method Qname(PrivateNamespace(null,"492"),"applySelectFilter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 16
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_selected")
+         iffalse ofs00c0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"OUTLINE_FILTER")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierTween")
+         iftrue ofs00b2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.greensock"),"TimelineMax")
+         constructprop Qname(PackageNamespace("com.greensock"),"TimelineMax") 0
+         initproperty Qname(PrivateNamespace(null,"492"),"tierTween")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierTween")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         pushdouble 0.05
+         pushstring "scaleX"
+         pushdouble 0.9
+         pushstring "scaleY"
+         pushdouble 0.9
+         pushstring "x"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushdouble 0.1
+         multiply
+         pushbyte 2
+         divide
+         add
+         pushstring "y"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         pushdouble 0.1
+         multiply
+         pushbyte 2
+         divide
+         add
+         pushstring "tint"
+         pushint 16777215
+         newobject 5
+         callproperty Qname(PackageNamespace(""),"to") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierTween")
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         pushdouble 0.3
+         pushstring "scaleX"
+         pushbyte 1
+         pushstring "scaleY"
+         pushbyte 1
+         pushstring "x"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"x")
+         pushstring "y"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"y")
+         pushstring "tint"
+         pushnull
+         pushstring "ease"
+         getlex Qname(PackageNamespace("com.greensock.easing"),"Expo")
+         getproperty Qname(PackageNamespace(""),"easeOut")
+         newobject 6
+         callproperty Qname(PackageNamespace(""),"to") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         jump ofs00bc
+         ofs00b2:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierTween")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"play") 1
+         ofs00bc:jump ofs00ca
+         ofs00c0:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"background")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         ofs00ca:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get label() : UILabel
+      {
+         trait getter Qname(PackageNamespace(""),"label")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"tierLabel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get tier() : int
+      {
+         trait getter Qname(PackageNamespace(""),"tier")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_tier")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get status() : int
+      {
+         trait getter Qname(PackageNamespace(""),"status")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_status")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get removeToolTipSignal() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"removeToolTipSignal")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"492"),"_removeToolTipSignal")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,279 @@
+package kabam.rotmg.dailyLogin.controller
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import kabam.rotmg.chat.model.ChatMessage;
+   import kabam.rotmg.dailyLogin.message.ClaimDailyRewardResponse;
+   import kabam.rotmg.dailyLogin.model.DailyLoginModel;
+   import kabam.rotmg.dailyLogin.signal.ClaimDailyRewardResponseSignal;
+   import kabam.rotmg.dailyLogin.view.CalendarView;
+   import kabam.rotmg.game.signals.AddTextLineSignal;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.model.HUDModel;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class CalendarViewMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:CalendarView;
+      
+      [Inject]
+      public var model:DailyLoginModel;
+      
+      [Inject]
+      public var addTextLine:AddTextLineSignal;
+      
+      [Inject]
+      public var claimRewardSignal:ClaimDailyRewardResponseSignal;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      public function CalendarViewMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"currentDisplayedCaledar")
+         callproperty Qname(PackageNamespace(""),"getDaysConfig") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"currentDisplayedCaledar")
+         callproperty Qname(PackageNamespace(""),"getMaxDays") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"currentDisplayedCaledar")
+         callproperty Qname(PackageNamespace(""),"getCurrentDay") 1
+         callpropvoid Qname(PackageNamespace(""),"init") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimRewardSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"401"),"onClaimReward")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimRewardSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"401"),"onClaimReward")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         callsupervoid Qname(PackageNamespace(""),"destroy") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClaimReward(param1:ClaimDailyRewardResponse) : void
+      {
+         trait method Qname(PrivateNamespace(null,"401"),"onClaimReward")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.dailyLogin.message"),"ClaimDailyRewardResponse")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         pushbyte 0
+         ifngt ofs0090
+         pushstring "gold"
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"SERVER_CHAT_NAME")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         pushbyte 0
+         greaterthan
+         iffalse ofs0035
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         coerce_a
+         jump ofs003a
+         ofs0035:getlocal_1
+         getproperty Qname(PackageNamespace(""),"quantity")
+         coerce_a
+         ofs003a:pushstring "x "
+         add
+         getlocal_2
+         add
+         pushstring " was claimed."
+         add
+         pushbyte -1
+         pushbyte -1
+         pushstring ""
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"make") 6
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         pushnull
+         ifeq ofs008c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         getproperty Qname(PackageNamespace(""),"credits_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         add
+         setproperty Qname(PackageNamespace(""),"credits_")
+         ofs008c:jump ofs00eb
+         ofs0090:getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"typeToDisplayId_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"itemId")
+         getproperty MultinameL([PrivateNamespace(null,"401"),PackageNamespace(""),PrivateNamespace(null,"1477"),PackageNamespace("kabam.rotmg.dailyLogin.controller"),PackageInternalNs("kabam.rotmg.dailyLogin.controller"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.controller:CalendarViewMediator"),StaticProtectedNs("kabam.rotmg.dailyLogin.controller:CalendarViewMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"SERVER_CHAT_NAME")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         pushbyte 0
+         greaterthan
+         iffalse ofs00cb
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gold")
+         coerce_a
+         jump ofs00d0
+         ofs00cb:getlocal_1
+         getproperty Qname(PackageNamespace(""),"quantity")
+         coerce_a
+         ofs00d0:pushstring "x "
+         add
+         getlocal_2
+         add
+         pushstring " was claimed and will be sent to the gift chests in your vault."
+         add
+         pushbyte -1
+         pushbyte -1
+         pushstring ""
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"make") 6
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs00eb:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

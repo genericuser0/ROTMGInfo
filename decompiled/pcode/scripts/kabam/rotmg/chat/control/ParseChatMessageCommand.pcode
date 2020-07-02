@@ -1,0 +1,340 @@
+package kabam.rotmg.chat.control
+{
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.util.MoreObjectUtil;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.build.api.BuildData;
+   import kabam.rotmg.chat.model.ChatMessage;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   import kabam.rotmg.dailyLogin.model.DailyLoginModel;
+   import kabam.rotmg.dialogs.model.PopupNamesConfig;
+   import kabam.rotmg.game.signals.AddTextLineSignal;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.ui.model.HUDModel;
+   
+   public class ParseChatMessageCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var data:String;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var addTextLine:AddTextLineSignal;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var buildData:BuildData;
+      
+      [Inject]
+      public var dailyLoginModel:DailyLoginModel;
+      
+      [Inject]
+      public var player:PlayerModel;
+      
+      [Inject]
+      public var tracking:GoogleAnalytics;
+      
+      public function ParseChatMessageCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 9
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         pushbyte 0
+         convert_u
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal 4
+         pushnull
+         coerce_s
+         setlocal 5
+         pushnull
+         coerce_s
+         setlocal 6
+         jump ofs01ab
+         ofs0020:label
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         callproperty Qname(PackageNamespace(""),"isAdmin") 0
+         iffalse ofs006a
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlex Qname(PackageNamespace("com.company.util"),"MoreObjectUtil")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(PackageNamespace(""),"addToObject") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/dailyquest/resetDailyQuestsAdmin"
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"SERVER_CHAT_NAME")
+         pushstring "Restarting daily quests. Please refresh game."
+         callproperty Qname(PackageNamespace(""),"make") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs006a:jump ofs024c
+         ofs006e:label
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"PACKAGES_OFFER_POPUP")
+         pushnull
+         setproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         jump ofs024c
+         ofs0085:label
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"HELP_CHAT_NAME")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"HELP_COMMAND")
+         callproperty Qname(PackageNamespace(""),"make") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs024c
+         ofs00a7:label
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         pushbyte 0
+         convert_u
+         setlocal_3
+         pushbyte 0
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"goDict_")
+         coerce_a
+         setlocal 8
+         jump ofs0119
+         ofs00c9:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"props_")
+         getproperty Qname(PackageNamespace(""),"isPlayer_")
+         iffalse ofs0119
+         getlocal_2
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         getlocal_2
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         getproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         getlex Qname(PackageNamespace(""),"undefined")
+         ifeq ofs0109
+         getlocal_2
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         getproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         pushbyte 1
+         add
+         coerce_a
+         jump ofs0111
+         ofs0109:findpropstrict Qname(PackageNamespace(""),"uint")
+         pushbyte 1
+         callproperty Qname(PackageNamespace(""),"uint") 1
+         coerce_a
+         ofs0111:setproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         getlocal_3
+         increment
+         convert_u
+         setlocal_3
+         ofs0119:hasnext2 8 7
+         iftrue ofs00c9
+         kill 8
+         kill 7
+         pushstring ""
+         setlocal 5
+         pushbyte 0
+         setlocal 7
+         getlocal_2
+         coerce_a
+         setlocal 8
+         jump ofs0162
+         ofs0134:label
+         getlocal 8
+         getlocal 7
+         nextname
+         coerce_s
+         setlocal 6
+         getlocal 5
+         pushstring " "
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"typeToDisplayId_")
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         add
+         pushstring ": "
+         add
+         getlocal_2
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"1729"),PackageNamespace(""),PrivateNamespace(null,"1730"),PackageNamespace("kabam.rotmg.chat.control"),PackageInternalNs("kabam.rotmg.chat.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.chat.control:ParseChatMessageCommand"),StaticProtectedNs("kabam.rotmg.chat.control:ParseChatMessageCommand")])
+         add
+         add
+         coerce_s
+         setlocal 5
+         ofs0162:hasnext2 8 7
+         iftrue ofs0134
+         kill 8
+         kill 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         pushstring ""
+         pushstring "Classes online ("
+         getlocal_3
+         add
+         pushstring "):"
+         add
+         getlocal 5
+         add
+         callproperty Qname(PackageNamespace(""),"make") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs024c
+         ofs0190:label
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"gsc_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         callpropvoid Qname(PackageNamespace(""),"playerText") 1
+         jump ofs024c
+         jump ofs01ab
+         ofs01ab:getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         setlocal 7
+         pushstring "/resetDailyQuests"
+         getlocal 7
+         ifstrictne ofs01c1
+         pushbyte 0
+         jump ofs022d
+         ofs01c1:pushstring "/resetPackagePopup"
+         getlocal 7
+         ifstrictne ofs01d1
+         pushbyte 1
+         jump ofs022d
+         ofs01d1:pushstring "/h"
+         getlocal 7
+         ifstrictne ofs01e1
+         pushbyte 2
+         jump ofs022d
+         ofs01e1:pushstring "/help"
+         getlocal 7
+         ifstrictne ofs01f1
+         pushbyte 3
+         jump ofs022d
+         ofs01f1:pushstring "/c"
+         getlocal 7
+         ifstrictne ofs0201
+         pushbyte 4
+         jump ofs022d
+         ofs0201:pushstring "/class"
+         getlocal 7
+         ifstrictne ofs0211
+         pushbyte 5
+         jump ofs022d
+         ofs0211:pushstring "/classes"
+         getlocal 7
+         ifstrictne ofs0221
+         pushbyte 6
+         jump ofs022d
+         ofs0221:jump ofs022b
+         pushbyte 7
+         jump ofs022b
+         ofs022b:pushbyte 7
+         ofs022d:kill 7
+         lookupswitch ofs0190 7 ofs0020 ofs006e ofs0085 ofs0085 ofs00a7 ofs00a7 ofs00a7 ofs0190
+         ofs024c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,608 @@
+package com.junkbyte.console.core
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.KeyBind;
+   import flash.events.KeyboardEvent;
+   import flash.text.TextField;
+   import flash.text.TextFieldType;
+   
+   public class KeyBinder extends ConsoleCore
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _passInd:int;
+      
+      private var _binds:Object;
+      
+      private var _warns:uint;
+      
+      public function KeyBinder(param1:Console)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"1161"),"_binds")
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"cl")
+         pushstring "keybinds"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"printBinds")
+         pushstring "List all keybinds used"
+         callpropvoid Qname(PackageNamespace(""),"addCLCmd") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function bindKey(param1:KeyBind, param2:Function, param3:Array = null) : void
+      {
+         trait method Qname(PackageNamespace(""),"bindKey")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         param Qname(PackageNamespace(""),"Function")
+         param Qname(PackageNamespace(""),"Array")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keystrokePassword")
+         convert_b
+         dup
+         iffalse ofs0033
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"useKeyCode")
+         not
+         dup
+         iffalse ofs0033
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"key")
+         pushbyte 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"charAt") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keystrokePassword")
+         pushbyte 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"charAt") 1
+         equals
+         ofs0033:iffalse ofs004f
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Error: KeyBind ["
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"key")
+         add
+         pushstring "] is conflicting with Console password."
+         add
+         pushbyte 9
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         returnvoid
+         ofs004f:getlocal_2
+         pushnull
+         ifne ofs0066
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_binds")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"key")
+         deleteproperty MultinameL([PrivateNamespace(null,"1161"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2098"),PackageNamespace("com.junkbyte.console.core"),PackageInternalNs("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         jump ofs0076
+         ofs0066:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_binds")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"key")
+         getlocal_2
+         getlocal_3
+         newarray 2
+         setproperty MultinameL([PrivateNamespace(null,"1161"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2098"),PackageNamespace("com.junkbyte.console.core"),PackageInternalNs("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0076:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function keyDownHandler(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"keyDownHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"1161"),"handleKeyEvent") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function keyUpHandler(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"keyUpHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"1161"),"handleKeyEvent") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleKeyEvent(param1:KeyboardEvent, param2:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1161"),"handleKeyEvent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 7
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"String")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"charCode")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"fromCharCode") 1
+         coerce_s
+         setlocal_3
+         getlocal_2
+         dup
+         iffalse ofs0026
+         pop
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keystrokePassword")
+         pushnull
+         equals
+         not
+         ofs0026:coerce_a
+         convert_b
+         dup
+         iffalse ofs0031
+         pop
+         getlocal_3
+         coerce_a
+         convert_b
+         ofs0031:dup
+         iffalse ofs004f
+         pop
+         getlocal_3
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keystrokePassword")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         pushbyte 1
+         add
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 2
+         equals
+         ofs004f:iffalse ofs0130
+         getlocal_0
+         dup
+         setlocal 5
+         getproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         increment_i
+         setlocal 6
+         getlocal 5
+         getlocal 6
+         setproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         kill 6
+         kill 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keystrokePassword")
+         getproperty Qname(PackageNamespace(""),"length")
+         ifnge ofs012c
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1161"),"canTrigger") 0
+         iffalse ofs0100
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"visible")
+         convert_b
+         dup
+         iffalse ofs00a2
+         pop
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         getproperty Qname(PackageNamespace(""),"visible")
+         not
+         ofs00a2:iffalse ofs00b7
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         jump ofs00c4
+         ofs00b7:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"visible")
+         not
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs00c4:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"visible")
+         convert_b
+         dup
+         iffalse ofs00de
+         pop
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         getproperty Qname(PackageNamespace(""),"visible")
+         convert_b
+         ofs00de:iffalse ofs00fc
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"moveBackSafePosition") 0
+         ofs00fc:jump ofs012c
+         ofs0100:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         pushbyte 3
+         ifnlt ofs012c
+         getlocal_0
+         dup
+         setlocal 5
+         getproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         increment
+         setlocal 6
+         getlocal 5
+         getlocal 6
+         setproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         kill 6
+         kill 5
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Password did not trigger because you have focus on an input TextField."
+         pushbyte 8
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         ofs012c:jump ofs0192
+         ofs0130:getlocal_2
+         iffalse ofs013b
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1161"),"_passInd")
+         ofs013b:findpropstrict Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"shiftKey")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"ctrlKey")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"altKey")
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.junkbyte.console"),"KeyBind") 5
+         coerce Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         setlocal 4
+         getlocal_0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"key")
+         callpropvoid Qname(PrivateNamespace(null,"1161"),"tryRunKey") 1
+         getlocal_3
+         iffalse ofs0192
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         getlocal_3
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"shiftKey")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"ctrlKey")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"altKey")
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.junkbyte.console"),"KeyBind") 5
+         coerce Qname(PackageNamespace("com.junkbyte.console"),"KeyBind")
+         setlocal 4
+         getlocal_0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"key")
+         callpropvoid Qname(PrivateNamespace(null,"1161"),"tryRunKey") 1
+         ofs0192:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function printBinds(... rest) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1161"),"printBinds")
+         dispid 0
+         method
+         name null
+         flag NEED_REST
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_3
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Key binds:"
+         pushbyte -2
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         pushbyte 0
+         convert_u
+         setlocal_2
+         pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_binds")
+         coerce_a
+         setlocal 5
+         jump ofs003b
+         ofs0025:label
+         getlocal 5
+         getlocal 4
+         nextname
+         coerce_s
+         setlocal_3
+         getlocal_2
+         increment
+         convert_u
+         setlocal_2
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getlocal_3
+         pushbyte -2
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         ofs003b:hasnext2 5 4
+         iftrue ofs0025
+         kill 5
+         kill 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "--- Found "
+         getlocal_2
+         add
+         pushbyte -2
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function tryRunKey(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1161"),"tryRunKey")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_binds")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1161"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2098"),PackageNamespace("com.junkbyte.console.core"),PackageInternalNs("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"keyBindsEnabled")
+         convert_b
+         dup
+         iffalse ofs001d
+         pop
+         getlocal_2
+         convert_b
+         ofs001d:iffalse ofs0076
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"1161"),"canTrigger") 0
+         iffalse ofs0045
+         getlocal_2
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1161"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2098"),PackageNamespace("com.junkbyte.console.core"),PackageInternalNs("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"Function")
+         astypelate
+         pushnull
+         getlocal_2
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"1161"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"2098"),PackageNamespace("com.junkbyte.console.core"),PackageInternalNs("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:KeyBinder"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"apply") 2
+         jump ofs0076
+         ofs0045:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         pushbyte 3
+         ifnlt ofs0076
+         getlocal_0
+         dup
+         setlocal_3
+         getproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         increment
+         setlocal 4
+         getlocal_3
+         getlocal 4
+         setproperty Qname(PrivateNamespace(null,"1161"),"_warns")
+         kill 4
+         kill 3
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Key bind ["
+         getlocal_1
+         add
+         pushstring "] did not trigger because you have focus on an input TextField."
+         add
+         pushbyte 8
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         ofs0076:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function canTrigger() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"1161"),"canTrigger")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 6
+         maxscopedepth 9
+         try from ofs0006 to ofs0044 target ofs0048 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"err")
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         setlocal_1
+         ofs0006:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         convert_b
+         dup
+         iffalse ofs001f
+         pop
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"focus")
+         getlex Qname(PackageNamespace("flash.text"),"TextField")
+         istypelate
+         ofs001f:iffalse ofs0044
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"focus")
+         getlex Qname(PackageNamespace("flash.text"),"TextField")
+         astypelate
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"type")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldType")
+         getproperty Qname(PackageNamespace(""),"INPUT")
+         ifne ofs0044
+         pushfalse
+         returnvalue
+         ofs0044:jump ofs0056
+         ofs0048:getlocal_0
+         pushscope
+         newcatch 0
+         dup
+         setlocal_2
+         dup
+         pushscope
+         swap
+         setslot 1
+         popscope
+         kill 2
+         ofs0056:pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

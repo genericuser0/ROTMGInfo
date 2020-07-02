@@ -1,0 +1,728 @@
+package com.company.assembleegameclient.ui.tooltip
+{
+   import com.company.util.GraphicsUtil;
+   import flash.display.CapsStyle;
+   import flash.display.DisplayObject;
+   import flash.display.GraphicsPath;
+   import flash.display.GraphicsSolidFill;
+   import flash.display.GraphicsStroke;
+   import flash.display.IGraphicsData;
+   import flash.display.JointStyle;
+   import flash.display.LineScaleMode;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import kabam.rotmg.ui.view.SignalWaiter;
+   
+   public class ToolTip extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var background_:uint;
+      
+      private var backgroundAlpha_:Number;
+      
+      private var outline_:uint;
+      
+      private var outlineAlpha_:Number;
+      
+      private var _followMouse:Boolean;
+      
+      private var forcePositionLeft_:Boolean = false;
+      
+      private var forcePositionRight_:Boolean = false;
+      
+      public var contentWidth_:int;
+      
+      public var contentHeight_:int;
+      
+      private var targetObj:DisplayObject;
+      
+      private var backgroundFill_:GraphicsSolidFill;
+      
+      private var outlineFill_:GraphicsSolidFill;
+      
+      private var lineStyle_:GraphicsStroke;
+      
+      private var path_:GraphicsPath;
+      
+      private const graphicsData_:Vector.<IGraphicsData>;
+      
+      protected const waiter:SignalWaiter;
+      
+      public function ToolTip(param1:uint, param2:Number, param3:uint, param4:Number, param5:Boolean = true)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         returns null
+         
+         body
+         maxstack 9
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushbyte 0
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"328"),"backgroundFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 16777215
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"328"),"outlineFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsStroke")
+         pushbyte 1
+         pushfalse
+         getlex Qname(PackageNamespace("flash.display"),"LineScaleMode")
+         getproperty Qname(PackageNamespace(""),"NORMAL")
+         getlex Qname(PackageNamespace("flash.display"),"CapsStyle")
+         getproperty Qname(PackageNamespace(""),"NONE")
+         getlex Qname(PackageNamespace("flash.display"),"JointStyle")
+         getproperty Qname(PackageNamespace(""),"ROUND")
+         pushbyte 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"outlineFill_")
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsStroke") 7
+         initproperty Qname(PrivateNamespace(null,"328"),"lineStyle_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"328"),PackageNamespace(""),PrivateNamespace(null,"1422"),PackageNamespace("com.company.assembleegameclient.ui.tooltip"),PackageInternalNs("com.company.assembleegameclient.ui.tooltip"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"328"),PackageNamespace(""),PrivateNamespace(null,"1422"),PackageNamespace("com.company.assembleegameclient.ui.tooltip"),PackageInternalNs("com.company.assembleegameclient.ui.tooltip"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         initproperty Qname(PrivateNamespace(null,"328"),"path_")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"328"),PackageNamespace(""),PrivateNamespace(null,"1422"),PackageNamespace("com.company.assembleegameclient.ui.tooltip"),PackageInternalNs("com.company.assembleegameclient.ui.tooltip"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("com.company.assembleegameclient.ui.tooltip:ToolTip"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 5
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"lineStyle_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"backgroundFill_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"path_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 3
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 4
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_STROKE")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"328"),"graphicsData_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter") 0
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"waiter")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"328"),"background_")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"328"),"backgroundAlpha_")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"328"),"outline_")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"328"),"outlineAlpha_")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PrivateNamespace(null,"328"),"_followMouse")
+         findproperty Qname(PackageNamespace(""),"mouseEnabled")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseEnabled")
+         findproperty Qname(PackageNamespace(""),"mouseChildren")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseChildren")
+         findproperty Qname(PackageNamespace(""),"filters")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 16
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         initproperty Qname(PackageNamespace(""),"filters")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"waiter")
+         getproperty Qname(PackageNamespace(""),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"alignUIAndDraw")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function alignUIAndDraw() : void
+      {
+         trait method Qname(PrivateNamespace(null,"328"),"alignUIAndDraw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"alignUI") 0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"position") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function alignUI() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"alignUI")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function attachToTarget(param1:DisplayObject) : void
+      {
+         trait method Qname(PackageNamespace(""),"attachToTarget")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs001e
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"328"),"targetObj")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"targetObj")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onLeaveTarget")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs001e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function detachFromTarget() : void
+      {
+         trait method Qname(PackageNamespace(""),"detachFromTarget")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"targetObj")
+         iffalse ofs0030
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"targetObj")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onLeaveTarget")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"parent")
+         iffalse ofs002b
+         getlex Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs002b:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"328"),"targetObj")
+         ofs0030:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function forcePostionLeft() : void
+      {
+         trait method Qname(PackageNamespace(""),"forcePostionLeft")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"328"),"forcePositionLeft_")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"328"),"forcePositionRight_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function forcePostionRight() : void
+      {
+         trait method Qname(PackageNamespace(""),"forcePostionRight")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"328"),"forcePositionRight_")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"328"),"forcePositionLeft_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onLeaveTarget(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"328"),"onLeaveTarget")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"detachFromTarget") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"328"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"waiter")
+         callproperty Qname(PackageNamespace(""),"isEmpty") 0
+         iffalse ofs0013
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         ofs0013:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"_followMouse")
+         iffalse ofs0031
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"position") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0031:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"328"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"_followMouse")
+         iffalse ofs001b
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs001b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onEnterFrame(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"328"),"onEnterFrame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"position") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function position() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.tooltip:ToolTip"),"position")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"stage")
+         pushnull
+         ifne ofs000b
+         returnvoid
+         ofs000b:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"forcePositionLeft_")
+         not
+         dup
+         iffalse ofs0028
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         pushbyte 2
+         divide
+         lessthan
+         ofs0028:dup
+         iftrue ofs0033
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"forcePositionRight_")
+         convert_b
+         ofs0033:iffalse ofs004b
+         findproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         pushbyte 12
+         add
+         initproperty Qname(PackageNamespace(""),"x")
+         jump ofs005d
+         ofs004b:findproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getlex Qname(PackageNamespace(""),"width")
+         subtract
+         decrement
+         initproperty Qname(PackageNamespace(""),"x")
+         ofs005d:getlex Qname(PackageNamespace(""),"x")
+         pushbyte 12
+         ifnlt ofs006e
+         findproperty Qname(PackageNamespace(""),"x")
+         pushbyte 12
+         initproperty Qname(PackageNamespace(""),"x")
+         ofs006e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"forcePositionLeft_")
+         not
+         dup
+         iffalse ofs008b
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         pushbyte 3
+         divide
+         lessthan
+         ofs008b:dup
+         iftrue ofs0096
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"forcePositionRight_")
+         convert_b
+         ofs0096:iffalse ofs00ae
+         findproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         pushbyte 12
+         add
+         initproperty Qname(PackageNamespace(""),"y")
+         jump ofs00c0
+         ofs00ae:findproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlex Qname(PackageNamespace(""),"height")
+         subtract
+         decrement
+         initproperty Qname(PackageNamespace(""),"y")
+         ofs00c0:getlex Qname(PackageNamespace(""),"y")
+         pushbyte 12
+         ifnlt ofs00d1
+         findproperty Qname(PackageNamespace(""),"y")
+         pushbyte 12
+         initproperty Qname(PackageNamespace(""),"y")
+         ofs00d1:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function draw() : void
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 10
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"backgroundFill_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"background_")
+         setproperty Qname(PackageNamespace(""),"color")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"backgroundFill_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"backgroundAlpha_")
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"outlineFill_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"outline_")
+         setproperty Qname(PackageNamespace(""),"color")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"outlineFill_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"outlineAlpha_")
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"width")
+         initproperty Qname(PackageNamespace(""),"contentWidth_")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"height")
+         initproperty Qname(PackageNamespace(""),"contentHeight_")
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"clearPath") 1
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte -6
+         pushbyte -6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"contentWidth_")
+         pushbyte 12
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"contentHeight_")
+         pushbyte 12
+         add
+         pushbyte 4
+         pushbyte 1
+         dup
+         dup
+         pushbyte 1
+         newarray 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"328"),"graphicsData_")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

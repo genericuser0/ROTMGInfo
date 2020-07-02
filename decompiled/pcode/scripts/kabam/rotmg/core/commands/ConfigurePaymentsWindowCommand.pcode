@@ -1,0 +1,182 @@
+package kabam.rotmg.core.commands
+{
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.commands.ExternalOpenMoneyWindowCommand;
+   import kabam.rotmg.account.core.commands.InternalOpenMoneyWindowCommand;
+   import kabam.rotmg.account.core.signals.OpenMoneyWindowSignal;
+   import kabam.rotmg.account.kabam.KabamAccount;
+   import kabam.rotmg.account.web.WebAccount;
+   import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
+   
+   public class ConfigurePaymentsWindowCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var commandMap:ISignalCommandMap;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var data:XML;
+      
+      public function ConfigurePaymentsWindowCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.signals"),"OpenMoneyWindowSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"513"),"getPaymentsCommandClass") 0
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getPaymentsCommandClass() : Class
+      {
+         trait method Qname(PrivateNamespace(null,"513"),"getPaymentsCommandClass")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Class")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"513"),"useExternalPaymentsWindow") 0
+         iffalse ofs0014
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.commands"),"ExternalOpenMoneyWindowCommand")
+         coerce Qname(PackageNamespace(""),"Class")
+         jump ofs0019
+         ofs0014:getlex Qname(PackageNamespace("kabam.rotmg.account.core.commands"),"InternalOpenMoneyWindowCommand")
+         coerce Qname(PackageNamespace(""),"Class")
+         ofs0019:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function useExternalPaymentsWindow() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"513"),"useExternalPaymentsWindow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.kabam"),"KabamAccount")
+         istypelate
+         dup
+         iftrue ofs0018
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         istypelate
+         ofs0018:dup
+         iffalse ofs002c
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         pushstring "UseExternalPayments"
+         getproperty MultinameL([PrivateNamespace(null,"513"),PackageNamespace(""),PrivateNamespace(null,"1541"),PackageNamespace("kabam.rotmg.core.commands"),PackageInternalNs("kabam.rotmg.core.commands"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.core.commands:ConfigurePaymentsWindowCommand"),StaticProtectedNs("kabam.rotmg.core.commands:ConfigurePaymentsWindowCommand")])
+         pushnull
+         equals
+         ofs002c:dup
+         iftrue ofs0049
+         pop
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         pushstring "UseExternalPayments"
+         getproperty MultinameL([PrivateNamespace(null,"513"),PackageNamespace(""),PrivateNamespace(null,"1541"),PackageNamespace("kabam.rotmg.core.commands"),PackageInternalNs("kabam.rotmg.core.commands"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.core.commands:ConfigurePaymentsWindowCommand"),StaticProtectedNs("kabam.rotmg.core.commands:ConfigurePaymentsWindowCommand")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         convert_b
+         ofs0049:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,304 @@
+package kabam.rotmg.account.kongregate.services
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.RegisterAccountTask;
+   import kabam.rotmg.account.kongregate.view.KongregateApi;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   
+   public class KongregateRegisterAccountTask extends BaseTask implements RegisterAccountTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var data:AccountData;
+      
+      [Inject]
+      public var api:KongregateApi;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      public function KongregateRegisterAccountTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushbyte 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"854"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/kongregate/register"
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"854"),"makeDataPacket") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"854"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         coerce_a
+         dup
+         iffalse ofs0011
+         pop
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"854"),"onInternalRegisterDone") 1
+         coerce_a
+         ofs0011:pop
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeDataPacket() : Object
+      {
+         trait method Qname(PrivateNamespace(null,"854"),"makeDataPacket")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"api")
+         callproperty Qname(Namespace("kabam.rotmg.account.kongregate.view:KongregateApi"),"getAuthentication") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"username")
+         setproperty Multiname("newGUID",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"password")
+         setproperty Multiname("newPassword",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getEntryTag") 0
+         setproperty Multiname("entrytag",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onInternalRegisterDone(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"854"),"onInternalRegisterDone")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"854"),"updateAccount") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"854"),"trackAccountRegistration") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function trackAccountRegistration() : void
+      {
+         trait method Qname(PrivateNamespace(null,"854"),"trackAccountRegistration")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_1
+         getlocal_1
+         pushstring "kongregateAccount"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_1
+         pushstring "accountRegistered"
+         setproperty Qname(PackageNamespace(""),"action")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"track")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateAccount(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"854"),"updateAccount")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_2
+         getproperty Multiname("GUID",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_2
+         getproperty Multiname("Secret",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring ""
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"updateUser") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_2
+         getproperty Multiname("PlatformToken",[PrivateNamespace(null,"854"),PackageNamespace(""),PrivateNamespace(null,"1826"),PackageNamespace("kabam.rotmg.account.kongregate.services"),PackageInternalNs("kabam.rotmg.account.kongregate.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.kongregate.services:KongregateRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"setPlatformToken") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

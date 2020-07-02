@@ -1,0 +1,304 @@
+package kabam.rotmg.ui.view
+{
+   import com.company.assembleegameclient.screens.NewCharacterScreen;
+   import com.company.assembleegameclient.screens.charrects.CharacterRectList;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventErrorPopup;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.ui.signals.BuyCharacterSlotSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class CharacterRectListMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:CharacterRectList;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var buyCharacterSlotSignal:BuyCharacterSlotSignal;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      private var seasonalEventErrorPopUp:SeasonalEventErrorPopup;
+      
+      public function CharacterRectListMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"newCharacter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyCharacterSlot")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onBuyCharacterSlot")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"newCharacter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"buyCharacterSlot")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onBuyCharacterSlot")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNewCharacter() : void
+      {
+         trait method Qname(PrivateNamespace(null,"168"),"onNewCharacter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"remainingCharacters")
+         pushbyte 0
+         equals
+         ofs001a:iffalse ofs002b
+         getlocal_0
+         pushstring "You cannot create more characters"
+         callpropvoid Qname(PrivateNamespace(null,"168"),"showSeasonalErrorPopUp") 1
+         jump ofs003a
+         ofs002b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"NewCharacterScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"NewCharacterScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonalErrorPopUp(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"168"),"showSeasonalErrorPopUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup") 1
+         initproperty Qname(PrivateNamespace(null,"168"),"seasonalEventErrorPopUp")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonalErrorPopUpClose(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"168"),"onSeasonalErrorPopUpClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"168"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onBuyCharacterSlot(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"168"),"onBuyCharacterSlot")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyCharacterSlotSignal")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

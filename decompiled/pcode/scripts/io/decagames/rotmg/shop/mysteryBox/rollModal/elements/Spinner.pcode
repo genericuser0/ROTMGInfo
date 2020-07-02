@@ -1,0 +1,565 @@
+package io.decagames.rotmg.shop.mysteryBox.rollModal.elements
+{
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.utils.getTimer;
+   import io.decagames.rotmg.utils.colors.RGB;
+   import io.decagames.rotmg.utils.colors.RandomColorGenerator;
+   import io.decagames.rotmg.utils.colors.Tint;
+   import kabam.rotmg.assets.EmbeddedAssets;
+   
+   public class Spinner extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public const graphic:DisplayObject;
+      
+      private var _degreesPerSecond:int;
+      
+      private var secondsElapsed:Number;
+      
+      private var previousSeconds:Number;
+      
+      private var startColor:uint;
+      
+      private var endColor:uint;
+      
+      private var direction:Boolean;
+      
+      private var previousProgress:Number = 0;
+      
+      private var multicolor:Boolean;
+      
+      private var rStart:Number = -1;
+      
+      private var gStart:Number = -1;
+      
+      private var bStart:Number = -1;
+      
+      private var rFinal:Number = -1;
+      
+      private var gFinal:Number = -1;
+      
+      private var bFinal:Number = -1;
+      
+      public function Spinner(param1:int, param2:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.assets"),"EmbeddedAssets")
+         constructprop Qname(PackageNamespace(""),"StarburstSpinner") 0
+         initproperty Qname(PackageNamespace(""),"graphic")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"657"),"_degreesPerSecond")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"657"),"multicolor")
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"657"),"secondsElapsed")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"657"),"setupStartAndFinalColors") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"657"),"addGraphic") 0
+         getlocal_0
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"657"),"applyColor") 1
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onRemoved")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addGraphic() : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"addGraphic")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphic")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphic")
+         pushbyte -1
+         getlex Qname(PackageNamespace(""),"width")
+         multiply
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphic")
+         pushbyte -1
+         getlex Qname(PackageNamespace(""),"height")
+         multiply
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoved(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"onRemoved")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onRemoved")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function pause() : void
+      {
+         trait method Qname(PackageNamespace(""),"pause")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"657"),"previousSeconds")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function resume() : void
+      {
+         trait method Qname(PackageNamespace(""),"resume")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onEnterFrame(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"onEnterFrame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"657"),"updateTimeElapsed") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"_degreesPerSecond")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"secondsElapsed")
+         multiply
+         pushshort 360
+         modulo
+         convert_d
+         setlocal_2
+         findproperty Qname(PackageNamespace(""),"rotation")
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"rotation")
+         getlocal_0
+         getlocal_2
+         pushshort 360
+         divide
+         callpropvoid Qname(PrivateNamespace(null,"657"),"applyColor") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function applyColor(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"applyColor")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"multicolor")
+         iftrue ofs000b
+         returnvoid
+         ofs000b:getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"previousProgress")
+         ifnlt ofs001d
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"direction")
+         not
+         initproperty Qname(PrivateNamespace(null,"657"),"direction")
+         ofs001d:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"657"),"previousProgress")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"direction")
+         iffalse ofs0030
+         pushbyte 1
+         getlocal_1
+         subtract
+         convert_d
+         setlocal_1
+         ofs0030:getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"657"),"getColorByProgress") 1
+         convert_u
+         setlocal_2
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"Tint")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"graphic")
+         getlocal_2
+         pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"add") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getColorByProgress(param1:Number) : uint
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"getColorByProgress")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"rStart")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"rFinal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"rStart")
+         subtract
+         getlocal_1
+         multiply
+         add
+         convert_d
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"gStart")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"gFinal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"gStart")
+         subtract
+         getlocal_1
+         multiply
+         add
+         convert_d
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"bStart")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"bFinal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"bStart")
+         subtract
+         getlocal_1
+         multiply
+         add
+         convert_d
+         setlocal 4
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"RGB")
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"fromRGB") 3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setupStartAndFinalColors() : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"setupStartAndFinalColors")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"RandomColorGenerator")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"RandomColorGenerator") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.utils.colors"),"RandomColorGenerator")
+         setlocal_1
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"randomColor") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"randomColor") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         getlocal_0
+         getlocal_2
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"rStart")
+         getlocal_0
+         getlocal_2
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"gStart")
+         getlocal_0
+         getlocal_2
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"bStart")
+         getlocal_0
+         getlocal_3
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"rFinal")
+         getlocal_0
+         getlocal_3
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"gFinal")
+         getlocal_0
+         getlocal_3
+         pushbyte 2
+         getproperty MultinameL([PrivateNamespace(null,"657"),PackageNamespace(""),PrivateNamespace(null,"1664"),PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),PackageInternalNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("io.decagames.rotmg.shop.mysteryBox.rollModal.elements:Spinner"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"657"),"bFinal")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateTimeElapsed() : void
+      {
+         trait method Qname(PrivateNamespace(null,"657"),"updateTimeElapsed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         pushshort 1000
+         divide
+         convert_d
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"previousSeconds")
+         iffalse ofs0028
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"secondsElapsed")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"previousSeconds")
+         subtract
+         add
+         initproperty Qname(PrivateNamespace(null,"657"),"secondsElapsed")
+         ofs0028:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"657"),"previousSeconds")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get degreesPerSecond() : int
+      {
+         trait getter Qname(PackageNamespace(""),"degreesPerSecond")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"657"),"_degreesPerSecond")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

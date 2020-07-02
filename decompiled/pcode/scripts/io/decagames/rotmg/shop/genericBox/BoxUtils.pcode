@@ -1,0 +1,205 @@
+package io.decagames.rotmg.shop.genericBox
+{
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.util.Currency;
+   import io.decagames.rotmg.shop.NotEnoughResources;
+   import io.decagames.rotmg.shop.genericBox.data.GenericBoxInfo;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.game.model.GameModel;
+   
+   public class BoxUtils
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function BoxUtils()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function moneyCheckPass(param1:GenericBoxInfo, param2:int, param3:GameModel, param4:PlayerModel, param5:ShowPopupSignal) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"moneyCheckPass")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.shop.genericBox.data"),"GenericBoxInfo")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace("kabam.rotmg.game.model"),"GameModel")
+         param Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 4
+         localcount 12
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"isOnSale") 0
+         convert_b
+         dup
+         iffalse ofs001d
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         pushbyte 0
+         greaterthan
+         ofs001d:iffalse ofs003f
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleCurrency")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal 6
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"saleAmount")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_2
+         multiply
+         convert_i
+         setlocal 7
+         jump ofs0059
+         ofs003f:findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceCurrency")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal 6
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"priceAmount")
+         callproperty Qname(PackageNamespace(""),"int") 1
+         getlocal_2
+         multiply
+         convert_i
+         setlocal 7
+         ofs0059:pushtrue
+         setlocal 8
+         pushbyte 0
+         setlocal 9
+         pushbyte 0
+         setlocal 10
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"player")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         dup
+         setlocal 11
+         pushnull
+         ifeq ofs0087
+         getlocal 11
+         getproperty Qname(PackageNamespace(""),"credits_")
+         convert_i
+         setlocal 10
+         getlocal 11
+         getproperty Qname(PackageNamespace(""),"fame_")
+         convert_i
+         setlocal 9
+         jump ofs00a0
+         ofs0087:getlocal 4
+         pushnull
+         ifeq ofs00a0
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         convert_i
+         setlocal 10
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"getFame") 0
+         convert_i
+         setlocal 9
+         ofs00a0:getlocal 6
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         equals
+         dup
+         iffalse ofs00b5
+         pop
+         getlocal 10
+         getlocal 7
+         lessthan
+         ofs00b5:iffalse ofs00d7
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         pushfalse
+         setlocal 8
+         jump ofs010a
+         ofs00d7:getlocal 6
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         equals
+         dup
+         iffalse ofs00ec
+         pop
+         getlocal 9
+         getlocal 7
+         lessthan
+         ofs00ec:iffalse ofs010a
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         pushfalse
+         setlocal 8
+         ofs010a:getlocal 8
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

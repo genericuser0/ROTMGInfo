@@ -1,0 +1,197 @@
+package io.decagames.rotmg.social.commands
+{
+   import io.decagames.rotmg.social.config.FriendsActions;
+   import io.decagames.rotmg.social.model.FriendRequestVO;
+   import io.decagames.rotmg.ui.popups.modal.error.ErrorModal;
+   import io.decagames.rotmg.ui.popups.signals.RemoveLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.chat.model.ChatMessage;
+   import kabam.rotmg.game.signals.AddTextLineSignal;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   
+   public class FriendActionCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var vo:FriendRequestVO;
+      
+      [Inject]
+      public var showPopup:ShowPopupSignal;
+      
+      [Inject]
+      public var removeFade:RemoveLockFade;
+      
+      [Inject]
+      public var addTextLine:AddTextLineSignal;
+      
+      public function FriendActionCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"request")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getproperty Qname(PackageNamespace(""),"INVITE")
+         ifne ofs0029
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addTextLine")
+         getlex Qname(PackageNamespace("kabam.rotmg.chat.model"),"ChatMessage")
+         pushstring ""
+         pushstring "Friend request sent"
+         callproperty Qname(PackageNamespace(""),"make") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0029:getlex Qname(PackageNamespace("io.decagames.rotmg.social.config"),"FriendsActions")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"request")
+         callproperty Qname(PackageNamespace(""),"getURL") 1
+         coerce_s
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_2
+         getlocal_2
+         pushstring "targetName"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"target")
+         setproperty MultinameL([PrivateNamespace(null,"416"),PackageNamespace(""),PrivateNamespace(null,"1484"),PackageNamespace("io.decagames.rotmg.social.commands"),PackageInternalNs("io.decagames.rotmg.social.commands"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.commands:FriendActionCommand"),StaticProtectedNs("io.decagames.rotmg.social.commands:FriendActionCommand")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"416"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"416"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"callback")
+         pushnull
+         ifeq ofs0023
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getlocal_1
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"target")
+         callpropvoid Qname(PackageNamespace(""),"callback") 3
+         jump ofs004f
+         ofs0023:getlocal_1
+         iftrue ofs004f
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Friends List Error"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs004f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

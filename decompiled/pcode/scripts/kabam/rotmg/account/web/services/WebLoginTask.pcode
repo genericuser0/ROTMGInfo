@@ -1,0 +1,175 @@
+package kabam.rotmg.account.web.services
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.LoginTask;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   
+   public class WebLoginTask extends BaseTask implements LoginTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var data:AccountData;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      public function WebLoginTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.web.services:WebLoginTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"815"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/account/verify"
+         pushstring "guid"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"username")
+         pushstring "password"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"password")
+         newobject 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"815"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs000d
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"815"),"updateUser") 1
+         ofs000d:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateUser(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"815"),"updateUser")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"username")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"password")
+         pushstring ""
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"updateUser") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

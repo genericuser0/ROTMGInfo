@@ -1,0 +1,3326 @@
+package com.company.assembleegameclient.mapeditor
+{
+   import com.adobe.images.PNGEncoder;
+   import com.company.assembleegameclient.map.GroundLibrary;
+   import com.company.assembleegameclient.map.RegionLibrary;
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.util.AssetLibrary;
+   import com.company.util.IntPoint;
+   import com.company.util.KeyCodes;
+   import com.company.util.PointUtil;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.Graphics;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.KeyboardEvent;
+   import flash.events.MouseEvent;
+   import flash.geom.Matrix;
+   import flash.geom.Rectangle;
+   import flash.ui.Keyboard;
+   import flash.utils.ByteArray;
+   import flash.utils.Dictionary;
+   
+   class MEMap extends Sprite
+   {
+      
+      private static var transbackgroundEmbed_:Class;
+      
+      private static var transbackgroundBD_:BitmapData;
+      
+      public static var NUM_SQUARES:int = 128;
+      
+      public static const MAX_ALLOWED_SQUARES:int = 512;
+      
+      public static const SQUARE_SIZE:int = 16;
+      
+      public static const SIZE:int = 512;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"992"),"transbackgroundEmbed_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"MEMap_transbackgroundEmbed_")
+         setproperty Qname(PrivateNamespace(null,"992"),"transbackgroundEmbed_")
+         findproperty Qname(PrivateNamespace(null,"992"),"transbackgroundBD_")
+         findpropstrict Qname(PrivateNamespace(null,"992"),"transbackgroundEmbed_")
+         constructprop Qname(PrivateNamespace(null,"992"),"transbackgroundEmbed_") 0
+         getproperty Multiname("bitmapData",[PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         setproperty Qname(PrivateNamespace(null,"992"),"transbackgroundBD_")
+         findproperty Qname(PackageNamespace(""),"NUM_SQUARES")
+         pushshort 128
+         setproperty Qname(PackageNamespace(""),"NUM_SQUARES")
+         findproperty Qname(PackageNamespace(""),"MAX_ALLOWED_SQUARES")
+         pushshort 512
+         initproperty Qname(PackageNamespace(""),"MAX_ALLOWED_SQUARES")
+         findproperty Qname(PackageNamespace(""),"SQUARE_SIZE")
+         pushbyte 16
+         initproperty Qname(PackageNamespace(""),"SQUARE_SIZE")
+         findproperty Qname(PackageNamespace(""),"SIZE")
+         pushshort 512
+         initproperty Qname(PackageNamespace(""),"SIZE")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var tileDict_:Dictionary;
+      
+      public var fullMap_:BigBitmapData;
+      
+      public var regionMap_:BitmapData;
+      
+      public var map_:BitmapData;
+      
+      public var overlay_:Shape;
+      
+      public var anchorLock:Boolean = false;
+      
+      public var posT_:IntPoint;
+      
+      public var zoom_:Number = 1;
+      
+      private var mouseRectAnchorT_:IntPoint = null;
+      
+      private var mouseMoveAnchorT_:IntPoint = null;
+      
+      private var rectWidthOverride:int = 0;
+      
+      private var rectHeightOverride:int = 0;
+      
+      private var invisibleTexture_:BitmapData;
+      
+      private var replaceTexture_:BitmapData;
+      
+      private var objectLayer_:BigBitmapData;
+      
+      private var groundLayer_:BigBitmapData;
+      
+      private var ifShowObjectLayer_:Boolean = true;
+      
+      private var ifShowGroundLayer_:Boolean = true;
+      
+      private var ifShowRegionLayer_:Boolean = true;
+      
+      function MEMap()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 0
+         initproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PackageNamespace(""),"fullMap_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"BitmapDataSpy")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace(""),"BitmapDataSpy") 4
+         initproperty Qname(PackageNamespace(""),"regionMap_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"BitmapDataSpy")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace(""),"BitmapDataSpy") 4
+         initproperty Qname(PackageNamespace(""),"map_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PackageNamespace(""),"overlay_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         getlocal_0
+         constructsuper 0
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlex Qname(PrivateNamespace(null,"992"),"transbackgroundBD_")
+         pushnull
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"beginBitmapFill") 3
+         getlex Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"overlay_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         pushbyte 2
+         divide
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"sizeInTiles") 0
+         pushbyte 2
+         divide
+         subtract
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         pushbyte 2
+         divide
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"sizeInTiles") 0
+         pushbyte 2
+         divide
+         subtract
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         initproperty Qname(PackageNamespace(""),"posT_")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "invisible"
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         initproperty Qname(PrivateNamespace(null,"992"),"invisibleTexture_")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiObj3"
+         pushshort 255
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         initproperty Qname(PrivateNamespace(null,"992"),"replaceTexture_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function minZoom() : Number
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"minZoom")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         divide
+         pushbyte 2
+         multiply
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function maxZoom() : Number
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"maxZoom")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set ifShowObjectLayer(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"ifShowObjectLayer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"992"),"ifShowObjectLayer_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set ifShowGroundLayer(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"ifShowGroundLayer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"992"),"ifShowGroundLayer_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set ifShowRegionLayer(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"ifShowRegionLayer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"992"),"ifShowRegionLayer_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function resize(param1:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"resize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 11
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         pushnull
+         coerce_s
+         setlocal 8
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         coerce Qname(PackageNamespace("flash.utils"),"Dictionary")
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         convert_i
+         setlocal_3
+         findproperty Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlocal_0
+         findpropstrict Qname(PrivateNamespace(null,"992"),"minZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"minZoom") 0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"setZoom") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 0
+         initproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PackageNamespace(""),"fullMap_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"BigBitmapData") 4
+         initproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"BitmapDataSpy")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         pushtrue
+         pushbyte 0
+         constructprop Qname(PackageNamespace(""),"BitmapDataSpy") 4
+         initproperty Qname(PackageNamespace(""),"regionMap_")
+         pushbyte 0
+         setlocal 9
+         getlocal_2
+         coerce_a
+         setlocal 10
+         jump ofs0130
+         ofs00ca:label
+         getlocal 10
+         getlocal 9
+         nextname
+         coerce_s
+         setlocal 8
+         getlocal_2
+         getlocal 8
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         dup
+         setlocal 4
+         callproperty Qname(PackageNamespace(""),"isEmpty") 0
+         iffalse ofs00f6
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 4
+         jump ofs0130
+         jump ofs00f6
+         ofs00f6:findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal 8
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         dup
+         setlocal 5
+         getlocal_3
+         modulo
+         convert_i
+         setlocal 6
+         getlocal 5
+         getlocal_3
+         divide
+         convert_i
+         setlocal 7
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         lessthan
+         dup
+         iffalse ofs0121
+         pop
+         getlocal 7
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         lessthan
+         ofs0121:iffalse ofs0130
+         getlocal_0
+         getlocal 6
+         getlocal 7
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"setTile") 3
+         ofs0130:hasnext2 10 9
+         iftrue ofs00ca
+         kill 10
+         kill 9
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"Dictionary")
+         setlocal_2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getType(param1:int, param2:int, param3:int) : int
+      {
+         trait method Qname(PackageNamespace(""),"getType")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getTile") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         dup
+         setlocal 4
+         pushnull
+         ifne ofs0017
+         pushbyte -1
+         returnvalue
+         ofs0017:getlocal 4
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getTile(param1:int, param2:int) : METile
+      {
+         trait method Qname(PackageNamespace(""),"getTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         multiply
+         add
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function modifyTile(param1:int, param2:int, param3:int, param4:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"modifyTile")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 7
+         initscopedepth 10
+         maxscopedepth 15
+         try from ofs005b to ofs006c target ofs0070 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"error")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal 5
+         pushscope
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getlocal_3
+         setslot 3
+         getscopeobject 1
+         getlocal 4
+         setslot 4
+         getscopeobject 1
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         callproperty Qname(PrivateNamespace(null,"992"),"getOrCreateTile") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setslot 5
+         getscopeobject 1
+         getslot 5
+         getproperty Qname(PackageNamespace(""),"types_")
+         getscopeobject 1
+         getslot 3
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getscopeobject 1
+         getslot 4
+         ifne ofs0048
+         returnvoid
+         ofs0048:getscopeobject 1
+         getslot 5
+         getproperty Qname(PackageNamespace(""),"types_")
+         getscopeobject 1
+         getslot 3
+         getscopeobject 1
+         getslot 4
+         setproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs005b:getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 5
+         callpropvoid Qname(PrivateNamespace(null,"992"),"drawTile") 3
+         ofs006c:jump ofs00b3
+         ofs0070:getlocal_0
+         pushscope
+         getlocal 5
+         pushscope
+         newcatch 0
+         dup
+         setlocal 6
+         dup
+         pushscope
+         swap
+         setslot 1
+         findpropstrict Qname(PackageNamespace(""),"Error")
+         pushstring "Invalid type: 0x"
+         getscopeobject 1
+         getslot 4
+         pushbyte 16
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 1
+         add
+         pushstring " at location: "
+         add
+         getscopeobject 1
+         getslot 1
+         add
+         pushstring " x, "
+         add
+         getscopeobject 1
+         getslot 2
+         add
+         pushstring " y"
+         add
+         constructprop Qname(PackageNamespace(""),"Error") 1
+         throw
+         popscope
+         kill 6
+         ofs00b3:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getObjectName(param1:int, param2:int) : String
+      {
+         trait method Qname(PackageNamespace(""),"getObjectName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getTile") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal_3
+         getlocal_3
+         pushnull
+         ifne ofs0015
+         pushnull
+         returnvalue
+         ofs0015:getlocal_3
+         getproperty Qname(PackageNamespace(""),"objName_")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function modifyObjectName(param1:int, param2:int, param3:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"modifyObjectName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"992"),"getOrCreateTile") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         dup
+         setlocal 4
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"objName_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getAllTiles() : Vector.<IntPoint>
+      {
+         trait method Qname(PackageNamespace(""),"getAllTiles")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("com.company.util"),"IntPoint")>)
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlex Multiname("Vector",[PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.util"),"IntPoint")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("com.company.util"),"IntPoint")>)
+         setlocal_1
+         pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         coerce_a
+         setlocal 5
+         jump ofs004f
+         ofs0026:label
+         getlocal 5
+         getlocal 4
+         nextname
+         coerce_s
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_3
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlocal_3
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         modulo
+         getlocal_3
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         divide
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs004f:hasnext2 5 4
+         iftrue ofs0026
+         kill 5
+         kill 4
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setTile(param1:int, param2:int, param3:METile) : void
+      {
+         trait method Qname(PackageNamespace(""),"setTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"clone") 0
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         multiply
+         add
+         getlocal_3
+         setproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PrivateNamespace(null,"992"),"drawTile") 3
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal_3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function eraseTile(param1:int, param2:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"eraseTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"992"),"clearTile") 2
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"992"),"drawTile") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toggleLayers(param1:Array) : void
+      {
+         trait method Qname(PackageNamespace(""),"toggleLayers")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Array")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clear() : void
+      {
+         trait method Qname(PackageNamespace(""),"clear")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         coerce_a
+         setlocal 4
+         jump ofs0036
+         ofs0016:label
+         getlocal 4
+         getlocal_3
+         nextname
+         coerce_s
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         modulo
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         divide
+         callpropvoid Qname(PackageNamespace(""),"eraseTile") 2
+         ofs0036:hasnext2 4 3
+         iftrue ofs0016
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getTileBounds() : Rectangle
+      {
+         trait method Qname(PackageNamespace(""),"getTileBounds")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.geom"),"Rectangle")
+         
+         body
+         maxstack 6
+         localcount 12
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         pushbyte 0
+         setlocal 8
+         pushbyte 0
+         setlocal 9
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         convert_i
+         setlocal_1
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         convert_i
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 10
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         coerce_a
+         setlocal 11
+         jump ofs00b6
+         ofs003a:label
+         getlocal 11
+         getlocal 10
+         nextname
+         coerce_s
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         dup
+         setlocal 6
+         callproperty Qname(PackageNamespace(""),"isEmpty") 0
+         iffalse ofs005f
+         jump ofs00b6
+         ofs005f:findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal 5
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         dup
+         setlocal 7
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         modulo
+         convert_i
+         setlocal 8
+         getlocal 7
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         divide
+         convert_i
+         setlocal 9
+         getlocal 8
+         getlocal_1
+         ifnlt ofs0087
+         getlocal 8
+         convert_i
+         setlocal_1
+         ofs0087:getlocal 9
+         getlocal_2
+         ifnlt ofs0092
+         getlocal 9
+         convert_i
+         setlocal_2
+         ofs0092:getlocal 8
+         pushbyte 1
+         add
+         getlocal_3
+         ifngt ofs00a3
+         getlocal 8
+         pushbyte 1
+         add
+         convert_i
+         setlocal_3
+         ofs00a3:getlocal 9
+         pushbyte 1
+         add
+         getlocal 4
+         ifngt ofs00b6
+         getlocal 9
+         pushbyte 1
+         add
+         convert_i
+         setlocal 4
+         ofs00b6:hasnext2 11 10
+         iftrue ofs003a
+         kill 11
+         kill 10
+         getlocal_1
+         getlocal_3
+         ifngt ofs00c9
+         pushnull
+         returnvalue
+         ofs00c9:findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         getlocal_1
+         subtract
+         getlocal 4
+         getlocal_2
+         subtract
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sizeInTiles() : int
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"sizeInTiles")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function modifyZoom(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"modifyZoom")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushbyte 1
+         greaterthan
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         findpropstrict Qname(PrivateNamespace(null,"992"),"maxZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"maxZoom") 0
+         greaterequals
+         ofs001a:dup
+         iftrue ofs0038
+         pop
+         getlocal_1
+         pushbyte 1
+         lessthan
+         dup
+         iffalse ofs0038
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         findpropstrict Qname(PrivateNamespace(null,"992"),"minZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"minZoom") 0
+         lessequals
+         ofs0038:iffalse ofs003d
+         returnvoid
+         ofs003d:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         getlocal_1
+         multiply
+         initproperty Qname(PackageNamespace(""),"zoom_")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_3
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setZoom(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"setZoom")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         findpropstrict Qname(PrivateNamespace(null,"992"),"maxZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"maxZoom") 0
+         greaterthan
+         dup
+         iftrue ofs001e
+         pop
+         getlocal_1
+         findpropstrict Qname(PrivateNamespace(null,"992"),"minZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"minZoom") 0
+         lessthan
+         ofs001e:iffalse ofs0023
+         returnvoid
+         ofs0023:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_2
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"zoom_")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_3
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setMinZoom(param1:Number = 0) : void
+      {
+         trait method Qname(PackageNamespace(""),"setMinZoom")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         optional 0
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushbyte 0
+         ifeq ofs0013
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"992"),"setZoom") 1
+         jump ofs0021
+         ofs0013:getlocal_0
+         findpropstrict Qname(PrivateNamespace(null,"992"),"minZoom")
+         callproperty Qname(PrivateNamespace(null,"992"),"minZoom") 0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"setZoom") 1
+         ofs0021:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function canMove() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"canMove")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         pushnull
+         equals
+         dup
+         iffalse ofs0014
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         pushnull
+         equals
+         ofs0014:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function increaseZoom() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"increaseZoom")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushbyte 2
+         callpropvoid Qname(PrivateNamespace(null,"992"),"modifyZoom") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function decreaseZoom() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"decreaseZoom")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushdouble 0.5
+         callpropvoid Qname(PrivateNamespace(null,"992"),"modifyZoom") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function moveLeft() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"moveLeft")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushbyte -1
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function moveRight() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"moveRight")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushbyte 1
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function moveUp() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"moveUp")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushbyte 0
+         pushbyte -1
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function moveDown() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"moveDown")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"canMove") 0
+         iftrue ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         pushbyte 0
+         pushbyte 1
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function movePosT(param1:int, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"movePosT")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_3
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"sizeInTiles") 0
+         subtract
+         convert_i
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_3
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_1
+         add
+         callproperty Qname(PackageNamespace(""),"min") 2
+         callproperty Qname(PackageNamespace(""),"max") 2
+         setproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_3
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_2
+         add
+         callproperty Qname(PackageNamespace(""),"min") 2
+         callproperty Qname(PackageNamespace(""),"max") 2
+         setproperty Qname(PackageNamespace(""),"y_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mousePosT() : IntPoint
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"mousePosT")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.util"),"IntPoint")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"Math")
+         pushbyte 0
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         decrement
+         getlex Qname(PackageNamespace(""),"mouseX")
+         callproperty Qname(PackageNamespace(""),"min") 2
+         callproperty Qname(PackageNamespace(""),"max") 2
+         convert_i
+         setlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         pushbyte 0
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         decrement
+         getlex Qname(PackageNamespace(""),"mouseY")
+         callproperty Qname(PackageNamespace(""),"min") 2
+         callproperty Qname(PackageNamespace(""),"max") 2
+         convert_i
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         divide
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         divide
+         add
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function mouseRectT() : Rectangle
+      {
+         trait method Qname(PackageNamespace(""),"mouseRectT")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.geom"),"Rectangle")
+         
+         body
+         maxstack 7
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         pushnull
+         ifne ofs0025
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         pushbyte 1
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         returnvalue
+         ofs0025:findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         callproperty Qname(PackageNamespace(""),"min") 2
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         callproperty Qname(PackageNamespace(""),"min") 2
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         pushbyte 1
+         add
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         pushbyte 1
+         add
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function posTToPosP(param1:IntPoint) : IntPoint
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"posTToPosP")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.util"),"IntPoint")
+         returns Qname(PackageNamespace("com.company.util"),"IntPoint")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sizeTToSizeP(param1:int) : Number
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"sizeTToSizeP")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mouseRectP() : Rectangle
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"mouseRectP")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.geom"),"Rectangle")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"mouseRectT") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         callproperty Qname(PrivateNamespace(null,"992"),"posTToPosP") 1
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x_")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y_")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PrivateNamespace(null,"992"),"sizeTToSizeP") 1
+         decrement
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_1
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         callproperty Qname(PrivateNamespace(null,"992"),"sizeTToSizeP") 1
+         decrement
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseMove")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"RIGHT_CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseRightClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onKeyUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onMouseMove")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"onKeyUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyDown(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onKeyDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0087
+         ofs0006:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         pushnull
+         ifeq ofs0014
+         jump ofs0151
+         ofs0014:getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         jump ofs0151
+         ofs0026:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         pushnull
+         ifeq ofs0034
+         jump ofs0151
+         ofs0034:getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         jump ofs0151
+         ofs0046:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"moveLeft") 0
+         jump ofs0151
+         ofs0050:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"moveRight") 0
+         jump ofs0151
+         ofs005a:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"moveUp") 0
+         jump ofs0151
+         ofs0064:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"moveDown") 0
+         jump ofs0151
+         ofs006e:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"decreaseZoom") 0
+         jump ofs0151
+         ofs0078:label
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"increaseZoom") 0
+         jump ofs0151
+         ofs0082:label
+         jump ofs0151
+         ofs0087:getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         setlocal_2
+         getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"SHIFT")
+         getlocal_2
+         ifstrictne ofs00a0
+         pushbyte 0
+         jump ofs012f
+         ofs00a0:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"CONTROL")
+         getlocal_2
+         ifstrictne ofs00b3
+         pushbyte 1
+         jump ofs012f
+         ofs00b3:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         getlocal_2
+         ifstrictne ofs00c6
+         pushbyte 2
+         jump ofs012f
+         ofs00c6:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         getlocal_2
+         ifstrictne ofs00d9
+         pushbyte 3
+         jump ofs012f
+         ofs00d9:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"UP")
+         getlocal_2
+         ifstrictne ofs00ec
+         pushbyte 4
+         jump ofs012f
+         ofs00ec:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"DOWN")
+         getlocal_2
+         ifstrictne ofs00ff
+         pushbyte 5
+         jump ofs012f
+         ofs00ff:getlex Qname(PackageNamespace("com.company.util"),"KeyCodes")
+         getproperty Qname(PackageNamespace(""),"MINUS")
+         getlocal_2
+         ifstrictne ofs0111
+         pushbyte 6
+         jump ofs012f
+         ofs0111:getlex Qname(PackageNamespace("com.company.util"),"KeyCodes")
+         getproperty Qname(PackageNamespace(""),"EQUAL")
+         getlocal_2
+         ifstrictne ofs0123
+         pushbyte 7
+         jump ofs012f
+         ofs0123:jump ofs012d
+         pushbyte 8
+         jump ofs012d
+         ofs012d:pushbyte 8
+         ofs012f:kill 2
+         lookupswitch ofs0082 8 ofs0006 ofs0026 ofs0046 ofs0050 ofs005a ofs0064 ofs006e ofs0078 ofs0082
+         ofs0151:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyUp(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onKeyUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         jump ofs0029
+         ofs0006:label
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         jump ofs0071
+         ofs0015:label
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         jump ofs0071
+         ofs0024:label
+         jump ofs0071
+         ofs0029:getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         setlocal_2
+         getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"SHIFT")
+         getlocal_2
+         ifstrictne ofs0042
+         pushbyte 0
+         jump ofs0061
+         ofs0042:getlex Qname(PackageNamespace("flash.ui"),"Keyboard")
+         getproperty Qname(PackageNamespace(""),"CONTROL")
+         getlocal_2
+         ifstrictne ofs0055
+         pushbyte 1
+         jump ofs0061
+         ofs0055:jump ofs005f
+         pushbyte 2
+         jump ofs005f
+         ofs005f:pushbyte 2
+         ofs0061:kill 2
+         lookupswitch ofs0024 2 ofs0006 ofs0015 ofs0024
+         ofs0071:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clearSelectRect() : void
+      {
+         trait method Qname(PackageNamespace(""),"clearSelectRect")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"anchorLock")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseRightClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onMouseRightClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseWheel(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onMouseWheel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"delta")
+         pushbyte 0
+         ifngt ofs0016
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"increaseZoom") 0
+         jump ofs0026
+         ofs0016:getlocal_1
+         getproperty Qname(PackageNamespace(""),"delta")
+         pushbyte 0
+         ifnlt ofs0026
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"decreaseZoom") 0
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 7
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"mouseRectT") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_2
+         getlex Multiname("Vector",[PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.util"),"IntPoint")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("com.company.util"),"IntPoint")>)
+         setlocal_3
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"rectWidthOverride")
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"right")
+         callproperty Qname(PackageNamespace(""),"max") 2
+         convert_i
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"rectHeightOverride")
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"bottom")
+         callproperty Qname(PackageNamespace(""),"max") 2
+         convert_i
+         setlocal 5
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         convert_i
+         setlocal 6
+         jump ofs0084
+         ofs005a:label
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         convert_i
+         setlocal 7
+         jump ofs007a
+         ofs0066:label
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("com.company.util"),"IntPoint")
+         getlocal 6
+         getlocal 7
+         constructprop Qname(PackageNamespace("com.company.util"),"IntPoint") 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 7
+         ofs007a:getlocal 7
+         getlocal 5
+         iflt ofs0066
+         inclocal_i 6
+         ofs0084:getlocal 6
+         getlocal 4
+         iflt ofs005a
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageInternalNs("com.company.assembleegameclient.mapeditor"),"TilesEvent")
+         getlocal_3
+         constructprop Qname(PackageInternalNs("com.company.assembleegameclient.mapeditor"),"TilesEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function freezeSelect() : void
+      {
+         trait method Qname(PackageNamespace(""),"freezeSelect")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"mouseRectT") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_1
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         initproperty Qname(PrivateNamespace(null,"992"),"rectWidthOverride")
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         initproperty Qname(PrivateNamespace(null,"992"),"rectHeightOverride")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clearSelect() : void
+      {
+         trait method Qname(PackageNamespace(""),"clearSelect")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"992"),"rectHeightOverride")
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"992"),"rectWidthOverride")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseMove(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"onMouseMove")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"shiftKey")
+         iftrue ofs0019
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         jump ofs002b
+         ofs0019:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         pushnull
+         ifne ofs002b
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseRectAnchorT_")
+         ofs002b:getlocal_1
+         getproperty Qname(PackageNamespace(""),"ctrlKey")
+         iftrue ofs003d
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         jump ofs004f
+         ofs003d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         pushnull
+         ifne ofs004f
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         initproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         ofs004f:getlocal_1
+         getproperty Qname(PackageNamespace(""),"buttonDown")
+         iffalse ofs0083
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageInternalNs("com.company.assembleegameclient.mapeditor"),"TilesEvent")
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.util"),"IntPoint")
+         applytype 1
+         pushbyte 1
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         setproperty MultinameL([PackageNamespace("")])
+         constructprop Qname(PackageInternalNs("com.company.assembleegameclient.mapeditor"),"TilesEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs0083:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         pushnull
+         ifeq ofs00bb
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mousePosT") 0
+         coerce Qname(PackageNamespace("com.company.util"),"IntPoint")
+         setlocal_2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"mouseMoveAnchorT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         callpropvoid Qname(PrivateNamespace(null,"992"),"movePosT") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         jump ofs00c0
+         ofs00bb:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"drawOverlay") 0
+         ofs00c0:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getOrCreateTile(param1:int, param2:int) : METile
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"getOrCreateTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         multiply
+         add
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         dup
+         setlocal 4
+         pushnull
+         ifeq ofs0023
+         getlocal 4
+         returnvalue
+         ofs0023:findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile") 0
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_3
+         getlocal 4
+         setproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearTile(param1:int, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"clearTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"NUM_SQUARES")
+         multiply
+         add
+         deleteproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawTile(param1:int, param2:int, param3:METile) : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"drawTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 8
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 6
+         pushbyte 0
+         convert_u
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"fullMap_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"erase") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"erase") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"erase") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"regionMap_")
+         getlocal_1
+         getlocal_2
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"setPixel32") 3
+         getlocal_3
+         pushnull
+         ifne ofs0074
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"erase") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"erase") 1
+         returnvoid
+         ofs0074:getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"GROUND")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs00b5
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"GroundLibrary")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"GROUND")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"getBitmapData") 1
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         getlocal 5
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"rect")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"copyTo") 3
+         ofs00b5:getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"OBJECT")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs011f
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"OBJECT")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"getTextureFromType") 1
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         dup
+         setlocal 6
+         pushnull
+         equals
+         dup
+         iftrue ofs00f5
+         pop
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"invisibleTexture_")
+         equals
+         ofs00f5:iffalse ofs010e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal 5
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"rect")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"copyTo") 3
+         jump ofs011f
+         ofs010e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         getlocal 6
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"rect")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"copyTo") 3
+         ofs011f:getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"REGION")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs015e
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"RegionLibrary")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"REGION")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"getColor") 1
+         convert_u
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"regionMap_")
+         getlocal_1
+         getlocal_2
+         pushint 1593835520
+         getlocal 7
+         bitor
+         callpropvoid Qname(PackageNamespace(""),"setPixel32") 3
+         ofs015e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawOverlay() : void
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"drawOverlay")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"mouseRectP") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"overlay_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         coerce Qname(PackageNamespace("flash.display"),"Graphics")
+         setlocal_2
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_2
+         pushbyte 1
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 2
+         getlocal_2
+         pushint 16777215
+         pushdouble 0.1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"lineStyle") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function draw() : void
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         divide
+         convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getproperty Qname(PackageNamespace(""),"rect")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"fillRect") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"ifShowGroundLayer_")
+         iffalse ofs0066
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getproperty Qname(PackageNamespace(""),"rect")
+         callpropvoid Qname(PackageNamespace(""),"copyFrom") 3
+         ofs0066:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"ifShowObjectLayer_")
+         iffalse ofs00a0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getproperty Qname(PackageNamespace(""),"rect")
+         callpropvoid Qname(PackageNamespace(""),"copyFrom") 3
+         ofs00a0:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"ifShowRegionLayer_")
+         iffalse ofs0155
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         setlocal_2
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"identity") 0
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         multiply
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"zoom_")
+         pushbyte 2
+         ifngt ofs0121
+         findpropstrict Qname(PackageNamespace(""),"BitmapDataSpy")
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlocal_3
+         divide
+         getlex Qname(PackageNamespace(""),"SIZE")
+         getlocal_3
+         divide
+         constructprop Qname(PackageNamespace(""),"BitmapDataSpy") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         dup
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"regionMap_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_1
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlex Qname(PackageNamespace("com.company.util"),"PointUtil")
+         getproperty Qname(PackageNamespace(""),"ORIGIN")
+         callpropvoid Qname(PackageNamespace(""),"copyPixels") 3
+         getlocal_2
+         getlocal_3
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"scale") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getlocal 4
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         jump ofs0155
+         ofs0121:getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         negate
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"posT_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         negate
+         callpropvoid Qname(PackageNamespace(""),"translate") 2
+         getlocal_2
+         getlocal_3
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"scale") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"regionMap_")
+         getlocal_2
+         pushnull
+         pushnull
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map_")
+         getproperty Qname(PackageNamespace(""),"rect")
+         callpropvoid Qname(PackageNamespace(""),"draw") 5
+         ofs0155:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"992"),"drawOverlay") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function generateThumbnail() : ByteArray
+      {
+         trait method Qname(PrivateNamespace(null,"992"),"generateThumbnail")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.utils"),"ByteArray")
+         
+         body
+         maxstack 7
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getTileBounds") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_1
+         pushbyte 8
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("flash.display"),"BitmapData")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_2
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_2
+         multiply
+         constructprop Qname(PackageNamespace("flash.display"),"BitmapData") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"groundLayer_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"rect")
+         callpropvoid Qname(PackageNamespace(""),"copyFrom") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"992"),"objectLayer_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         getlex Qname(PackageNamespace(""),"SQUARE_SIZE")
+         multiply
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"rect")
+         callpropvoid Qname(PackageNamespace(""),"copyFrom") 3
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix") 0
+         coerce Qname(PackageNamespace("flash.geom"),"Matrix")
+         dup
+         setlocal 4
+         callpropvoid Qname(PackageNamespace(""),"identity") 0
+         getlocal 4
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         negate
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         negate
+         callpropvoid Qname(PackageNamespace(""),"translate") 2
+         getlocal 4
+         getlocal_2
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"scale") 2
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"regionMap_")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         getlex Qname(PackageNamespace("com.adobe.images"),"PNGEncoder")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"encode") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getMapStatistics() : Object
+      {
+         trait method Qname(PackageNamespace(""),"getMapStatistics")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 12
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 6
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushbyte 0
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"tileDict_")
+         coerce_a
+         setlocal 8
+         jump ofs00b5
+         ofs0028:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"METile")
+         setlocal 6
+         inclocal_i 5
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"GROUND")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs004d
+         inclocal_i 1
+         ofs004d:getlocal 6
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"OBJECT")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs0065
+         inclocal_i 2
+         ofs0065:getlocal 6
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"REGION")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte -1
+         ifeq ofs00b5
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"REGION")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"RegionLibrary")
+         getproperty Qname(PackageNamespace(""),"EXIT_REGION_TYPE")
+         ifne ofs0098
+         inclocal_i 3
+         ofs0098:getlocal 6
+         getproperty Qname(PackageNamespace(""),"types_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"Layer")
+         getproperty Qname(PackageNamespace(""),"REGION")
+         getproperty MultinameL([PrivateNamespace(null,"992"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PrivateNamespace(null,"1933"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:MEMap"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"RegionLibrary")
+         getproperty Qname(PackageNamespace(""),"ENTRY_REGION_TYPE")
+         ifne ofs00b5
+         inclocal_i 4
+         ofs00b5:hasnext2 8 7
+         iftrue ofs0028
+         kill 8
+         kill 7
+         pushstring "numObjects"
+         getlocal_2
+         pushstring "numGrounds"
+         getlocal_1
+         pushstring "numExits"
+         getlocal_3
+         pushstring "numEntries"
+         getlocal 4
+         pushstring "numTiles"
+         getlocal 5
+         pushstring "thumbnail"
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"992"),"generateThumbnail") 0
+         newobject 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

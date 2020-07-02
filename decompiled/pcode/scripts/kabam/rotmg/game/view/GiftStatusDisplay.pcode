@@ -1,0 +1,468 @@
+package kabam.rotmg.game.view
+{
+   import com.company.assembleegameclient.ui.tooltip.TextToolTip;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.AssetLibrary;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.Sprite;
+   import flash.filters.DropShadowFilter;
+   import flash.geom.Rectangle;
+   import kabam.rotmg.core.signals.HideTooltipsSignal;
+   import kabam.rotmg.core.signals.ShowTooltipSignal;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.tooltips.HoverTooltipDelegate;
+   import kabam.rotmg.tooltips.TooltipAble;
+   import kabam.rotmg.ui.UIUtils;
+   
+   public class GiftStatusDisplay extends Sprite implements TooltipAble
+   {
+      
+      public static const IMAGE_NAME:String = "lofiObj2";
+      
+      public static const IMAGE_ID:int = 127;
+      
+      public static const NOTIFICATION_BACKGROUND_WIDTH:Number = 110;
+      
+      public static const NOTIFICATION_BACKGROUND_HEIGHT:Number = 25;
+      
+      public static const NOTIFICATION_BACKGROUND_ALPHA:Number = 0.4;
+      
+      public static const NOTIFICATION_BACKGROUND_COLOR:Number = 0;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"IMAGE_NAME")
+         pushstring "lofiObj2"
+         initproperty Qname(PackageNamespace(""),"IMAGE_NAME")
+         findproperty Qname(PackageNamespace(""),"IMAGE_ID")
+         pushbyte 127
+         initproperty Qname(PackageNamespace(""),"IMAGE_ID")
+         findproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_WIDTH")
+         pushbyte 110
+         initproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_WIDTH")
+         findproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_HEIGHT")
+         pushbyte 25
+         initproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_HEIGHT")
+         findproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_ALPHA")
+         pushdouble 0.4
+         initproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_ALPHA")
+         findproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_COLOR")
+         pushbyte 0
+         initproperty Qname(PackageNamespace(""),"NOTIFICATION_BACKGROUND_COLOR")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var hoverTooltipDelegate:HoverTooltipDelegate;
+      
+      private var bitmap:Bitmap;
+      
+      private var background:Sprite;
+      
+      private var giftOpenProcessedTexture:BitmapData;
+      
+      private var text:TextFieldDisplayConcrete;
+      
+      private var tooltip:TextToolTip;
+      
+      private var _isOpen:Boolean;
+      
+      public function GiftStatusDisplay()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 9
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate")
+         constructprop Qname(PackageNamespace("kabam.rotmg.tooltips"),"HoverTooltipDelegate") 0
+         initproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip")
+         pushint 3552822
+         pushint 10197915
+         pushnull
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"BUYPACKAGETASK_NEWGIFTS")
+         pushbyte 120
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"TextToolTip") 5
+         initproperty Qname(PrivateNamespace(null,"359"),"tooltip")
+         getlocal_0
+         constructsuper 0
+         findproperty Qname(PackageNamespace(""),"mouseChildren")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         getlex Qname(PackageNamespace(""),"IMAGE_NAME")
+         getlex Qname(PackageNamespace(""),"IMAGE_ID")
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         pushbyte 40
+         pushtrue
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"redraw") 4
+         initproperty Qname(PrivateNamespace(null,"359"),"giftOpenProcessedTexture")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"UIUtils")
+         callproperty Qname(PackageNamespace(""),"makeStaticHUDBackground") 0
+         initproperty Qname(PrivateNamespace(null,"359"),"background")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"giftOpenProcessedTexture")
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         pushbyte -5
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         pushbyte -8
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PrivateNamespace(null,"359"),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"GIFTSTATUSDISPLAY_TEXT")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         getproperty Qname(PackageNamespace(""),"BOTTOM")
+         callpropvoid Qname(PackageNamespace(""),"setVerticalAlign") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"setDisplayObject") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"tooltip")
+         setproperty Qname(PackageNamespace(""),"tooltip")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"drawAsOpen") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getBounds") 1
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_1
+         pushbyte 10
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"right")
+         getlocal_2
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"bottom")
+         getlocal_2
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setShowToolTipSignal(param1:ShowTooltipSignal) : void
+      {
+         trait method Qname(PackageNamespace(""),"setShowToolTipSignal")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.core.signals"),"ShowTooltipSignal")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setShowToolTipSignal") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getShowToolTip() : ShowTooltipSignal
+      {
+         trait method Qname(PackageNamespace(""),"getShowToolTip")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.core.signals"),"ShowTooltipSignal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         callproperty Qname(PackageNamespace(""),"getShowToolTip") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setHideToolTipsSignal(param1:HideTooltipsSignal) : void
+      {
+         trait method Qname(PackageNamespace(""),"setHideToolTipsSignal")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.core.signals"),"HideTooltipsSignal")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setHideToolTipsSignal") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getHideToolTips() : HideTooltipsSignal
+      {
+         trait method Qname(PackageNamespace(""),"getHideToolTips")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.core.signals"),"HideTooltipsSignal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hoverTooltipDelegate")
+         callproperty Qname(PackageNamespace(""),"getHideToolTips") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function drawAsOpen() : void
+      {
+         trait method Qname(PackageNamespace(""),"drawAsOpen")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"359"),"_isOpen")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"background")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function drawAsClosed() : void
+      {
+         trait method Qname(PackageNamespace(""),"drawAsClosed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"background")
+         convert_b
+         dup
+         iffalse ofs0016
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"background")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         equals
+         ofs0016:iffalse ofs0025
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"background")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0025:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         convert_b
+         dup
+         iffalse ofs0039
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         equals
+         ofs0039:iffalse ofs0048
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"text")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0048:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         convert_b
+         dup
+         iffalse ofs005c
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         equals
+         ofs005c:iffalse ofs006b
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"bitmap")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs006b:getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"359"),"_isOpen")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isOpen() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isOpen")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"359"),"_isOpen")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

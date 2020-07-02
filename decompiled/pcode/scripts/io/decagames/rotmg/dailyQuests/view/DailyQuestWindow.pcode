@@ -1,0 +1,710 @@
+package io.decagames.rotmg.dailyQuests.view
+{
+   import com.company.assembleegameclient.map.ParticleModalMap;
+   import flash.display.Sprite;
+   import io.decagames.rotmg.dailyQuests.view.info.DailyQuestInfo;
+   import io.decagames.rotmg.dailyQuests.view.list.DailyQuestsList;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.popups.UIPopup;
+   
+   public class DailyQuestWindow extends UIPopup
+   {
+      
+      public static const MODAL_WIDTH:int = 600;
+      
+      public static const MODAL_FULL_WIDTH:int = 800;
+      
+      public static const MODAL_HEIGHT:int = 600;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"MODAL_WIDTH")
+         pushshort 600
+         initproperty Qname(PackageNamespace(""),"MODAL_WIDTH")
+         findproperty Qname(PackageNamespace(""),"MODAL_FULL_WIDTH")
+         pushshort 800
+         initproperty Qname(PackageNamespace(""),"MODAL_FULL_WIDTH")
+         findproperty Qname(PackageNamespace(""),"MODAL_HEIGHT")
+         pushshort 600
+         initproperty Qname(PackageNamespace(""),"MODAL_HEIGHT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var fade:Sprite;
+      
+      private var _closeButton:Sprite;
+      
+      private var _infoButton:Sprite;
+      
+      private var _refreshButton:DailyQuestRefreshButton;
+      
+      private var _questList:DailyQuestsList;
+      
+      private var questInfo:DailyQuestInfo;
+      
+      private var questRefreshText:UILabel;
+      
+      private var completedCounter:UILabel;
+      
+      private var completedTxt:UILabel;
+      
+      private var particleLayer:ParticleModalMap;
+      
+      private var _contentContainer:Sprite;
+      
+      public function DailyQuestWindow()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"MODAL_WIDTH")
+         getlex Qname(PackageNamespace(""),"MODAL_HEIGHT")
+         constructsuper 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"442"),"init") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function init() : void
+      {
+         trait method Qname(PrivateNamespace(null,"442"),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"442"),"createContainer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"442"),"createQuestRefreshText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"442"),"createRefreshButton") 0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"renderQuestInfo") 0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"renderList") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContainer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"442"),"createContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         pushbyte 120
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createQuestRefreshText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"442"),"createQuestRefreshText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         callpropvoid Qname(PackageNamespace(""),"questRefreshLabel") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         pushbyte -10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         pushbyte 11
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         pushshort 230
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createRefreshButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"442"),"createRefreshButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view"),"DailyQuestRefreshButton")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view"),"DailyQuestRefreshButton") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"_refreshButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_refreshButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 16
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_refreshButton")
+         pushbyte 3
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_refreshButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setCompletedCounter(param1:int, param2:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"setCompletedCounter")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_2
+         ifne ofs0024
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedTxt")
+         pushtrue
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"questCompletedLabel") 3
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedCounter")
+         pushtrue
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"questCompletedLabel") 3
+         ofs0024:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedCounter")
+         getlocal_1
+         pushstring "/"
+         add
+         getlocal_2
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedCounter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedCounter")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"completedCounter")
+         getproperty Qname(PackageNamespace(""),"textWidth")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setQuestRefreshHeader(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"setQuestRefreshHeader")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questRefreshText")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"text")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function renderQuestInfo() : void
+      {
+         trait method Qname(PackageNamespace(""),"renderQuestInfo")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0015:iffalse ofs0028
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0028:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.info"),"DailyQuestInfo")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.info"),"DailyQuestInfo") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         pushshort 257
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         pushshort 130
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"questInfo")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function renderList() : void
+      {
+         trait method Qname(PackageNamespace(""),"renderList")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0015:iffalse ofs0024
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0024:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestsList")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestsList") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         pushshort 160
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showFade(param1:int = 1381653, param2:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"showFade")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional 1381653
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         iffalse ofs0023
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.map"),"ParticleModalMap")
+         pushbyte 1
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.map"),"ParticleModalMap") 1
+         initproperty Qname(PrivateNamespace(null,"442"),"particleLayer")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"particleLayer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         jump ofs006b
+         ofs0023:getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"442"),"fade")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_1
+         pushdouble 0.8
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlex Qname(PackageNamespace(""),"MODAL_FULL_WIDTH")
+         getlex Qname(PackageNamespace(""),"MODAL_HEIGHT")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs006b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hideFade() : void
+      {
+         trait method Qname(PackageNamespace(""),"hideFade")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0015:iffalse ofs0024
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"fade")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0024:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"particleLayer")
+         convert_b
+         dup
+         iffalse ofs0037
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"particleLayer")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0037:iffalse ofs0046
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"particleLayer")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0046:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get closeButton() : Sprite
+      {
+         trait getter Qname(PackageNamespace(""),"closeButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_closeButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get infoButton() : Sprite
+      {
+         trait getter Qname(PackageNamespace(""),"infoButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_infoButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get contentContainer() : Sprite
+      {
+         trait getter Qname(PackageNamespace(""),"contentContainer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_contentContainer")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get refreshButton() : DailyQuestRefreshButton
+      {
+         trait getter Qname(PackageNamespace(""),"refreshButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view"),"DailyQuestRefreshButton")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_refreshButton")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get questList() : DailyQuestsList
+      {
+         trait getter Qname(PackageNamespace(""),"questList")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestsList")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"442"),"_questList")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

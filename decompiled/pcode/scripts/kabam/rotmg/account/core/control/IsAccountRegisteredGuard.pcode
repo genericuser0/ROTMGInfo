@@ -1,0 +1,152 @@
+package kabam.rotmg.account.core.control
+{
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.view.RegisterPromptDialog;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import robotlegs.bender.framework.api.IGuard;
+   
+   public class IsAccountRegisteredGuard implements IGuard
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      public function IsAccountRegisteredGuard()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function approve() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"approve")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         convert_b
+         setlocal_1
+         getlocal_1
+         coerce_a
+         dup
+         iftrue ofs001a
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"49"),"enterRegisterFlow") 0
+         coerce_a
+         ofs001a:pop
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function getString() : String
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.core.control:IsAccountRegisteredGuard"),"getString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function enterRegisterFlow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"49"),"enterRegisterFlow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog")
+         getlocal_0
+         callproperty Qname(ProtectedNamespace("kabam.rotmg.account.core.control:IsAccountRegisteredGuard"),"getString") 0
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

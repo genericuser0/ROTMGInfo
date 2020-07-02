@@ -1,0 +1,1555 @@
+package io.decagames.rotmg.supportCampaign.data
+{
+   import com.company.assembleegameclient.util.TimeUtil;
+   import flash.display.DisplayObject;
+   import flash.utils.Dictionary;
+   import io.decagames.rotmg.supportCampaign.data.vo.RankVO;
+   import io.decagames.rotmg.supportCampaign.signals.MaxRankReachedSignal;
+   import io.decagames.rotmg.supportCampaign.signals.UpdateCampaignProgress;
+   import io.decagames.rotmg.utils.date.TimeLeft;
+   import kabam.rotmg.core.StaticInjectorContext;
+   
+   public class SupporterCampaignModel
+   {
+      
+      public static const DEFAULT_DONATE_AMOUNT:int = 100;
+      
+      public static const DEFAULT_DONATE_SPINNER_STEP:int = 100;
+      
+      public static const DONATE_MAX_INPUT_CHARS:int = 5;
+      
+      public static const SUPPORT_COLOR:Number = 13395711;
+      
+      public static const RANKS_NAMES:Array;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 7
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_AMOUNT")
+         pushbyte 100
+         initproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_AMOUNT")
+         findproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_SPINNER_STEP")
+         pushbyte 100
+         initproperty Qname(PackageNamespace(""),"DEFAULT_DONATE_SPINNER_STEP")
+         findproperty Qname(PackageNamespace(""),"DONATE_MAX_INPUT_CHARS")
+         pushbyte 5
+         initproperty Qname(PackageNamespace(""),"DONATE_MAX_INPUT_CHARS")
+         findproperty Qname(PackageNamespace(""),"SUPPORT_COLOR")
+         pushint 13395711
+         initproperty Qname(PackageNamespace(""),"SUPPORT_COLOR")
+         findproperty Qname(PackageNamespace(""),"RANKS_NAMES")
+         pushstring "Basic"
+         pushstring "Greater"
+         pushstring "Superior"
+         pushstring "Paramount"
+         pushstring "Exalted"
+         pushstring "Unbound"
+         newarray 6
+         initproperty Qname(PackageNamespace(""),"RANKS_NAMES")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _unlockPrice:int;
+      
+      private var _points:int;
+      
+      private var _rank:int;
+      
+      private var _tempRank:int;
+      
+      private var _donatePointsRatio:int;
+      
+      private var _shopPurchasePointsRatio:int;
+      
+      private var _endDate:Date;
+      
+      private var _activeUntil:Date;
+      
+      private var _startDate:Date;
+      
+      private var _ranks:Array;
+      
+      private var _isUnlocked:Boolean;
+      
+      private var _hasValidData:Boolean;
+      
+      private var _claimed:int;
+      
+      private var _rankConfig:Vector.<RankVO>;
+      
+      private var _picUrls:Vector.<String>;
+      
+      private var _campaignImages:Dictionary;
+      
+      private var _campaignTitle:String;
+      
+      private var _campaignDescription:String;
+      
+      private var _campaignBannerUrl:String;
+      
+      private var _maxRank:int;
+      
+      public function SupporterCampaignModel()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         pushtrue
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_campaignImages")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function parseConfigData(param1:XML) : void
+      {
+         trait method Qname(PackageNamespace(""),"parseConfigData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         pushstring "CampaignConfig"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_hasValidData")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_hasValidData")
+         iffalse ofs001e
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"498"),"parseConfig") 1
+         ofs001e:getlocal_1
+         pushstring "CampaignProgress"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 1
+         iffalse ofs0037
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignProgress",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"parseUpdateData") 2
+         ofs0037:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updatePoints(param1:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"updatePoints")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"498"),"_points")
+         getlocal_0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_points")
+         callproperty Qname(PackageNamespace(""),"getRankByPoints") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.signals"),"UpdateCampaignProgress")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getRankByPoints(param1:int) : int
+      {
+         trait method Qname(PackageNamespace(""),"getRankByPoints")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hasValidData")
+         iftrue ofs0010
+         pushbyte 0
+         returnvalue
+         ofs0010:pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs002a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         ofs002a:iffalse ofs0058
+         pushbyte 0
+         setlocal_3
+         jump ofs004c
+         ofs0035:label
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         ifnge ofs004a
+         getlocal_3
+         pushbyte 1
+         add
+         convert_i
+         setlocal_2
+         ofs004a:inclocal_i 3
+         ofs004c:getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0035
+         ofs0058:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get rankConfig() : Vector.<RankVO>
+      {
+         trait getter Qname(PackageNamespace(""),"rankConfig")
+         dispid 0
+         method
+         name null
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")>)
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rankConfig")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function parseUpdateData(param1:Object, param2:Boolean = true) : void
+      {
+         trait method Qname(PackageNamespace(""),"parseUpdateData")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         pushstring "Unlocked"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 1
+         strictequals
+         initproperty Qname(PrivateNamespace(null,"498"),"_isUnlocked")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         pushstring "Points"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_points")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         pushstring "Rank"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_tempRank")
+         pushbyte 0
+         ifne ofs0053
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         initproperty Qname(PrivateNamespace(null,"498"),"_tempRank")
+         ofs0053:getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         pushstring "Claimed"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_claimed")
+         getlocal_2
+         iffalse ofs0080
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.signals"),"UpdateCampaignProgress")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 0
+         ofs0080:getlocal_0
+         callproperty Qname(PackageNamespace(""),"hasMaxRank") 0
+         iffalse ofs009d
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.signals"),"MaxRankReachedSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 0
+         ofs009d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseConfig(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"498"),"parseConfig")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 7
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         getlocal_0
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "Title"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         initproperty Qname(PrivateNamespace(null,"498"),"_campaignTitle")
+         getlocal_0
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "Description"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         initproperty Qname(PrivateNamespace(null,"498"),"_campaignDescription")
+         getlocal_0
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "BannerUrl"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         initproperty Qname(PrivateNamespace(null,"498"),"_campaignBannerUrl")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "UnlockPrice"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_unlockPrice")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "DonatePointsRatio"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_donatePointsRatio")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "CampaignEndDate"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushshort 1000
+         multiply
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_endDate")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "CampaignActiveUntil"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushshort 1000
+         multiply
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_activeUntil")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "CampaignStartDate"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushshort 1000
+         multiply
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_startDate")
+         getlocal_0
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "RanksList"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         pushstring ","
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"split") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         iffalse ofs00ff
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         initproperty Qname(PrivateNamespace(null,"498"),"_maxRank")
+         ofs00ff:getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "ShopPurchasePointsRatio"
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_shopPurchasePointsRatio")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"498"),"_rankConfig")
+         pushbyte 0
+         setlocal_2
+         jump ofs0155
+         ofs012d:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rankConfig")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data"),"SupporterCampaignModel")
+         getproperty Qname(PackageNamespace(""),"RANKS_NAMES")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.data.vo"),"RankVO") 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 2
+         ofs0155:getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs012d
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"String")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         getproperty Multiname("CampaignConfig",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         getproperty Multiname("PicUrls",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         callproperty Multiname("children",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")]) 0
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal_3
+         pushbyte 0
+         setlocal 5
+         getlocal_3
+         coerce_a
+         setlocal 6
+         jump ofs01ac
+         ofs0197:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         getlocal 4
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs01ac:hasnext2 6 5
+         iftrue ofs0197
+         kill 6
+         kill 5
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseConfigStatus(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"498"),"parseConfigStatus")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignProgress",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "Unlocked"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         pushbyte 1
+         strictequals
+         initproperty Qname(PrivateNamespace(null,"498"),"_isUnlocked")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignProgress",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "Points"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_points")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("CampaignProgress",[PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         pushstring "Rank"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getlocal_1
+         pushstring "Claimed"
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"498"),"getXMLData") 3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PrivateNamespace(null,"498"),"_claimed")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getXMLData(param1:Object, param2:String, param3:Boolean) : String
+      {
+         trait method Qname(PrivateNamespace(null,"498"),"getXMLData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"hasOwnProperty") 1
+         iffalse ofs0019
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_1
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         returnvalue
+         ofs0019:getlocal_3
+         iffalse ofs0023
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"498"),"_hasValidData")
+         ofs0023:pushstring ""
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCampaignImageByUrl(param1:String) : DisplayObject
+      {
+         trait method Qname(PackageNamespace(""),"getCampaignImageByUrl")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("flash.display"),"DisplayObject")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignImages")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObject")
+         astypelate
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addCampaignImageByUrl(param1:String, param2:DisplayObject) : void
+      {
+         trait method Qname(PackageNamespace(""),"addCampaignImageByUrl")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignImages")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         iftrue ofs0019
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignImages")
+         getlocal_1
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         ofs0019:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCampaignPictureUrlByRank(param1:int) : String
+      {
+         trait method Qname(PackageNamespace(""),"getCampaignPictureUrlByRank")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs001d
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         coerce_a
+         convert_b
+         ofs001d:dup
+         iffalse ofs002c
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         getproperty Qname(PackageNamespace(""),"length")
+         lessequals
+         ofs002c:iffalse ofs004e
+         getlocal_1
+         pushbyte 0
+         equals
+         iffalse ofs003e
+         pushbyte 1
+         jump ofs0040
+         ofs003e:getlocal_1
+         convert_i
+         ofs0040:convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_picUrls")
+         getlocal_1
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"498"),PackageNamespace(""),PrivateNamespace(null,"1530"),PackageNamespace("io.decagames.rotmg.supportCampaign.data"),PackageInternalNs("io.decagames.rotmg.supportCampaign.data"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel"),StaticProtectedNs("io.decagames.rotmg.supportCampaign.data:SupporterCampaignModel")])
+         coerce_s
+         setlocal_2
+         ofs004e:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isStarted() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isStarted")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         getproperty Qname(PackageNamespace(""),"time")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_startDate")
+         getproperty Qname(PackageNamespace(""),"time")
+         greaterequals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isEnded() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isEnded")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         getproperty Qname(PackageNamespace(""),"time")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_endDate")
+         getproperty Qname(PackageNamespace(""),"time")
+         greaterequals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isActive() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isActive")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"isStarted")
+         convert_b
+         dup
+         iffalse ofs001d
+         pop
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         getproperty Qname(PackageNamespace(""),"time")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_activeUntil")
+         getproperty Qname(PackageNamespace(""),"time")
+         lessthan
+         ofs001d:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get nextClaimableTier() : int
+      {
+         trait getter Qname(PackageNamespace(""),"nextClaimableTier")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifne ofs0015
+         pushbyte 1
+         returnvalue
+         ofs0015:pushbyte 1
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         coerce_a
+         setlocal 4
+         jump ofs0047
+         ofs0026:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         getlocal_1
+         greaterequals
+         dup
+         iffalse ofs003f
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_claimed")
+         getlocal_1
+         lessthan
+         ofs003f:iffalse ofs0045
+         getlocal_1
+         returnvalue
+         ofs0045:inclocal_i 1
+         ofs0047:hasnext2 4 3
+         iftrue ofs0026
+         kill 4
+         kill 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getStartTimeString() : String
+      {
+         trait method Qname(PackageNamespace(""),"getStartTimeString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring ""
+         setlocal_1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"498"),"getSecondsToStart") 0
+         convert_d
+         setlocal_2
+         getlocal_2
+         pushbyte 0
+         ifnle ofs0016
+         pushstring ""
+         returnvalue
+         ofs0016:getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TimeUtil")
+         getproperty Qname(PackageNamespace(""),"DAY_IN_S")
+         ifngt ofs0036
+         getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeLeft")
+         getlocal_2
+         pushstring "%dd %hh"
+         callproperty Qname(PackageNamespace(""),"parse") 2
+         add
+         coerce_s
+         setlocal_1
+         jump ofs0086
+         ofs0036:getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TimeUtil")
+         getproperty Qname(PackageNamespace(""),"HOUR_IN_S")
+         ifngt ofs0056
+         getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeLeft")
+         getlocal_2
+         pushstring "%hh %mm"
+         callproperty Qname(PackageNamespace(""),"parse") 2
+         add
+         coerce_s
+         setlocal_1
+         jump ofs0086
+         ofs0056:getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TimeUtil")
+         getproperty Qname(PackageNamespace(""),"MIN_IN_S")
+         ifngt ofs0076
+         getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeLeft")
+         getlocal_2
+         pushstring "%mm %ss"
+         callproperty Qname(PackageNamespace(""),"parse") 2
+         add
+         coerce_s
+         setlocal_1
+         jump ofs0086
+         ofs0076:getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeLeft")
+         getlocal_2
+         pushstring "%ss"
+         callproperty Qname(PackageNamespace(""),"parse") 2
+         add
+         coerce_s
+         setlocal_1
+         ofs0086:getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getSecondsToStart() : Number
+      {
+         trait method Qname(PrivateNamespace(null,"498"),"getSecondsToStart")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_startDate")
+         getproperty Qname(PackageNamespace(""),"time")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"time")
+         subtract
+         pushshort 1000
+         divide
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get unlockPrice() : int
+      {
+         trait getter Qname(PackageNamespace(""),"unlockPrice")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_unlockPrice")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get donatePointsRatio() : int
+      {
+         trait getter Qname(PackageNamespace(""),"donatePointsRatio")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_donatePointsRatio")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get shopPurchasePointsRatio() : int
+      {
+         trait getter Qname(PackageNamespace(""),"shopPurchasePointsRatio")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_shopPurchasePointsRatio")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get ranks() : Array
+      {
+         trait getter Qname(PackageNamespace(""),"ranks")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_ranks")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isUnlocked() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isUnlocked")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_isUnlocked")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get hasValidData() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"hasValidData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_hasValidData")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get endDate() : Date
+      {
+         trait getter Qname(PackageNamespace(""),"endDate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_endDate")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get points() : int
+      {
+         trait getter Qname(PackageNamespace(""),"points")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_points")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get rank() : int
+      {
+         trait getter Qname(PackageNamespace(""),"rank")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get claimed() : int
+      {
+         trait getter Qname(PackageNamespace(""),"claimed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_claimed")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get tempRank() : int
+      {
+         trait getter Qname(PackageNamespace(""),"tempRank")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_tempRank")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set tempRank(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"tempRank")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"498"),"_tempRank")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get startDate() : Date
+      {
+         trait getter Qname(PackageNamespace(""),"startDate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_startDate")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get campaignTitle() : String
+      {
+         trait getter Qname(PackageNamespace(""),"campaignTitle")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignTitle")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get campaignDescription() : String
+      {
+         trait getter Qname(PackageNamespace(""),"campaignDescription")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignDescription")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get campaignBannerUrl() : String
+      {
+         trait getter Qname(PackageNamespace(""),"campaignBannerUrl")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_campaignBannerUrl")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasMaxRank() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasMaxRank")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_rank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"498"),"_maxRank")
+         equals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

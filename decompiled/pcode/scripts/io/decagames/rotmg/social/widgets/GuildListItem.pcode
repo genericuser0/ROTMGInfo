@@ -1,0 +1,480 @@
+package io.decagames.rotmg.social.widgets
+{
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.icons.IconButton;
+   import com.company.assembleegameclient.util.GuildUtil;
+   import com.company.assembleegameclient.util.TimeUtil;
+   import flash.events.Event;
+   import io.decagames.rotmg.social.model.GuildMemberVO;
+   import kabam.rotmg.text.model.TextKey;
+   
+   public class GuildListItem extends BaseListItem
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var promoteButton:IconButton;
+      
+      public var demoteButton:IconButton;
+      
+      public var guildRank:IconButton;
+      
+      public var teleportButton:IconButton;
+      
+      public var messageButton:IconButton;
+      
+      public var removeButton:IconButton;
+      
+      private var _guildMemberVO:GuildMemberVO;
+      
+      private var _guildMemberRank:int;
+      
+      private var _myRank:int;
+      
+      private var _isMe:Boolean;
+      
+      private var _isOnline:Boolean;
+      
+      public function GuildListItem(param1:GuildMemberVO, param2:int, param3:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.social.model"),"GuildMemberVO")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_2
+         constructsuper 1
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"411"),"_myRank")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"isMe")
+         initproperty Qname(PrivateNamespace(null,"411"),"_isMe")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"isOnline")
+         initproperty Qname(PrivateNamespace(null,"411"),"_isOnline")
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItem"),"init") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function init() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItem"),"init")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callsupervoid Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"init") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"onRemoved")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"rank")
+         initproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isOnline")
+         iftrue ofs005b
+         getlex Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"hoverTooltipDelegate")
+         getlex Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"_characterContainer")
+         callpropvoid Qname(PackageNamespace(""),"setDisplayObject") 1
+         findpropstrict Qname(PackageNamespace(""),"setToolTipTitle")
+         pushstring "Last Seen:"
+         callpropvoid Qname(PackageNamespace(""),"setToolTipTitle") 1
+         findpropstrict Qname(PackageNamespace(""),"setToolTipText")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TimeUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"lastLogin")
+         callproperty Qname(PackageNamespace(""),"humanReadableTime") 1
+         pushstring " ago!"
+         add
+         callpropvoid Qname(PackageNamespace(""),"setToolTipText") 1
+         ofs005b:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"411"),"createButtons") 0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"createListLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"name")
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"createListLabel") 1
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"createListPortrait")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"player")
+         callproperty Qname(PackageNamespace(""),"getPortrait") 0
+         callpropvoid Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"createListPortrait") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoved(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"411"),"onRemoved")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"onRemoved")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         coerce_a
+         dup
+         iffalse ofs0027
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs0027:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         coerce_a
+         dup
+         iffalse ofs003c
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs003c:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         coerce_a
+         dup
+         iffalse ofs0051
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs0051:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"promoteButton")
+         coerce_a
+         dup
+         iffalse ofs0066
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"promoteButton")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs0066:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"demoteButton")
+         coerce_a
+         dup
+         iffalse ofs007b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"demoteButton")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs007b:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildRank")
+         coerce_a
+         dup
+         iffalse ofs0090
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildRank")
+         callproperty Qname(PackageNamespace(""),"destroy") 0
+         coerce_a
+         ofs0090:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"411"),"createButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 6
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_3
+         pushnull
+         coerce_s
+         setlocal 4
+         pushnull
+         coerce_s
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isMe")
+         iffalse ofs001c
+         pushshort 255
+         jump ofs001f
+         ofs001c:pushshort 205
+         ofs001f:convert_i
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterfaceBig"
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         callproperty Qname(PackageNamespace(""),"getRankIconIdByRank") 1
+         getlocal_1
+         pushbyte 12
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         callproperty Qname(PackageNamespace(""),"rankToString") 1
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 5
+         initproperty Qname(PackageNamespace(""),"guildRank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isMe")
+         iftrue ofs0157
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterface"
+         pushbyte 54
+         pushshort 155
+         pushbyte 12
+         pushstring "Promote"
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 5
+         initproperty Qname(PackageNamespace(""),"promoteButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"promoteButton")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_myRank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         callproperty Qname(PackageNamespace(""),"canPromote") 2
+         setproperty Qname(PackageNamespace(""),"enabled")
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterface"
+         pushbyte 55
+         pushshort 180
+         pushbyte 12
+         pushstring "Demote"
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 5
+         initproperty Qname(PackageNamespace(""),"demoteButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"demoteButton")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_myRank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         callproperty Qname(PackageNamespace(""),"canDemote") 2
+         setproperty Qname(PackageNamespace(""),"enabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"serverName")
+         coerce_s
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("preferredServer",[PrivateNamespace(null,"411"),PackageNamespace(""),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItem"),PrivateNamespace(null,"1480"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItem"),StaticProtectedNs("io.decagames.rotmg.social.widgets:BaseListItem"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs00da
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("preferredServer",[PrivateNamespace(null,"411"),PackageNamespace(""),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItem"),PrivateNamespace(null,"1480"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItem"),StaticProtectedNs("io.decagames.rotmg.social.widgets:BaseListItem"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         jump ofs00e5
+         ofs00da:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("bestServer",[PrivateNamespace(null,"411"),PackageNamespace(""),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItem"),PrivateNamespace(null,"1480"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItem"),StaticProtectedNs("io.decagames.rotmg.social.widgets:BaseListItem"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         ofs00e5:coerce_s
+         setlocal 4
+         pushstring "Your friend is playing on server: "
+         getlocal_3
+         add
+         pushstring ". "
+         add
+         pushstring "Clicking this will take you to this server."
+         add
+         setlocal 5
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterface2"
+         pushbyte 3
+         pushshort 230
+         pushbyte 12
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRIEND_TELEPORT_TITLE")
+         getlocal 5
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 6
+         initproperty Qname(PackageNamespace(""),"teleportButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isOnline")
+         convert_b
+         dup
+         iffalse ofs012d
+         pop
+         getlocal 4
+         getlocal_3
+         equals
+         not
+         ofs012d:setproperty Qname(PackageNamespace(""),"enabled")
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterfaceBig"
+         pushbyte 21
+         pushshort 255
+         pushbyte 12
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PLAYERMENU_PM")
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 5
+         initproperty Qname(PackageNamespace(""),"messageButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isOnline")
+         setproperty Qname(PackageNamespace(""),"enabled")
+         ofs0157:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isMe")
+         iffalse ofs0167
+         pushstring "Leave Guild"
+         jump ofs016b
+         ofs0167:pushstring "Remove member"
+         ofs016b:coerce_s
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton")
+         pushstring "lofiInterfaceBig"
+         pushbyte 12
+         pushshort 280
+         pushbyte 12
+         getlocal_2
+         callproperty Qname(ProtectedNamespace("io.decagames.rotmg.social.widgets:BaseListItem"),"addButton") 5
+         initproperty Qname(PackageNamespace(""),"removeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_isMe")
+         iftrue ofs01a2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_myRank")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberRank")
+         callproperty Qname(PackageNamespace(""),"canRemove") 2
+         setproperty Qname(PackageNamespace(""),"enabled")
+         ofs01a2:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get guildMemberVO() : GuildMemberVO
+      {
+         trait getter Qname(PackageNamespace(""),"guildMemberVO")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.social.model"),"GuildMemberVO")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"411"),"_guildMemberVO")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

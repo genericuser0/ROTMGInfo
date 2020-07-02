@@ -1,0 +1,203 @@
+package com.company.assembleegameclient.objects
+{
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.map.Camera;
+   import com.company.assembleegameclient.ui.panels.Panel;
+   import com.company.assembleegameclient.ui.panels.PortalPanel;
+   import flash.display.BitmapData;
+   import flash.display.IGraphicsData;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.text.view.BitmapTextFactory;
+   import kabam.rotmg.text.view.stringBuilder.StringBuilder;
+   
+   public class Portal extends GameObject implements IInteractiveObject
+   {
+      
+      private static const NAME_PARSER:RegExp;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"1245"),"NAME_PARSER")
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "(^\\s+)\\s\\(([0-9]+)\\/[0-9]+\\)"
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"1245"),"NAME_PARSER")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var nexusPortal_:Boolean;
+      
+      public var lockedPortal_:Boolean;
+      
+      public var active_:Boolean = true;
+      
+      public function Portal(param1:XML)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         findproperty Qname(PackageNamespace(""),"isInteractive_")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"isInteractive_")
+         getlocal_0
+         getlocal_1
+         pushstring "NexusPortal"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1245"),PackageNamespace(""),PrivateNamespace(null,"1647"),PackageNamespace("com.company.assembleegameclient.objects"),PackageInternalNs("com.company.assembleegameclient.objects"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.objects:Portal"),StaticProtectedNs("com.company.assembleegameclient.objects:Portal"),StaticProtectedNs("com.company.assembleegameclient.objects:GameObject"),StaticProtectedNs("com.company.assembleegameclient.objects:BasicObject")]) 1
+         initproperty Qname(PackageNamespace(""),"nexusPortal_")
+         getlocal_0
+         getlocal_1
+         pushstring "LockedPortal"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1245"),PackageNamespace(""),PrivateNamespace(null,"1647"),PackageNamespace("com.company.assembleegameclient.objects"),PackageInternalNs("com.company.assembleegameclient.objects"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.objects:Portal"),StaticProtectedNs("com.company.assembleegameclient.objects:Portal"),StaticProtectedNs("com.company.assembleegameclient.objects:GameObject"),StaticProtectedNs("com.company.assembleegameclient.objects:BasicObject")]) 1
+         initproperty Qname(PackageNamespace(""),"lockedPortal_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function makeNameBitmapData() : BitmapData
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.objects:Portal"),"makeNameBitmapData")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"BitmapData")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"name_")
+         getlex Qname(PrivateNamespace(null,"1245"),"NAME_PARSER")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"match") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.objects"),"PortalNameParser")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.objects"),"PortalNameParser") 0
+         getlex Qname(PackageNamespace(""),"name_")
+         callproperty Qname(PackageNamespace(""),"makeBuilder") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StringBuilder")
+         setlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view"),"BitmapTextFactory")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"BitmapTextFactory")
+         setlocal_3
+         getlocal_3
+         getlocal_2
+         pushbyte 16
+         pushint 16777215
+         pushtrue
+         getlex Qname(StaticProtectedNs("com.company.assembleegameclient.objects:GameObject"),"IDENTITY_MATRIX")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"make") 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function draw(param1:Vector.<IGraphicsData>, param2:Camera, param3:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("flash.display"),"IGraphicsData")>)
+         param Qname(PackageNamespace("com.company.assembleegameclient.map"),"Camera")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         callsupervoid Qname(PackageNamespace(""),"draw") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nexusPortal_")
+         iffalse ofs001b
+         findpropstrict Qname(PackageNamespace(""),"drawName")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"drawName") 2
+         ofs001b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPanel(param1:GameSprite) : Panel
+      {
+         trait method Qname(PackageNamespace(""),"getPanel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"Panel")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"PortalPanel")
+         getlocal_1
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"PortalPanel") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

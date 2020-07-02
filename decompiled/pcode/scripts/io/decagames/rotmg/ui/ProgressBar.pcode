@@ -1,0 +1,1067 @@
+package io.decagames.rotmg.ui
+{
+   import com.greensock.TweenLite;
+   import flash.display.Shape;
+   import flash.text.TextFormat;
+   import io.decagames.rotmg.ui.gird.UIGridElement;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   
+   public class ProgressBar extends UIGridElement
+   {
+      
+      public static const DYNAMIC_LABEL_TOKEN:String = "{X}";
+      
+      public static const MAX_VALUE_TOKEN:String = "{M}";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"DYNAMIC_LABEL_TOKEN")
+         pushstring "{X}"
+         initproperty Qname(PackageNamespace(""),"DYNAMIC_LABEL_TOKEN")
+         findproperty Qname(PackageNamespace(""),"MAX_VALUE_TOKEN")
+         pushstring "{M}"
+         initproperty Qname(PackageNamespace(""),"MAX_VALUE_TOKEN")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var componentWidth:int;
+      
+      private var componentHeight:int;
+      
+      private var _staticLabel:UILabel;
+      
+      private var _dynamicLabel:UILabel;
+      
+      private var _maxLabel:UILabel;
+      
+      private var _dynamicLabelString:String;
+      
+      private var _maxValue:int;
+      
+      private var _minValue:int;
+      
+      private var backgroundColor:uint;
+      
+      private var progressBarColor:uint;
+      
+      private var backgroundShape:Shape;
+      
+      private var progressShape:Shape;
+      
+      private var _value:int;
+      
+      private var _simulatedValue:int;
+      
+      private var simulationColor:uint;
+      
+      private var _shouldAnimate:Boolean;
+      
+      private var _showMaxLabel:Boolean;
+      
+      private var _simulatedValueTextFormat:TextFormat;
+      
+      private var _maxColor:uint;
+      
+      private var useMaxColor:Boolean;
+      
+      public function ProgressBar(param1:int, param2:int, param3:String, param4:String, param5:int, param6:int, param7:int, param8:uint, param9:uint, param10:uint = 0)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"uint")
+         optional 0
+         returns null
+         
+         body
+         maxstack 2
+         localcount 11
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"715"),"componentHeight")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabelString")
+         getlocal_0
+         getlocal 6
+         initproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         getlocal_0
+         getlocal 8
+         initproperty Qname(PrivateNamespace(null,"715"),"backgroundColor")
+         getlocal_0
+         getlocal 9
+         initproperty Qname(PrivateNamespace(null,"715"),"progressBarColor")
+         getlocal_0
+         getlocal 10
+         initproperty Qname(PrivateNamespace(null,"715"),"simulationColor")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlocal 7
+         initproperty Qname(PackageNamespace(""),"value")
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"715"),"_shouldAnimate")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set value(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"value")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_shouldAnimate")
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set simulatedValue(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"simulatedValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function resize(param1:int, param2:int = -1) : void
+      {
+         trait method Qname(PackageNamespace(""),"resize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         optional -1
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function render(param1:int, param2:int, param3:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"715"),"render")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 8
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 7
+         getlocal_2
+         getlocal_1
+         equals
+         not
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundColor")
+         pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentHeight")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_1
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         subtract
+         divide
+         convert_d
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal 5
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         iffalse ofs006a
+         pushbyte 0
+         convert_d
+         setlocal 5
+         ofs006a:getlocal_3
+         iffalse ofs008e
+         getlex Qname(PackageNamespace("com.greensock"),"TweenLite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         pushbyte 1
+         pushstring "width"
+         getlocal 5
+         pushstring "onComplete"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"onAnimationComplete")
+         newobject 2
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         jump ofs00f0
+         ofs008e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"useMaxColor")
+         convert_b
+         dup
+         iffalse ofs00b8
+         pop
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         subtract
+         greaterequals
+         ofs00b8:iffalse ofs00c5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxColor")
+         convert_u
+         jump ofs00ca
+         ofs00c5:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressBarColor")
+         convert_u
+         ofs00ca:pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentHeight")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getlocal 5
+         setproperty Qname(PackageNamespace(""),"width")
+         ofs00f0:getlocal 4
+         iffalse ofs0155
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"useMaxColor")
+         convert_b
+         dup
+         iffalse ofs0114
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         subtract
+         getlocal_2
+         equals
+         ofs0114:iffalse ofs0121
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxColor")
+         convert_u
+         jump ofs0126
+         ofs0121:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"simulationColor")
+         convert_u
+         ofs0126:pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 5
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_2
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         subtract
+         divide
+         getlocal 5
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentHeight")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         ofs0155:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabelString")
+         getlex Qname(PackageNamespace(""),"DYNAMIC_LABEL_TOKEN")
+         getlocal 4
+         iffalse ofs0169
+         getlocal_2
+         coerce_a
+         jump ofs016b
+         ofs0169:getlocal_1
+         coerce_a
+         ofs016b:callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         coerce_s
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"MAX_VALUE_TOKEN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         pushstring ""
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal 4
+         convert_b
+         dup
+         iffalse ofs01a0
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValueTextFormat")
+         convert_b
+         ofs01a0:iffalse ofs01f2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getproperty Qname(PackageNamespace(""),"text")
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValueTextFormat")
+         getlocal 7
+         getlocal 7
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         getproperty Qname(PackageNamespace(""),"length")
+         add
+         callpropvoid Qname(PackageNamespace(""),"setTextFormat") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_showMaxLabel")
+         convert_b
+         dup
+         iffalse ofs01e4
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         getlocal_2
+         equals
+         ofs01e4:iffalse ofs01f2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         pushstring "MAX"
+         setproperty Qname(PackageNamespace(""),"text")
+         ofs01f2:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"componentWidth")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         pushbyte -2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"backgroundShape")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"progressShape")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         getproperty Qname(PackageNamespace(""),"height")
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAnimationComplete() : void
+      {
+         trait method Qname(PrivateNamespace(null,"715"),"onAnimationComplete")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get staticLabel() : UILabel
+      {
+         trait getter Qname(PackageNamespace(""),"staticLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_staticLabel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get dynamicLabel() : UILabel
+      {
+         trait getter Qname(PackageNamespace(""),"dynamicLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get value() : int
+      {
+         trait getter Qname(PackageNamespace(""),"value")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get dynamicLabelString() : String
+      {
+         trait getter Qname(PackageNamespace(""),"dynamicLabelString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabelString")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set dynamicLabelString(param1:String) : void
+      {
+         trait setter Qname(PackageNamespace(""),"dynamicLabelString")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_dynamicLabelString")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get maxValue() : int
+      {
+         trait getter Qname(PackageNamespace(""),"maxValue")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get minValue() : int
+      {
+         trait getter Qname(PackageNamespace(""),"minValue")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_minValue")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set maxValue(param1:int) : void
+      {
+         trait setter Qname(PackageNamespace(""),"maxValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_maxValue")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set simulatedValueTextFormat(param1:TextFormat) : void
+      {
+         trait setter Qname(PackageNamespace(""),"simulatedValueTextFormat")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.text"),"TextFormat")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_simulatedValueTextFormat")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get showMaxLabel() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"showMaxLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_showMaxLabel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set showMaxLabel(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"showMaxLabel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0012
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         getproperty Qname(PackageNamespace(""),"parent")
+         not
+         ofs0012:iffalse ofs0021
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0021:getlocal_1
+         not
+         dup
+         iffalse ofs0031
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0031:iffalse ofs0040
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0040:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_showMaxLabel")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get maxLabel() : UILabel
+      {
+         trait getter Qname(PackageNamespace(""),"maxLabel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxLabel")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get maxColor() : uint
+      {
+         trait getter Qname(PackageNamespace(""),"maxColor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_maxColor")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set maxColor(param1:uint) : void
+      {
+         trait setter Qname(PackageNamespace(""),"maxColor")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"715"),"useMaxColor")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_maxColor")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_value")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_simulatedValue")
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"715"),"render") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get shouldAnimate() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"shouldAnimate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"715"),"_shouldAnimate")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set shouldAnimate(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"shouldAnimate")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"715"),"_shouldAnimate")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

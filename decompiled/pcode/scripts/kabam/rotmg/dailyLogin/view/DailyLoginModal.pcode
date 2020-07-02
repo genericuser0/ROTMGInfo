@@ -1,0 +1,916 @@
+package kabam.rotmg.dailyLogin.view
+{
+   import com.company.assembleegameclient.ui.DeprecatedTextButtonStatic;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.AssetLibrary;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.filters.DropShadowFilter;
+   import flash.geom.Rectangle;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormatAlign;
+   import kabam.rotmg.dailyLogin.config.CalendarSettings;
+   import kabam.rotmg.dailyLogin.model.DailyLoginModel;
+   import kabam.rotmg.mysterybox.components.MysteryBoxSelectModal;
+   import kabam.rotmg.pets.view.components.DialogCloseButton;
+   import kabam.rotmg.pets.view.components.PopupWindowBackground;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   
+   public class DailyLoginModal extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var content:Sprite;
+      
+      private var calendarView:CalendarView;
+      
+      private var titleTxt:TextFieldDisplayConcrete;
+      
+      private var serverTimeTxt:TextFieldDisplayConcrete;
+      
+      public var closeButton:DialogCloseButton;
+      
+      private var modalRectangle:Rectangle;
+      
+      private var daysLeft:int = 300;
+      
+      public var claimButton:DeprecatedTextButtonStatic;
+      
+      private var tabs:CalendarTabsView;
+      
+      public function DailyLoginModal()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.dailyLogin.view"),"CalendarView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.dailyLogin.view"),"CalendarView") 0
+         initproperty Qname(PrivateNamespace(null,"396"),"calendarView")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"DialogCloseButton")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"DialogCloseButton") 0
+         initproperty Qname(PackageNamespace(""),"closeButton")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function init(param1:DailyLoginModel) : void
+      {
+         trait method Qname(PackageNamespace(""),"init")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"DailyLoginModel")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"daysLeftToCalendarEnd")
+         setproperty Qname(PrivateNamespace(null,"396"),"daysLeft")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"overallMaxDays")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"daysLeft")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"CLAIM_WARNING_BEFORE_DAYS")
+         lessthan
+         callproperty Qname(PackageNamespace(""),"getCalendarModalRectangle") 2
+         initproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"396"),"content")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"content")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"396"),"createModalBox") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.dailyLogin.view"),"CalendarTabsView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.dailyLogin.view"),"CalendarTabsView") 0
+         initproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"TABS_Y_POSITION")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"daysLeft")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"CLAIM_WARNING_BEFORE_DAYS")
+         ifnlt ofs0083
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 20
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0083:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"396"),"centerModal") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addClaimButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"396"),"addClaimButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButtonStatic")
+         pushbyte 16
+         pushstring "Go & Claim"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButtonStatic") 2
+         initproperty Qname(PackageNamespace(""),"claimButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"alignClaimButton")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showLegend(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"showLegend")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal 8
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 55
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         callproperty Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_1
+         iffalse ofs0062
+         pushstring "- Reward ready to claim. Click on day to claim reward."
+         jump ofs0066
+         ofs0062:pushstring "- Reward ready to claim."
+         ofs0066:constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         callproperty Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         dup
+         setlocal 4
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring "- Item claimed already."
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_3
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 4
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterface"
+         pushbyte 52
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         dup
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushbyte 0
+         dup
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"height")
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"GREEN_COLOR_TRANSFORM")
+         callpropvoid Qname(PackageNamespace(""),"colorTransform") 2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal 5
+         pushbyte 40
+         pushtrue
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"redraw") 4
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal 5
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         dup
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         negate
+         pushbyte 10
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         negate
+         pushbyte 9
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterfaceBig"
+         pushbyte 11
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal 7
+         pushbyte 20
+         pushtrue
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"redraw") 4
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal 7
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         dup
+         setlocal 8
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         negate
+         pushbyte 10
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         negate
+         pushbyte 30
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         iftrue ofs01e3
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"396"),"addClaimButton") 0
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 10
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         jump ofs01ee
+         ofs01e3:getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs01ee:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function alignClaimButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"396"),"alignClaimButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"claimButton")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"daysLeft")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"CLAIM_WARNING_BEFORE_DAYS")
+         ifnlt ofs003d
+         ofs003d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createModalBox() : void
+      {
+         trait method Qname(PrivateNamespace(null,"396"),"createModalBox")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.components"),"MysteryBoxSelectModal")
+         constructprop Qname(PackageNamespace(""),"backgroundImageEmbed") 0
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         decrement
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 27
+         subtract
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_1
+         pushbyte 27
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         pushdouble 0.95
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"content")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"content")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"height")
+         callproperty Qname(PrivateNamespace(null,"396"),"makeModalBackground") 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeModalBackground(param1:int, param2:int) : PopupWindowBackground
+      {
+         trait method Qname(PrivateNamespace(null,"396"),"makeModalBackground")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         constructprop Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.pets.view.components"),"PopupWindowBackground")
+         getproperty Qname(PackageNamespace(""),"TYPE_TRANSPARENT_WITH_HEADER")
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addCloseButton() : void
+      {
+         trait method Qname(PackageNamespace(""),"addCloseButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeButton")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 5
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addTitle(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"addTitle")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getlocal_1
+         pushbyte 0
+         pushbyte 6
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getText") 4
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         initproperty Qname(PrivateNamespace(null,"396"),"titleTxt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"titleTxt")
+         pushint 16768512
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"titleTxt")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showServerTime(param1:String, param2:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"showServerTime")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         initproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring "Server time: "
+         getlocal_1
+         add
+         pushstring ", ends on: "
+         add
+         getlocal_2
+         add
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"daysLeft")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"CLAIM_WARNING_BEFORE_DAYS")
+         ifnlt ofs00bd
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16711680
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring "Calendar will soon end, remember to claim before it ends."
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         pushbyte 40
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         pushbyte 60
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"calendarView")
+         pushbyte 90
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         jump ofs00cf
+         ofs00bd:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"calendarView")
+         pushbyte 70
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         pushbyte 40
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs00cf:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"serverTimeTxt")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getText(param1:String, param2:int, param3:int, param4:Boolean = false) : TextFieldDisplayConcrete
+      {
+         trait method Qname(PackageNamespace(""),"getText")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"modalRectangle")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         dup
+         setlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal 4
+         iffalse ofs0040
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         jump ofs0052
+         ofs0040:getlocal 5
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         ofs0052:getlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setWordWrap") 1
+         getlocal 5
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         getlocal 5
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal 5
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal 5
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 5
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function centerModal() : void
+      {
+         trait method Qname(PrivateNamespace(null,"396"),"centerModal")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"396"),"tabs")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.config"),"CalendarSettings")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_MODAL_PADDING")
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

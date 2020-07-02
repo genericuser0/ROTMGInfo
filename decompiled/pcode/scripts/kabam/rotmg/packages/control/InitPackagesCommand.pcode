@@ -1,0 +1,125 @@
+package kabam.rotmg.packages.control
+{
+   import kabam.rotmg.packages.services.PackageModel;
+   import kabam.rotmg.promotions.model.BeginnersPackageModel;
+   
+   public class InitPackagesCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var beginnersPackageModel:BeginnersPackageModel;
+      
+      [Inject]
+      public var packageModel:PackageModel;
+      
+      [Inject]
+      public var beginnersPackageAvailable:BeginnersPackageAvailableSignal;
+      
+      [Inject]
+      public var packageAvailable:PackageAvailableSignal;
+      
+      public function InitPackagesCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"beginnersPackageModel")
+         getproperty Qname(PackageNamespace(""),"status")
+         pushbyte 0
+         equals
+         dup
+         iffalse ofs001d
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageModel")
+         callproperty Qname(PackageNamespace(""),"startupPackage") 0
+         pushnull
+         equals
+         not
+         ofs001d:convert_b
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"beginnersPackageModel")
+         callproperty Qname(PackageNamespace(""),"isBeginnerAvailable") 0
+         convert_b
+         dup
+         iftrue ofs0030
+         pop
+         getlocal_1
+         convert_b
+         ofs0030:iffalse ofs0041
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"beginnersPackageAvailable")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs0055
+         ofs0041:getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageModel")
+         callproperty Qname(PackageNamespace(""),"hasPackages") 0
+         iffalse ofs0055
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"packageAvailable")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0055:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

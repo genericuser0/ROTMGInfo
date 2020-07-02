@@ -1,0 +1,295 @@
+package com.hurlant.crypto.hash
+{
+   import flash.utils.ByteArray;
+   import flash.utils.Endian;
+   
+   public class SHABase implements IHash
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var pad_size:int = 40;
+      
+      public function SHABase()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getInputSize() : uint
+      {
+         trait method Qname(PackageNamespace(""),"getInputSize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 64
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getHashSize() : uint
+      {
+         trait method Qname(PackageNamespace(""),"getHashSize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPadSize() : int
+      {
+         trait method Qname(PackageNamespace(""),"getPadSize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"pad_size")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hash(param1:ByteArray) : ByteArray
+      {
+         trait method Qname(PackageNamespace(""),"hash")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         returns Qname(PackageNamespace("flash.utils"),"ByteArray")
+         
+         body
+         maxstack 3
+         localcount 10
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"endian")
+         coerce_s
+         setlocal_3
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.utils"),"Endian")
+         getproperty Qname(PackageNamespace(""),"BIG_ENDIAN")
+         setproperty Qname(PackageNamespace(""),"endian")
+         getlocal_2
+         pushbyte 8
+         multiply
+         convert_u
+         setlocal 4
+         jump ofs0033
+         ofs0027:label
+         getlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         setproperty MultinameL([PrivateNamespace(null,"2058"),PackageNamespace(""),PrivateNamespace(null,"2059"),PackageNamespace("com.hurlant.crypto.hash"),PackageInternalNs("com.hurlant.crypto.hash"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.hurlant.crypto.hash:SHABase"),StaticProtectedNs("com.hurlant.crypto.hash:SHABase")])
+         ofs0033:getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 4
+         modulo
+         pushbyte 0
+         ifne ofs0027
+         getlocal_1
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"position")
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 5
+         pushbyte 0
+         convert_u
+         setlocal 6
+         jump ofs006b
+         ofs0055:label
+         getlocal 5
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"readUnsignedInt") 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal 6
+         pushbyte 4
+         add
+         convert_u
+         setlocal 6
+         ofs006b:getlocal 6
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0055
+         getlocal_0
+         getlocal 5
+         getlocal 4
+         callproperty Qname(ProtectedNamespace("com.hurlant.crypto.hash:SHABase"),"core") 2
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal 8
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getHashSize") 0
+         pushbyte 4
+         divide
+         convert_u
+         setlocal 9
+         pushbyte 0
+         convert_u
+         setlocal 6
+         jump ofs00b8
+         ofs00a2:label
+         getlocal 8
+         getlocal 7
+         getlocal 6
+         getproperty MultinameL([PrivateNamespace(null,"2058"),PackageNamespace(""),PrivateNamespace(null,"2059"),PackageNamespace("com.hurlant.crypto.hash"),PackageInternalNs("com.hurlant.crypto.hash"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.hurlant.crypto.hash:SHABase"),StaticProtectedNs("com.hurlant.crypto.hash:SHABase")])
+         callpropvoid Qname(PackageNamespace(""),"writeUnsignedInt") 1
+         getlocal 6
+         increment
+         convert_u
+         setlocal 6
+         ofs00b8:getlocal 6
+         getlocal 9
+         iflt ofs00a2
+         getlocal_1
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"length")
+         getlocal_1
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"endian")
+         getlocal 8
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function core(param1:Array, param2:uint) : Array
+      {
+         trait method Qname(ProtectedNamespace("com.hurlant.crypto.hash:SHABase"),"core")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Array")
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 1
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toString() : String
+      {
+         trait method Qname(PackageNamespace(""),"toString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "sha"
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

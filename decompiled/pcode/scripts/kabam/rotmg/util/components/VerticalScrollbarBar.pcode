@@ -1,0 +1,535 @@
+package kabam.rotmg.util.components
+{
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import kabam.rotmg.util.graphics.BevelRect;
+   import kabam.rotmg.util.graphics.GraphicsHelper;
+   import org.osflash.signals.Signal;
+   
+   final class VerticalScrollbarBar extends Sprite
+   {
+      
+      public static const WIDTH:int = 20;
+      
+      public static const BEVEL:int = 4;
+      
+      public static const PADDING:int = 0;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar")
+         getproperty Qname(PackageNamespace(""),"WIDTH")
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         findproperty Qname(PackageNamespace(""),"BEVEL")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar")
+         getproperty Qname(PackageNamespace(""),"BEVEL")
+         initproperty Qname(PackageNamespace(""),"BEVEL")
+         findproperty Qname(PackageNamespace(""),"PADDING")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"VerticalScrollbar")
+         getproperty Qname(PackageNamespace(""),"PADDING")
+         initproperty Qname(PackageNamespace(""),"PADDING")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public const dragging:Signal;
+      
+      public const scrolling:Signal;
+      
+      public const rect:BevelRect;
+      
+      private const helper:GraphicsHelper;
+      
+      private var downOffset:Number;
+      
+      private var isOver:Boolean;
+      
+      private var isDown:Boolean;
+      
+      function VerticalScrollbarBar()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"int")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"dragging")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"Number")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"scrolling")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.graphics"),"BevelRect")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"PADDING")
+         pushbyte 2
+         multiply
+         subtract
+         pushbyte 0
+         getlex Qname(PackageNamespace(""),"BEVEL")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.graphics"),"BevelRect") 3
+         initproperty Qname(PackageNamespace(""),"rect")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.graphics"),"GraphicsHelper")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.graphics"),"GraphicsHelper") 0
+         initproperty Qname(PrivateNamespace(null,"1100"),"helper")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function redraw() : void
+      {
+         trait method Qname(PackageNamespace(""),"redraw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"isOver")
+         convert_b
+         dup
+         iftrue ofs0012
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"isDown")
+         convert_b
+         ofs0012:iffalse ofs001d
+         pushint 16767876
+         jump ofs0020
+         ofs001d:pushint 13421772
+         ofs0020:convert_i
+         setlocal_1
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"helper")
+         getlex Qname(PackageNamespace(""),"PADDING")
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rect")
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"drawBevelRect") 4
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addMouseListeners() : void
+      {
+         trait method Qname(PackageNamespace(""),"addMouseListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OVER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseOver")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseOut")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"parent")
+         convert_b
+         dup
+         iffalse ofs0046
+         pop
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0046:iffalse ofs0062
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("kabam.rotmg.util.components:VerticalScrollbarBar"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         jump ofs0082
+         ofs0062:getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         iffalse ofs0082
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("kabam.rotmg.util.components:VerticalScrollbarBar"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0082:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onMouseWheel(param1:MouseEvent) : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.util.components:VerticalScrollbarBar"),"onMouseWheel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"delta")
+         pushbyte 0
+         ifngt ofs001c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"scrolling")
+         pushdouble -0.25
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs0031
+         ofs001c:getlocal_1
+         getproperty Qname(PackageNamespace(""),"delta")
+         pushbyte 0
+         ifnlt ofs0031
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"scrolling")
+         pushdouble 0.25
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0031:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeMouseListeners() : void
+      {
+         trait method Qname(PackageNamespace(""),"removeMouseListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OVER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseOver")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseOut")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"parent")
+         convert_b
+         dup
+         iffalse ofs0046
+         pop
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0046:iffalse ofs0062
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("kabam.rotmg.util.components:VerticalScrollbarBar"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         jump ofs0082
+         ofs0062:getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         iffalse ofs0082
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_WHEEL")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("kabam.rotmg.util.components:VerticalScrollbarBar"),"onMouseWheel")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0082:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1100"),"onMouseUp") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1100"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"1100"),"isDown")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlex Qname(PackageNamespace(""),"y")
+         subtract
+         initproperty Qname(PrivateNamespace(null,"1100"),"downOffset")
+         getlex Qname(PackageNamespace(""),"stage")
+         pushnull
+         ifeq ofs002f
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs002f:findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"iterate")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"redraw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseUp(param1:MouseEvent = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1100"),"onMouseUp")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1100"),"isDown")
+         getlex Qname(PackageNamespace(""),"stage")
+         pushnull
+         ifeq ofs0020
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0020:findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"iterate")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"redraw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseOver(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1100"),"onMouseOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"1100"),"isOver")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"redraw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1100"),"onMouseOut")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1100"),"isOver")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"redraw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function iterate(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1100"),"iterate")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dragging")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1100"),"downOffset")
+         subtract
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

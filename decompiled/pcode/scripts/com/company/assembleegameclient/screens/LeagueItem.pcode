@@ -1,0 +1,836 @@
+package com.company.assembleegameclient.screens
+{
+   import com.greensock.TweenMax;
+   import flash.display.Sprite;
+   import flash.text.TextFormatAlign;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import io.decagames.rotmg.utils.date.TimeSpan;
+   
+   public class LeagueItem extends Sprite
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private const GLOW_COLORS:Array;
+      
+      private var _leagueData:LeagueData;
+      
+      private var _leagueType:int;
+      
+      private var _container:Sprite;
+      
+      private var _panelBackground:SliceScalingBitmap;
+      
+      private var _character:SliceScalingBitmap;
+      
+      private var _titleLabel:UILabel;
+      
+      private var _timeLabel:UILabel;
+      
+      private var _descriptionLabel:UILabel;
+      
+      private var _quoteLabel:UILabel;
+      
+      private var _maxCharacters:UILabel;
+      
+      private var _endDate:Date;
+      
+      public function LeagueItem(param1:LeagueData)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.screens"),"LeagueData")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushint 65280
+         pushint 15597823
+         newarray 2
+         initproperty Qname(PrivateNamespace(null,"184"),"GLOW_COLORS")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"184"),"init") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function characterDance(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"characterDance")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 18
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs004e
+         getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         pushdouble 0.3
+         pushstring "yoyo"
+         pushtrue
+         pushstring "repeat"
+         pushbyte -1
+         pushstring "glowFilter"
+         pushstring "color"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"GLOW_COLORS")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueType")
+         getproperty MultinameL([PrivateNamespace(null,"184"),PackageNamespace("com.company.assembleegameclient.screens"),PrivateNamespace(null,"1367"),PackageNamespace(""),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.screens:LeagueItem"),StaticProtectedNs("com.company.assembleegameclient.screens:LeagueItem"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "blurX"
+         pushbyte 10
+         pushstring "blurY"
+         pushbyte 10
+         pushstring "strength"
+         pushbyte 1
+         pushstring "alpha"
+         pushbyte 1
+         newobject 5
+         newobject 3
+         callpropvoid Qname(PackageNamespace(""),"to") 3
+         jump ofs0064
+         ofs004e:getlex Qname(PackageNamespace("com.greensock"),"TweenMax")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         callpropvoid Qname(PackageNamespace(""),"killTweensOf") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         ofs0064:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateTimeLabel(param1:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateTimeLabel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         setlocal_2
+         pushstring "Season will end in: "
+         setlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"totalMilliseconds")
+         pushbyte 0
+         ifnle ofs0026
+         pushstring "Season has ended!"
+         setlocal_3
+         jump ofs0146
+         ofs0026:getlocal_2
+         getproperty Qname(PackageNamespace(""),"days")
+         pushbyte 0
+         ifne ofs00bd
+         getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         pushbyte 9
+         greaterthan
+         iffalse ofs004a
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs0058
+         ofs004a:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs0058:pushstring "h "
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         pushbyte 9
+         greaterthan
+         iffalse ofs0076
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs0084
+         ofs0076:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs0084:add
+         pushstring "m "
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"seconds")
+         pushbyte 9
+         greaterthan
+         iffalse ofs00a3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"seconds")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs00b1
+         ofs00a3:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"seconds")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs00b1:add
+         pushstring "s"
+         add
+         add
+         coerce_s
+         setlocal_3
+         jump ofs0146
+         ofs00bd:getlocal_3
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"days")
+         pushbyte 9
+         greaterthan
+         iffalse ofs00d7
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"days")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs00e5
+         ofs00d7:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"days")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs00e5:pushstring "d "
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         pushbyte 9
+         greaterthan
+         iffalse ofs0103
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs0111
+         ofs0103:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs0111:add
+         pushstring "h "
+         add
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         pushbyte 9
+         greaterthan
+         iffalse ofs0130
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs013e
+         ofs0130:pushstring "0"
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs013e:add
+         pushstring "m"
+         add
+         add
+         coerce_s
+         setlocal_3
+         ofs0146:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function init() : void
+      {
+         trait method Qname(PrivateNamespace(null,"184"),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"leagueType")
+         initproperty Qname(PrivateNamespace(null,"184"),"_leagueType")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"endDate")
+         iffalse ofs0023
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"endDate")
+         initproperty Qname(PrivateNamespace(null,"184"),"_endDate")
+         ofs0023:getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_container")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_container")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"184"),"createPanelBackground") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"184"),"createCharacter") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"184"),"createText") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createPanelBackground() : void
+      {
+         trait method Qname(PrivateNamespace(null,"184"),"createPanelBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"panelBackgroundId")
+         pushshort 336
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         pushshort 417
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createCharacter() : void
+      {
+         trait method Qname(PrivateNamespace(null,"184"),"createCharacter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"characterId")
+         pushbyte 100
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         pushbyte 80
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_container")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"184"),"createText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         pushbyte 24
+         pushint 16777215
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"title")
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"endDate")
+         iffalse ofs0070
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         convert_d
+         jump ofs0083
+         ofs0070:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushbyte 10
+         add
+         convert_d
+         ofs0083:setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_titleLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_endDate")
+         iffalse ofs00c8
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         pushbyte 14
+         pushint 16684800
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 4
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_timeLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs00c8:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"maxCharacters")
+         pushbyte -1
+         ifeq ofs0163
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         pushbyte 16
+         pushint 16684800
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         pushshort 330
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         pushstring "You can create "
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"maxCharacters")
+         add
+         pushstring " characters in this season."
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 8
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_maxCharacters")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0163:getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         pushbyte 16
+         pushint 16777215
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         pushshort 280
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"description")
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_character")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushbyte 60
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"quote")
+         pushstring ""
+         ifeq ofs0282
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         pushbyte 14
+         pushint 13421772
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         pushshort 280
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueData")
+         getproperty Qname(PackageNamespace(""),"quote")
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_panelBackground")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_descriptionLabel")
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_quoteLabel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0282:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get leagueType() : int
+      {
+         trait getter Qname(PackageNamespace(""),"leagueType")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_leagueType")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get endDate() : Date
+      {
+         trait getter Qname(PackageNamespace(""),"endDate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"184"),"_endDate")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

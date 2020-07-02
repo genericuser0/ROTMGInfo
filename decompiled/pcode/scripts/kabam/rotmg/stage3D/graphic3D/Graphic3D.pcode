@@ -1,0 +1,752 @@
+package kabam.rotmg.stage3D.graphic3D
+{
+   import flash.display.BitmapData;
+   import flash.display.GraphicsBitmapFill;
+   import flash.display.GraphicsGradientFill;
+   import flash.display3D.Context3DProgramType;
+   import flash.display3D.Context3DVertexBufferFormat;
+   import flash.display3D.IndexBuffer3D;
+   import flash.display3D.VertexBuffer3D;
+   import flash.geom.ColorTransform;
+   import flash.geom.Matrix;
+   import flash.geom.Matrix3D;
+   import kabam.rotmg.stage3D.GraphicsFillExtra;
+   import kabam.rotmg.stage3D.proxies.Context3DProxy;
+   import kabam.rotmg.stage3D.proxies.IndexBuffer3DProxy;
+   import kabam.rotmg.stage3D.proxies.TextureProxy;
+   import kabam.rotmg.stage3D.proxies.VertexBuffer3DProxy;
+   
+   public class Graphic3D
+   {
+      
+      private static const gradientVertex:Vector.<Number>;
+      
+      private static const indices:Vector.<uint>;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 39
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"879"),"gradientVertex")
+         getlex Multiname("Vector",[PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         getglobalscope
+         pushdouble -0.5
+         pushdouble 0.5
+         pushbyte 0
+         dup
+         dup
+         pushbyte 0
+         pushdouble 0.01
+         pushbyte 0
+         pushbyte 1
+         pushdouble 0.5
+         pushdouble 0.5
+         pushbyte 0
+         dup
+         dup
+         pushbyte 0
+         pushdouble 0.3
+         pushbyte 1
+         dup
+         pushdouble -0.5
+         pushdouble -0.5
+         pushbyte 0
+         dup
+         dup
+         pushbyte 0
+         pushdouble 0.1
+         pushbyte 0
+         dup
+         pushdouble 0.5
+         pushdouble -0.5
+         pushbyte 0
+         dup
+         dup
+         pushbyte 0
+         pushdouble 0.2
+         pushbyte 1
+         pushbyte 0
+         newarray 36
+         call 1
+         initproperty Qname(PrivateNamespace(null,"879"),"gradientVertex")
+         findproperty Qname(PrivateNamespace(null,"879"),"indices")
+         getlex Multiname("Vector",[PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"uint")
+         applytype 1
+         getglobalscope
+         pushbyte 0
+         pushbyte 1
+         pushbyte 2
+         dup
+         pushbyte 1
+         pushbyte 3
+         newarray 6
+         call 1
+         initproperty Qname(PrivateNamespace(null,"879"),"indices")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var texture:TextureProxy;
+      
+      public var matrix3D:Matrix3D;
+      
+      public var context3D:Context3DProxy;
+      
+      [Inject]
+      public var textureFactory:TextureFactory;
+      
+      [Inject]
+      public var vertexBuffer:VertexBuffer3DProxy;
+      
+      [Inject]
+      public var indexBuffer:IndexBuffer3DProxy;
+      
+      private var bitmapData:BitmapData;
+      
+      private var matrix2D:Matrix;
+      
+      private var shadowMatrix2D:Matrix;
+      
+      private var sinkLevel:Number = 0;
+      
+      private var offsetMatrix:Vector.<Number>;
+      
+      private var vertexBufferCustom:VertexBuffer3D;
+      
+      private var gradientVB:VertexBuffer3D;
+      
+      private var gradientIB:IndexBuffer3D;
+      
+      private var repeat:Boolean;
+      
+      public function Graphic3D()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix3D") 0
+         initproperty Qname(PackageNamespace(""),"matrix3D")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setGraphic(param1:GraphicsBitmapFill, param2:Context3DProxy) : void
+      {
+         trait method Qname(PackageNamespace(""),"setGraphic")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"GraphicsBitmapFill")
+         param Qname(PackageNamespace("kabam.rotmg.stage3D.proxies"),"Context3DProxy")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 10
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         initproperty Qname(PrivateNamespace(null,"879"),"bitmapData")
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"repeat")
+         initproperty Qname(PrivateNamespace(null,"879"),"repeat")
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"matrix")
+         initproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textureFactory")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         callproperty Qname(PackageNamespace(""),"make") 1
+         initproperty Qname(PackageNamespace(""),"texture")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"GraphicsFillExtra")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getOffsetUV") 1
+         initproperty Qname(PrivateNamespace(null,"879"),"offsetMatrix")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"GraphicsFillExtra")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getVertexBuffer") 1
+         initproperty Qname(PrivateNamespace(null,"879"),"vertexBufferCustom")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"GraphicsFillExtra")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getSinkLevel") 1
+         initproperty Qname(PrivateNamespace(null,"879"),"sinkLevel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"sinkLevel")
+         pushbyte 0
+         ifeq ofs0079
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         getglobalscope
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"sinkLevel")
+         negate
+         pushbyte 0
+         dup
+         newarray 4
+         call 1
+         initproperty Qname(PrivateNamespace(null,"879"),"offsetMatrix")
+         ofs0079:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"879"),"transform") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"GraphicsFillExtra")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"bitmapData")
+         callproperty Qname(PackageNamespace(""),"getColorTransform") 1
+         coerce Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         setlocal_3
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DProgramType")
+         getproperty Qname(PackageNamespace(""),"FRAGMENT")
+         pushbyte 2
+         getlex Multiname("Vector",[PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         getglobalscope
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"redMultiplier")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"greenMultiplier")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"blueMultiplier")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"alphaMultiplier")
+         newarray 4
+         call 1
+         callpropvoid Qname(PackageNamespace(""),"setProgramConstantsFromVector") 3
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DProgramType")
+         getproperty Qname(PackageNamespace(""),"FRAGMENT")
+         pushbyte 3
+         getlex Multiname("Vector",[PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         getglobalscope
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"redOffset")
+         pushshort 255
+         divide
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"greenOffset")
+         pushshort 255
+         divide
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"blueOffset")
+         pushshort 255
+         divide
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"alphaOffset")
+         pushshort 255
+         divide
+         newarray 4
+         call 1
+         callpropvoid Qname(PackageNamespace(""),"setProgramConstantsFromVector") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setGradientFill(param1:GraphicsGradientFill, param2:Context3DProxy, param3:Number, param4:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"setGradientFill")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"GraphicsGradientFill")
+         param Qname(PackageNamespace("kabam.rotmg.stage3D.proxies"),"Context3DProxy")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"matrix")
+         initproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         pushnull
+         equals
+         dup
+         iftrue ofs001d
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientIB")
+         pushnull
+         equals
+         ofs001d:iffalse ofs0061
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 4
+         pushbyte 9
+         callproperty Qname(PackageNamespace(""),"createVertexBuffer") 2
+         initproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         getlex Qname(PrivateNamespace(null,"879"),"gradientVertex")
+         pushbyte 0
+         pushbyte 4
+         callpropvoid Qname(PackageNamespace(""),"uploadFromVector") 3
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 6
+         callproperty Qname(PackageNamespace(""),"createIndexBuffer") 1
+         initproperty Qname(PrivateNamespace(null,"879"),"gradientIB")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientIB")
+         getlex Qname(PrivateNamespace(null,"879"),"indices")
+         pushbyte 0
+         pushbyte 6
+         callpropvoid Qname(PackageNamespace(""),"uploadFromVector") 3
+         ofs0061:getlocal_0
+         getlocal_3
+         getlocal 4
+         callpropvoid Qname(PrivateNamespace(null,"879"),"shadowTransform") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function shadowTransform(param1:Number, param2:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"879"),"shadowTransform")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         callpropvoid Qname(PackageNamespace(""),"identity") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         getproperty Qname(PackageNamespace(""),"rawData")
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"Number")>)
+         setlocal_3
+         getlocal_3
+         pushbyte 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"c")
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_3
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"b")
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_3
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"a")
+         pushbyte 4
+         multiply
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_3
+         pushbyte 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"d")
+         pushbyte 4
+         multiply
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_3
+         pushbyte 12
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"tx")
+         getlocal_1
+         divide
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_3
+         pushbyte 13
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"shadowMatrix2D")
+         getproperty Qname(PackageNamespace(""),"ty")
+         negate
+         getlocal_2
+         divide
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"rawData")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function transform() : void
+      {
+         trait method Qname(PrivateNamespace(null,"879"),"transform")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         callpropvoid Qname(PackageNamespace(""),"identity") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         getproperty Qname(PackageNamespace(""),"rawData")
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"Number")>)
+         setlocal_1
+         getlocal_1
+         pushbyte 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"c")
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_1
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"b")
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_1
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"a")
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_1
+         pushbyte 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"d")
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_1
+         pushbyte 12
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"tx")
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_1
+         pushbyte 13
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"matrix2D")
+         getproperty Qname(PackageNamespace(""),"ty")
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"879"),PrivateNamespace(null,"1837"),PackageNamespace(""),PackageNamespace("kabam.rotmg.stage3D.graphic3D"),PackageInternalNs("kabam.rotmg.stage3D.graphic3D"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.stage3D.graphic3D:Graphic3D"),StaticProtectedNs("kabam.rotmg.stage3D.graphic3D:Graphic3D")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"rawData")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"texture")
+         callproperty Qname(PackageNamespace(""),"getWidth") 0
+         callproperty Qname(PackageNamespace(""),"ceil") 1
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"texture")
+         callproperty Qname(PackageNamespace(""),"getHeight") 0
+         callproperty Qname(PackageNamespace(""),"ceil") 1
+         pushbyte 1
+         callpropvoid Qname(PackageNamespace(""),"prependScale") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         pushdouble 0.5
+         pushdouble -0.5
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"prependTranslation") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function render(param1:Context3DProxy) : void
+      {
+         trait method Qname(PackageNamespace(""),"render")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.stage3D.proxies"),"Context3DProxy")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D.graphic3D"),"Program3DFactory")
+         callproperty Qname(PackageNamespace(""),"getInstance") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.stage3D.graphic3D"),"Program3DFactory")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"repeat")
+         callproperty Qname(PackageNamespace(""),"getProgram") 2
+         callpropvoid Qname(PackageNamespace(""),"setProgram") 1
+         getlocal_1
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"texture")
+         callpropvoid Qname(PackageNamespace(""),"setTextureAt") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"vertexBufferCustom")
+         pushnull
+         ifeq ofs009c
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"vertexBufferCustom")
+         pushbyte 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_3")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"vertexBufferCustom")
+         pushbyte 3
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_2")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DProgramType")
+         getproperty Qname(PackageNamespace(""),"VERTEX")
+         pushbyte 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"offsetMatrix")
+         callpropvoid Qname(PackageNamespace(""),"setProgramConstantsFromVector") 3
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 2
+         pushnull
+         pushbyte 6
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_2")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"indexBuffer")
+         callpropvoid Qname(PackageNamespace(""),"drawTriangles") 1
+         jump ofs00fc
+         ofs009c:getlocal_1
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vertexBuffer")
+         pushbyte 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_3")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vertexBuffer")
+         pushbyte 3
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_2")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DProgramType")
+         getproperty Qname(PackageNamespace(""),"VERTEX")
+         pushbyte 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"offsetMatrix")
+         callpropvoid Qname(PackageNamespace(""),"setProgramConstantsFromVector") 3
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 2
+         pushnull
+         pushbyte 6
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_2")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"indexBuffer")
+         callpropvoid Qname(PackageNamespace(""),"drawTriangles") 1
+         ofs00fc:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function renderShadow(param1:Context3DProxy) : void
+      {
+         trait method Qname(PackageNamespace(""),"renderShadow")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.stage3D.proxies"),"Context3DProxy")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         pushbyte 0
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_3")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         pushbyte 3
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_4")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientVB")
+         pushbyte 7
+         getlex Qname(PackageNamespace("flash.display3D"),"Context3DVertexBufferFormat")
+         getproperty Qname(PackageNamespace(""),"FLOAT_2")
+         callpropvoid Qname(PackageNamespace(""),"setVertexBufferAt") 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         pushbyte 0
+         pushnull
+         callpropvoid Qname(PackageNamespace(""),"setTextureAt") 2
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"GetContext3D") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"879"),"gradientIB")
+         callpropvoid Qname(PackageNamespace(""),"drawTriangles") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getMatrix3D() : Matrix3D
+      {
+         trait method Qname(PackageNamespace(""),"getMatrix3D")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"matrix3D")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

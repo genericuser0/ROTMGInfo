@@ -1,0 +1,973 @@
+package kabam.rotmg.dailyLogin.model
+{
+   import io.decagames.rotmg.utils.date.TimeSpan;
+   
+   public class DailyLoginModel
+   {
+      
+      public static const DAY_IN_MILLISECONDS:Number = 8.64E7;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"DAY_IN_MILLISECONDS")
+         pushbyte 24
+         pushbyte 60
+         multiply
+         pushbyte 60
+         multiply
+         pushshort 1000
+         multiply
+         initproperty Qname(PackageNamespace(""),"DAY_IN_MILLISECONDS")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var shouldDisplayCalendarAtStartup:Boolean;
+      
+      public var currentDisplayedCaledar:String;
+      
+      private var serverTimestamp:Number;
+      
+      private var serverMeasureTime:Number;
+      
+      private var daysConfig:Object;
+      
+      private var userDayConfig:Object;
+      
+      private var currentDayConfig:Object;
+      
+      private var maxDayConfig:Object;
+      
+      private var _initialized:Boolean;
+      
+      private var _currentDay:int = -1;
+      
+      private var _currentDate:Date;
+      
+      private var _nextDay:Date;
+      
+      private var sortAsc:Function;
+      
+      public function DailyLoginModel()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"400"),"userDayConfig")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"400"),"currentDayConfig")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"400"),"maxDayConfig")
+         getlocal_0
+         newfunction 5029
+         initproperty Qname(PrivateNamespace(null,"400"),"sortAsc")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setServerTime(param1:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"setServerTime")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"400"),"serverTimestamp")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         initproperty Qname(PrivateNamespace(null,"400"),"serverMeasureTime")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasCalendar(param1:String) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasCalendar")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getproperty Multiname("length",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         pushbyte 0
+         greaterthan
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getServerUTCTime() : Date
+      {
+         trait method Qname(PackageNamespace(""),"getServerUTCTime")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"serverTimestamp")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setUTCMilliseconds") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getServerTime() : Date
+      {
+         trait method Qname(PackageNamespace(""),"getServerTime")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Date")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"serverTimestamp")
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"serverMeasureTime")
+         subtract
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setTime") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getTimestampDay() : int
+      {
+         trait method Qname(PackageNamespace(""),"getTimestampDay")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getServerTime") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getTime") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"DailyLoginModel")
+         getproperty Qname(PackageNamespace(""),"DAY_IN_MILLISECONDS")
+         divide
+         callproperty Qname(PackageNamespace(""),"floor") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getDayCount(param1:int, param2:int) : int
+      {
+         trait method Qname(PrivateNamespace(null,"400"),"getDayCount")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         getlocal_1
+         getlocal_2
+         pushbyte 0
+         constructprop Qname(PackageNamespace(""),"Date") 3
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_3
+         getlocal_3
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getDate") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get daysLeftToCalendarEnd() : int
+      {
+         trait getter Qname(PackageNamespace(""),"daysLeftToCalendarEnd")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getServerTime") 0
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_1
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getDate") 0
+         convert_i
+         setlocal_2
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"fullYear")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"month")
+         pushbyte 1
+         add
+         callproperty Qname(PrivateNamespace(null,"400"),"getDayCount") 2
+         convert_i
+         setlocal_3
+         getlocal_3
+         getlocal_2
+         subtract
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addDay(param1:CalendarDayModel, param2:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"addDay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"400"),"_initialized")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_1
+         callpropvoid Multiname("push",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")]) 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setUserDay(param1:int, param2:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"setUserDay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"userDayConfig")
+         getlocal_2
+         getlocal_1
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function calculateCalendar(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"calculateCalendar")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 7
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal 6
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         callproperty Qname(PrivateNamespace(null,"400"),"sortCalendar") 1
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")>)
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"maxDayConfig")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getproperty Qname(PackageNamespace(""),"dayNumber")
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlex Multiname("Vector",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         applytype 1
+         construct 0
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")>)
+         setlocal 4
+         pushbyte 1
+         setlocal 5
+         jump ofs0083
+         ofs0055:label
+         getlocal_0
+         getlocal_1
+         getlocal 5
+         callproperty Qname(PrivateNamespace(null,"400"),"getDayByNumber") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal 6
+         getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"userDayConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         ifne ofs0078
+         getlocal 6
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isCurrent")
+         ofs0078:getlocal 4
+         getlocal 6
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         inclocal_i 5
+         ofs0083:getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"maxDayConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         ifle ofs0055
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getlocal 4
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getDayByNumber(param1:String, param2:int) : CalendarDayModel
+      {
+         trait method Qname(PrivateNamespace(null,"400"),"getDayByNumber")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         
+         body
+         maxstack 7
+         localcount 6
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         coerce_a
+         setlocal 5
+         jump ofs0030
+         ofs001b:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"dayNumber")
+         getlocal_2
+         ifne ofs0030
+         getlocal_3
+         returnvalue
+         ofs0030:hasnext2 5 4
+         iftrue ofs001b
+         kill 5
+         kill 4
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         getlocal_2
+         pushbyte -1
+         pushbyte 0
+         dup
+         pushfalse
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel") 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getDaysConfig(param1:String) : Vector.<CalendarDayModel>
+      {
+         trait method Qname(PackageNamespace(""),"getDaysConfig")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")>)
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getMaxDays(param1:String) : int
+      {
+         trait method Qname(PackageNamespace(""),"getMaxDays")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"maxDayConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get overallMaxDays() : int
+      {
+         trait getter Qname(PackageNamespace(""),"overallMaxDays")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"maxDayConfig")
+         coerce_a
+         setlocal 4
+         jump ofs0026
+         ofs0016:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         convert_i
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         ifngt ofs0026
+         getlocal_2
+         convert_i
+         setlocal_1
+         ofs0026:hasnext2 4 3
+         iftrue ofs0016
+         kill 4
+         kill 3
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function markAsClaimed(param1:int, param2:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"markAsClaimed")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_1
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         pushtrue
+         setproperty Multiname("isClaimed",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sortCalendar(param1:Vector.<CalendarDayModel>) : Vector.<CalendarDayModel>
+      {
+         trait method Qname(PrivateNamespace(null,"400"),"sortCalendar")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")>)
+         returns TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")>)
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"sortAsc")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sort") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get initialized() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"initialized")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_initialized")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clear() : void
+      {
+         trait method Qname(PackageNamespace(""),"clear")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarTypes")
+         getproperty Qname(PackageNamespace(""),"CONSECUTIVE")
+         getlex Multiname("Vector",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         applytype 1
+         construct 0
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarTypes")
+         getproperty Qname(PackageNamespace(""),"NON_CONSECUTIVE")
+         getlex Multiname("Vector",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         applytype 1
+         construct 0
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"daysConfig")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarTypes")
+         getproperty Qname(PackageNamespace(""),"UNLOCK")
+         getlex Multiname("Vector",[PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         applytype 1
+         construct 0
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         getlocal_0
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"shouldDisplayCalendarAtStartup")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCurrentDay(param1:String) : int
+      {
+         trait method Qname(PackageNamespace(""),"getCurrentDay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"currentDayConfig")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setCurrentDay(param1:String, param2:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"setCurrentDay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"currentDayConfig")
+         getlocal_1
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"400"),PackageNamespace(""),PackageNamespace("kabam.rotmg.dailyLogin.model"),Namespace("http://adobe.com/AS3/2006/builtin"),PrivateNamespace(null,"1476"),PackageInternalNs("kabam.rotmg.dailyLogin.model"),ProtectedNamespace("kabam.rotmg.dailyLogin.model:DailyLoginModel"),StaticProtectedNs("kabam.rotmg.dailyLogin.model:DailyLoginModel")])
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getFormatedQuestRefreshTime() : String
+      {
+         trait method Qname(PackageNamespace(""),"getFormatedQuestRefreshTime")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getServerTime") 0
+         initproperty Qname(PrivateNamespace(null,"400"),"_currentDate")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         initproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_currentDate")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"valueOf") 0
+         pushint 86400000
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setTime") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         pushbyte 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setUTCHours") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         pushbyte 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setUTCMinutes") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         pushbyte 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setUTCSeconds") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         pushbyte 0
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"setUTCMilliseconds") 1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_nextDay")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"valueOf") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"400"),"_currentDate")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"valueOf") 0
+         subtract
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.utils.date"),"TimeSpan")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"hours")
+         pushbyte 9
+         greaterthan
+         iffalse ofs008c
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs009a
+         ofs008c:pushstring "0"
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"hours")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs009a:pushstring "h "
+         add
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"minutes")
+         pushbyte 9
+         greaterthan
+         iffalse ofs00b8
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_a
+         jump ofs00c6
+         ofs00b8:pushstring "0"
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"minutes")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         add
+         coerce_a
+         ofs00c6:add
+         pushstring "m"
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

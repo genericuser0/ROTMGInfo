@@ -1,0 +1,1119 @@
+package io.decagames.rotmg.pets.windows.yard.fuse
+{
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.util.Currency;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.pets.components.petItem.PetItem;
+   import io.decagames.rotmg.pets.data.PetsModel;
+   import io.decagames.rotmg.pets.data.rarity.PetRarityEnum;
+   import io.decagames.rotmg.pets.data.vo.PetVO;
+   import io.decagames.rotmg.pets.data.vo.requests.FusePetRequestVO;
+   import io.decagames.rotmg.pets.signals.EvolvePetSignal;
+   import io.decagames.rotmg.pets.signals.NewAbilitySignal;
+   import io.decagames.rotmg.pets.signals.SelectFusePetSignal;
+   import io.decagames.rotmg.pets.signals.SelectPetSignal;
+   import io.decagames.rotmg.pets.signals.UpgradePetSignal;
+   import io.decagames.rotmg.pets.utils.FeedFuseCostModel;
+   import io.decagames.rotmg.pets.utils.FusionCalculator;
+   import io.decagames.rotmg.pets.utils.PetItemFactory;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.shop.NotEnoughResources;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.popups.modal.error.ErrorModal;
+   import io.decagames.rotmg.ui.popups.signals.RemoveLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.game.model.GameModel;
+   import kabam.rotmg.messaging.impl.EvolvePetInfo;
+   import kabam.rotmg.messaging.impl.PetUpgradeRequest;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class FuseTabMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:FuseTab;
+      
+      [Inject]
+      public var model:PetsModel;
+      
+      [Inject]
+      public var petIconFactory:PetItemFactory;
+      
+      [Inject]
+      public var selectPetSignal:SelectPetSignal;
+      
+      [Inject]
+      public var selectFusePetSignal:SelectFusePetSignal;
+      
+      [Inject]
+      public var upgradePet:UpgradePetSignal;
+      
+      [Inject]
+      public var showFade:ShowLockFade;
+      
+      [Inject]
+      public var removeFade:RemoveLockFade;
+      
+      [Inject]
+      public var newAbilityUnlocked:NewAbilitySignal;
+      
+      [Inject]
+      public var evolvePetSignal:EvolvePetSignal;
+      
+      [Inject]
+      public var showPopup:ShowPopupSignal;
+      
+      [Inject]
+      public var gameModel:GameModel;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      private var petsList:Vector.<PetItem>;
+      
+      private var currentSelectedPet:PetVO;
+      
+      private var fusePet:PetVO;
+      
+      public function FuseTabMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"298"),PrivateNamespace(null,"1407"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.pets.windows.yard.fuse"),PackageInternalNs("io.decagames.rotmg.pets.windows.yard.fuse"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.pets.windows.yard.fuse:FuseTabMediator"),StaticProtectedNs("io.decagames.rotmg.pets.windows.yard.fuse:FuseTabMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"298"),"petsList")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"activeUIVO")
+         iffalse ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"activeUIVO")
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         jump ofs0034
+         ofs002a:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getActivePet") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         ofs0034:callpropvoid Qname(PrivateNamespace(null,"298"),"renderFusePets") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selectPetSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"onPetSelected")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"298"),"toggleButtons") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushbyte -1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         convert_b
+         dup
+         iffalse ofs0070
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.rarity"),"PetRarityEnum")
+         getproperty Qname(PackageNamespace(""),"DIVINE")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         equals
+         ofs0070:callpropvoid Qname(PackageNamespace(""),"setStrengthPercentage") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"purchaseFame")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"purchaseGold")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"displaySignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"showHideSignal")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"298"),"clearGrid") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"purchaseFame")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"purchaseGold")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newAbilityUnlocked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"abilityUnlocked")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"evolvePetSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"evolvePetHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selectPetSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"onPetSelected")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"displaySignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"showHideSignal")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showHideSignal(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"showHideSignal")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_2
+         getlocal_1
+         iftrue ofs0043
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushbyte -1
+         callpropvoid Qname(PackageNamespace(""),"setStrengthPercentage") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"298"),"toggleButtons") 1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"petsList")
+         coerce_a
+         setlocal 4
+         jump ofs0038
+         ofs002a:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_2
+         getlocal_2
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs0038:hasnext2 4 3
+         iftrue ofs002a
+         kill 4
+         kill 3
+         ofs0043:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function get currentGold() : int
+      {
+         trait getter Qname(PrivateNamespace(null,"298"),"currentGold")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs0018
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"credits_")
+         returnvalue
+         ofs0018:getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushnull
+         ifeq ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         returnvalue
+         ofs002a:pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function get currentFame() : int
+      {
+         trait getter Qname(PrivateNamespace(null,"298"),"currentFame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs0018
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"fame_")
+         returnvalue
+         ofs0018:getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushnull
+         ifeq ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callproperty Qname(PackageNamespace(""),"getFame") 0
+         returnvalue
+         ofs002a:pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function evolvePetHandler(param1:EvolvePetInfo) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"evolvePetHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"EvolvePetInfo")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"evolvePetSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"evolvePetHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"298"),"onPetSelected") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function abilityUnlocked(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"abilityUnlocked")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newAbilityUnlocked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"abilityUnlocked")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         callpropvoid Qname(PrivateNamespace(null,"298"),"onPetSelected") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchase(param1:int, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"purchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         setlocal_3
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"298"),"checkYardType") 0
+         iffalse ofs00bb
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         getproperty Qname(PackageNamespace(""),"GOLD_PAYMENT_TYPE")
+         equals
+         dup
+         iffalse ofs0025
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentGold")
+         getlocal_2
+         lessthan
+         ofs0025:iffalse ofs0043
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         ofs0043:getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         getproperty Qname(PackageNamespace(""),"FAME_PAYMENT_TYPE")
+         equals
+         dup
+         iffalse ofs0058
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentFame")
+         getlocal_2
+         lessthan
+         ofs0058:iffalse ofs0076
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         ofs0076:getlocal_0
+         getproperty Qname(PackageNamespace(""),"newAbilityUnlocked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"abilityUnlocked")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"evolvePetSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"evolvePetHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         callproperty Qname(PackageNamespace(""),"getID") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"fusePet")
+         callproperty Qname(PackageNamespace(""),"getID") 0
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO") 3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFade")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"upgradePet")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs00bb:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchaseFame(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"purchaseFame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         getproperty Qname(PackageNamespace(""),"FAME_PAYMENT_TYPE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         getproperty Qname(PackageNamespace(""),"price")
+         callpropvoid Qname(PrivateNamespace(null,"298"),"purchase") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchaseGold(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"purchaseGold")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         getproperty Qname(PackageNamespace(""),"GOLD_PAYMENT_TYPE")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         getproperty Qname(PackageNamespace(""),"price")
+         callpropvoid Qname(PrivateNamespace(null,"298"),"purchase") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function checkYardType() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"checkYardType")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         pushbyte 1
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getPetYardType") 0
+         ifnge ofs003f
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopup")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal")
+         pushshort 350
+         pushstring "Fuse Pets"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         pushstring "server.upgrade_petyard_first"
+         callproperty Qname(PackageNamespace(""),"getLocalizedStringFromKey") 1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.error"),"ErrorModal") 3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         pushfalse
+         returnvalue
+         ofs003f:pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPetSelected(param1:PetVO) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"onPetSelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"298"),"clearGrid") 0
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"298"),"renderFusePets") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"298"),"toggleButtons") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushbyte -1
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0033
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.rarity"),"PetRarityEnum")
+         getproperty Qname(PackageNamespace(""),"DIVINE")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         equals
+         ofs0033:callpropvoid Qname(PackageNamespace(""),"setStrengthPercentage") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearGrid() : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"clearGrid")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"petsList")
+         coerce_a
+         setlocal_3
+         jump ofs002b
+         ofs0014:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"onFusePetSelected")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs002b:hasnext2 3 2
+         iftrue ofs0014
+         kill 3
+         kill 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearGrid") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function renderFusePets(param1:PetVO) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"renderFusePets")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_3
+         getlocal_1
+         pushnull
+         ifne ofs0012
+         returnvoid
+         ofs0012:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.rarity"),"PetRarityEnum")
+         getproperty Qname(PackageNamespace(""),"DIVINE")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         ifne ofs0049
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushbyte -1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.rarity"),"PetRarityEnum")
+         getproperty Qname(PackageNamespace(""),"DIVINE")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         equals
+         callpropvoid Qname(PackageNamespace(""),"setStrengthPercentage") 2
+         returnvoid
+         ofs0049:pushbyte 0
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"family")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"rarity")
+         callproperty Qname(PackageNamespace(""),"getAllPets") 2
+         coerce_a
+         setlocal 5
+         jump ofs00ac
+         ofs0064:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo"),"PetVO")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         ifne ofs0077
+         jump ofs00ac
+         ofs0077:getlocal_0
+         getproperty Qname(PackageNamespace(""),"petIconFactory")
+         getlocal_2
+         pushbyte 40
+         pushint 5526612
+         pushbyte 1
+         callproperty Qname(PackageNamespace(""),"create") 4
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_3
+         getlocal_3
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"onFusePetSelected")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"petsList")
+         getlocal_3
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addPet") 1
+         ofs00ac:hasnext2 5 4
+         iftrue ofs0064
+         kill 5
+         kill 4
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFusePetSelected(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"onFusePetSelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"selectFusePetSignal")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getPetVO") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"298"),"selectPet") 1
+         getlocal_0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getPetVO") 0
+         initproperty Qname(PrivateNamespace(null,"298"),"fusePet")
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"298"),"toggleButtons") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         iffalse ofs0051
+         pushbyte 0
+         jump ofs0061
+         ofs0051:getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"FeedFuseCostModel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         callproperty Qname(PackageNamespace(""),"getFuseFameCost") 1
+         convert_i
+         ofs0061:setproperty Qname(PackageNamespace(""),"price")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         iffalse ofs0081
+         pushbyte 0
+         jump ofs0091
+         ofs0081:getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"FeedFuseCostModel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         callproperty Qname(PackageNamespace(""),"getFuseGoldCost") 1
+         convert_i
+         ofs0091:setproperty Qname(PackageNamespace(""),"price")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"FusionCalculator")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"getPetVO") 0
+         callproperty Qname(PackageNamespace(""),"getStrengthPercentage") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         convert_b
+         dup
+         iffalse ofs00c9
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"currentSelectedPet")
+         getproperty Qname(PackageNamespace(""),"rarity")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.rarity"),"PetRarityEnum")
+         getproperty Qname(PackageNamespace(""),"DIVINE")
+         getproperty Qname(PackageNamespace(""),"ordinal")
+         equals
+         ofs00c9:callpropvoid Qname(PackageNamespace(""),"setStrengthPercentage") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function toggleButtons(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"toggleButtons")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         getlocal_1
+         not
+         setproperty Qname(PackageNamespace(""),"disabled")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         getlocal_1
+         not
+         setproperty Qname(PackageNamespace(""),"disabled")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseFameButton")
+         getlocal_1
+         iffalse ofs002d
+         pushbyte 1
+         convert_d
+         jump ofs0030
+         ofs002d:pushbyte 0
+         convert_d
+         ofs0030:setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"fuseGoldButton")
+         getlocal_1
+         iffalse ofs0047
+         pushbyte 1
+         convert_d
+         jump ofs004a
+         ofs0047:pushbyte 0
+         convert_d
+         ofs004a:setproperty Qname(PackageNamespace(""),"alpha")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function selectPet(param1:PetItem) : void
+      {
+         trait method Qname(PrivateNamespace(null,"298"),"selectPet")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"298"),"petsList")
+         coerce_a
+         setlocal 4
+         jump ofs0025
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.components.petItem"),"PetItem")
+         setlocal_2
+         getlocal_2
+         getlocal_2
+         getlocal_1
+         equals
+         setproperty Qname(PackageNamespace(""),"selected")
+         ofs0025:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

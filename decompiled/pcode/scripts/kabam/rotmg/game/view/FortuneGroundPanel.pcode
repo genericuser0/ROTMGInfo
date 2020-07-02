@@ -1,0 +1,812 @@
+package kabam.rotmg.game.view
+{
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.objects.SellableObject;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.DeprecatedTextButton;
+   import com.company.assembleegameclient.ui.panels.Panel;
+   import com.company.assembleegameclient.util.Currency;
+   import flash.display.Bitmap;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.KeyboardEvent;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFieldAutoSize;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.view.RegisterPromptDialog;
+   import kabam.rotmg.arena.util.ArenaViewAssetFactory;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.fortune.components.FortuneModal;
+   import kabam.rotmg.fortune.model.FortuneInfo;
+   import kabam.rotmg.fortune.services.FortuneModel;
+   import kabam.rotmg.mysterybox.services.GetMysteryBoxesTask;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.util.components.InfoHoverPaneFactory;
+   import kabam.rotmg.util.components.LegacyBuyButton;
+   import org.osflash.signals.Signal;
+   import org.swiftsuspenders.Injector;
+   
+   public class FortuneGroundPanel extends Panel
+   {
+      
+      private static var hovering:Boolean;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var buyItem:Signal;
+      
+      private var owner_:SellableObject;
+      
+      private var nameText_:TextFieldDisplayConcrete;
+      
+      private var buyButton_:LegacyBuyButton;
+      
+      private var infoButton_:DeprecatedTextButton;
+      
+      private var icon_:Sprite;
+      
+      private var bitmap_:Bitmap;
+      
+      private var onHoverPanel:Sprite;
+      
+      private const BUTTON_OFFSET:int = 17;
+      
+      public function FortuneGroundPanel(param1:GameSprite, param2:uint)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         param Qname(PackageNamespace(""),"uint")
+         returns null
+         
+         body
+         maxstack 5
+         localcount 10
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"SellableObject")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"buyItem")
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_3
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"GetMysteryBoxesTask")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.mysterybox.services"),"GetMysteryBoxesTask")
+         dup
+         setlocal 4
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 44
+         subtract
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         initproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"SELLABLEOBJECTPANEL_TEXT")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setWordWrap") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setMultiLine") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"1059"),"icon_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"icon_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         pushnull
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"1059"),"bitmap_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"icon_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"bitmap_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         pushstring "FortuneGroundPanel.play"
+         setlocal 5
+         pushstring "MysteryBoxPanel.checkBackLater"
+         setlocal 6
+         pushstring "FortuneGroundPanel.alchemist"
+         setlocal 7
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         setlocal 8
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         setlocal 9
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         getproperty Qname(PackageNamespace(""),"HAS_FORTUNES")
+         convert_b
+         dup
+         iffalse ofs011d
+         pop
+         getlocal 9
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         convert_b
+         ofs011d:iffalse ofs013d
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlocal 5
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 2
+         initproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         jump ofs0155
+         ofs013d:getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlocal 6
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 2
+         initproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs0155:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal 7
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"bitmap_")
+         getlex Qname(PackageNamespace("kabam.rotmg.arena.util"),"ArenaViewAssetFactory")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"returnHostBitmap") 1
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"modalIsOpen")
+         iftrue ofs01d8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onInfoButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         jump ofs01e6
+         ofs01d8:getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"enableInteract")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         ofs01e6:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function enableInteract() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"enableInteract")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onInfoButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"WebMain")
+         getproperty Qname(PackageNamespace(""),"STAGE")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"enableInteract")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onHoverEnter(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onHoverEnter")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.model"),"FortuneInfo")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         pushnull
+         ifne ofs007d
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         callproperty Multiname("getFortune",[PrivateNamespace(null,"1059"),PackageNamespace(""),PrivateNamespace(null,"2002"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("com.company.assembleegameclient.ui.panels"),ProtectedNamespace("kabam.rotmg.game.view:FortuneGroundPanel"),StaticProtectedNs("kabam.rotmg.game.view:FortuneGroundPanel"),StaticProtectedNs("com.company.assembleegameclient.ui.panels:Panel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.model"),"FortuneInfo")
+         setlocal_2
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"InfoHoverPaneFactory")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"infoImage")
+         callproperty Qname(PackageNamespace(""),"make") 1
+         initproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 10
+         add
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         pushnull
+         ifeq ofs007d
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs007d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onHoverExit(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onHoverExit")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0017
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0017:iffalse ofs002b
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1059"),"onHoverPanel")
+         ofs002b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setOwner(param1:SellableObject) : void
+      {
+         trait method Qname(PackageNamespace(""),"setOwner")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"SellableObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         ifne ofs000c
+         returnvoid
+         ofs000c:getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"buyButton_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         getproperty Qname(PackageNamespace(""),"price_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         getproperty Qname(PackageNamespace(""),"currency_")
+         callpropvoid Qname(PackageNamespace(""),"setPrice") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         callproperty Qname(PackageNamespace(""),"soldObjectName") 0
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"bitmap_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"owner_")
+         callproperty Qname(PackageNamespace(""),"getIcon") 0
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"icon_")
+         pushbyte -4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"icon_")
+         pushbyte -8
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         pushbyte 44
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onInfoButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"enableInteract")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onInfoButtonClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onInfoButtonClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1059"),"onInfoButton") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onInfoButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onInfoButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"modalIsOpen")
+         iffalse ofs000e
+         returnvoid
+         ofs000e:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.fortune.services"),"FortuneModel")
+         setlocal_2
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         setlocal_3
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         setlocal 4
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"isInitialized") 0
+         convert_b
+         dup
+         iffalse ofs0050
+         pop
+         getlocal_3
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         convert_b
+         ofs0050:iffalse ofs0097
+         getlocal 4
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"onInfoButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.fortune.components"),"FortuneModal")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"enableInteract")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         jump ofs00c4
+         ofs0097:getlocal_3
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         iftrue ofs00c4
+         getlocal 4
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog")
+         pushstring "SellableObjectPanelMediator.text"
+         pushstring "type"
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         callproperty Qname(PackageNamespace(""),"typeToName") 1
+         newobject 1
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs00c4:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyDown(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1059"),"onKeyDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("interact",[PrivateNamespace(null,"1059"),PackageNamespace(""),PrivateNamespace(null,"2002"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace("com.company.assembleegameclient.ui.panels"),ProtectedNamespace("kabam.rotmg.game.view:FortuneGroundPanel"),StaticProtectedNs("kabam.rotmg.game.view:FortuneGroundPanel"),StaticProtectedNs("com.company.assembleegameclient.ui.panels:Panel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         equals
+         dup
+         iffalse ofs0020
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"focus")
+         pushnull
+         equals
+         ofs0020:iffalse ofs0029
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1059"),"onInfoButton") 0
+         ofs0029:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function draw() : void
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"nameText_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 30
+         ifngt ofs001a
+         pushbyte 0
+         convert_d
+         jump ofs001d
+         ofs001a:pushbyte 12
+         convert_d
+         ofs001d:setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"BUTTON_OFFSET")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iftrue ofs006c
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1059"),"infoButton_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs006c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

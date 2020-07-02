@@ -1,0 +1,1278 @@
+package kabam.rotmg.ui.view.components
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.AssetLibrary;
+   import com.company.util.GraphicsUtil;
+   import com.company.util.MoreColorUtil;
+   import flash.display.Bitmap;
+   import flash.display.BitmapData;
+   import flash.display.DisplayObject;
+   import flash.display.GraphicsPath;
+   import flash.display.GraphicsSolidFill;
+   import flash.display.IGraphicsData;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.events.TimerEvent;
+   import flash.filters.ColorMatrixFilter;
+   import flash.filters.DropShadowFilter;
+   import flash.geom.Point;
+   import flash.utils.Timer;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.StaticStringBuilder;
+   import org.osflash.signals.Signal;
+   import org.osflash.signals.natives.NativeSignal;
+   
+   public class PotionSlotView extends Sprite
+   {
+      
+      public static var BUTTON_WIDTH:int = 84;
+      
+      private static var BUTTON_HEIGHT:int = 24;
+      
+      private static var SMALL_SIZE:int = 4;
+      
+      private static var CENTER_ICON_X:int = 6;
+      
+      private static var LEFT_ICON_X:int = -6;
+      
+      public static const READABILITY_SHADOW_1:DropShadowFilter;
+      
+      public static const READABILITY_SHADOW_2:DropShadowFilter;
+      
+      private static const DOUBLE_CLICK_PAUSE:uint = 250;
+      
+      private static const DRAG_DIST:int = 3;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 9
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         pushbyte 84
+         setproperty Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         findproperty Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         pushbyte 24
+         setproperty Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         findproperty Qname(PrivateNamespace(null,"265"),"SMALL_SIZE")
+         pushbyte 4
+         setproperty Qname(PrivateNamespace(null,"265"),"SMALL_SIZE")
+         findproperty Qname(PrivateNamespace(null,"265"),"CENTER_ICON_X")
+         pushbyte 6
+         setproperty Qname(PrivateNamespace(null,"265"),"CENTER_ICON_X")
+         findproperty Qname(PrivateNamespace(null,"265"),"LEFT_ICON_X")
+         pushbyte -6
+         setproperty Qname(PrivateNamespace(null,"265"),"LEFT_ICON_X")
+         findproperty Qname(PackageNamespace(""),"READABILITY_SHADOW_1")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         pushbyte 2
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         initproperty Qname(PackageNamespace(""),"READABILITY_SHADOW_1")
+         findproperty Qname(PackageNamespace(""),"READABILITY_SHADOW_2")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         pushbyte 3
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         initproperty Qname(PackageNamespace(""),"READABILITY_SHADOW_2")
+         findproperty Qname(PrivateNamespace(null,"265"),"DOUBLE_CLICK_PAUSE")
+         pushshort 250
+         initproperty Qname(PrivateNamespace(null,"265"),"DOUBLE_CLICK_PAUSE")
+         findproperty Qname(PrivateNamespace(null,"265"),"DRAG_DIST")
+         pushbyte 3
+         initproperty Qname(PrivateNamespace(null,"265"),"DRAG_DIST")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var position:int;
+      
+      public var objectType:int;
+      
+      public var click:NativeSignal;
+      
+      public var buyUse:Signal;
+      
+      public var drop:Signal;
+      
+      private var lightGrayFill:GraphicsSolidFill;
+      
+      private var midGrayFill:GraphicsSolidFill;
+      
+      private var darkGrayFill:GraphicsSolidFill;
+      
+      private var outerPath:GraphicsPath;
+      
+      private var innerPath:GraphicsPath;
+      
+      private var useGraphicsData:Vector.<IGraphicsData>;
+      
+      private var buyOuterGraphicsData:Vector.<IGraphicsData>;
+      
+      private var buyInnerGraphicsData:Vector.<IGraphicsData>;
+      
+      private var text:TextFieldDisplayConcrete;
+      
+      private var subText:TextFieldDisplayConcrete;
+      
+      private var costIcon:Bitmap;
+      
+      private var potionIconDraggableSprite:Sprite;
+      
+      private var potionIcon:Bitmap;
+      
+      private var bg:Sprite;
+      
+      private var grayscaleMatrix:ColorMatrixFilter;
+      
+      private var doubleClickTimer:Timer;
+      
+      private var dragStart:Point;
+      
+      private var pendingSecondClick:Boolean;
+      
+      private var isDragging:Boolean;
+      
+      public function PotionSlotView(param1:Array, param2:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"Array")
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 8
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal_3
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 5526612
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"lightGrayFill")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 4078909
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"midGrayFill")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 2368034
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"darkGrayFill")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"outerPath")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"innerPath")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 3
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"lightGrayFill")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"outerPath")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"265"),"useGraphicsData")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 3
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"midGrayFill")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"outerPath")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"265"),"buyOuterGraphicsData")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 3
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"darkGrayFill")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"innerPath")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"265"),"buyInnerGraphicsData")
+         getlocal_0
+         constructsuper 0
+         findproperty Qname(PackageNamespace(""),"mouseChildren")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"position")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.filters"),"ColorMatrixFilter")
+         getlex Qname(PackageNamespace("com.company.util"),"MoreColorUtil")
+         getproperty Qname(PackageNamespace(""),"greyscaleFilterMatrix")
+         constructprop Qname(PackageNamespace("flash.filters"),"ColorMatrixFilter") 1
+         initproperty Qname(PrivateNamespace(null,"265"),"grayscaleMatrix")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiObj3"
+         pushshort 225
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal_3
+         pushbyte 30
+         pushfalse
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"redraw") 4
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal_3
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         getlex Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         callproperty Qname(PackageNamespace(""),"setTextHeight") 1
+         initproperty Qname(PrivateNamespace(null,"265"),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         getlex Qname(PackageNamespace(""),"READABILITY_SHADOW_1")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 12
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 11974326
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         getlex Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         callproperty Qname(PackageNamespace(""),"setTextHeight") 1
+         initproperty Qname(PrivateNamespace(null,"265"),"subText")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         getlex Qname(PackageNamespace(""),"READABILITY_SHADOW_1")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         pushbyte 8
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal_3
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushbyte 52
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushbyte -6
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"outerPath")
+         callpropvoid Qname(PackageNamespace(""),"clearPath") 1
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte 0
+         dup
+         getlex Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         getlex Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         pushbyte 4
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"outerPath")
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte 2
+         dup
+         getlex Qname(PackageNamespace(""),"BUTTON_WIDTH")
+         getlex Qname(PrivateNamespace(null,"265"),"SMALL_SIZE")
+         subtract
+         getlex Qname(PrivateNamespace(null,"265"),"BUTTON_HEIGHT")
+         getlex Qname(PrivateNamespace(null,"265"),"SMALL_SIZE")
+         subtract
+         pushbyte 4
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"innerPath")
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"buyOuterGraphicsData")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"buyInnerGraphicsData")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         getlex Qname(PrivateNamespace(null,"265"),"DOUBLE_CLICK_PAUSE")
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"doubleClickTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"doubleClickTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onDoubleClickTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onMouseOut")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal")
+         getlocal_0
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal") 3
+         initproperty Qname(PackageNamespace(""),"click")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"buyUse")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObject")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"drop")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setData(param1:int, param2:int, param3:Boolean, param4:int = -1) : void
+      {
+         trait method Qname(PackageNamespace(""),"setData")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"int")
+         optional -1
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         setlocal 8
+         getlocal 4
+         pushbyte -1
+         ifeq ofs00a0
+         getlocal_0
+         getlocal 4
+         setproperty Qname(PackageNamespace(""),"objectType")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         pushnull
+         ifeq ofs0032
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0032:getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal 4
+         pushbyte 55
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 3
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal 7
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         pushbyte -11
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getlocal 4
+         pushbyte 80
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"getRedrawnTextureFromType") 3
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlocal 7
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         coerce Qname(PackageNamespace("flash.display"),"Bitmap")
+         dup
+         dup
+         setlocal 8
+         getproperty Qname(PackageNamespace(""),"x")
+         pushbyte 30
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 8
+         getlocal 8
+         getproperty Qname(PackageNamespace(""),"y")
+         pushbyte 30
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         ofs00a0:getlocal_1
+         pushbyte 0
+         greaterthan
+         dup
+         setlocal 5
+         iffalse ofs011f
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callpropvoid Qname(PackageNamespace(""),"setTextString") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring "/6"
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         pushbyte 67
+         setproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PrivateNamespace(null,"265"),"CENTER_ICON_X")
+         convert_i
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"useGraphicsData")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushbyte 55
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushbyte 18
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         jump ofs01a5
+         ofs011f:getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"String") 1
+         callpropvoid Qname(PackageNamespace(""),"setTextString") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"subText")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         pushstring ""
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlex Qname(PrivateNamespace(null,"265"),"LEFT_ICON_X")
+         convert_i
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"buyOuterGraphicsData")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"buyInnerGraphicsData")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 10
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushbyte 14
+         callpropvoid Qname(PackageNamespace(""),"setSize") 1
+         ofs01a5:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         iffalse ofs01b6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIcon")
+         getlocal 6
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs01b6:getlocal 5
+         iftrue ofs0221
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("contextualPotionBuy",[PrivateNamespace(null,"265"),PackageNamespace(""),PrivateNamespace(null,"1398"),PackageNamespace("kabam.rotmg.ui.view.components"),PackageInternalNs("kabam.rotmg.ui.view.components"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("kabam.rotmg.ui.view.components:PotionSlotView"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs01f3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushint 16777215
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         jump ofs021d
+         ofs01f3:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushint 11184810
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"grayscaleMatrix")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs021d:jump ofs0271
+         ofs0221:getlocal_1
+         pushbyte 1
+         ifnle ofs0237
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushint 16589603
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         jump ofs025f
+         ofs0237:getlocal_1
+         pushbyte 4
+         ifnle ofs024d
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushint 16611363
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         jump ofs025f
+         ofs024d:getlocal_1
+         pushbyte 4
+         ifnge ofs025f
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         pushint 3007543
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         ofs025f:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs0271:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setTextString(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"setTextString")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"text")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StaticStringBuilder") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onMouseOut")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onMouseUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"isDragging")
+         iffalse ofs000b
+         returnvoid
+         ofs000b:getlocal_1
+         getproperty Qname(PackageNamespace(""),"shiftKey")
+         iffalse ofs0026
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyUse")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         jump ofs0046
+         ofs0026:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"pendingSecondClick")
+         iftrue ofs0038
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         jump ofs0046
+         ofs0038:getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buyUse")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0046:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"costIcon")
+         getproperty Qname(PackageNamespace(""),"visible")
+         iftrue ofs0013
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"265"),"beginDragCheck") 1
+         ofs0013:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setPendingDoubleClick(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"265"),"pendingSecondClick")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"pendingSecondClick")
+         iffalse ofs0023
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"reset") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         jump ofs002b
+         ofs0023:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         ofs002b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function beginDragCheck(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"beginDragCheck")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"265"),"dragStart")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onMouseMoveCheckDrag")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function cancelDragCheck(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"cancelDragCheck")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"onMouseMoveCheckDrag")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseMoveCheckDrag(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onMouseMoveCheckDrag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         convert_d
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         convert_d
+         setlocal_3
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getlocal_2
+         multiply
+         getlocal_3
+         getlocal_3
+         multiply
+         add
+         callproperty Qname(PackageNamespace(""),"sqrt") 1
+         convert_d
+         dup
+         setlocal 4
+         getlex Qname(PrivateNamespace(null,"265"),"DRAG_DIST")
+         ifngt ofs004d
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"265"),"cancelDragCheck") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"265"),"beginDrag") 0
+         ofs004d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDoubleClickTimerComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onDoubleClickTimerComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function beginDrag() : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"beginDrag")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"265"),"isDragging")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"startDrag") 1
+         getlex Qname(PackageNamespace(""),"stage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"endDrag")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function endDrag(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"endDrag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"265"),"isDragging")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         callpropvoid Qname(PackageNamespace(""),"stopDrag") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"stage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"endDrag")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"drop")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         getproperty Qname(PackageNamespace(""),"dropTarget")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"265"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"265"),"setPendingDoubleClick") 1
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"265"),"cancelDragCheck") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"isDragging")
+         iffalse ofs001f
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"265"),"potionIconDraggableSprite")
+         callpropvoid Qname(PackageNamespace(""),"stopDrag") 0
+         ofs001f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

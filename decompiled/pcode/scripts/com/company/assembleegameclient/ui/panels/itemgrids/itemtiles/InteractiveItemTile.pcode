@@ -1,0 +1,804 @@
+package com.company.assembleegameclient.ui.panels.itemgrids.itemtiles
+{
+   import com.company.assembleegameclient.ui.panels.itemgrids.ItemGrid;
+   import flash.display.DisplayObject;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.events.TimerEvent;
+   import flash.geom.Point;
+   import flash.utils.Timer;
+   
+   public class InteractiveItemTile extends ItemTile
+   {
+      
+      private static const DOUBLE_CLICK_PAUSE:uint = 250;
+      
+      private static const DRAG_DIST:int = 3;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"661"),"DOUBLE_CLICK_PAUSE")
+         pushshort 250
+         initproperty Qname(PrivateNamespace(null,"661"),"DOUBLE_CLICK_PAUSE")
+         findproperty Qname(PrivateNamespace(null,"661"),"DRAG_DIST")
+         pushbyte 3
+         initproperty Qname(PrivateNamespace(null,"661"),"DRAG_DIST")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var doubleClickTimer:Timer;
+      
+      private var dragStart:Point;
+      
+      private var pendingSecondClick:Boolean;
+      
+      private var isDragging:Boolean;
+      
+      public function InteractiveItemTile(param1:int, param2:ItemGrid, param3:Boolean)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids"),"ItemGrid")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns null
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         constructsuper 2
+         findproperty Qname(PackageNamespace(""),"mouseChildren")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         getlex Qname(PrivateNamespace(null,"661"),"DOUBLE_CLICK_PAUSE")
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"661"),"doubleClickTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"doubleClickTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onDoubleClickTimerComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"setInteractive") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setInteractive(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setInteractive")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs004f
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseOut")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         jump ofs0082
+         ofs004f:findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseOut")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0082:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getDropTarget() : DisplayObject
+      {
+         trait method Qname(PackageNamespace(""),"getDropTarget")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"DisplayObject")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         getproperty Qname(PackageNamespace(""),"dropTarget")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function beginDragCallback() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:InteractiveItemTile"),"beginDragCallback")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function endDragCallback() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:InteractiveItemTile"),"endDragCallback")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onMouseOut")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onMouseUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"isDragging")
+         iffalse ofs000b
+         returnvoid
+         ofs000b:getlocal_1
+         getproperty Qname(PackageNamespace(""),"shiftKey")
+         iffalse ofs0034
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getproperty Qname(PackageNamespace(""),"ITEM_SHIFT_CLICK")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         jump ofs008b
+         ofs0034:getlocal_1
+         getproperty Qname(PackageNamespace(""),"ctrlKey")
+         iffalse ofs005d
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getproperty Qname(PackageNamespace(""),"ITEM_CTRL_CLICK")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         jump ofs008b
+         ofs005d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"pendingSecondClick")
+         iftrue ofs006f
+         getlocal_0
+         pushtrue
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         jump ofs008b
+         ofs006f:getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getproperty Qname(PackageNamespace(""),"ITEM_DOUBLE_CLICK")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         ofs008b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"getItemId")
+         callproperty Qname(PackageNamespace(""),"getItemId") 0
+         pushbyte -1
+         ifne ofs0010
+         returnvoid
+         ofs0010:getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"661"),"beginDragCheck") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setPendingDoubleClick(param1:Boolean) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"661"),"pendingSecondClick")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"pendingSecondClick")
+         iffalse ofs0023
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"reset") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         jump ofs002b
+         ofs0023:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"doubleClickTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         ofs002b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function beginDragCheck(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"beginDragCheck")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"661"),"dragStart")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseMoveCheckDrag")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function cancelDragCheck(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"cancelDragCheck")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"onMouseMoveCheckDrag")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_OUT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"cancelDragCheck")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMouseMoveCheckDrag(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onMouseMoveCheckDrag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         convert_d
+         setlocal_2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"dragStart")
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         convert_d
+         setlocal_3
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_2
+         getlocal_2
+         multiply
+         getlocal_3
+         getlocal_3
+         multiply
+         add
+         callproperty Qname(PackageNamespace(""),"sqrt") 1
+         convert_d
+         dup
+         setlocal 4
+         getlex Qname(PrivateNamespace(null,"661"),"DRAG_DIST")
+         ifngt ofs004e
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"661"),"cancelDragCheck") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"661"),"beginDrag") 1
+         ofs004e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDoubleClickTimerComplete(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onDoubleClickTimerComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getproperty Qname(PackageNamespace(""),"ITEM_CLICK")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function beginDrag(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"beginDrag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"661"),"isDragging")
+         findpropstrict Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:ItemTile"),"toggleDragState")
+         pushfalse
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:ItemTile"),"toggleDragState") 1
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"startDrag") 1
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"endDrag")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:InteractiveItemTile"),"beginDragCallback") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function endDrag(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"endDrag")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"661"),"isDragging")
+         findpropstrict Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:ItemTile"),"toggleDragState")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:ItemTile"),"toggleDragState") 1
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         callpropvoid Qname(PackageNamespace(""),"stopDrag") 0
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"endDrag")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent")
+         getproperty Qname(PackageNamespace(""),"ITEM_MOVE")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles"),"ItemTileEvent") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.panels.itemgrids.itemtiles:InteractiveItemTile"),"endDragCallback") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function setItem(param1:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"setItem")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         callsuper Qname(PackageNamespace(""),"setItem") 1
+         convert_b
+         setlocal_2
+         getlocal_2
+         iffalse ofs0014
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"661"),"stopDragging") 0
+         ofs0014:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"661"),"setPendingDoubleClick") 1
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"661"),"cancelDragCheck") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"661"),"stopDragging") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function stopDragging() : void
+      {
+         trait method Qname(PrivateNamespace(null,"661"),"stopDragging")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"661"),"isDragging")
+         iffalse ofs002f
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         callpropvoid Qname(PackageNamespace(""),"stopDrag") 0
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs002a
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace(""),"itemSprite")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs002a:getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"661"),"isDragging")
+         ofs002f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

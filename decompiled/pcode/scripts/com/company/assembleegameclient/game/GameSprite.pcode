@@ -1,0 +1,2794 @@
+package com.company.assembleegameclient.game
+{
+   import com.company.assembleegameclient.game.events.MoneyChangedEvent;
+   import com.company.assembleegameclient.map.Map;
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.objects.IInteractiveObject;
+   import com.company.assembleegameclient.objects.Pet;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.objects.Projectile;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.tutorial.Tutorial;
+   import com.company.assembleegameclient.ui.GuildText;
+   import com.company.assembleegameclient.ui.RankText;
+   import com.company.assembleegameclient.ui.menu.PlayerMenu;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import com.company.util.CachingColorTransformer;
+   import com.company.util.MoreColorUtil;
+   import com.company.util.MoreObjectUtil;
+   import com.company.util.PointUtil;
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.external.ExternalInterface;
+   import flash.filters.ColorMatrixFilter;
+   import flash.utils.ByteArray;
+   import flash.utils.getTimer;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLeaderBoardButton;
+   import io.decagames.rotmg.seasonalEvent.buttons.SeasonalInfoButton;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.lib.loopedprocs.LoopedCallback;
+   import kabam.lib.loopedprocs.LoopedProcess;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.arena.view.ArenaTimer;
+   import kabam.rotmg.arena.view.ArenaWaveCounter;
+   import kabam.rotmg.chat.view.Chat;
+   import kabam.rotmg.constants.GeneralConstants;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.model.MapModel;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   import kabam.rotmg.dailyLogin.signal.ShowDailyCalendarPopupSignal;
+   import kabam.rotmg.dialogs.control.AddPopupToStartupQueueSignal;
+   import kabam.rotmg.dialogs.control.FlushPopupStartupQueueSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.dialogs.model.DialogsModel;
+   import kabam.rotmg.dialogs.model.PopupNamesConfig;
+   import kabam.rotmg.game.model.QuestModel;
+   import kabam.rotmg.game.view.CreditDisplay;
+   import kabam.rotmg.game.view.GiftStatusDisplay;
+   import kabam.rotmg.game.view.NewsModalButton;
+   import kabam.rotmg.game.view.RealmQuestsDisplay;
+   import kabam.rotmg.game.view.ShopDisplay;
+   import kabam.rotmg.maploading.signals.HideMapLoadingSignal;
+   import kabam.rotmg.maploading.signals.MapLoadedSignal;
+   import kabam.rotmg.messaging.impl.GameServerConnectionConcrete;
+   import kabam.rotmg.messaging.impl.incoming.MapInfo;
+   import kabam.rotmg.news.model.NewsModel;
+   import kabam.rotmg.news.view.NewsTicker;
+   import kabam.rotmg.packages.services.PackageModel;
+   import kabam.rotmg.promotions.model.BeginnersPackageModel;
+   import kabam.rotmg.promotions.signals.ShowBeginnersPackageSignal;
+   import kabam.rotmg.promotions.view.SpecialOfferButton;
+   import kabam.rotmg.protip.signals.ShowProTipSignal;
+   import kabam.rotmg.servers.api.Server;
+   import kabam.rotmg.stage3D.Renderer;
+   import kabam.rotmg.ui.UIUtils;
+   import kabam.rotmg.ui.signals.ShowHideKeyUISignal;
+   import kabam.rotmg.ui.view.HUDView;
+   import org.osflash.signals.Signal;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class GameSprite extends AGameSprite
+   {
+      
+      public static const NON_COMBAT_MAPS:Vector.<String>;
+      
+      public static const DISPLAY_AREA_Y_SPACE:int = 32;
+      
+      protected static const PAUSED_FILTER:ColorMatrixFilter;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"NON_COMBAT_MAPS")
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"373"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"String")
+         applytype 1
+         pushbyte 16
+         construct 1
+         dup
+         pushbyte 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"NEXUS")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"VAULT")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"GUILD_HALL")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"GUILD_HALL_2")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 4
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"GUILD_HALL_3")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 5
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"GUILD_HALL_4")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 6
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"GUILD_HALL_5")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 7
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"CLOTH_BAZAAR")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 8
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"NEXUS_EXPLANATION")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 9
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"DAILY_QUEST_ROOM")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 10
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_ROOM")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 11
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"PET_YARD_1")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 12
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"PET_YARD_2")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 13
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"PET_YARD_3")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 14
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"PET_YARD_4")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 15
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"PET_YARD_5")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PackageNamespace(""),"NON_COMBAT_MAPS")
+         findproperty Qname(PackageNamespace(""),"DISPLAY_AREA_Y_SPACE")
+         pushbyte 32
+         initproperty Qname(PackageNamespace(""),"DISPLAY_AREA_Y_SPACE")
+         findproperty Qname(StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),"PAUSED_FILTER")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"ColorMatrixFilter")
+         getlex Qname(PackageNamespace("com.company.util"),"MoreColorUtil")
+         getproperty Qname(PackageNamespace(""),"greyscaleFilterMatrix")
+         constructprop Qname(PackageNamespace("flash.filters"),"ColorMatrixFilter") 1
+         initproperty Qname(StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),"PAUSED_FILTER")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public const monitor:Signal;
+      
+      public const modelInitialized:Signal;
+      
+      public const drawCharacterWindow:Signal;
+      
+      public var chatBox_:Chat;
+      
+      public var isNexus_:Boolean = false;
+      
+      public var idleWatcher_:IdleWatcher;
+      
+      public var rankText_:RankText;
+      
+      public var guildText_:GuildText;
+      
+      public var shopDisplay:ShopDisplay;
+      
+      public var challengerLeaderBoard:SeasonalLeaderBoardButton;
+      
+      public var challengerInfoButton:SeasonalInfoButton;
+      
+      public var creditDisplay_:CreditDisplay;
+      
+      public var realmQuestsDisplay:RealmQuestsDisplay;
+      
+      public var giftStatusDisplay:GiftStatusDisplay;
+      
+      public var newsModalButton:NewsModalButton;
+      
+      public var newsTicker:NewsTicker;
+      
+      public var arenaTimer:ArenaTimer;
+      
+      public var arenaWaveCounter:ArenaWaveCounter;
+      
+      public var mapModel:MapModel;
+      
+      public var beginnersPackageModel:BeginnersPackageModel;
+      
+      public var dialogsModel:DialogsModel;
+      
+      public var showBeginnersPackage:ShowBeginnersPackageSignal;
+      
+      public var openDailyCalendarPopupSignal:ShowDailyCalendarPopupSignal;
+      
+      public var openDialog:OpenDialogSignal;
+      
+      public var showPackage:Signal;
+      
+      public var packageModel:PackageModel;
+      
+      public var addToQueueSignal:AddPopupToStartupQueueSignal;
+      
+      public var flushQueueSignal:FlushPopupStartupQueueSignal;
+      
+      public var showHideKeyUISignal:ShowHideKeyUISignal;
+      
+      public var chatPlayerMenu:PlayerMenu;
+      
+      private var focus:GameObject;
+      
+      private var frameTimeSum_:int = 0;
+      
+      private var frameTimeCount_:int = 0;
+      
+      private var isGameStarted:Boolean;
+      
+      private var displaysPosY:uint = 4;
+      
+      private var currentPackage:DisplayObject;
+      
+      private var packageY:Number;
+      
+      private var googleAnalytics:GoogleAnalytics;
+      
+      private var specialOfferButton:SpecialOfferButton;
+      
+      private var questModel:QuestModel;
+      
+      private var seasonalEventModel:SeasonalEventModel;
+      
+      private var mapName:String;
+      
+      public function GameSprite(param1:Server, param2:int, param3:Boolean, param4:int, param5:int, param6:ByteArray, param7:PlayerModel, param8:String, param9:Boolean)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.servers.api"),"Server")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         param Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns null
+         
+         body
+         maxstack 11
+         localcount 10
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"String")
+         getlex Qname(PackageNamespace(""),"int")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 2
+         initproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"modelInitialized")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PackageNamespace(""),"drawCharacterWindow")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"showPackage")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"373"),"currentPackage")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal 7
+         initproperty Qname(PackageNamespace(""),"model")
+         findproperty Qname(PackageNamespace(""),"map")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map") 1
+         initproperty Qname(PackageNamespace(""),"map")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlex Qname(PackageNamespace(""),"map")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findproperty Qname(PackageNamespace(""),"gsc_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnectionConcrete")
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         getlocal 5
+         getlocal 6
+         getlocal 8
+         getlocal 9
+         constructprop Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnectionConcrete") 9
+         initproperty Qname(PackageNamespace(""),"gsc_")
+         findproperty Qname(PackageNamespace(""),"mui_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.game"),"MapUserInput")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.game"),"MapUserInput") 1
+         initproperty Qname(PackageNamespace(""),"mui_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.chat.view"),"Chat")
+         constructprop Qname(PackageNamespace("kabam.rotmg.chat.view"),"Chat") 0
+         initproperty Qname(PackageNamespace(""),"chatBox_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatBox_")
+         getproperty Qname(PackageNamespace(""),"list")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onChatDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatBox_")
+         getproperty Qname(PackageNamespace(""),"list")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"onChatUp")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatBox_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.game"),"IdleWatcher")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.game"),"IdleWatcher") 0
+         initproperty Qname(PackageNamespace(""),"idleWatcher_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function dispatchMapLoaded(param1:MapInfo) : void
+      {
+         trait method Qname(PackageNamespace(""),"dispatchMapLoaded")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"MapInfo")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.maploading.signals"),"MapLoadedSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.maploading.signals"),"MapLoadedSignal")
+         setlocal_2
+         getlocal_2
+         coerce_a
+         dup
+         iffalse ofs0024
+         pop
+         getlocal_2
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"dispatch") 1
+         coerce_a
+         ofs0024:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function hidePreloader() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"hidePreloader")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.maploading.signals"),"HideMapLoadingSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.maploading.signals"),"HideMapLoadingSignal")
+         setlocal_1
+         getlocal_1
+         coerce_a
+         dup
+         iffalse ofs0023
+         pop
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"dispatch") 0
+         coerce_a
+         ofs0023:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onChatDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"onChatDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         pushnull
+         ifeq ofs0010
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChatPlayerMenu") 0
+         ofs0010:getlex Qname(PackageNamespace(""),"mui_")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"onMouseDown") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function onChatUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PackageNamespace(""),"onChatUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"mui_")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"onMouseUp") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function setFocus(param1:GameObject) : void
+      {
+         trait method Qname(PackageNamespace(""),"setFocus")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         dup
+         iftrue ofs0015
+         pop
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         ofs0015:coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal_1
+         getlocal_0
+         getlocal_1
+         setproperty Qname(PrivateNamespace(null,"373"),"focus")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addChatPlayerMenu(param1:Player, param2:Number, param3:Number, param4:String = null, param5:Boolean = false, param6:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"addChatPlayerMenu")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional null
+         optional false
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 7
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChatPlayerMenu") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.menu"),"PlayerMenu")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.menu"),"PlayerMenu") 0
+         initproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal 4
+         pushnull
+         ifne ofs0027
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"init") 2
+         jump ofs0095
+         ofs0027:getlocal 6
+         iffalse ofs0040
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal_0
+         getlocal 4
+         getlocal 5
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"initDifferentServer") 4
+         jump ofs0095
+         ofs0040:getlocal 4
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         dup
+         iffalse ofs0083
+         pop
+         getlocal 4
+         pushbyte 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"charAt") 1
+         pushstring "#"
+         equals
+         dup
+         iftrue ofs006f
+         pop
+         getlocal 4
+         pushbyte 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"charAt") 1
+         pushstring "*"
+         equals
+         ofs006f:dup
+         iftrue ofs0083
+         pop
+         getlocal 4
+         pushbyte 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"charAt") 1
+         pushstring "@"
+         equals
+         ofs0083:iffalse ofs0088
+         returnvoid
+         ofs0088:getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal_0
+         getlocal 4
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"initDifferentServer") 3
+         ofs0095:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function removeChatPlayerMenu() : void
+      {
+         trait method Qname(PackageNamespace(""),"removeChatPlayerMenu")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0019
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         getproperty Qname(PackageNamespace(""),"parent")
+         pushnull
+         equals
+         not
+         ofs0019:iffalse ofs002d
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         pushnull
+         initproperty Qname(PackageNamespace(""),"chatPlayerMenu")
+         ofs002d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function applyMapInfo(param1:MapInfo) : void
+      {
+         trait method Qname(PackageNamespace(""),"applyMapInfo")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"MapInfo")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"map")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"name_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"background_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"allowPlayerTeleport_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"showDisplays_")
+         callpropvoid Qname(PackageNamespace(""),"setProps") 6
+         findpropstrict Qname(PackageNamespace(""),"dispatchMapLoaded")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"dispatchMapLoaded") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hudModelInitialized() : void
+      {
+         trait method Qname(PackageNamespace(""),"hudModelInitialized")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"hudView")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"HUDView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"HUDView") 0
+         initproperty Qname(PackageNamespace(""),"hudView")
+         getlex Qname(PackageNamespace(""),"hudView")
+         pushshort 600
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlex Qname(PackageNamespace(""),"hudView")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.protip.signals"),"ShowProTipSignal")
+         setlocal 4
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"SeasonalEventModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"373"),"seasonalEventModel")
+         getlex Qname(PackageNamespace(""),"map")
+         callpropvoid Qname(PackageNamespace(""),"initialize") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"modelInitialized")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"name_")
+         initproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         iffalse ofs0055
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showSafeAreaDisplays") 0
+         ofs0055:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showHideKeyUISignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Davy Jones\' Locker"
+         equals
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Arena"
+         ifne ofs007c
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showTimer") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showWaveCounter") 0
+         ofs007c:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         setlocal_1
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"373"),"googleAnalytics")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"NEXUS")
+         equals
+         initproperty Qname(PackageNamespace(""),"isNexus_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"isNexus_")
+         iffalse ofs0125
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         iftrue ofs0125
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addToQueueSignal")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"DAILY_LOGIN_POPUP")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDailyCalendarPopupSignal")
+         pushbyte -1
+         pushnull
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"beginnersPackageModel")
+         getproperty Qname(PackageNamespace(""),"status")
+         getlex Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         getproperty Qname(PackageNamespace(""),"STATUS_CAN_BUY_SHOW_POP_UP")
+         ifne ofs0107
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"addToQueueSignal")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"BEGINNERS_OFFER_POPUP")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showBeginnersPackage")
+         pushbyte 1
+         pushnull
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 4
+         jump ofs011d
+         ofs0107:getlocal_0
+         getproperty Qname(PackageNamespace(""),"addToQueueSignal")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"PACKAGES_OFFER_POPUP")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPackage")
+         pushbyte 1
+         pushnull
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 4
+         ofs011d:getlocal_0
+         getproperty Qname(PackageNamespace(""),"flushQueueSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0125:getlocal_0
+         getproperty Qname(PackageNamespace(""),"isNexus_")
+         convert_b
+         dup
+         iftrue ofs013c
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"DAILY_QUEST_ROOM")
+         equals
+         ofs013c:iffalse ofs0152
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"CreditDisplay")
+         getlocal_0
+         pushtrue
+         pushtrue
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"CreditDisplay") 3
+         initproperty Qname(PackageNamespace(""),"creditDisplay_")
+         jump ofs015e
+         ofs0152:getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"CreditDisplay")
+         getlocal_0
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"CreditDisplay") 1
+         initproperty Qname(PackageNamespace(""),"creditDisplay_")
+         ofs015e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"creditDisplay_")
+         pushshort 594
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"creditDisplay_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         not
+         dup
+         iffalse ofs0189
+         pop
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         callproperty Qname(PrivateNamespace(null,"373"),"canShowRealmQuestDisplay") 1
+         convert_b
+         ofs0189:iffalse ofs01c7
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestsDisplay")
+         getlex Qname(PackageNamespace(""),"map")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"RealmQuestsDisplay") 1
+         initproperty Qname(PackageNamespace(""),"realmQuestsDisplay")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"realmQuestsDisplay")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"realmQuestsDisplay")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"realmQuestsDisplay")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlex Qname(PackageNamespace(""),"gsc_")
+         pushstring "/server"
+         callpropvoid Qname(PackageNamespace(""),"playerText") 1
+         jump ofs01d0
+         ofs01c7:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         pushstring ""
+         setproperty Qname(PackageNamespace(""),"previousRealm")
+         ofs01d0:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.appengine.api"),"AppEngineClient")
+         setlocal_2
+         pushstring "game_net_user_id"
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetworkUserId") 0
+         pushstring "game_net"
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetwork") 0
+         pushstring "play_platform"
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"playPlatform") 0
+         newobject 3
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.util"),"MoreObjectUtil")
+         getlocal_3
+         getlocal_1
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(PackageNamespace(""),"addToObject") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Kitchen"
+         equals
+         not
+         dup
+         iffalse ofs022a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Tutorial"
+         equals
+         not
+         ofs022a:dup
+         iffalse ofs023a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Nexus Explanation"
+         equals
+         not
+         ofs023a:dup
+         iffalse ofs024c
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("watchForTutorialExit",[PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushtrue
+         equals
+         ofs024c:iffalse ofs027a
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("watchForTutorialExit",[PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         pushstring "rotmg.Marketing.track(\"tutorialComplete\")"
+         callpropvoid Qname(PrivateNamespace(null,"373"),"callTracking") 1
+         getlocal_3
+         pushstring "fteStepCompleted"
+         pushshort 9900
+         setproperty MultinameL([PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_2
+         pushstring "/log/logFteStep"
+         getlocal_3
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs027a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Kitchen"
+         ifne ofs029c
+         getlocal_3
+         pushstring "fteStepCompleted"
+         pushshort 200
+         setproperty MultinameL([PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_2
+         pushstring "/log/logFteStep"
+         getlocal_3
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs029c:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Tutorial"
+         ifne ofs02e8
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("needsTutorial",[PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushtrue
+         ifne ofs02df
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushtrue
+         setproperty Multiname("watchForTutorialExit",[PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         pushstring "rotmg.Marketing.track(\"install\")"
+         callpropvoid Qname(PrivateNamespace(null,"373"),"callTracking") 1
+         getlocal_3
+         pushstring "fteStepCompleted"
+         pushbyte 100
+         setproperty MultinameL([PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_2
+         pushstring "/log/logFteStep"
+         getlocal_3
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         ofs02df:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"startTutorial") 0
+         jump ofs0377
+         ofs02e8:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Arena"
+         equals
+         not
+         dup
+         iffalse ofs0302
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Kitchen"
+         equals
+         not
+         ofs0302:dup
+         iffalse ofs0312
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Nexus Explanation"
+         equals
+         not
+         ofs0312:dup
+         iffalse ofs0322
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Vault Explanation"
+         equals
+         not
+         ofs0322:dup
+         iffalse ofs0332
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         pushstring "Guild Explanation"
+         equals
+         not
+         ofs0332:dup
+         iffalse ofs033e
+         pop
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         not
+         ofs033e:dup
+         iffalse ofs034f
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("showProtips",[PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_b
+         ofs034f:iffalse ofs0377
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.protip.signals"),"ShowProTipSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.protip.signals"),"ShowProTipSignal")
+         dup
+         setlocal 4
+         coerce_a
+         dup
+         iffalse ofs0376
+         pop
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"dispatch") 0
+         coerce_a
+         ofs0376:pop
+         ofs0377:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"mapName")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"DAILY_QUEST_ROOM")
+         ifne ofs038d
+         getlex Qname(PackageNamespace(""),"gsc_")
+         callpropvoid Qname(PackageNamespace(""),"questFetch") 0
+         ofs038d:getlex Qname(PackageNamespace(""),"map")
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"height")
+         callpropvoid Qname(PackageNamespace(""),"setHitAreaProps") 2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         findpropstrict Qname(PrivateNamespace(null,"373"),"hidePreloader")
+         callpropvoid Qname(PrivateNamespace(null,"373"),"hidePreloader") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function canShowRealmQuestDisplay(param1:String) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"canShowRealmQuestDisplay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_2
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"REALM")
+         ifne ofs0055
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"previousRealm")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getproperty Qname(PackageNamespace(""),"requirementsStates")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"REMAINING_HEROES_REQUIREMENT")
+         pushfalse
+         setproperty MultinameL([PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         pushbyte -1
+         setproperty Qname(PackageNamespace(""),"remainingHeroes")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getproperty Qname(PackageNamespace(""),"hasOryxBeenKilled")
+         iffalse ofs004f
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"hasOryxBeenKilled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         callpropvoid Qname(PackageNamespace(""),"resetRequirementsStates") 0
+         ofs004f:pushtrue
+         setlocal_2
+         jump ofs009a
+         ofs0055:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getproperty Qname(PackageNamespace(""),"previousRealm")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"REALM")
+         equals
+         dup
+         iffalse ofs0078
+         pop
+         getlocal_1
+         pushstring "Oryx"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         equals
+         not
+         ofs0078:iffalse ofs009a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         getproperty Qname(PackageNamespace(""),"requirementsStates")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"QuestModel")
+         getproperty Qname(PackageNamespace(""),"REMAINING_HEROES_REQUIREMENT")
+         pushtrue
+         setproperty MultinameL([PrivateNamespace(null,"373"),PackageNamespace(""),PrivateNamespace(null,"1448"),PackageNamespace("com.company.assembleegameclient.game"),PackageInternalNs("com.company.assembleegameclient.game"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),StaticProtectedNs("com.company.assembleegameclient.game:AGameSprite"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"questModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"remainingHeroes")
+         pushtrue
+         setlocal_2
+         ofs009a:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSafeAreaDisplays() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showSafeAreaDisplays")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showRankText") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showGuildText") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         iffalse ofs0020
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showChallengerInfoButton") 0
+         jump ofs0025
+         ofs0020:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showShopDisplay") 0
+         ofs0025:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showChallengerLeaderBoardButton") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showGiftStatusDisplay") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showNewsUpdate") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showNewsTicker") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setDisplayPosY(param1:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"setDisplayPosY")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"UIUtils")
+         getproperty Qname(PackageNamespace(""),"NOTIFICATION_SPACE")
+         getlocal_1
+         multiply
+         convert_d
+         setlocal_2
+         getlocal_1
+         pushbyte 0
+         ifeq ofs0020
+         getlocal_0
+         pushbyte 4
+         getlocal_2
+         add
+         initproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         jump ofs0026
+         ofs0020:getlocal_0
+         pushbyte 2
+         initproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         ofs0026:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function positionDynamicDisplays() : void
+      {
+         trait method Qname(PackageNamespace(""),"positionDynamicDisplays")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsModel")
+         setlocal_1
+         pushbyte 72
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         convert_b
+         dup
+         iffalse ofs002b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         getproperty Qname(PackageNamespace(""),"isOpen")
+         convert_b
+         ofs002b:iffalse ofs003f
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"DISPLAY_AREA_Y_SPACE")
+         add
+         convert_i
+         setlocal_2
+         ofs003f:getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModalButton")
+         convert_b
+         dup
+         iffalse ofs005e
+         pop
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"NewsModalButton")
+         getproperty Qname(PackageNamespace(""),"showsHasUpdate")
+         convert_b
+         dup
+         iftrue ofs005e
+         pop
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"hasValidModalNews") 0
+         convert_b
+         ofs005e:iffalse ofs0072
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModalButton")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"DISPLAY_AREA_Y_SPACE")
+         add
+         convert_i
+         setlocal_2
+         ofs0072:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         convert_b
+         dup
+         iffalse ofs0085
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         getproperty Qname(PackageNamespace(""),"isSpecialOfferAvailable")
+         convert_b
+         ofs0085:iffalse ofs0091
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0091:getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         convert_b
+         dup
+         iffalse ofs00a4
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         getproperty Qname(PackageNamespace(""),"visible")
+         convert_b
+         ofs00a4:iffalse ofs00b0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs00b0:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showTimer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showTimer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaTimer")
+         constructprop Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaTimer") 0
+         initproperty Qname(PackageNamespace(""),"arenaTimer")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"arenaTimer")
+         pushbyte 5
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"arenaTimer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showWaveCounter() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showWaveCounter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaWaveCounter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaWaveCounter") 0
+         initproperty Qname(PackageNamespace(""),"arenaWaveCounter")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"arenaWaveCounter")
+         pushbyte 5
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"arenaWaveCounter")
+         pushbyte 5
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"arenaWaveCounter")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showNewsTicker() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showNewsTicker")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsTicker")
+         constructprop Qname(PackageNamespace("kabam.rotmg.news.view"),"NewsTicker") 0
+         initproperty Qname(PackageNamespace(""),"newsTicker")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         pushshort 300
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsTicker")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"positionDynamicDisplays") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showGiftStatusDisplay() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showGiftStatusDisplay")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"GiftStatusDisplay")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"GiftStatusDisplay") 0
+         initproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"giftStatusDisplay")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"positionDynamicDisplays") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showShopDisplay() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showShopDisplay")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"ShopDisplay")
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"name_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map"),"Map")
+         getproperty Qname(PackageNamespace(""),"NEXUS")
+         equals
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"ShopDisplay") 1
+         initproperty Qname(PackageNamespace(""),"shopDisplay")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shopDisplay")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shopDisplay")
+         pushbyte 40
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"shopDisplay")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showChallengerLeaderBoardButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showChallengerLeaderBoardButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardButton")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardButton") 0
+         initproperty Qname(PackageNamespace(""),"challengerLeaderBoard")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerLeaderBoard")
+         pushshort 594
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerLeaderBoard")
+         pushbyte 40
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerLeaderBoard")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showChallengerInfoButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showChallengerInfoButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.buttons"),"SeasonalInfoButton")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.buttons"),"SeasonalInfoButton") 0
+         initproperty Qname(PackageNamespace(""),"challengerInfoButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerInfoButton")
+         pushshort 594
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerInfoButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerInfoButton")
+         pushbyte 80
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"challengerInfoButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showNewsUpdate(param1:Boolean = true) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showNewsUpdate")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"NewsModalButton")
+         setlocal 4
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("robotlegs.bender.framework.api"),"ILogger")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("robotlegs.bender.framework.api"),"ILogger")
+         setlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.news.model"),"NewsModel")
+         setlocal_3
+         getlocal_2
+         pushstring "NEWS UPDATE -- making button"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"hasValidModalNews") 0
+         iffalse ofs0084
+         getlocal_2
+         pushstring "NEWS UPDATE -- making button - ok"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.view"),"NewsModalButton")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.view"),"NewsModalButton") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.game.view"),"NewsModalButton")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModalButton")
+         pushnull
+         ifeq ofs0067
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModalButton")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0067:getlocal 4
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PackageNamespace(""),"newsModalButton")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"newsModalButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"positionDynamicDisplays") 0
+         ofs0084:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function refreshNewsUpdateButton() : void
+      {
+         trait method Qname(PackageNamespace(""),"refreshNewsUpdateButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("robotlegs.bender.framework.api"),"ILogger")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("robotlegs.bender.framework.api"),"ILogger")
+         setlocal_1
+         getlocal_1
+         pushstring "NEWS UPDATE -- refreshing button, update noticed"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         pushfalse
+         callpropvoid Qname(PrivateNamespace(null,"373"),"showNewsUpdate") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setYAndPositionPackage() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"setYAndPositionPackage")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         pushbyte 2
+         add
+         initproperty Qname(PrivateNamespace(null,"373"),"packageY")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"UIUtils")
+         getproperty Qname(PackageNamespace(""),"NOTIFICATION_SPACE")
+         add
+         initproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"positionPackage") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showSpecialOfferIfSafe(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"showSpecialOfferIfSafe")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         iffalse ofs0030
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.promotions.view"),"SpecialOfferButton")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.promotions.view"),"SpecialOfferButton") 1
+         initproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"specialOfferButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"positionDynamicDisplays") 0
+         ofs0030:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showPackageButtonIfSafe() : void
+      {
+         trait method Qname(PackageNamespace(""),"showPackageButtonIfSafe")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         iffalse ofs000b
+         ofs000b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addAndPositionPackage(param1:DisplayObject) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"addAndPositionPackage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"373"),"currentPackage")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"currentPackage")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"373"),"positionPackage") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionPackage() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"positionPackage")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"currentPackage")
+         pushbyte 80
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         pushbyte 1
+         callpropvoid Qname(PrivateNamespace(null,"373"),"setDisplayPosY") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"currentPackage")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"displaysPosY")
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showGuildText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showGuildText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"GuildText")
+         pushstring ""
+         pushbyte -1
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"GuildText") 2
+         initproperty Qname(PackageNamespace(""),"guildText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildText_")
+         pushbyte 86
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildText_")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showRankText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"showRankText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"RankText")
+         pushbyte -1
+         pushtrue
+         pushfalse
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"RankText") 3
+         initproperty Qname(PackageNamespace(""),"rankText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rankText_")
+         pushbyte 8
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rankText_")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rankText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function callTracking(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"callTracking")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 10
+         maxscopedepth 13
+         try from ofs000f to ofs0018 target ofs001c type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"err")
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("flash.external"),"ExternalInterface")
+         getproperty Qname(PackageNamespace(""),"available")
+         pushfalse
+         ifne ofs000f
+         returnvoid
+         ofs000f:getlex Qname(PackageNamespace("flash.external"),"ExternalInterface")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"call") 1
+         ofs0018:jump ofs002a
+         ofs001c:getlocal_0
+         pushscope
+         newcatch 0
+         dup
+         setlocal_2
+         dup
+         pushscope
+         swap
+         setslot 1
+         popscope
+         kill 2
+         ofs002a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function startTutorial() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"startTutorial")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"tutorial_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Tutorial")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Tutorial") 1
+         initproperty Qname(PackageNamespace(""),"tutorial_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlex Qname(PackageNamespace(""),"tutorial_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateNearestInteractive() : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"updateNearestInteractive")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 11
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"IInteractiveObject")
+         setlocal 8
+         getlex Qname(PackageNamespace(""),"map")
+         not
+         dup
+         iftrue ofs0022
+         pop
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         not
+         ofs0022:iffalse ofs0027
+         returnvoid
+         ofs0027:getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MAXIMUM_INTERACTION_DISTANCE")
+         convert_d
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"IInteractiveObject")
+         setlocal_3
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         convert_d
+         setlocal 5
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         convert_d
+         setlocal 6
+         pushbyte 0
+         setlocal 9
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"goDict_")
+         coerce_a
+         setlocal 10
+         jump ofs0108
+         ofs005e:label
+         getlocal 10
+         getlocal 9
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         dup
+         setlocal 7
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"IInteractiveObject")
+         astypelate
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"IInteractiveObject")
+         dup
+         setlocal 8
+         convert_b
+         dup
+         iffalse ofs0090
+         pop
+         getlocal 8
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Pet")
+         istypelate
+         not
+         dup
+         iftrue ofs0090
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"isPetYard")
+         convert_b
+         ofs0090:iffalse ofs0108
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 5
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x_")
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MAXIMUM_INTERACTION_DISTANCE")
+         lessthan
+         dup
+         iftrue ofs00ca
+         pop
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"y_")
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MAXIMUM_INTERACTION_DISTANCE")
+         lessthan
+         ofs00ca:iffalse ofs0108
+         getlex Qname(PackageNamespace("com.company.util"),"PointUtil")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal 5
+         getlocal 6
+         callproperty Qname(PackageNamespace(""),"distanceXY") 4
+         convert_d
+         dup
+         setlocal 4
+         getlex Qname(PackageNamespace("kabam.rotmg.constants"),"GeneralConstants")
+         getproperty Qname(PackageNamespace(""),"MAXIMUM_INTERACTION_DISTANCE")
+         lessthan
+         dup
+         iffalse ofs00fa
+         pop
+         getlocal 4
+         getlocal_2
+         lessthan
+         ofs00fa:iffalse ofs0108
+         getlocal 4
+         convert_d
+         setlocal_2
+         getlocal 8
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"IInteractiveObject")
+         setlocal_3
+         ofs0108:hasnext2 10 9
+         iftrue ofs005e
+         kill 10
+         kill 9
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mapModel")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"currentInteractiveTarget")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function connect() : void
+      {
+         trait method Qname(PackageNamespace(""),"connect")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"isGameStarted")
+         iftrue ofs006e
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"373"),"isGameStarted")
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"Renderer")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"inGame")
+         getlex Qname(PackageNamespace(""),"gsc_")
+         callpropvoid Qname(PackageNamespace(""),"connect") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"idleWatcher_")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"start") 1
+         findproperty Qname(PackageNamespace(""),"lastUpdate_")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         initproperty Qname(PackageNamespace(""),"lastUpdate_")
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"MoneyChangedEvent")
+         getproperty Qname(PackageNamespace(""),"MONEY_CHANGED")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"onMoneyChanged")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace("kabam.lib.loopedprocs"),"LoopedProcess")
+         findpropstrict Qname(PackageNamespace("kabam.lib.loopedprocs"),"LoopedCallback")
+         pushbyte 100
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"updateNearestInteractive")
+         constructprop Qname(PackageNamespace("kabam.lib.loopedprocs"),"LoopedCallback") 2
+         callpropvoid Qname(PackageNamespace(""),"addProcess") 1
+         ofs006e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function disconnect() : void
+      {
+         trait method Qname(PackageNamespace(""),"disconnect")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"isGameStarted")
+         iffalse ofs008b
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"373"),"isGameStarted")
+         getlex Qname(PackageNamespace("kabam.rotmg.stage3D"),"Renderer")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"inGame")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"idleWatcher_")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"MoneyChangedEvent")
+         getproperty Qname(PackageNamespace(""),"MONEY_CHANGED")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"onMoneyChanged")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace("kabam.lib.loopedprocs"),"LoopedProcess")
+         callpropvoid Qname(PackageNamespace(""),"destroyAll") 0
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlex Qname(PackageNamespace(""),"map")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         coerce_a
+         dup
+         iffalse ofs0066
+         pop
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlex Qname(PackageNamespace(""),"map")
+         callproperty Qname(PackageNamespace(""),"removeChild") 1
+         coerce_a
+         ofs0066:pop
+         getlex Qname(PackageNamespace(""),"map")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlex Qname(PackageNamespace("com.company.util"),"CachingColorTransformer")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         callpropvoid Qname(PackageNamespace(""),"clearCache") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Projectile")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlex Qname(PackageNamespace(""),"gsc_")
+         callpropvoid Qname(PackageNamespace(""),"disconnect") 0
+         ofs008b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMoneyChanged(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"onMoneyChanged")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"gsc_")
+         callpropvoid Qname(PackageNamespace(""),"checkCredits") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function evalIsNotInCombatMapArea() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"evalIsNotInCombatMapArea")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"NON_COMBAT_MAPS")
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"name_")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte -1
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onEnterFrame(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"373"),"onEnterFrame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal 7
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         convert_i
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"lastUpdate_")
+         subtract
+         convert_i
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"idleWatcher_")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"update") 1
+         iffalse ofs002c
+         getlex Qname(PackageNamespace(""),"closed")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         ofs002c:getlex Qname(PackageNamespace("kabam.lib.loopedprocs"),"LoopedProcess")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"runProcesses") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"frameTimeSum_")
+         getlocal_3
+         add
+         initproperty Qname(PrivateNamespace(null,"373"),"frameTimeSum_")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"frameTimeCount_")
+         pushbyte 1
+         add
+         initproperty Qname(PrivateNamespace(null,"373"),"frameTimeCount_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"frameTimeSum_")
+         pushint 300000
+         ifngt ofs007f
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlex Qname(PackageNamespace(""),"Math")
+         pushshort 1000
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"frameTimeCount_")
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"frameTimeSum_")
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_d
+         setlocal 7
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"373"),"frameTimeCount_")
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"373"),"frameTimeSum_")
+         ofs007f:findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         convert_i
+         setlocal 4
+         getlex Qname(PackageNamespace(""),"map")
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"update") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         pushstring "Map.update"
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         getlocal 4
+         subtract
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         getlex Qname(PackageNamespace(""),"camera_")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"update") 1
+         getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"focus")
+         iffalse ofs00ef
+         getlex Qname(PackageNamespace(""),"camera_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"373"),"focus")
+         getlocal 5
+         iffalse ofs00df
+         getlocal 5
+         callproperty Qname(PackageNamespace(""),"isHallucinating") 0
+         convert_b
+         jump ofs00e0
+         ofs00df:pushfalse
+         ofs00e0:callpropvoid Qname(PackageNamespace(""),"configureCamera") 2
+         getlex Qname(PackageNamespace(""),"map")
+         getlex Qname(PackageNamespace(""),"camera_")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         ofs00ef:getlocal 5
+         pushnull
+         ifeq ofs01ea
+         getlocal 5
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         setproperty Qname(PackageNamespace(""),"isNotInCombatMapArea")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"creditDisplay_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"credits_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"fame_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"tokens_")
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"drawCharacterWindow")
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"evalIsNotInCombatMapArea") 0
+         iffalse ofs014e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rankText_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"numStars_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"starsBg_")
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"guildText_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"guildName_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"guildRank_")
+         callpropvoid Qname(PackageNamespace(""),"draw") 2
+         ofs014e:getlocal 5
+         callproperty Qname(PackageNamespace(""),"isPaused") 0
+         iffalse ofs0196
+         getlex Qname(PackageNamespace(""),"map")
+         getlex Qname(StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),"PAUSED_FILTER")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlex Qname(PackageNamespace(""),"hudView")
+         getlex Qname(StaticProtectedNs("com.company.assembleegameclient.game:GameSprite"),"PAUSED_FILTER")
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlex Qname(PackageNamespace(""),"map")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlex Qname(PackageNamespace(""),"map")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlex Qname(PackageNamespace(""),"hudView")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlex Qname(PackageNamespace(""),"hudView")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseChildren")
+         jump ofs01d8
+         ofs0196:getlex Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"filters")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs01d8
+         getlex Qname(PackageNamespace(""),"map")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlex Qname(PackageNamespace(""),"hudView")
+         newarray 0
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlex Qname(PackageNamespace(""),"map")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlex Qname(PackageNamespace(""),"map")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseChildren")
+         getlex Qname(PackageNamespace(""),"hudView")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlex Qname(PackageNamespace(""),"hudView")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseChildren")
+         ofs01d8:getlex Qname(PackageNamespace(""),"moveRecords_")
+         getlocal_2
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"y_")
+         callpropvoid Qname(PackageNamespace(""),"addRecord") 3
+         ofs01ea:findproperty Qname(PackageNamespace(""),"lastUpdate_")
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"lastUpdate_")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         getlocal_2
+         subtract
+         convert_i
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         pushstring "GameSprite.loop"
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function showPetToolTip(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"showPetToolTip")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

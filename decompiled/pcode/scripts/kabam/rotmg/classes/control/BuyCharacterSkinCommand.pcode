@@ -1,0 +1,253 @@
+package kabam.rotmg.classes.control
+{
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.rotmg.classes.model.CharacterSkin;
+   import kabam.rotmg.classes.model.CharacterSkinState;
+   import kabam.rotmg.classes.services.BuySkinTask;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.ui.view.NotEnoughGoldDialog;
+   
+   public class BuyCharacterSkinCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var skin:CharacterSkin;
+      
+      [Inject]
+      public var model:PlayerModel;
+      
+      [Inject]
+      public var task:BuySkinTask;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      public function BuyCharacterSkinCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"53"),"isSkinPurchasable") 0
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"53"),"enterPurchaseFlow") 0
+         ofs0010:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function enterPurchaseFlow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"53"),"enterPurchaseFlow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"53"),"isSkinAffordable") 0
+         iffalse ofs0014
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"53"),"purchaseSkin") 0
+         jump ofs0019
+         ofs0014:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"53"),"enterGetCreditsFlow") 0
+         ofs0019:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isSkinPurchasable() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"53"),"isSkinPurchasable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         callproperty Qname(PackageNamespace(""),"getState") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterSkinState")
+         getproperty Qname(PackageNamespace(""),"PURCHASABLE")
+         equals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isSkinAffordable() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"53"),"isSkinAffordable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getproperty Qname(PackageNamespace(""),"cost")
+         greaterequals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchaseSkin() : void
+      {
+         trait method Qname(PrivateNamespace(null,"53"),"purchaseSkin")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function enterGetCreditsFlow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"53"),"enterGetCreditsFlow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

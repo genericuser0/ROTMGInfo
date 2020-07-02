@@ -1,0 +1,556 @@
+package kabam.rotmg.dailyLogin.tasks
+{
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.util.MoreObjectUtil;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.build.api.BuildData;
+   import kabam.rotmg.build.api.BuildEnvironment;
+   import kabam.rotmg.core.signals.SetLoadingMessageSignal;
+   import kabam.rotmg.dailyLogin.model.CalendarDayModel;
+   import kabam.rotmg.dailyLogin.model.CalendarTypes;
+   import kabam.rotmg.dailyLogin.model.DailyLoginModel;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class FetchPlayerCalendarTask extends BaseTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var setLoadingMessage:SetLoadingMessageSignal;
+      
+      [Inject]
+      public var dailyLoginModel:DailyLoginModel;
+      
+      [Inject]
+      public var buildData:BuildData;
+      
+      private var requestData:Object;
+      
+      public function FetchPlayerCalendarTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "FetchPlayerCalendarTask start"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"makeRequestData") 0
+         initproperty Qname(PrivateNamespace(null,"261"),"requestData")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"261"),"sendRequest") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sendRequest() : void
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"sendRequest")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"261"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/dailyLogin/fetchCalendar"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"261"),"requestData")
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0011
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"261"),"onCalendarUpdate") 1
+         jump ofs0017
+         ofs0011:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"261"),"onTextError") 1
+         ofs0017:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCalendarUpdate(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"onCalendarUpdate")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 11
+         try from ofs0012 to ofs0021 target ofs0025 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 3
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         ofs0012:getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getscopeobject 1
+         getslot 1
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 3
+         ofs0021:jump ofs003e
+         ofs0025:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         popscope
+         kill 3
+         ofs003e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"parseFloat")
+         getscopeobject 1
+         getslot 3
+         pushstring "serverTime"
+         callproperty Multiname("attribute",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         callproperty Qname(PackageNamespace(""),"parseFloat") 1
+         pushshort 1000
+         multiply
+         convert_d
+         setslot 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         getscopeobject 1
+         getslot 2
+         callpropvoid Qname(PackageNamespace(""),"setServerTime") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("calendarShowOnDay",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         not
+         dup
+         iftrue ofs0095
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("calendarShowOnDay",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         callproperty Qname(PackageNamespace(""),"getTimestampDay") 0
+         lessthan
+         ofs0095:iffalse ofs00a1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"shouldDisplayCalendarAtStartup")
+         ofs00a1:getlocal_0
+         getproperty Qname(PackageNamespace(""),"buildData")
+         callproperty Qname(Namespace("kabam.rotmg.build.api:BuildData"),"getEnvironment") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"LOCALHOST")
+         ifne ofs00b3
+         ofs00b3:getscopeobject 1
+         getslot 3
+         pushstring "NonConsecutive"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         convert_b
+         dup
+         iffalse ofs00db
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Multiname("NonConsecutive",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getdescendants Multiname("Login",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         callproperty Multiname("length",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 0
+         pushbyte 0
+         greaterthan
+         ofs00db:iffalse ofs0100
+         getlocal_0
+         getscopeobject 1
+         getslot 3
+         getproperty Multiname("NonConsecutive",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarTypes")
+         getproperty Qname(PackageNamespace(""),"NON_CONSECUTIVE")
+         getscopeobject 1
+         getslot 3
+         pushstring "nonconCurDay"
+         callproperty Multiname("attribute",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         callpropvoid Qname(PrivateNamespace(null,"261"),"parseCalendar") 3
+         ofs0100:getscopeobject 1
+         getslot 3
+         pushstring "Consecutive"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         convert_b
+         dup
+         iffalse ofs0128
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Multiname("Consecutive",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getdescendants Multiname("Login",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         callproperty Multiname("length",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 0
+         pushbyte 0
+         greaterthan
+         ofs0128:iffalse ofs014d
+         getlocal_0
+         getscopeobject 1
+         getslot 3
+         getproperty Multiname("Consecutive",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarTypes")
+         getproperty Qname(PackageNamespace(""),"CONSECUTIVE")
+         getscopeobject 1
+         getslot 3
+         pushstring "conCurDay"
+         callproperty Multiname("attribute",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         callpropvoid Qname(PrivateNamespace(null,"261"),"parseCalendar") 3
+         ofs014d:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseCalendar(param1:XMLList, param2:String, param3:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"parseCalendar")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XMLList")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         getlocal_1
+         getdescendants Multiname("Login",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         coerce_a
+         setlocal 7
+         jump ofs0058
+         ofs001d:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 4
+         getlocal_0
+         getlocal 4
+         getlocal_2
+         callproperty Qname(PrivateNamespace(null,"261"),"getDayFromXML") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         setlocal 5
+         getlocal 4
+         pushstring "key"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         iffalse ofs004d
+         getlocal 5
+         getlocal 4
+         getproperty Multiname("key",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         setproperty Qname(PackageNamespace(""),"claimKey")
+         ofs004d:getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         getlocal 5
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addDay") 2
+         ofs0058:hasnext2 7 6
+         iftrue ofs001d
+         kill 7
+         kill 6
+         getlocal_3
+         iffalse ofs0077
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         getlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callpropvoid Qname(PackageNamespace(""),"setCurrentDay") 2
+         ofs0077:getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         getlocal_1
+         pushstring "days"
+         callproperty Multiname("attribute",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"setUserDay") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dailyLoginModel")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"calculateCalendar") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getDayFromXML(param1:XML, param2:String) : CalendarDayModel
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"getDayFromXML")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         
+         body
+         maxstack 7
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel")
+         getlocal_1
+         getproperty Multiname("Days",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getproperty Multiname("ItemId",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getproperty Multiname("Gold",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getproperty Multiname("ItemId",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring "quantity"
+         callproperty Multiname("attribute",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         getlocal_1
+         pushstring "Claimed"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         getlocal_2
+         constructprop Qname(PackageNamespace("kabam.rotmg.dailyLogin.model"),"CalendarDayModel") 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTextError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"261"),"onTextError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function makeRequestData() : Object
+      {
+         trait method Qname(PackageNamespace(""),"makeRequestData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetworkUserId") 0
+         setproperty Multiname("game_net_user_id",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetwork") 0
+         setproperty Multiname("game_net",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"playPlatform") 0
+         setproperty Multiname("play_platform",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"sendLogin_")
+         setproperty Multiname("do_login",[PrivateNamespace(null,"261"),PackageNamespace(""),PrivateNamespace(null,"1396"),PackageNamespace("kabam.rotmg.dailyLogin.tasks"),PackageInternalNs("kabam.rotmg.dailyLogin.tasks"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.rotmg.dailyLogin.tasks:FetchPlayerCalendarTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlex Qname(PackageNamespace("com.company.util"),"MoreObjectUtil")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(PackageNamespace(""),"addToObject") 2
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

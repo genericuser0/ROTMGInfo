@@ -1,0 +1,213 @@
+package kabam.rotmg.account.transfer.commands
+{
+   import com.company.assembleegameclient.ui.dialogs.DebugDialog;
+   import com.company.util.HTMLUtil;
+   import kabam.lib.tasks.BranchingTask;
+   import kabam.lib.tasks.DispatchSignalTask;
+   import kabam.lib.tasks.Task;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.MigrateAccountTask;
+   import kabam.rotmg.account.core.signals.UpdateAccountInfoSignal;
+   import kabam.rotmg.account.transfer.model.TransferAccountData;
+   import kabam.rotmg.application.model.PlatformModel;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.signals.TaskErrorSignal;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   
+   public class TransferAccountCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var task:MigrateAccountTask;
+      
+      [Inject]
+      public var updateAccount:UpdateAccountInfoSignal;
+      
+      [Inject]
+      public var taskError:TaskErrorSignal;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      [Inject]
+      public var close:CloseDialogsSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var loginError:TaskErrorSignal;
+      
+      [Inject]
+      public var data:TransferAccountData;
+      
+      public function TransferAccountCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"802"),"makeSuccess") 0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"802"),"makeFailure") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask") 3
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSuccess() : Task
+      {
+         trait method Qname(PrivateNamespace(null,"802"),"makeSuccess")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         
+         body
+         maxstack 7
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.application.model"),"PlatformModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.application.model"),"PlatformModel")
+         setlocal_2
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateAccount")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"DebugDialog")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"newEmail")
+         pushstring " please check your inbox."
+         add
+         pushstring "Email Verification Sent!"
+         getlex Qname(PackageNamespace("com.company.util"),"HTMLUtil")
+         getproperty Qname(PackageNamespace(""),"refreshPageNoParams")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"DebugDialog") 3
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeFailure() : Task
+      {
+         trait method Qname(PrivateNamespace(null,"802"),"makeFailure")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loginError")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

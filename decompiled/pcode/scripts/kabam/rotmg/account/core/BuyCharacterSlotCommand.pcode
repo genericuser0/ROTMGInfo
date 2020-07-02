@@ -1,0 +1,374 @@
+package kabam.rotmg.account.core
+{
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import com.company.assembleegameclient.ui.dialogs.ErrorDialog;
+   import kabam.lib.tasks.BranchingTask;
+   import kabam.lib.tasks.DispatchSignalTask;
+   import kabam.lib.tasks.Task;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.BuyCharacterSlotTask;
+   import kabam.rotmg.account.core.view.BuyingDialog;
+   import kabam.rotmg.account.core.view.PurchaseConfirmationDialog;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.SetScreenSignal;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.ui.view.CharacterSlotNeedGoldDialog;
+   
+   public class BuyCharacterSlotCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var price:int;
+      
+      [Inject]
+      public var task:BuyCharacterSlotTask;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      [Inject]
+      public var setScreen:SetScreenSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var closeDialog:CloseDialogsSignal;
+      
+      [Inject]
+      public var model:PlayerModel;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      public function BuyCharacterSlotCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"428"),"isSlotUnaffordable") 0
+         iffalse ofs0014
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"428"),"promptToGetMoreGold") 0
+         jump ofs0019
+         ofs0014:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"428"),"purchaseSlot") 0
+         ofs0019:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isSlotUnaffordable() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"isSlotUnaffordable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getNextCharSlotPrice") 0
+         lessthan
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function promptToGetMoreGold() : void
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"promptToGetMoreGold")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotNeedGoldDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotNeedGoldDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchaseSlot() : void
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"purchaseSlot")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"PurchaseConfirmationDialog")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"428"),"purchaseConfirmed")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"PurchaseConfirmationDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchaseConfirmed() : void
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"purchaseConfirmed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"BuyingDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"BuyingDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"428"),"makeSuccessTask") 0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"428"),"makeFailureTask") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"BranchingTask") 3
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialog")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeSuccessTask() : Task
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"makeSuccessTask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreen")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen") 0
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeTrackingData() : TrackingData
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"makeTrackingData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_1
+         getlocal_1
+         pushstring "credits"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_1
+         pushstring "buyConverted"
+         setproperty Qname(PackageNamespace(""),"action")
+         getlocal_1
+         pushstring "Character Slot"
+         setproperty Qname(PackageNamespace(""),"label")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"price")
+         setproperty Qname(PackageNamespace(""),"value")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeFailureTask() : Task
+      {
+         trait method Qname(PrivateNamespace(null,"428"),"makeFailureTask")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.lib.tasks"),"Task")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         pushstring "Unable to complete character slot purchase"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog") 1
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

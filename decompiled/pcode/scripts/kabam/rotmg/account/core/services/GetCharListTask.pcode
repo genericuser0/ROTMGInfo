@@ -1,0 +1,962 @@
+package kabam.rotmg.account.core.services
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import com.company.util.MoreObjectUtil;
+   import flash.events.MouseEvent;
+   import flash.events.TimerEvent;
+   import flash.utils.Timer;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventErrorPopup;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import io.decagames.rotmg.unity.popup.UnitySignUpPopup;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.signals.CharListDataSignal;
+   import kabam.rotmg.account.securityQuestions.data.SecurityQuestionsModel;
+   import kabam.rotmg.account.web.WebAccount;
+   import kabam.rotmg.account.web.view.MigrationDialog;
+   import kabam.rotmg.account.web.view.WebLoginDialog;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.signals.CharListLoadedSignal;
+   import kabam.rotmg.core.signals.SetLoadingMessageSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.fortune.components.TimerCallback;
+   import kabam.rotmg.text.model.TextKey;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class GetCharListTask extends BaseTask
+   {
+      
+      private static const ONE_SECOND_IN_MS:int = 1000;
+      
+      private static const MAX_RETRIES:int = 7;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"222"),"ONE_SECOND_IN_MS")
+         pushshort 1000
+         initproperty Qname(PrivateNamespace(null,"222"),"ONE_SECOND_IN_MS")
+         findproperty Qname(PrivateNamespace(null,"222"),"MAX_RETRIES")
+         pushbyte 7
+         initproperty Qname(PrivateNamespace(null,"222"),"MAX_RETRIES")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var model:PlayerModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var setLoadingMessage:SetLoadingMessageSignal;
+      
+      [Inject]
+      public var charListData:CharListDataSignal;
+      
+      [Inject]
+      public var charListLoadedSignal:CharListLoadedSignal;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var closeDialogs:CloseDialogsSignal;
+      
+      [Inject]
+      public var securityQuestionsModel:SecurityQuestionsModel;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      private var requestData:Object;
+      
+      private var retryTimer:Timer;
+      
+      private var numRetries:int = 0;
+      
+      private var fromMigration:Boolean = false;
+      
+      private var seasonalEventErrorPopUp:SeasonalEventErrorPopup;
+      
+      public function GetCharListTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetUserDataTask start"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"makeRequestData") 0
+         initproperty Qname(PrivateNamespace(null,"222"),"requestData")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"sendRequest") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"sendLogin_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sendRequest() : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"sendRequest")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/char/list"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"requestData")
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0011
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"222"),"onListComplete") 1
+         jump ofs0017
+         ofs0011:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"222"),"onTextError") 1
+         ofs0017:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function makeRequestData() : Object
+      {
+         trait method Qname(PackageNamespace(""),"makeRequestData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetworkUserId") 0
+         setproperty Multiname("game_net_user_id",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"gameNetwork") 0
+         setproperty Multiname("game_net",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"playPlatform") 0
+         setproperty Multiname("play_platform",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"sendLogin_")
+         setproperty Multiname("do_login",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         setproperty Multiname("challenger",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlex Qname(PackageNamespace("com.company.util"),"MoreObjectUtil")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         callpropvoid Qname(PackageNamespace(""),"addToObject") 2
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onListComplete(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"onListComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 8
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.account.web.view"),"MigrationDialog")
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_2
+         pushstring "MigrateStatus"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         iffalse ofs0077
+         getlocal_2
+         getproperty Multiname("MigrateStatus",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         convert_d
+         setlocal_3
+         getlocal_3
+         pushbyte 5
+         ifne ofs0039
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"sendRequest") 0
+         ofs0039:findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web.view"),"MigrationDialog")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_3
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.web.view"),"MigrationDialog") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.account.web.view"),"MigrationDialog")
+         setlocal 4
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"222"),"fromMigration")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"done")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"sendRequest")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"cancel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"clearAccountAndReloadCharacters")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs027a
+         ofs0077:getlocal_2
+         pushstring "Account"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         iffalse ofs01ba
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         istypelate
+         iffalse ofs00fe
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount") 1
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("Name",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         setproperty Qname(PackageNamespace(""),"userDisplayName")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount") 1
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("PaymentProvider",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         setproperty Qname(PackageNamespace(""),"paymentProvider")
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring "PaymentData"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         iffalse ofs00fe
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(PackageNamespace("kabam.rotmg.account.web"),"WebAccount") 1
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("PaymentData",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         setproperty Qname(PackageNamespace(""),"paymentData")
+         ofs00fe:getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("CreationTimestamp",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushshort 1000
+         multiply
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         setproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"creationDate")
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring "SecurityQuestions"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         iffalse ofs01ba
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"securityQuestionsModel")
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("SecurityQuestions",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("ShowSecurityQuestionsDialog",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring "1"
+         equals
+         setproperty Qname(PackageNamespace(""),"showSecurityQuestionsOnStartup")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"securityQuestionsModel")
+         callpropvoid Qname(PackageNamespace(""),"clearQuestionsList") 0
+         pushbyte 0
+         setlocal 6
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("SecurityQuestions",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("SecurityQuestionsKeys",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("SecurityQuestionsKey",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         coerce_a
+         setlocal 7
+         jump ofs01af
+         ofs0196:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"securityQuestionsModel")
+         getlocal 5
+         callproperty Multiname("toString",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 0
+         callpropvoid Qname(PackageNamespace(""),"addSecurityQuestion") 1
+         ofs01af:hasnext2 7 6
+         iftrue ofs0196
+         kill 7
+         kill 6
+         ofs01ba:getlocal_2
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs01d1
+         pop
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         coerce_a
+         convert_b
+         ofs01d1:dup
+         iffalse ofs01ec
+         pop
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring "RemainingLives"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         convert_b
+         ofs01ec:iffalse ofs0206
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getlocal_2
+         getproperty Multiname("Account",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask"),PackageNamespace("kabam.rotmg.account.core")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getproperty Multiname("RemainingLives",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         setproperty Qname(PackageNamespace(""),"remainingCharacters")
+         ofs0206:getlocal_0
+         getproperty Qname(PackageNamespace(""),"charListData")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"isLogOutLogIn")
+         iftrue ofs0222
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charListLoadedSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0222:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"isLogOutLogIn")
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"hasShownUnitySignUp")
+         not
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs024e
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("unitySignUp",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         coerce_a
+         convert_b
+         ofs024e:dup
+         iffalse ofs025f
+         pop
+         getlocal_2
+         pushstring "DecaSignupPopup"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         convert_b
+         ofs025f:iffalse ofs027a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"hasShownUnitySignUp")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.unity.popup"),"UnitySignUpPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.unity.popup"),"UnitySignUpPopup") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs027a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         pushnull
+         ifeq ofs0288
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"stopRetryTimer") 0
+         ofs0288:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTextError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"onTextError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialog")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"numRetries")
+         getlex Qname(PrivateNamespace(null,"222"),"MAX_RETRIES")
+         ifnlt ofs0023
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setLoadingMessage")
+         pushstring "Loading.text"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs002f
+         ofs0023:getlocal_0
+         getproperty Qname(PackageNamespace(""),"setLoadingMessage")
+         pushstring "error.loadError"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs002f:getlocal_1
+         pushstring "Account credentials not valid"
+         ifne ofs0082
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"fromMigration")
+         iffalse ofs0079
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialog") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.account.web.view"),"WebLoginDialog")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"WEB_LOGIN_DIALOG_PASSWORD_INVALID")
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getUserId") 0
+         callpropvoid Qname(PackageNamespace(""),"setEmail") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.control"),"OpenDialogSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         getlocal_2
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"222"),PackageNamespace(""),PrivateNamespace(null,"1381"),PackageNamespace("kabam.rotmg.account.core.services"),PackageInternalNs("kabam.rotmg.account.core.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.rotmg.account.core.services:GetCharListTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")]) 1
+         ofs0079:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"clearAccountAndReloadCharacters") 0
+         jump ofs00d4
+         ofs0082:getlocal_1
+         pushstring "Account is under maintenance"
+         ifne ofs00a9
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setLoadingMessage")
+         pushstring "This account has been banned"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"TimerCallback")
+         pushbyte 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"clearAccountAndReloadCharacters")
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"TimerCallback") 2
+         pop
+         jump ofs00d4
+         ofs00a9:getlocal_1
+         pushstring "Account has fame lower than minimal for the season"
+         ifne ofs00bc
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"222"),"showSeasonalErrorPopUp") 1
+         jump ofs00d4
+         ofs00bc:getlocal_1
+         pushstring "No more live left for the current season."
+         ifne ofs00cf
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"222"),"showSeasonalErrorPopUp") 1
+         jump ofs00d4
+         ofs00cf:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"waitForASecondThenRetryRequest") 0
+         ofs00d4:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonalErrorPopUp(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"showSeasonalErrorPopUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup") 1
+         initproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonalErrorPopUpClose(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"onSeasonalErrorPopUpClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"message")
+         coerce_s
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"isChallenger")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"usePatchedData")
+         getlocal_2
+         pushstring "Account has fame lower than minimal for the season"
+         equals
+         dup
+         iftrue ofs004f
+         pop
+         getlocal_2
+         pushstring "No more live left for the current season."
+         equals
+         ofs004f:iffalse ofs0062
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0062:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function clearAccountAndReloadCharacters() : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"clearAccountAndReloadCharacters")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetUserDataTask invalid credentials"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"clear") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"makeRequestData") 0
+         initproperty Qname(PrivateNamespace(null,"222"),"requestData")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/char/list"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"requestData")
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function waitForASecondThenRetryRequest() : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"waitForASecondThenRetryRequest")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetUserDataTask error - retrying"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         getlex Qname(PrivateNamespace(null,"222"),"ONE_SECOND_IN_MS")
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onRetryTimer")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function stopRetryTimer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"stopRetryTimer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         callpropvoid Qname(PackageNamespace(""),"stop") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER_COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"onRetryTimer")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"222"),"retryTimer")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRetryTimer(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"222"),"onRetryTimer")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"stopRetryTimer") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"222"),"numRetries")
+         getlex Qname(PrivateNamespace(null,"222"),"MAX_RETRIES")
+         ifnlt ofs002d
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"sendRequest") 0
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"222"),"numRetries")
+         increment_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"222"),"numRetries")
+         kill 3
+         kill 2
+         jump ofs003e
+         ofs002d:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"222"),"clearAccountAndReloadCharacters") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setLoadingMessage")
+         pushstring "LoginError.tooManyFails"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs003e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,315 @@
+package kabam.rotmg.arena.view
+{
+   import flash.events.TimerEvent;
+   import flash.utils.Timer;
+   import kabam.rotmg.arena.model.ArenaLeaderboardEntry;
+   import kabam.rotmg.arena.model.BestArenaRunModel;
+   import kabam.rotmg.arena.model.CurrentArenaRunModel;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.maploading.signals.HideMapLoadingSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class BattleSummaryDialogMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:BattleSummaryDialog;
+      
+      [Inject]
+      public var closeMapLoading:HideMapLoadingSignal;
+      
+      [Inject]
+      public var currentRunModel:CurrentArenaRunModel;
+      
+      [Inject]
+      public var bestRunModel:BestArenaRunModel;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      private var fadeOutTimer:Timer;
+      
+      public function BattleSummaryDialogMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Timer")
+         pushshort 800
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.utils"),"Timer") 2
+         initproperty Qname(PrivateNamespace(null,"105"),"fadeOutTimer")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"positionThis") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"runtime")
+         callpropvoid Qname(PackageNamespace(""),"setCurrentRun") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"bestRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         greaterthan
+         dup
+         iftrue ofs0079
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"bestRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         equals
+         dup
+         iffalse ofs0079
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"bestRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"runtime")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         getproperty Qname(PackageNamespace(""),"runtime")
+         lessthan
+         ofs0079:convert_b
+         setlocal_1
+         getlocal_1
+         iffalse ofs008d
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"bestRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         coerce Qname(PackageNamespace("kabam.rotmg.arena.model"),"ArenaLeaderboardEntry")
+         jump ofs0096
+         ofs008d:getlocal_0
+         getproperty Qname(PackageNamespace(""),"currentRunModel")
+         getproperty Qname(PackageNamespace(""),"entry")
+         coerce Qname(PackageNamespace("kabam.rotmg.arena.model"),"ArenaLeaderboardEntry")
+         ofs0096:coerce Qname(PackageNamespace("kabam.rotmg.arena.model"),"ArenaLeaderboardEntry")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"currentWave")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"runtime")
+         callpropvoid Qname(PackageNamespace(""),"setBestRun") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeMapLoading")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"startTimer")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose() : void
+      {
+         trait method Qname(PrivateNamespace(null,"105"),"onClose")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaLeaderboard")
+         constructprop Qname(PackageNamespace("kabam.rotmg.arena.view"),"ArenaLeaderboard") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function startTimer() : void
+      {
+         trait method Qname(PrivateNamespace(null,"105"),"startTimer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"fadeOutTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"showBattleSummaryDialog")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"fadeOutTimer")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showBattleSummaryDialog(param1:TimerEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"105"),"showBattleSummaryDialog")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"TimerEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"fadeOutTimer")
+         getlex Qname(PackageNamespace("flash.events"),"TimerEvent")
+         getproperty Qname(PackageNamespace(""),"TIMER")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"showBattleSummaryDialog")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"105"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

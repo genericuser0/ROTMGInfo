@@ -1,0 +1,876 @@
+package com.company.assembleegameclient.tutorial
+{
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.util.PointUtil;
+   import flash.display.Graphics;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.filters.BlurFilter;
+   import flash.utils.getTimer;
+   import kabam.rotmg.assets.EmbeddedData;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   
+   public class Tutorial extends Sprite
+   {
+      
+      public static const NEXT_ACTION:String = "Next";
+      
+      public static const MOVE_FORWARD_ACTION:String = "MoveForward";
+      
+      public static const MOVE_BACKWARD_ACTION:String = "MoveBackward";
+      
+      public static const ROTATE_LEFT_ACTION:String = "RotateLeft";
+      
+      public static const ROTATE_RIGHT_ACTION:String = "RotateRight";
+      
+      public static const MOVE_LEFT_ACTION:String = "MoveLeft";
+      
+      public static const MOVE_RIGHT_ACTION:String = "MoveRight";
+      
+      public static const UPDATE_ACTION:String = "Update";
+      
+      public static const ATTACK_ACTION:String = "Attack";
+      
+      public static const DAMAGE_ACTION:String = "Damage";
+      
+      public static const KILL_ACTION:String = "Kill";
+      
+      public static const SHOW_LOOT_ACTION:String = "ShowLoot";
+      
+      public static const TEXT_ACTION:String = "Text";
+      
+      public static const SHOW_PORTAL_ACTION:String = "ShowPortal";
+      
+      public static const ENTER_PORTAL_ACTION:String = "EnterPortal";
+      
+      public static const NEAR_REQUIREMENT:String = "Near";
+      
+      public static const EQUIP_REQUIREMENT:String = "Equip";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"NEXT_ACTION")
+         pushstring "Next"
+         initproperty Qname(PackageNamespace(""),"NEXT_ACTION")
+         findproperty Qname(PackageNamespace(""),"MOVE_FORWARD_ACTION")
+         pushstring "MoveForward"
+         initproperty Qname(PackageNamespace(""),"MOVE_FORWARD_ACTION")
+         findproperty Qname(PackageNamespace(""),"MOVE_BACKWARD_ACTION")
+         pushstring "MoveBackward"
+         initproperty Qname(PackageNamespace(""),"MOVE_BACKWARD_ACTION")
+         findproperty Qname(PackageNamespace(""),"ROTATE_LEFT_ACTION")
+         pushstring "RotateLeft"
+         initproperty Qname(PackageNamespace(""),"ROTATE_LEFT_ACTION")
+         findproperty Qname(PackageNamespace(""),"ROTATE_RIGHT_ACTION")
+         pushstring "RotateRight"
+         initproperty Qname(PackageNamespace(""),"ROTATE_RIGHT_ACTION")
+         findproperty Qname(PackageNamespace(""),"MOVE_LEFT_ACTION")
+         pushstring "MoveLeft"
+         initproperty Qname(PackageNamespace(""),"MOVE_LEFT_ACTION")
+         findproperty Qname(PackageNamespace(""),"MOVE_RIGHT_ACTION")
+         pushstring "MoveRight"
+         initproperty Qname(PackageNamespace(""),"MOVE_RIGHT_ACTION")
+         findproperty Qname(PackageNamespace(""),"UPDATE_ACTION")
+         pushstring "Update"
+         initproperty Qname(PackageNamespace(""),"UPDATE_ACTION")
+         findproperty Qname(PackageNamespace(""),"ATTACK_ACTION")
+         pushstring "Attack"
+         initproperty Qname(PackageNamespace(""),"ATTACK_ACTION")
+         findproperty Qname(PackageNamespace(""),"DAMAGE_ACTION")
+         pushstring "Damage"
+         initproperty Qname(PackageNamespace(""),"DAMAGE_ACTION")
+         findproperty Qname(PackageNamespace(""),"KILL_ACTION")
+         pushstring "Kill"
+         initproperty Qname(PackageNamespace(""),"KILL_ACTION")
+         findproperty Qname(PackageNamespace(""),"SHOW_LOOT_ACTION")
+         pushstring "ShowLoot"
+         initproperty Qname(PackageNamespace(""),"SHOW_LOOT_ACTION")
+         findproperty Qname(PackageNamespace(""),"TEXT_ACTION")
+         pushstring "Text"
+         initproperty Qname(PackageNamespace(""),"TEXT_ACTION")
+         findproperty Qname(PackageNamespace(""),"SHOW_PORTAL_ACTION")
+         pushstring "ShowPortal"
+         initproperty Qname(PackageNamespace(""),"SHOW_PORTAL_ACTION")
+         findproperty Qname(PackageNamespace(""),"ENTER_PORTAL_ACTION")
+         pushstring "EnterPortal"
+         initproperty Qname(PackageNamespace(""),"ENTER_PORTAL_ACTION")
+         findproperty Qname(PackageNamespace(""),"NEAR_REQUIREMENT")
+         pushstring "Near"
+         initproperty Qname(PackageNamespace(""),"NEAR_REQUIREMENT")
+         findproperty Qname(PackageNamespace(""),"EQUIP_REQUIREMENT")
+         pushstring "Equip"
+         initproperty Qname(PackageNamespace(""),"EQUIP_REQUIREMENT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var gs_:GameSprite;
+      
+      public var steps_:Vector.<Step>;
+      
+      public var currStepId_:int = 0;
+      
+      private var darkBox_:Sprite;
+      
+      private var boxesBack_:Shape;
+      
+      private var boxes_:Shape;
+      
+      private var tutorialMessage_:TutorialMessage = null;
+      
+      private var tracker:GoogleAnalytics;
+      
+      private var trackingStep:int = -1;
+      
+      private var lastTrackingStepTimestamp:uint;
+      
+      public function Tutorial(param1:GameSprite)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         returns null
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Graphics")
+         setlocal_3
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step")
+         applytype 1
+         construct 0
+         initproperty Qname(PackageNamespace(""),"steps_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"722"),"darkBox_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PrivateNamespace(null,"722"),"boxes_")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"gs_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         initproperty Qname(PrivateNamespace(null,"722"),"lastTrackingStepTimestamp")
+         pushbyte 0
+         setlocal 4
+         getlex Qname(PackageNamespace("kabam.rotmg.assets"),"EmbeddedData")
+         getproperty Qname(PackageNamespace(""),"tutorialXML")
+         getproperty Multiname("Step",[PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         setlocal 5
+         jump ofs0079
+         ofs005f:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steps_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step")
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step") 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0079:hasnext2 5 4
+         iftrue ofs005f
+         kill 5
+         kill 4
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"722"),"tracker")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"tracker")
+         pushstring "tutorial"
+         pushstring "started"
+         callpropvoid Qname(PackageNamespace(""),"trackEvent") 2
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxes_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"darkBox_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         coerce Qname(PackageNamespace("flash.display"),"Graphics")
+         setlocal_3
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_3
+         pushbyte 0
+         pushdouble 0.1
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_3
+         pushbyte 0
+         dup
+         pushshort 800
+         pushshort 600
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("needsTutorial",[PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"722"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"722"),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"722"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ENTER_FRAME")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"onEnterFrame")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onEnterFrame(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"722"),"onEnterFrame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 18
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step")
+         setlocal 4
+         pushfalse
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Requirement")
+         setlocal 6
+         pushbyte 0
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"UIDrawBox")
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"UIDrawArrow")
+         setlocal 9
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 10
+         pushfalse
+         setlocal 11
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal 12
+         pushnan
+         setlocal 13
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(PackageNamespace(""),"Math")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         pushshort 300
+         divide
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         convert_d
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"BlurFilter")
+         pushbyte 5
+         getlocal_2
+         pushbyte 5
+         multiply
+         add
+         pushbyte 5
+         getlocal_2
+         pushbyte 5
+         multiply
+         add
+         constructprop Qname(PackageNamespace("flash.filters"),"BlurFilter") 2
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxes_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         pushbyte 0
+         setlocal_3
+         jump ofs02ce
+         ofs0093:label
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steps_")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step")
+         setlocal 4
+         pushtrue
+         setlocal 5
+         pushbyte 0
+         setlocal 14
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"reqs_")
+         coerce_a
+         setlocal 15
+         jump ofs01a8
+         ofs00b5:label
+         getlocal 15
+         getlocal 14
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Requirement")
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 10
+         jump ofs0178
+         ofs00d3:label
+         pushfalse
+         setlocal 11
+         pushbyte 0
+         setlocal 16
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"goDict_")
+         coerce_a
+         setlocal 17
+         jump ofs015b
+         ofs00ec:label
+         getlocal 17
+         getlocal 16
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         dup
+         setlocal 12
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         equals
+         not
+         dup
+         iftrue ofs0123
+         pop
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"objectName_")
+         pushstring ""
+         equals
+         not
+         dup
+         iffalse ofs0123
+         pop
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"name_")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"objectName_")
+         equals
+         not
+         ofs0123:iffalse ofs012b
+         jump ofs015b
+         ofs012b:getlex Qname(PackageNamespace("com.company.util"),"PointUtil")
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 12
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal 10
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 10
+         getproperty Qname(PackageNamespace(""),"y_")
+         callproperty Qname(PackageNamespace(""),"distanceXY") 4
+         convert_d
+         dup
+         setlocal 13
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"radius_")
+         ifnle ofs015b
+         pushtrue
+         setlocal 11
+         jump ofs0162
+         ofs015b:hasnext2 17 16
+         iftrue ofs00ec
+         ofs0162:kill 17
+         kill 16
+         getlocal 11
+         iftrue ofs016f
+         pushfalse
+         setlocal 5
+         ofs016f:jump ofs01a8
+         ofs0173:label
+         jump ofs01a8
+         ofs0178:getlocal 6
+         getproperty Qname(PackageNamespace(""),"type_")
+         setlocal 16
+         getlex Qname(PackageNamespace(""),"NEAR_REQUIREMENT")
+         getlocal 16
+         ifstrictne ofs018f
+         pushbyte 0
+         jump ofs019b
+         ofs018f:jump ofs0199
+         pushbyte 1
+         jump ofs0199
+         ofs0199:pushbyte 1
+         ofs019b:kill 16
+         lookupswitch ofs0173 1 ofs00d3 ofs0173
+         ofs01a8:hasnext2 15 14
+         iftrue ofs00b5
+         kill 15
+         kill 14
+         getlocal 5
+         iftrue ofs01c4
+         getlocal 4
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"satisfiedSince_")
+         jump ofs02cc
+         ofs01c4:getlocal 4
+         getproperty Qname(PackageNamespace(""),"satisfiedSince_")
+         pushbyte 0
+         ifne ofs0220
+         getlocal 4
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         setproperty Qname(PackageNamespace(""),"satisfiedSince_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"trackingStep")
+         getlocal_3
+         ifeq ofs0220
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"trackingSent")
+         iftrue ofs021b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"tracker")
+         pushstring "tutorial"
+         pushstring "step"
+         getlocal_3
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"satisfiedSince_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"lastTrackingStepTimestamp")
+         subtract
+         callpropvoid Qname(PackageNamespace(""),"trackEvent") 4
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         initproperty Qname(PrivateNamespace(null,"722"),"lastTrackingStepTimestamp")
+         ofs021b:getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"722"),"trackingStep")
+         ofs0220:findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"satisfiedSince_")
+         subtract
+         convert_i
+         setlocal 7
+         pushbyte 0
+         setlocal 14
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"uiDrawBoxes_")
+         coerce_a
+         setlocal 15
+         jump ofs0274
+         ofs0242:label
+         getlocal 15
+         getlocal 14
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"UIDrawBox")
+         dup
+         setlocal 8
+         pushbyte 5
+         getlocal_2
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxes_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal 8
+         pushbyte 6
+         getlocal_2
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         ofs0274:hasnext2 15 14
+         iftrue ofs0242
+         kill 15
+         kill 14
+         pushbyte 0
+         setlocal 14
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"uiDrawArrows_")
+         coerce_a
+         setlocal 15
+         jump ofs02c1
+         ofs028f:label
+         getlocal 15
+         getlocal 14
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"UIDrawArrow")
+         dup
+         setlocal 9
+         pushbyte 5
+         getlocal_2
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxes_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         getlocal 9
+         pushbyte 6
+         getlocal_2
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"722"),"boxesBack_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"draw") 3
+         ofs02c1:hasnext2 15 14
+         iftrue ofs028f
+         kill 15
+         kill 14
+         ofs02cc:inclocal_i 3
+         ofs02ce:getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steps_")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0093
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      function doneAction(param1:String) : void
+      {
+         trait method Qname(PackageInternalNs("com.company.assembleegameclient.tutorial"),"doneAction")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 12
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Requirement")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 4
+         pushfalse
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal 6
+         pushnan
+         setlocal 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currStepId_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"steps_")
+         getproperty Qname(PackageNamespace(""),"length")
+         ifnge ofs0029
+         returnvoid
+         ofs0029:getlocal_0
+         getproperty Qname(PackageNamespace(""),"steps_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"currStepId_")
+         getproperty MultinameL([PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Step")
+         setlocal_2
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"action_")
+         ifeq ofs0043
+         returnvoid
+         ofs0043:pushbyte 0
+         setlocal 8
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"reqs_")
+         coerce_a
+         setlocal 9
+         jump ofs014a
+         ofs0052:label
+         getlocal 9
+         getlocal 8
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"Requirement")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal 4
+         jump ofs0108
+         ofs006f:label
+         pushfalse
+         setlocal 5
+         pushbyte 0
+         setlocal 10
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"goDict_")
+         coerce_a
+         setlocal 11
+         jump ofs00d2
+         ofs0088:label
+         getlocal 11
+         getlocal 10
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         dup
+         setlocal 6
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         ifeq ofs00a3
+         jump ofs00d2
+         ofs00a3:getlex Qname(PackageNamespace("com.company.util"),"PointUtil")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"y_")
+         callproperty Qname(PackageNamespace(""),"distanceXY") 4
+         convert_d
+         dup
+         setlocal 7
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"radius_")
+         ifnle ofs00d2
+         pushtrue
+         setlocal 5
+         jump ofs00d9
+         ofs00d2:hasnext2 11 10
+         iftrue ofs0088
+         ofs00d9:kill 11
+         kill 10
+         getlocal 5
+         iftrue ofs00e4
+         returnvoid
+         ofs00e4:jump ofs014a
+         ofs00e8:label
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"equipment_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"slot_")
+         getproperty MultinameL([PrivateNamespace(null,"722"),PackageNamespace(""),PrivateNamespace(null,"1727"),PackageNamespace("com.company.assembleegameclient.tutorial"),PackageInternalNs("com.company.assembleegameclient.tutorial"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("com.company.assembleegameclient.tutorial:Tutorial"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"objectType_")
+         ifeq ofs00ff
+         returnvoid
+         ofs00ff:jump ofs014a
+         ofs0103:label
+         jump ofs014a
+         ofs0108:getlocal_3
+         getproperty Qname(PackageNamespace(""),"type_")
+         setlocal 10
+         getlex Qname(PackageNamespace(""),"NEAR_REQUIREMENT")
+         getlocal 10
+         ifstrictne ofs011e
+         pushbyte 0
+         jump ofs013a
+         ofs011e:getlex Qname(PackageNamespace(""),"EQUIP_REQUIREMENT")
+         getlocal 10
+         ifstrictne ofs012e
+         pushbyte 1
+         jump ofs013a
+         ofs012e:jump ofs0138
+         pushbyte 2
+         jump ofs0138
+         ofs0138:pushbyte 2
+         ofs013a:kill 10
+         lookupswitch ofs0103 2 ofs006f ofs00e8 ofs0103
+         ofs014a:hasnext2 9 8
+         iftrue ofs0052
+         kill 9
+         kill 8
+         getlocal_0
+         dup
+         setlocal 8
+         getproperty Qname(PackageNamespace(""),"currStepId_")
+         increment_i
+         setlocal 9
+         getlocal 8
+         getlocal 9
+         setproperty Qname(PackageNamespace(""),"currStepId_")
+         kill 9
+         kill 8
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"722"),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function draw() : void
+      {
+         trait method Qname(PrivateNamespace(null,"722"),"draw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.tutorial"),"UIDrawBox")
+         setlocal_3
+         returnvoid
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

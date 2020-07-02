@@ -1,0 +1,139 @@
+package kabam.rotmg.account.kongregate.services
+{
+   import com.company.assembleegameclient.util.offer.Offer;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.services.PurchaseGoldTask;
+   import kabam.rotmg.account.kongregate.view.KongregateApi;
+   import kabam.rotmg.external.command.RequestPlayerCreditsSignal;
+   
+   public class KongregatePurchaseGoldTask extends BaseTask implements PurchaseGoldTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var offer:Offer;
+      
+      [Inject]
+      public var api:KongregateApi;
+      
+      [Inject]
+      public var requestPlayerCredits:RequestPlayerCreditsSignal;
+      
+      public function KongregatePurchaseGoldTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.kongregate.services:KongregatePurchaseGoldTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "identifier"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"id_")
+         pushstring "data"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offer")
+         getproperty Qname(PackageNamespace(""),"data_")
+         newobject 2
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"api")
+         getproperty Qname(Namespace("kabam.rotmg.account.kongregate.view:KongregateApi"),"purchaseResponse")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"848"),"onPurchaseResult")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"api")
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.account.kongregate.view:KongregateApi"),"purchaseItems") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPurchaseResult(param1:Object) : void
+      {
+         trait method Qname(PrivateNamespace(null,"848"),"onPurchaseResult")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Object")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"requestPlayerCredits")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

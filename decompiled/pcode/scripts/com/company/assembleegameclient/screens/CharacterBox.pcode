@@ -1,0 +1,892 @@
+package com.company.assembleegameclient.screens
+{
+   import com.company.assembleegameclient.appengine.CharacterStats;
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.ui.tooltip.ClassToolTip;
+   import com.company.assembleegameclient.ui.tooltip.ToolTip;
+   import com.company.assembleegameclient.util.AnimatedChar;
+   import com.company.assembleegameclient.util.FameUtil;
+   import com.company.rotmg.graphics.FullCharBoxGraphic;
+   import com.company.rotmg.graphics.LockedCharBoxGraphic;
+   import com.company.rotmg.graphics.StarGraphic;
+   import com.company.util.AssetLibrary;
+   import com.gskinner.motion.GTween;
+   import flash.display.Bitmap;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.geom.ColorTransform;
+   import flash.text.TextFieldAutoSize;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import org.osflash.signals.natives.NativeSignal;
+   
+   public class CharacterBox extends Sprite
+   {
+      
+      private static const fullCT:ColorTransform;
+      
+      private static const emptyCT:ColorTransform;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"645"),"fullCT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         pushdouble 0.8
+         pushdouble 0.8
+         pushdouble 0.8
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 3
+         initproperty Qname(PrivateNamespace(null,"645"),"fullCT")
+         findproperty Qname(PrivateNamespace(null,"645"),"emptyCT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         pushdouble 0.2
+         pushdouble 0.2
+         pushdouble 0.2
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 3
+         initproperty Qname(PrivateNamespace(null,"645"),"emptyCT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var playerXML_:XML = null;
+      
+      public var charStats_:CharacterStats;
+      
+      public var model:PlayerModel;
+      
+      public var available_:Boolean;
+      
+      public var characterSelectClicked_:NativeSignal;
+      
+      private var graphicContainer_:Sprite;
+      
+      private var graphic_:Sprite;
+      
+      private var bitmap_:Bitmap;
+      
+      private var statusText_:TextFieldDisplayConcrete;
+      
+      private var classNameText_:TextFieldDisplayConcrete;
+      
+      private var lock_:Bitmap;
+      
+      private var unlockedText_:TextFieldDisplayConcrete;
+      
+      public function CharacterBox(param1:XML, param2:CharacterStats, param3:PlayerModel, param4:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"XML")
+         param Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         param Qname(PackageNamespace("kabam.rotmg.core.model"),"PlayerModel")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns null
+         
+         body
+         maxstack 8
+         localcount 6
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal 5
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"playerXML_")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"charStats_")
+         getlocal_0
+         getlocal 4
+         convert_b
+         dup
+         iftrue ofs002e
+         pop
+         getlocal_3
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"objectType") 0
+         callproperty Qname(PackageNamespace(""),"isLevelRequirementsMet") 1
+         convert_b
+         ofs002e:initproperty Qname(PackageNamespace(""),"available_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"available_")
+         iftrue ofs0048
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.rotmg.graphics"),"LockedCharBoxGraphic")
+         constructprop Qname(PackageNamespace("com.company.rotmg.graphics"),"LockedCharBoxGraphic") 0
+         initproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         jump ofs0053
+         ofs0048:getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.rotmg.graphics"),"FullCharBoxGraphic")
+         constructprop Qname(PackageNamespace("com.company.rotmg.graphics"),"FullCharBoxGraphic") 0
+         initproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         ofs0053:getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         constructprop Qname(PackageNamespace("org.osflash.signals.natives"),"NativeSignal") 3
+         initproperty Qname(PackageNamespace(""),"characterSelectClicked_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         pushnull
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"DOWN")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"STAND")
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"645"),"setImage") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callproperty Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         initproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"ClassToolTip")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerXML_")
+         callproperty Qname(PackageNamespace(""),"getDisplayId") 1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"645"),"setStatusButton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"available_")
+         iffalse ofs01a7
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FameUtil")
+         getlocal_3
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"objectType") 0
+         callproperty Qname(PackageNamespace(""),"getBestFame") 1
+         callproperty Qname(PackageNamespace(""),"numStars") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FameUtil")
+         getproperty Qname(PackageNamespace(""),"STARS")
+         getproperty Qname(PackageNamespace(""),"length")
+         callproperty Qname(PrivateNamespace(null,"645"),"getStars") 2
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 5
+         pushbyte 60
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         pushbyte 74
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs0200
+         ofs01a7:getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Bitmap")
+         getlex Qname(PackageNamespace("com.company.util"),"AssetLibrary")
+         pushstring "lofiInterface2"
+         pushbyte 5
+         callproperty Qname(PackageNamespace(""),"getImageFromSet") 2
+         constructprop Qname(PackageNamespace("flash.display"),"Bitmap") 1
+         initproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"scaleX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"scaleY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         pushbyte 8
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         pushbyte 78
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0200:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function objectType() : int
+      {
+         trait method Qname(PackageNamespace(""),"objectType")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerXML_")
+         getproperty MultinameA("type",[PrivateNamespace(null,"645"),PackageNamespace(""),PrivateNamespace(null,"1652"),PackageNamespace("com.company.assembleegameclient.screens"),PackageInternalNs("com.company.assembleegameclient.screens"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.screens:CharacterBox"),StaticProtectedNs("com.company.assembleegameclient.screens:CharacterBox"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function unlock() : void
+      {
+         trait method Qname(PackageNamespace(""),"unlock")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"available_")
+         pushfalse
+         ifne ofs014a
+         getlocal_0
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"available_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.rotmg.graphics"),"FullCharBoxGraphic")
+         constructprop Qname(PackageNamespace("com.company.rotmg.graphics"),"FullCharBoxGraphic") 0
+         initproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphicContainer_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"DOWN")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"STAND")
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"645"),"setImage") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs0080
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0080:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         convert_b
+         dup
+         iffalse ofs0097
+         pop
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         convert_b
+         ofs0097:iffalse ofs00a6
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"lock_")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs00a6:getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FameUtil")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"objectType") 0
+         callproperty Qname(PackageNamespace(""),"getBestFame") 1
+         callproperty Qname(PackageNamespace(""),"numStars") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FameUtil")
+         getproperty Qname(PackageNamespace(""),"STARS")
+         getproperty Qname(PackageNamespace(""),"length")
+         callproperty Qname(PrivateNamespace(null,"645"),"getStars") 2
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_1
+         getlocal_1
+         pushbyte 60
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"classNameText_")
+         pushbyte 74
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         iftrue ofs011d
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"645"),"getCharacterUnlockText") 0
+         ofs011d:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         pushdouble 2.5
+         pushstring "alpha"
+         pushdouble 0.0
+         pushstring "y"
+         pushbyte -30
+         newobject 2
+         constructprop Qname(PackageNamespace("com.gskinner.motion"),"GTween") 3
+         coerce Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"removeUnlockText")
+         setproperty Qname(PackageNamespace(""),"onComplete")
+         ofs014a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getTooltip() : ToolTip
+      {
+         trait method Qname(PackageNamespace(""),"getTooltip")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"ToolTip")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"ClassToolTip")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerXML_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.tooltip"),"ClassToolTip") 3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setOver(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"setOver")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"available_")
+         iftrue ofs000b
+         returnvoid
+         ofs000b:getlocal_1
+         iffalse ofs0028
+         getlex Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         pushdouble 1.2
+         pushdouble 1.2
+         pushdouble 1.2
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 3
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         jump ofs003a
+         ofs0028:getlex Qname(PackageNamespace(""),"transform")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"ColorTransform")
+         pushbyte 1
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"ColorTransform") 3
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeUnlockText(param1:GTween) : void
+      {
+         trait method Qname(PrivateNamespace(null,"645"),"removeUnlockText")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.gskinner.motion"),"GTween")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setImage(param1:int, param2:int, param3:Number) : void
+      {
+         trait method Qname(PrivateNamespace(null,"645"),"setImage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         pushnull
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerXML_")
+         getlocal_1
+         getlocal_2
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"available_")
+         pushfalse
+         callproperty Qname(PackageNamespace(""),"getImage") 7
+         setproperty Qname(PackageNamespace(""),"bitmapData")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"bitmap_")
+         getproperty Qname(PackageNamespace(""),"bitmapData")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getStars(param1:int, param2:int) : Sprite
+      {
+         trait method Qname(PrivateNamespace(null,"645"),"getStars")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 2
+         localcount 7
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal 6
+         jump ofs004e
+         ofs001b:label
+         findpropstrict Qname(PackageNamespace("com.company.rotmg.graphics"),"StarGraphic")
+         constructprop Qname(PackageNamespace("com.company.rotmg.graphics"),"StarGraphic") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 5
+         getlocal 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"transform")
+         getlex Qname(PrivateNamespace(null,"645"),"fullCT")
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_3
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal 6
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         convert_i
+         setlocal 6
+         inclocal_i 4
+         ofs004e:getlocal 4
+         getlocal_1
+         iflt ofs001b
+         jump ofs008c
+         ofs0059:label
+         findpropstrict Qname(PackageNamespace("com.company.rotmg.graphics"),"StarGraphic")
+         constructprop Qname(PackageNamespace("com.company.rotmg.graphics"),"StarGraphic") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 5
+         getlocal 6
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"transform")
+         getlex Qname(PrivateNamespace(null,"645"),"emptyCT")
+         setproperty Qname(PackageNamespace(""),"colorTransform")
+         getlocal_3
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal 6
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         convert_i
+         setlocal 6
+         inclocal_i 4
+         ofs008c:getlocal 4
+         getlocal_2
+         iflt ofs0059
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setStatusButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"645"),"setStatusButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16711680
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callproperty Qname(PackageNamespace(""),"setAutoSize") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"graphic_")
+         getproperty Qname(PackageNamespace(""),"width")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         initproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"LOCKED")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"statusText_")
+         pushbyte 58
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getCharacterUnlockText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"645"),"getCharacterUnlockText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 65280
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callproperty Qname(PackageNamespace(""),"setAutoSize") 1
+         initproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 4
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"UNLOCK_CLASS")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"645"),"unlockedText_")
+         pushbyte -20
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,1591 @@
+package com.company.assembleegameclient.appengine
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.objects.Player;
+   import flash.events.Event;
+   import io.decagames.rotmg.tos.popups.ToSPopup;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.promotions.model.BeginnersPackageModel;
+   import kabam.rotmg.servers.api.LatLong;
+   import org.swiftsuspenders.Injector;
+   
+   public class SavedCharactersList extends Event
+   {
+      
+      public static const SAVED_CHARS_LIST:String = "SAVED_CHARS_LIST";
+      
+      public static const AVAILABLE:String = "available";
+      
+      public static const UNAVAILABLE:String = "unavailable";
+      
+      public static const UNRESTRICTED:String = "unrestricted";
+      
+      private static const DEFAULT_LATLONG:LatLong;
+      
+      private static const DEFAULT_SALESFORCE:String = "unavailable";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"SAVED_CHARS_LIST")
+         pushstring "SAVED_CHARS_LIST"
+         initproperty Qname(PackageNamespace(""),"SAVED_CHARS_LIST")
+         findproperty Qname(PackageNamespace(""),"AVAILABLE")
+         pushstring "available"
+         initproperty Qname(PackageNamespace(""),"AVAILABLE")
+         findproperty Qname(PackageNamespace(""),"UNAVAILABLE")
+         pushstring "unavailable"
+         initproperty Qname(PackageNamespace(""),"UNAVAILABLE")
+         findproperty Qname(PackageNamespace(""),"UNRESTRICTED")
+         pushstring "unrestricted"
+         initproperty Qname(PackageNamespace(""),"UNRESTRICTED")
+         findproperty Qname(PrivateNamespace(null,"644"),"DEFAULT_LATLONG")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.servers.api"),"LatLong")
+         pushdouble 37.4436
+         pushdouble -122.412
+         constructprop Qname(PackageNamespace("kabam.rotmg.servers.api"),"LatLong") 2
+         initproperty Qname(PrivateNamespace(null,"644"),"DEFAULT_LATLONG")
+         findproperty Qname(PrivateNamespace(null,"644"),"DEFAULT_SALESFORCE")
+         pushstring "unavailable"
+         initproperty Qname(PrivateNamespace(null,"644"),"DEFAULT_SALESFORCE")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var origData_:String;
+      
+      private var charsXML_:XML;
+      
+      public var accountId_:String;
+      
+      public var nextCharId_:int;
+      
+      public var maxNumChars_:int;
+      
+      public var numChars_:int = 0;
+      
+      public var savedChars_:Vector.<SavedCharacter>;
+      
+      public var charStats_:Object;
+      
+      public var totalFame_:int = 0;
+      
+      public var bestCharFame_:int = 0;
+      
+      public var fame_:int = 0;
+      
+      public var credits_:int = 0;
+      
+      public var tokens_:int = 0;
+      
+      public var numStars_:int = 0;
+      
+      public var nextCharSlotPrice_:int;
+      
+      public var guildName_:String;
+      
+      public var guildRank_:int;
+      
+      public var name_:String = null;
+      
+      public var nameChosen_:Boolean;
+      
+      public var converted_:Boolean;
+      
+      public var isAdmin_:Boolean;
+      
+      public var canMapEdit_:Boolean;
+      
+      public var news_:Vector.<SavedNewsItem>;
+      
+      public var myPos_:LatLong;
+      
+      public var salesForceData_:String = "unavailable";
+      
+      public var hasPlayerDied:Boolean = false;
+      
+      public var classAvailability:Object;
+      
+      public var isAgeVerified:Boolean;
+      
+      private var account:Account;
+      
+      public function SavedCharactersList(param1:String)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 8
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushundefined
+         coerce_a
+         setlocal 4
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         setlocal 5
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         applytype 1
+         construct 0
+         initproperty Qname(PackageNamespace(""),"savedChars_")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PackageNamespace(""),"charStats_")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedNewsItem")
+         applytype 1
+         construct 0
+         initproperty Qname(PackageNamespace(""),"news_")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"SAVED_CHARS_LIST")
+         constructsuper 1
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"644"),"origData_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"origData_")
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         initproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("Account",[PrivateNamespace(null,"644"),PackageNamespace(""),PackageNamespace("kabam.rotmg.account.core"),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseUserData") 1
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseBeginnersPackageData") 1
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseGuildData") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseCharacterData") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseCharacterStatsData") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseNewsData") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseGeoPositioningData") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseSalesForceData") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"parseTOSPopup") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"644"),"reportUnlocked") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_3
+         getlocal_3
+         iffalse ofs00e6
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         dup
+         setlocal 5
+         pushstring "BestLevel"
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"bestOverallLevel") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"reportIntStat") 2
+         getlocal 5
+         pushstring "BestFame"
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"bestOverallFame") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"reportIntStat") 2
+         getlocal 5
+         pushstring "NumStars"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"numStars_")
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"reportIntStat") 2
+         getlocal 5
+         getlocal_2
+         pushstring "VerifiedEmail"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"verify") 1
+         ofs00e6:getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Object")
+         constructprop Qname(PackageNamespace(""),"Object") 0
+         initproperty Qname(PackageNamespace(""),"classAvailability")
+         pushbyte 0
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("ClassAvailabilityList",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getproperty Multiname("ClassAvailability",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal 7
+         jump ofs0129
+         ofs0106:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         coerce_a
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"classAvailability")
+         getlocal 4
+         getproperty MultinameA("id",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 0
+         getlocal 4
+         callproperty Multiname("toString",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 0
+         setproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         ofs0129:hasnext2 7 6
+         iftrue ofs0106
+         kill 7
+         kill 6
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCharById(param1:int) : SavedCharacter
+      {
+         trait method Qname(PackageNamespace(""),"getCharById")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"savedChars_")
+         coerce_a
+         setlocal 4
+         jump ofs002a
+         ofs0015:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_2
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"charId") 0
+         getlocal_1
+         ifne ofs002a
+         getlocal_2
+         returnvalue
+         ofs002a:hasnext2 4 3
+         iftrue ofs0015
+         kill 4
+         kill 3
+         pushnull
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseUserData(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseUserData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("AccountId",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         initproperty Qname(PackageNamespace(""),"accountId_")
+         getlocal_0
+         getlocal_1
+         getproperty Multiname("Name",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         initproperty Qname(PackageNamespace(""),"name_")
+         getlocal_0
+         getlocal_1
+         pushstring "NameChosen"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         initproperty Qname(PackageNamespace(""),"nameChosen_")
+         getlocal_0
+         getlocal_1
+         pushstring "Converted"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         initproperty Qname(PackageNamespace(""),"converted_")
+         getlocal_0
+         getlocal_1
+         pushstring "Admin"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         initproperty Qname(PackageNamespace(""),"isAdmin_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"isAdmin_")
+         setproperty Qname(PackageNamespace(""),"isAdmin")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         getlocal_1
+         pushstring "Mod"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         setproperty Qname(PackageNamespace(""),"isMod")
+         getlocal_0
+         getlocal_1
+         pushstring "MapEditor"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         initproperty Qname(PackageNamespace(""),"canMapEdit_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("Stats",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getproperty Multiname("TotalFame",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"totalFame_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("Stats",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getproperty Multiname("BestCharFame",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"bestCharFame_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("Stats",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getproperty Multiname("Fame",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"fame_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("Credits",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"credits_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("FortuneToken",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"tokens_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_1
+         getproperty Multiname("NextCharSlotPrice",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"nextCharSlotPrice_")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"accountId_")
+         pushstring ""
+         equals
+         not
+         dup
+         iffalse ofs00dd
+         pop
+         getlocal_1
+         getproperty Multiname("IsAgeVerified",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         pushbyte 1
+         equals
+         ofs00dd:initproperty Qname(PackageNamespace(""),"isAgeVerified")
+         getlocal_0
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"hasPlayerDied")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseBeginnersPackageData(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseBeginnersPackageData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"644"),"getBeginnerModel") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         setlocal_2
+         getlocal_1
+         pushstring "BeginnerPackageStatus"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         iffalse ofs002c
+         getlocal_1
+         getproperty Multiname("BeginnerPackageStatus",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         convert_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"status")
+         jump ofs0037
+         ofs002c:getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         getproperty Qname(PackageNamespace(""),"STATUS_CANNOT_BUY")
+         setproperty Qname(PackageNamespace(""),"status")
+         ofs0037:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getBeginnerModel() : BeginnersPackageModel
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"getBeginnerModel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_1
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.promotions.model"),"BeginnersPackageModel")
+         setlocal_2
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseGuildData(param1:XML) : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseGuildData")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"XML")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_1
+         pushstring "Guild"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         iffalse ofs0038
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         getproperty Multiname("Guild",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getlocal_2
+         getproperty Multiname("Name",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         initproperty Qname(PackageNamespace(""),"guildName_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_2
+         getproperty Multiname("Rank",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"guildRank_")
+         ofs0038:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseCharacterData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseCharacterData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty MultinameA("nextCharId",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"nextCharId_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty MultinameA("maxNumChars",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"maxNumChars_")
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("Char",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal_3
+         jump ofs006a
+         ofs0039:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"savedChars_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"name_")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter") 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_0
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"numChars_")
+         increment_i
+         setlocal 5
+         getlocal 4
+         getlocal 5
+         setproperty Qname(PackageNamespace(""),"numChars_")
+         kill 5
+         kill 4
+         ofs006a:hasnext2 3 2
+         iftrue ofs0039
+         kill 3
+         kill 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"savedChars_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         getproperty Qname(PackageNamespace(""),"compare")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"sort") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseCharacterStatsData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseCharacterStatsData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 7
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal 4
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("Account",[PrivateNamespace(null,"644"),PackageNamespace(""),PackageNamespace("kabam.rotmg.account.core"),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getproperty Multiname("Stats",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_1
+         pushbyte 0
+         setlocal 5
+         getlocal_1
+         getproperty Multiname("ClassStats",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal 6
+         jump ofs006f
+         ofs0033:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_2
+         getproperty MultinameA("objectType",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal_3
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         getlocal_2
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal 4
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"numStars_")
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"numStars") 0
+         add
+         initproperty Qname(PackageNamespace(""),"numStars_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         getlocal_3
+         getlocal 4
+         setproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         ofs006f:hasnext2 6 5
+         iftrue ofs0033
+         kill 6
+         kill 5
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseNewsData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseNewsData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("News",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         getproperty Multiname("Item",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal 4
+         jump ofs005b
+         ofs0025:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"news_")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedNewsItem")
+         getlocal_2
+         getproperty Multiname("Icon",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getlocal_2
+         getproperty Multiname("Title",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getlocal_2
+         getproperty Multiname("TagLine",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         getlocal_2
+         getproperty Multiname("Link",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_2
+         getproperty Multiname("Date",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedNewsItem") 5
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs005b:hasnext2 4 3
+         iftrue ofs0025
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseGeoPositioningData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseGeoPositioningData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "Lat"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         convert_b
+         dup
+         iffalse ofs0024
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "Long"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         convert_b
+         ofs0024:iffalse ofs0051
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.servers.api"),"LatLong")
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("Lat",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         findpropstrict Qname(PackageNamespace(""),"Number")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("Long",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"Number") 1
+         constructprop Qname(PackageNamespace("kabam.rotmg.servers.api"),"LatLong") 2
+         initproperty Qname(PackageNamespace(""),"myPos_")
+         jump ofs0059
+         ofs0051:getlocal_0
+         getlex Qname(PrivateNamespace(null,"644"),"DEFAULT_LATLONG")
+         initproperty Qname(PackageNamespace(""),"myPos_")
+         ofs0059:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseSalesForceData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseSalesForceData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "SalesForce"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         convert_b
+         dup
+         iffalse ofs0024
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "SalesForce"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         convert_b
+         ofs0024:iffalse ofs0039
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         getproperty Multiname("SalesForce",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         initproperty Qname(PackageNamespace(""),"salesForceData_")
+         ofs0039:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseTOSPopup() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"parseTOSPopup")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "TOSPopup"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         iffalse ofs002e
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.tos.popups"),"ToSPopup")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.tos.popups"),"ToSPopup") 0
+         callpropvoid Multiname("dispatch",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         ofs002e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function isFirstTimeLogin() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isFirstTimeLogin")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"charsXML_")
+         pushstring "TOSPopup"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 1
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function bestLevel(param1:int) : int
+      {
+         trait method Qname(PackageNamespace(""),"bestLevel")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         getlocal_2
+         pushnull
+         equals
+         iffalse ofs001c
+         pushbyte 0
+         jump ofs0022
+         ofs001c:getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestLevel") 0
+         convert_i
+         ofs0022:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function bestOverallLevel() : int
+      {
+         trait method Qname(PackageNamespace(""),"bestOverallLevel")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         coerce_a
+         setlocal 4
+         jump ofs0032
+         ofs0018:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestLevel") 0
+         getlocal_1
+         ifngt ofs0032
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestLevel") 0
+         convert_i
+         setlocal_1
+         ofs0032:hasnext2 4 3
+         iftrue ofs0018
+         kill 4
+         kill 3
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function bestFame(param1:int) : int
+      {
+         trait method Qname(PackageNamespace(""),"bestFame")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         getlocal_2
+         pushnull
+         equals
+         iffalse ofs001c
+         pushbyte 0
+         jump ofs0022
+         ofs001c:getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestFame") 0
+         convert_i
+         ofs0022:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function bestOverallFame() : int
+      {
+         trait method Qname(PackageNamespace(""),"bestOverallFame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"charStats_")
+         coerce_a
+         setlocal 4
+         jump ofs0032
+         ofs0018:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"CharacterStats")
+         setlocal_2
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestFame") 0
+         getlocal_1
+         ifngt ofs0032
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"bestFame") 0
+         convert_i
+         setlocal_1
+         ofs0032:hasnext2 4 3
+         iftrue ofs0018
+         kill 4
+         kill 3
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function levelRequirementsMet(param1:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"levelRequirementsMet")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 3
+         localcount 7
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"xmlLibrary_")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         pushbyte 0
+         setlocal 5
+         getlocal_2
+         getproperty Multiname("UnlockLevel",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal 6
+         jump ofs005d
+         ofs0029:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"idToType_")
+         getlocal_3
+         callproperty Multiname("toString",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 0
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         convert_i
+         setlocal 4
+         getlocal_0
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"bestLevel") 1
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty MultinameA("level",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         ifnlt ofs005d
+         pushfalse
+         returnvalue
+         ofs005d:hasnext2 6 5
+         iftrue ofs0029
+         kill 6
+         kill 5
+         pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function availableCharSlots() : int
+      {
+         trait method Qname(PackageNamespace(""),"availableCharSlots")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxNumChars_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"numChars_")
+         subtract
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function hasAvailableCharSlot() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"hasAvailableCharSlot")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"numChars_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxNumChars_")
+         lessthan
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function newUnlocks(param1:int, param2:int) : Array
+      {
+         trait method Qname(PackageNamespace(""),"newUnlocks")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 2
+         localcount 14
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         pushbyte 0
+         setlocal 6
+         pushfalse
+         setlocal 7
+         pushfalse
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 9
+         pushbyte 0
+         setlocal 10
+         pushbyte 0
+         setlocal 11
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         jump ofs00f5
+         ofs002e:label
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"playerChars_")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal 5
+         getproperty MultinameA("type",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal 6
+         getlocal_0
+         getlocal 6
+         callproperty Qname(PackageNamespace(""),"levelRequirementsMet") 1
+         iffalse ofs005d
+         jump ofs00f3
+         ofs005d:pushtrue
+         setlocal 7
+         pushfalse
+         setlocal 8
+         pushbyte 0
+         setlocal 12
+         getlocal 5
+         getproperty Multiname("UnlockLevel",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce_a
+         setlocal 13
+         jump ofs00d0
+         ofs0074:label
+         getlocal 13
+         getlocal 12
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 9
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"idToType_")
+         getlocal 9
+         callproperty Multiname("toString",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")]) 0
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         convert_i
+         setlocal 10
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal 9
+         getproperty MultinameA("level",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal 11
+         getlocal_0
+         getlocal 10
+         callproperty Qname(PackageNamespace(""),"bestLevel") 1
+         getlocal 11
+         ifnge ofs00b2
+         jump ofs00d0
+         ofs00b2:getlocal 10
+         getlocal_1
+         equals
+         not
+         dup
+         iftrue ofs00c2
+         pop
+         getlocal 11
+         getlocal_2
+         equals
+         not
+         ofs00c2:iffalse ofs00cd
+         pushfalse
+         setlocal 7
+         jump ofs00d7
+         ofs00cd:pushtrue
+         setlocal 8
+         ofs00d0:hasnext2 13 12
+         iftrue ofs0074
+         ofs00d7:kill 13
+         kill 12
+         getlocal 7
+         convert_b
+         dup
+         iffalse ofs00e7
+         pop
+         getlocal 8
+         convert_b
+         ofs00e7:iffalse ofs00f3
+         getlocal_3
+         getlocal 6
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs00f3:inclocal_i 4
+         ofs00f5:getlocal 4
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"playerChars_")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs002e
+         getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function clone() : Event
+      {
+         trait method Qname(PackageNamespace(""),"clone")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.events"),"Event")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharactersList")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"origData_")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharactersList") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function toString() : String
+      {
+         trait method Qname(PackageNamespace(""),"toString")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "["
+         pushstring " numChars: "
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"numChars_")
+         add
+         pushstring " maxNumChars: "
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxNumChars_")
+         add
+         pushstring " ]"
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function reportUnlocked() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"reportUnlocked")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         coerce Qname(PackageNamespace("org.swiftsuspenders"),"Injector")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0030
+         getlocal_0
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         initproperty Qname(PrivateNamespace(null,"644"),"account")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"account")
+         coerce_a
+         dup
+         iffalse ofs002f
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"644"),"updateAccount") 0
+         coerce_a
+         ofs002f:pop
+         ofs0030:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateAccount() : void
+      {
+         trait method Qname(PrivateNamespace(null,"644"),"updateAccount")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         pushbyte 0
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         jump ofs0054
+         ofs0014:label
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"playerChars_")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty MultinameA("type",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         convert_i
+         setlocal 4
+         getlocal_0
+         getlocal 4
+         callproperty Qname(PackageNamespace(""),"levelRequirementsMet") 1
+         iffalse ofs0052
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"account")
+         getlocal_3
+         getproperty MultinameA("id",[PrivateNamespace(null,"644"),PackageNamespace(""),PrivateNamespace(null,"1651"),PackageNamespace("com.company.assembleegameclient.appengine"),PackageInternalNs("com.company.assembleegameclient.appengine"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("com.company.assembleegameclient.appengine:SavedCharactersList"),StaticProtectedNs("flash.events:Event")])
+         pushstring "Unlocked"
+         add
+         pushbyte 1
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"reportIntStat") 2
+         inclocal_i 1
+         ofs0052:inclocal_i 2
+         ofs0054:getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"playerChars_")
+         getproperty Qname(PackageNamespace(""),"length")
+         iflt ofs0014
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"644"),"account")
+         pushstring "ClassesUnlocked"
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"reportIntStat") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

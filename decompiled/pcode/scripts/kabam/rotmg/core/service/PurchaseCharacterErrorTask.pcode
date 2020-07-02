@@ -1,0 +1,106 @@
+package kabam.rotmg.core.service
+{
+   import com.company.assembleegameclient.ui.dialogs.ErrorDialog;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.ui.view.NotEnoughGoldDialog;
+   
+   public class PurchaseCharacterErrorTask extends BaseTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      public var parentTask:PurchaseCharacterClassTask;
+      
+      public function PurchaseCharacterErrorTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.core.service:PurchaseCharacterErrorTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"parentTask")
+         getproperty Qname(PackageNamespace(""),"error")
+         pushstring "Not enough Gold."
+         ifne ofs0024
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs003a
+         ofs0024:getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"parentTask")
+         getproperty Qname(PackageNamespace(""),"error")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

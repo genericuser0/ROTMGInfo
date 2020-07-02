@@ -1,0 +1,572 @@
+package io.decagames.rotmg.ui.popups
+{
+   import io.decagames.rotmg.ui.popups.signals.CloseAllPopupsSignal;
+   import io.decagames.rotmg.ui.popups.signals.CloseCurrentPopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupByClassSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.RemoveLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class PopupMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:PopupView;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var closePopupByClassSignal:ClosePopupByClassSignal;
+      
+      [Inject]
+      public var closeCurrentPopupSignal:CloseCurrentPopupSignal;
+      
+      [Inject]
+      public var closeAllPopupsSignal:CloseAllPopupsSignal;
+      
+      [Inject]
+      public var removeLockFade:RemoveLockFade;
+      
+      [Inject]
+      public var showLockFade:ShowLockFade;
+      
+      private var popups:Vector.<BasePopup>;
+      
+      public function PopupMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"239"),PrivateNamespace(null,"1388"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.popups"),PackageInternalNs("io.decagames.rotmg.ui.popups"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"239"),"popups")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"showPopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closePopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupByClassSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closeByClassHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closeCurrentPopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeAllPopupsSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closeAllPopupsHandler")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeLockFade")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"onRemoveLock")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showLockFade")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"onShowLock")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function closeCurrentPopupHandler() : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"closeCurrentPopupHandler")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"pop") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onShowLock() : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"onShowLock")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"showFade") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveLock() : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"onRemoveLock")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"removeFade") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function closeAllPopupsHandler() : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"closeAllPopupsHandler")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         setlocal_1
+         pushbyte 0
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         coerce_a
+         setlocal_3
+         jump ofs0025
+         ofs0014:label
+         getlocal_3
+         getlocal_2
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0025:hasnext2 3 2
+         iftrue ofs0014
+         kill 3
+         kill 2
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"239"),PrivateNamespace(null,"1388"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.popups"),PackageInternalNs("io.decagames.rotmg.ui.popups"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         applytype 1
+         construct 0
+         initproperty Qname(PrivateNamespace(null,"239"),"popups")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showPopupHandler(param1:BasePopup) : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"showPopupHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"showOnFullScreen")
+         iffalse ofs0090
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"overrideSizePosition")
+         pushnull
+         ifeq ofs0060
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         pushshort 800
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"overrideSizePosition")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         pushshort 600
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"overrideSizePosition")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs0090
+         ofs0060:getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         pushshort 800
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Math")
+         pushshort 600
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0090:getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"239"),"drawPopupBackground") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function closePopupHandler(param1:BasePopup) : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"closePopupHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_1
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal_2
+         getlocal_2
+         pushbyte 0
+         ifnge ofs0032
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"239"),PrivateNamespace(null,"1388"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.popups"),PackageInternalNs("io.decagames.rotmg.ui.popups"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_2
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs0032:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function closeByClassHandler(param1:Class) : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"closeByClassHandler")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Class")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         convert_i
+         setlocal_2
+         jump ofs0040
+         ofs0010:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"239"),PrivateNamespace(null,"1388"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.popups"),PackageInternalNs("io.decagames.rotmg.ui.popups"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_1
+         istypelate
+         iffalse ofs003d
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"239"),PrivateNamespace(null,"1388"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.popups"),PackageInternalNs("io.decagames.rotmg.ui.popups"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("io.decagames.rotmg.ui.popups:PopupMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"popups")
+         getlocal_2
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs003d:getlocal_2
+         decrement_i
+         setlocal_2
+         ofs0040:getlocal_2
+         pushbyte 0
+         ifge ofs0010
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawPopupBackground(param1:BasePopup) : void
+      {
+         trait method Qname(PrivateNamespace(null,"239"),"drawPopupBackground")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"BasePopup")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"popupFadeColor")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"popupFadeAlpha")
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x")
+         negate
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y")
+         negate
+         pushshort 800
+         pushshort 600
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"showPopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closePopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupByClassSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closeByClassHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"closeCurrentPopupHandler")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"removeLockFade")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"onRemoveLock")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showLockFade")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"239"),"onShowLock")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

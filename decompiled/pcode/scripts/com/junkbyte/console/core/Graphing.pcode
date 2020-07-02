@@ -1,0 +1,1414 @@
+package com.junkbyte.console.core
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.vos.GraphGroup;
+   import com.junkbyte.console.vos.GraphInterest;
+   import flash.geom.Rectangle;
+   import flash.system.System;
+   import flash.utils.ByteArray;
+   import flash.utils.getTimer;
+   
+   public class Graphing extends ConsoleCore
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _groups:Array;
+      
+      private var _map:Object;
+      
+      private var _fpsGroup:GraphGroup;
+      
+      private var _memGroup:GraphGroup;
+      
+      private var _hadGraph:Boolean;
+      
+      private var _previousTime:Number = -1;
+      
+      public function Graphing(param1:Console)
+      {
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getlocal_0
+         newarray 0
+         initproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_0
+         newobject 0
+         initproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         constructsuper 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "fps"
+         newfunction 18513
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "mem"
+         newfunction 18514
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "removeGroup"
+         newfunction 18515
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "graph"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"handleRemoteGraph")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function add(param1:String, param2:Object, param3:String, param4:Number = -1, param5:String = null, param6:Rectangle = null, param7:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"add")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("flash.geom"),"Rectangle")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional -1
+         optional null
+         optional null
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 11
+         initscopedepth 7
+         maxscopedepth 12
+         try from ofs01b6 to ofs01cb target ofs01cf type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal 8
+         pushscope
+         getscopeobject 1
+         pushfalse
+         setslot 9
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setslot 11
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getlocal_3
+         setslot 3
+         getscopeobject 1
+         getlocal 4
+         setslot 4
+         getscopeobject 1
+         getlocal 5
+         setslot 5
+         getscopeobject 1
+         getlocal 6
+         setslot 6
+         getscopeobject 1
+         getlocal 7
+         setslot 7
+         getscopeobject 1
+         getslot 2
+         pushnull
+         ifne ofs0066
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "ERROR: Graph ["
+         getscopeobject 1
+         getslot 1
+         add
+         pushstring "] received a null object to graph property ["
+         add
+         getscopeobject 1
+         getslot 3
+         add
+         pushstring "]."
+         add
+         pushbyte 10
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         returnvoid
+         ofs0066:getscopeobject 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getscopeobject 1
+         getslot 1
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setslot 8
+         getscopeobject 1
+         getslot 8
+         iftrue ofs0098
+         getscopeobject 1
+         pushtrue
+         setslot 9
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getscopeobject 1
+         getslot 1
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup") 1
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setslot 8
+         ofs0098:getscopeobject 1
+         getscopeobject 1
+         getslot 8
+         getproperty Qname(PackageNamespace(""),"interests")
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 10
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getscopeobject 1
+         getslot 4
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         dup
+         iftrue ofs00c1
+         pop
+         getscopeobject 1
+         getslot 4
+         pushbyte 0
+         lessthan
+         ofs00c1:iffalse ofs0106
+         getscopeobject 1
+         getslot 10
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 5
+         ifnle ofs00f6
+         getscopeobject 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"style")
+         pushstring "priority"
+         pushbyte 10
+         getscopeobject 1
+         getslot 10
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 2
+         multiply
+         subtract
+         add
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_d
+         setslot 4
+         jump ofs0106
+         ofs00f6:getscopeobject 1
+         getlex Qname(PackageNamespace(""),"Math")
+         callproperty Qname(PackageNamespace(""),"random") 0
+         pushint 16777215
+         multiply
+         convert_d
+         setslot 4
+         ofs0106:getscopeobject 1
+         getslot 5
+         pushnull
+         ifne ofs0118
+         getscopeobject 1
+         getscopeobject 1
+         getslot 3
+         coerce_s
+         setslot 5
+         ofs0118:pushbyte 0
+         setlocal 9
+         getscopeobject 1
+         getslot 10
+         coerce_a
+         setlocal 10
+         jump ofs0165
+         ofs0127:label
+         getscopeobject 1
+         getlocal 10
+         getlocal 9
+         nextvalue
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setslot 11
+         getscopeobject 1
+         getslot 11
+         getproperty Qname(PackageNamespace(""),"key")
+         getscopeobject 1
+         getslot 5
+         ifne ofs0165
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Graph with key ["
+         getscopeobject 1
+         getslot 5
+         add
+         pushstring "] already exists in ["
+         add
+         getscopeobject 1
+         getslot 1
+         add
+         pushstring "]"
+         add
+         pushbyte 10
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         returnvoid
+         ofs0165:hasnext2 10 9
+         iftrue ofs0127
+         kill 10
+         kill 9
+         getscopeobject 1
+         getslot 6
+         iffalse ofs0183
+         getscopeobject 1
+         getslot 8
+         getscopeobject 1
+         getslot 6
+         setproperty Qname(PackageNamespace(""),"rect")
+         ofs0183:getscopeobject 1
+         getslot 7
+         iffalse ofs0197
+         getscopeobject 1
+         getslot 8
+         getscopeobject 1
+         getslot 7
+         setproperty Qname(PackageNamespace(""),"inv")
+         ofs0197:getscopeobject 1
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         getscopeobject 1
+         getslot 5
+         getscopeobject 1
+         getslot 4
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest") 2
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setslot 12
+         getscopeobject 1
+         getlex Qname(PackageNamespace(""),"NaN")
+         convert_d
+         setslot 13
+         ofs01b6:getscopeobject 1
+         getscopeobject 1
+         getslot 12
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 3
+         callproperty Qname(PackageNamespace(""),"setObject") 2
+         convert_d
+         setslot 13
+         ofs01cb:jump ofs0208
+         ofs01cf:getlocal_0
+         pushscope
+         getlocal 8
+         pushscope
+         newcatch 0
+         dup
+         setlocal 9
+         dup
+         pushscope
+         swap
+         setslot 1
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Error with graph value for ["
+         getscopeobject 1
+         getslot 5
+         add
+         pushstring "] in ["
+         add
+         getscopeobject 1
+         getslot 1
+         add
+         pushstring "]. "
+         add
+         getscopeobject 2
+         getslot 1
+         add
+         pushbyte 10
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         returnvoid
+         popscope
+         kill 9
+         ofs0208:findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getscopeobject 1
+         getslot 13
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         iffalse ofs023e
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Graph value for key ["
+         getscopeobject 1
+         getslot 5
+         add
+         pushstring "] in ["
+         add
+         getscopeobject 1
+         getslot 1
+         add
+         pushstring "] is not a number (NaN)."
+         add
+         pushbyte 10
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         jump ofs0274
+         ofs023e:getscopeobject 1
+         getslot 8
+         getproperty Qname(PackageNamespace(""),"interests")
+         getscopeobject 1
+         getslot 12
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getscopeobject 1
+         getslot 9
+         iffalse ofs0274
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 8
+         setproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getscopeobject 1
+         getslot 8
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0274:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function fixRange(param1:String, param2:Number = NaN, param3:Number = NaN) : void
+      {
+         trait method Qname(PackageNamespace(""),"fixRange")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         optional NaN
+         optional NaN
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         dup
+         setlocal 4
+         iftrue ofs0016
+         returnvoid
+         ofs0016:getlocal 4
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"low")
+         getlocal 4
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"hi")
+         getlocal 4
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         dup
+         iftrue ofs0042
+         pop
+         findpropstrict Qname(PackageNamespace(""),"isNaN")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"isNaN") 1
+         convert_b
+         ofs0042:not
+         setproperty Qname(PackageNamespace(""),"fixed")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function remove(param1:String, param2:Object = null, param3:String = null) : void
+      {
+         trait method Qname(PackageNamespace(""),"remove")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"String")
+         optional null
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 7
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal 6
+         getlocal_2
+         pushnull
+         equals
+         dup
+         iffalse ofs001d
+         pop
+         getlocal_3
+         pushnull
+         equals
+         ofs001d:iffalse ofs002b
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"1160"),"removeGroup") 1
+         jump ofs00b8
+         ofs002b:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         iffalse ofs00b8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("interests",[PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         convert_i
+         setlocal 5
+         jump ofs009f
+         ofs0055:label
+         getlocal 4
+         getlocal 5
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal 6
+         getlocal_2
+         pushnull
+         equals
+         dup
+         iftrue ofs0074
+         pop
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"obj")
+         getlocal_2
+         equals
+         ofs0074:dup
+         iffalse ofs008b
+         pop
+         getlocal_3
+         pushnull
+         equals
+         dup
+         iftrue ofs008b
+         pop
+         getlocal 6
+         getproperty Qname(PackageNamespace(""),"prop")
+         getlocal_3
+         equals
+         ofs008b:iffalse ofs009a
+         getlocal 4
+         getlocal 5
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs009a:getlocal 5
+         decrement_i
+         setlocal 5
+         ofs009f:getlocal 5
+         pushbyte 0
+         ifge ofs0055
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifne ofs00b8
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"1160"),"removeGroup") 1
+         ofs00b8:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeGroup(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1160"),"removeGroup")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs0042
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"writeUTF") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "removeGroup"
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         jump ofs007a
+         ofs0042:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_3
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         dup
+         setlocal 4
+         pushbyte 0
+         ifnge ofs0070
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal 4
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs0070:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_map")
+         getlocal_1
+         deleteproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         ofs007a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get fpsMonitor() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"fpsMonitor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs001d
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"fpsMonitor")
+         returnvalue
+         ofs001d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set fpsMonitor(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"fpsMonitor")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs003c
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"writeBoolean") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "fps"
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         jump ofs00b5
+         ofs003c:getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"fpsMonitor")
+         ifeq ofs00b5
+         getlocal_1
+         iffalse ofs007b
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         callproperty Qname(PrivateNamespace(null,"1160"),"addSpecialGroup") 1
+         initproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"low")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"fixed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         pushbyte 30
+         setproperty Qname(PackageNamespace(""),"averaging")
+         jump ofs00a8
+         ofs007b:getlocal_0
+         pushbyte -1
+         initproperty Qname(PrivateNamespace(null,"1160"),"_previousTime")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal_3
+         getlocal_3
+         pushbyte 0
+         ifnge ofs00a3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_3
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs00a3:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1160"),"_fpsGroup")
+         ofs00a8:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs00b5:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get memoryMonitor() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"memoryMonitor")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs001d
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"memoryMonitor")
+         returnvalue
+         ofs001d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_memGroup")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set memoryMonitor(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"memoryMonitor")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         pushbyte 0
+         setlocal_3
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs003c
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"writeBoolean") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "mem"
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         jump ofs009c
+         ofs003c:getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"memoryMonitor")
+         ifeq ofs009c
+         getlocal_1
+         iffalse ofs0068
+         getlocal_0
+         getlocal_0
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         callproperty Qname(PrivateNamespace(null,"1160"),"addSpecialGroup") 1
+         initproperty Qname(PrivateNamespace(null,"1160"),"_memGroup")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_memGroup")
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"freq")
+         jump ofs008f
+         ofs0068:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_memGroup")
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal_3
+         getlocal_3
+         pushbyte 0
+         ifnge ofs008a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_3
+         pushbyte 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 2
+         ofs008a:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1160"),"_memGroup")
+         ofs008f:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         callpropvoid Qname(PackageNamespace(""),"updateMenu") 0
+         ofs009c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addSpecialGroup(param1:int) : GraphGroup
+      {
+         trait method Qname(PrivateNamespace(null,"1160"),"addSpecialGroup")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         pushstring "special"
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup") 1
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"type")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal_2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         pushstring "special"
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest") 1
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal_3
+         getlocal_1
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         ifne ofs0047
+         getlocal_3
+         pushint 16724787
+         setproperty Qname(PackageNamespace(""),"col")
+         jump ofs004f
+         ofs0047:getlocal_3
+         pushint 5267711
+         setproperty Qname(PackageNamespace(""),"col")
+         ofs004f:getlocal_2
+         getproperty Qname(PackageNamespace(""),"interests")
+         getlocal_3
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function update(param1:Number = 0) : Array
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         optional 0
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 3
+         localcount 18
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal_2
+         pushnan
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal 4
+         pushfalse
+         setlocal 5
+         pushbyte 0
+         convert_u
+         setlocal 6
+         pushbyte 0
+         convert_u
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 8
+         pushbyte 0
+         setlocal 9
+         pushnan
+         setlocal 10
+         pushbyte 0
+         convert_u
+         setlocal 11
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal 12
+         pushbyte 0
+         convert_u
+         setlocal 13
+         pushbyte 0
+         setlocal 14
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         coerce_a
+         setlocal 15
+         jump ofs0161
+         ofs0047:label
+         getlocal 15
+         getlocal 14
+         nextvalue
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         setlocal 4
+         pushtrue
+         setlocal 5
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"freq")
+         pushbyte 1
+         ifngt ofs0098
+         getlocal 4
+         dup
+         setlocal 16
+         getproperty Qname(PackageNamespace(""),"idle")
+         increment_i
+         setlocal 17
+         getlocal 16
+         getlocal 17
+         setproperty Qname(PackageNamespace(""),"idle")
+         kill 17
+         kill 16
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"idle")
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"freq")
+         ifnlt ofs0090
+         pushfalse
+         setlocal 5
+         jump ofs0098
+         ofs0090:getlocal 4
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"idle")
+         ofs0098:getlocal 5
+         iffalse ofs0161
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"type")
+         convert_u
+         setlocal 6
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"averaging")
+         convert_u
+         setlocal 7
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"interests")
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 8
+         getlocal 6
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"FPS")
+         ifne ofs0113
+         getlocal 4
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"hi")
+         getlocal 8
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         convert_i
+         setlocal 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_previousTime")
+         pushbyte 0
+         ifnge ofs0109
+         getlocal 9
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_previousTime")
+         subtract
+         convert_d
+         setlocal 10
+         pushshort 1000
+         getlocal 10
+         divide
+         convert_d
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"setValue") 2
+         ofs0109:getlocal_0
+         getlocal 9
+         initproperty Qname(PrivateNamespace(null,"1160"),"_previousTime")
+         jump ofs0161
+         ofs0113:getlocal 6
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getproperty Qname(PackageNamespace(""),"MEM")
+         ifne ofs015a
+         getlocal 8
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setlocal_2
+         getlex Qname(PackageNamespace(""),"Math")
+         getlex Qname(PackageNamespace("flash.system"),"System")
+         getproperty Qname(PackageNamespace(""),"totalMemory")
+         pushdouble 10485.76
+         divide
+         callproperty Qname(PackageNamespace(""),"round") 1
+         pushbyte 100
+         divide
+         convert_d
+         setlocal_3
+         getlocal 4
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"updateMinMax") 1
+         getlocal_2
+         getlocal_3
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"setValue") 2
+         jump ofs0161
+         ofs015a:getlocal_0
+         getlocal 4
+         callpropvoid Qname(PrivateNamespace(null,"1160"),"updateExternalGraphGroup") 1
+         ofs0161:hasnext2 15 14
+         iftrue ofs0047
+         kill 15
+         kill 14
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"canSend")
+         convert_b
+         dup
+         iffalse ofs018e
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_hadGraph")
+         coerce_a
+         convert_b
+         dup
+         iftrue ofs018e
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getproperty Qname(PackageNamespace(""),"length")
+         coerce_a
+         convert_b
+         ofs018e:iffalse ofs01f1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_u
+         setlocal 11
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal 12
+         pushbyte 0
+         convert_u
+         setlocal 13
+         jump ofs01cf
+         ofs01b1:label
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getlocal 13
+         getproperty MultinameL([PrivateNamespace(null,"1160"),PackageNamespace(""),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2097"),PackageNamespace("com.junkbyte.console.core"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:Graphing"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup") 1
+         getlocal 12
+         callpropvoid Qname(PackageNamespace(""),"toBytes") 1
+         getlocal 13
+         increment
+         convert_u
+         setlocal 13
+         ofs01cf:getlocal 13
+         getlocal 11
+         iflt ofs01b1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "graph"
+         getlocal 12
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         greaterthan
+         initproperty Qname(PrivateNamespace(null,"1160"),"_hadGraph")
+         ofs01f1:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1160"),"_groups")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateExternalGraphGroup(param1:GraphGroup) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1160"),"updateExternalGraphGroup")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 6
+         initscopedepth 7
+         maxscopedepth 12
+         try from ofs0036 to ofs0058 target ofs005c type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setslot 2
+         getscopeobject 1
+         pushnan
+         setslot 3
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         pushbyte 0
+         setlocal_3
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"interests")
+         coerce_a
+         setlocal 4
+         jump ofs00c4
+         ofs002a:label
+         getscopeobject 1
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphInterest")
+         setslot 2
+         ofs0036:getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         callproperty Qname(PackageNamespace(""),"getCurrentValue") 0
+         convert_d
+         setslot 3
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 3
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"averaging")
+         callpropvoid Qname(PackageNamespace(""),"setValue") 2
+         ofs0058:jump ofs00b7
+         ofs005c:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal 5
+         dup
+         pushscope
+         swap
+         setslot 1
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Error with graph value for key ["
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"key")
+         add
+         pushstring "] in ["
+         add
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"name")
+         add
+         pushstring "]. "
+         add
+         getscopeobject 2
+         getslot 1
+         add
+         pushbyte 10
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         findpropstrict Qname(PackageNamespace(""),"remove")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"name")
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"obj")
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"prop")
+         callpropvoid Qname(PackageNamespace(""),"remove") 3
+         popscope
+         kill 5
+         ofs00b7:getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(PackageNamespace(""),"updateMinMax") 1
+         ofs00c4:hasnext2 4 3
+         iftrue ofs002a
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleRemoteGraph(param1:ByteArray = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1160"),"handleRemoteGraph")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0013
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_b
+         ofs0013:iffalse ofs0051
+         getlocal_1
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"position")
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         jump ofs0039
+         ofs0029:label
+         getlocal_2
+         getlex Qname(PackageNamespace("com.junkbyte.console.vos"),"GraphGroup")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"FromBytes") 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0039:getlocal_1
+         getproperty Qname(PackageNamespace(""),"bytesAvailable")
+         iftrue ofs0029
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"updateGraphs") 1
+         jump ofs0060
+         ofs0051:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         callpropvoid Qname(PackageNamespace(""),"updateGraphs") 1
+         ofs0060:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

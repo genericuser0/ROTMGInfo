@@ -1,0 +1,360 @@
+package kabam.rotmg.game.commands
+{
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.sound.SoundEffectLibrary;
+   import flash.utils.getTimer;
+   import kabam.rotmg.game.model.PotionInventoryModel;
+   import kabam.rotmg.game.model.UseBuyPotionVO;
+   import kabam.rotmg.messaging.impl.GameServerConnection;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.model.PotionModel;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class UseBuyPotionCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var vo:UseBuyPotionVO;
+      
+      [Inject]
+      public var potInventoryModel:PotionInventoryModel;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      private var gsc:GameServerConnection;
+      
+      private var player:Player;
+      
+      private var potionId:int;
+      
+      private var count:int;
+      
+      private var potion:PotionModel;
+      
+      public function UseBuyPotionCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"instance")
+         initproperty Qname(PrivateNamespace(null,"371"),"gsc")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         initproperty Qname(PrivateNamespace(null,"371"),"player")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         pushnull
+         ifne ofs001d
+         returnvoid
+         ofs001d:getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"objectId")
+         initproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         callproperty Qname(PackageNamespace(""),"getPotionCount") 1
+         initproperty Qname(PrivateNamespace(null,"371"),"count")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"potInventoryModel")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         callproperty Qname(PackageNamespace(""),"getPotionModel") 1
+         initproperty Qname(PrivateNamespace(null,"371"),"potion")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"count")
+         pushbyte 0
+         greaterthan
+         dup
+         iftrue ofs005b
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"371"),"canPurchasePotion") 0
+         convert_b
+         ofs005b:iffalse ofs0068
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"371"),"usePotionIfEffective") 0
+         jump ofs0074
+         ofs0068:getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "Not safe to purchase potion"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         ofs0074:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function canPurchasePotion() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"371"),"canPurchasePotion")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"credits_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potion")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         callproperty Qname(PackageNamespace(""),"getPotionCount") 1
+         callproperty Qname(PackageNamespace(""),"currentCost") 1
+         greaterequals
+         setlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("contextualPotionBuy",[PrivateNamespace(null,"371"),PackageNamespace(""),PrivateNamespace(null,"1445"),PackageNamespace("kabam.rotmg.game.commands"),PackageInternalNs("kabam.rotmg.game.commands"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.commands:UseBuyPotionCommand"),StaticProtectedNs("kabam.rotmg.game.commands:UseBuyPotionCommand")])
+         convert_b
+         setlocal_2
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0035
+         pop
+         getlocal_2
+         convert_b
+         ofs0035:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function usePotionIfEffective() : void
+      {
+         trait method Qname(PrivateNamespace(null,"371"),"usePotionIfEffective")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"371"),"isPlayerStatMaxed") 0
+         iffalse ofs001b
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "UseBuyPotionCommand.execute: User has MAX of that attribute, not requesting a use/buy from server."
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         jump ofs002b
+         ofs001b:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"371"),"sendServerRequest") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.sound"),"SoundEffectLibrary")
+         pushstring "use_potion"
+         callpropvoid Qname(PackageNamespace(""),"play") 1
+         ofs002b:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isPlayerStatMaxed() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"371"),"isPlayerStatMaxed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"HEALTH_POTION_ID")
+         ifne ofs0021
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"hp_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"maxHP_")
+         greaterequals
+         returnvalue
+         ofs0021:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getproperty Qname(PackageNamespace(""),"MAGIC_POTION_ID")
+         ifne ofs0040
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"mp_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"maxMP_")
+         greaterequals
+         returnvalue
+         ofs0040:pushfalse
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function sendServerRequest() : void
+      {
+         trait method Qname(PrivateNamespace(null,"371"),"sendServerRequest")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 8
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callproperty Qname(PackageNamespace(""),"getPotionSlot") 1
+         convert_i
+         setlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("contextualPotionBuy",[PrivateNamespace(null,"371"),PackageNamespace(""),PrivateNamespace(null,"1445"),PackageNamespace("kabam.rotmg.game.commands"),PackageInternalNs("kabam.rotmg.game.commands"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.commands:UseBuyPotionCommand"),StaticProtectedNs("kabam.rotmg.game.commands:UseBuyPotionCommand")])
+         convert_i
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"gsc")
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getTimer")
+         callproperty Qname(PackageNamespace("flash.utils"),"getTimer") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"objectId_")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"potionId")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getproperty Qname(PackageNamespace(""),"y_")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"useItem") 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"371"),"player")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callproperty Qname(PackageNamespace(""),"getPotionCount") 1
+         pushbyte 0
+         ifne ofs0073
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"potInventoryModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getproperty Qname(PackageNamespace(""),"objectId")
+         callproperty Qname(PackageNamespace(""),"getPotionModel") 1
+         callpropvoid Qname(PackageNamespace(""),"purchasedPot") 0
+         ofs0073:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,3632 @@
+package com.junkbyte.console.core
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.vos.WeakObject;
+   import flash.display.DisplayObject;
+   import flash.display.DisplayObjectContainer;
+   import flash.events.Event;
+   import flash.geom.Matrix;
+   import flash.geom.Point;
+   import flash.geom.Rectangle;
+   import flash.utils.ByteArray;
+   import flash.utils.Dictionary;
+   import flash.utils.describeType;
+   import flash.utils.getDefinitionByName;
+   import flash.utils.getQualifiedClassName;
+   
+   public class LogReferences extends ConsoleCore
+   {
+      
+      public static const INSPECTING_CHANNEL:String = "⌂";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         pushstring "⌂"
+         initproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _refMap:WeakObject;
+      
+      private var _refRev:Dictionary;
+      
+      private var _refIndex:uint = 1;
+      
+      private var _dofull:Boolean;
+      
+      private var _current;
+      
+      private var _history:Array;
+      
+      private var _hisIndex:uint;
+      
+      private var _prevBank:Array;
+      
+      private var _currentBank:Array;
+      
+      private var _lastWithdraw:uint;
+      
+      public function LogReferences(param1:Console)
+      {
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"WeakObject")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"WeakObject") 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_refMap")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"Dictionary")
+         pushtrue
+         constructprop Qname(PackageNamespace("flash.utils"),"Dictionary") 1
+         initproperty Qname(PrivateNamespace(null,"1159"),"_refRev")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_prevBank")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_currentBank")
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         constructsuper 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "ref"
+         newfunction 18492
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "focus"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"handleFocused")
+         callpropvoid Qname(PackageNamespace(""),"registerCallback") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function EscHTML(param1:String) : String
+      {
+         trait method Qname(PackageNamespace(""),"EscHTML")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "<"
+         pushstring "g"
+         construct 2
+         pushstring "&lt;"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "\\>"
+         pushstring "g"
+         construct 2
+         pushstring "&gt;"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "\\x00"
+         pushstring "g"
+         construct 2
+         pushstring ""
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function ShortClassName(param1:Object, param2:Boolean = true) : String
+      {
+         trait method Qname(PackageNamespace(""),"ShortClassName")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional true
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 4
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getQualifiedClassName")
+         getlocal_1
+         callproperty Qname(PackageNamespace("flash.utils"),"getQualifiedClassName") 1
+         coerce_s
+         setlocal_3
+         getlocal_3
+         pushstring "::"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         convert_i
+         setlocal 4
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"Class")
+         istypelate
+         iffalse ofs002a
+         pushstring "*"
+         jump ofs002c
+         ofs002a:pushstring ""
+         ofs002c:coerce_s
+         dup
+         setlocal 5
+         getlocal_3
+         getlocal 4
+         pushbyte 0
+         greaterequals
+         iffalse ofs0044
+         getlocal 4
+         pushbyte 2
+         add
+         convert_d
+         jump ofs0047
+         ofs0044:pushbyte 0
+         convert_d
+         ofs0047:callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 1
+         add
+         getlocal 5
+         add
+         coerce_s
+         setlocal_3
+         getlocal_2
+         iffalse ofs0062
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         returnvalue
+         ofs0062:getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function update(param1:uint) : void
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_currentBank")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_b
+         dup
+         iftrue ofs0018
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_prevBank")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_b
+         ofs0018:iffalse ofs0046
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_lastWithdraw")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"objectHardReferenceTimer")
+         pushshort 1000
+         multiply
+         add
+         ifngt ofs0046
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_currentBank")
+         initproperty Qname(PrivateNamespace(null,"1159"),"_prevBank")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_currentBank")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1159"),"_lastWithdraw")
+         ofs0046:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setLogRef(param1:*) : uint
+      {
+         trait method Qname(PackageNamespace(""),"setLogRef")
+         dispid 0
+         method
+         name null
+         param null
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_3
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"useObjectLinking")
+         iftrue ofs0012
+         pushbyte 0
+         returnvalue
+         ofs0012:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refRev")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_u
+         setlocal_2
+         getlocal_2
+         iftrue ofs0095
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refIndex")
+         convert_u
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refMap")
+         getlocal_2
+         getlocal_1
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refRev")
+         getlocal_1
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"objectHardReferenceTimer")
+         iffalse ofs0050
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_currentBank")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0050:getlocal_0
+         dup
+         setlocal 4
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refIndex")
+         increment
+         setlocal 5
+         getlocal 4
+         getlocal 5
+         setproperty Qname(PrivateNamespace(null,"1159"),"_refIndex")
+         kill 5
+         kill 4
+         getlocal_2
+         pushbyte 50
+         subtract
+         convert_i
+         setlocal_3
+         jump ofs008e
+         ofs006f:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refMap")
+         getlocal_3
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushnull
+         ifstrictne ofs0088
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refMap")
+         getlocal_3
+         deleteproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pop
+         ofs0088:getlocal_3
+         pushbyte 50
+         subtract
+         convert_i
+         setlocal_3
+         ofs008e:getlocal_3
+         pushbyte 0
+         ifge ofs006f
+         ofs0095:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getRefId(param1:*) : uint
+      {
+         trait method Qname(PackageNamespace(""),"getRefId")
+         dispid 0
+         method
+         name null
+         param null
+         returns Qname(PackageNamespace(""),"uint")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refRev")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getRefById(param1:uint) : *
+      {
+         trait method Qname(PackageNamespace(""),"getRefById")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_refMap")
+         getlocal_1
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function makeString(param1:*, param2:* = null, param3:Boolean = false, param4:int = -1) : String
+      {
+         trait method Qname(PackageNamespace(""),"makeString")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ACTIVATION
+         param null
+         param null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"int")
+         optional null
+         optional false
+         optional -1
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 7
+         localcount 7
+         initscopedepth 7
+         maxscopedepth 12
+         try from ofs0059 to ofs007c target ofs0080 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"err")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal 5
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 5
+         getscopeobject 1
+         pushundefined
+         coerce_a
+         setslot 6
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"Error")
+         setslot 7
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 8
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 9
+         getscopeobject 1
+         pushbyte 0
+         setslot 10
+         getscopeobject 1
+         pushfalse
+         setslot 11
+         getscopeobject 1
+         pushbyte 0
+         setslot 12
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 13
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 14
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getlocal_3
+         setslot 3
+         getscopeobject 1
+         getlocal 4
+         setslot 4
+         ofs0059:getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         iffalse ofs0074
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         jump ofs0079
+         ofs0074:getscopeobject 1
+         getslot 1
+         coerce_a
+         ofs0079:coerce_a
+         setslot 6
+         ofs007c:jump ofs00a6
+         ofs0080:getlocal_0
+         pushscope
+         getlocal 5
+         pushscope
+         newcatch 0
+         dup
+         setlocal 6
+         dup
+         pushscope
+         swap
+         setslot 1
+         pushstring "<p0><i>"
+         getscopeobject 2
+         getslot 1
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         add
+         pushstring "</i></p0>"
+         add
+         returnvalue
+         popscope
+         kill 6
+         ofs00a6:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"Error")
+         istypelate
+         iffalse ofs0109
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"Error")
+         astypelate
+         coerce Qname(PackageNamespace(""),"Error")
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "getStackTrace"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"hasOwnProperty") 1
+         iffalse ofs00e1
+         getscopeobject 1
+         getslot 7
+         callproperty Qname(PackageNamespace(""),"getStackTrace") 0
+         coerce_s
+         jump ofs00eb
+         ofs00e1:getscopeobject 1
+         getslot 7
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         coerce_s
+         ofs00eb:coerce_s
+         setslot 8
+         getscopeobject 1
+         getslot 8
+         iffalse ofs00fb
+         getscopeobject 1
+         getslot 8
+         returnvalue
+         ofs00fb:getscopeobject 1
+         getslot 7
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         returnvalue
+         jump ofs0109
+         ofs0109:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"XML")
+         istypelate
+         dup
+         iftrue ofs011d
+         pop
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"XMLList")
+         istypelate
+         ofs011d:iffalse ofs0145
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 6
+         callproperty Multiname("toXMLString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         callproperty Qname(PrivateNamespace(null,"1159"),"shortenString") 4
+         returnvalue
+         ofs0145:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"QName")
+         istypelate
+         iffalse ofs015c
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace(""),"String") 1
+         returnvalue
+         ofs015c:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"Array")
+         istypelate
+         dup
+         iftrue ofs0182
+         pop
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getQualifiedClassName")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace("flash.utils"),"getQualifiedClassName") 1
+         pushstring "__AS3__.vec::Vector."
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte 0
+         equals
+         ofs0182:iffalse ofs026f
+         getscopeobject 1
+         pushstring "["
+         setslot 9
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         getproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         setslot 10
+         getscopeobject 1
+         getscopeobject 1
+         getslot 4
+         pushbyte 0
+         greaterequals
+         setslot 11
+         getscopeobject 1
+         pushbyte 0
+         setslot 12
+         jump ofs0255
+         ofs01b0:label
+         getscopeobject 1
+         getlocal_0
+         getscopeobject 1
+         getslot 6
+         getscopeobject 1
+         getslot 12
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushnull
+         pushfalse
+         getscopeobject 1
+         getslot 4
+         callproperty Qname(PackageNamespace(""),"makeString") 4
+         coerce_s
+         setslot 13
+         getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         getscopeobject 1
+         getslot 12
+         iffalse ofs01e4
+         pushstring ", "
+         coerce_a
+         jump ofs01e7
+         ofs01e4:pushstring ""
+         coerce_a
+         ofs01e7:getscopeobject 1
+         getslot 13
+         add
+         add
+         coerce_s
+         setslot 9
+         getscopeobject 1
+         getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 13
+         getproperty Qname(PackageNamespace(""),"length")
+         subtract
+         convert_i
+         setslot 4
+         getscopeobject 1
+         getslot 11
+         convert_b
+         dup
+         iffalse ofs0213
+         pop
+         getscopeobject 1
+         getslot 4
+         pushbyte 0
+         lessequals
+         ofs0213:dup
+         iffalse ofs0223
+         pop
+         getscopeobject 1
+         getslot 12
+         getscopeobject 1
+         getslot 10
+         decrement
+         lessthan
+         ofs0223:iffalse ofs024b
+         getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         pushstring ", "
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         pushstring "..."
+         callproperty Qname(PrivateNamespace(null,"1159"),"genLinkString") 3
+         add
+         add
+         coerce_s
+         setslot 9
+         jump ofs0261
+         ofs024b:getscopeobject 1
+         getslot 12
+         increment_i
+         getscopeobject 1
+         swap
+         setslot 12
+         ofs0255:getscopeobject 1
+         getslot 12
+         getscopeobject 1
+         getslot 10
+         iflt ofs01b0
+         ofs0261:getscopeobject 1
+         getslot 9
+         pushstring "]"
+         add
+         returnvalue
+         jump ofs026f
+         ofs026f:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"useObjectLinking")
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs0283
+         pop
+         getscopeobject 1
+         getslot 6
+         coerce_a
+         convert_b
+         ofs0283:dup
+         iffalse ofs0293
+         pop
+         getscopeobject 1
+         getslot 6
+         typeof
+         pushstring "object"
+         equals
+         ofs0293:iffalse ofs038b
+         getscopeobject 1
+         pushstring ""
+         setslot 14
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.utils"),"ByteArray")
+         istypelate
+         iffalse ofs02cd
+         getscopeobject 1
+         pushstring " position:"
+         getscopeobject 1
+         getslot 6
+         getproperty Multiname("position",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring " length:"
+         add
+         getscopeobject 1
+         getslot 6
+         getproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         coerce_s
+         setslot 14
+         jump ofs0351
+         ofs02cd:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace(""),"Date")
+         istypelate
+         dup
+         iftrue ofs02e1
+         pop
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.geom"),"Rectangle")
+         istypelate
+         ofs02e1:dup
+         iftrue ofs02ef
+         pop
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.geom"),"Point")
+         istypelate
+         ofs02ef:dup
+         iftrue ofs02fd
+         pop
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.geom"),"Matrix")
+         istypelate
+         ofs02fd:dup
+         iftrue ofs030a
+         pop
+         getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         istypelate
+         ofs030a:iffalse ofs0325
+         getscopeobject 1
+         pushstring " "
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace(""),"String") 1
+         add
+         coerce_s
+         setslot 14
+         jump ofs0351
+         ofs0325:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObject")
+         istypelate
+         dup
+         iffalse ofs033b
+         pop
+         getscopeobject 1
+         getslot 6
+         getproperty Multiname("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_b
+         ofs033b:iffalse ofs0351
+         getscopeobject 1
+         pushstring " "
+         getscopeobject 1
+         getslot 6
+         getproperty Multiname("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         coerce_s
+         setslot 14
+         ofs0351:getscopeobject 1
+         pushstring "{"
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         findpropstrict Qname(PackageNamespace(""),"ShortClassName")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace(""),"ShortClassName") 1
+         callproperty Qname(PrivateNamespace(null,"1159"),"genLinkString") 3
+         add
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 14
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         add
+         pushstring "}"
+         add
+         setslot 5
+         jump ofs0400
+         ofs038b:getscopeobject 1
+         getslot 6
+         getlex Qname(PackageNamespace("flash.utils"),"ByteArray")
+         istypelate
+         iffalse ofs03cb
+         getscopeobject 1
+         pushstring "[ByteArray position:"
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace("flash.utils"),"ByteArray") 1
+         getproperty Qname(PackageNamespace(""),"position")
+         add
+         pushstring " length:"
+         add
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace("flash.utils"),"ByteArray") 1
+         getproperty Qname(PackageNamespace(""),"length")
+         add
+         pushstring "]"
+         add
+         setslot 5
+         jump ofs03d9
+         ofs03cb:getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getscopeobject 1
+         getslot 6
+         callproperty Qname(PackageNamespace(""),"String") 1
+         coerce_s
+         setslot 5
+         ofs03d9:getscopeobject 1
+         getslot 3
+         iftrue ofs0400
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 5
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 2
+         callproperty Qname(PrivateNamespace(null,"1159"),"shortenString") 4
+         returnvalue
+         ofs0400:getscopeobject 1
+         getslot 5
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function makeRefTyped(param1:*) : String
+      {
+         trait method Qname(PackageNamespace(""),"makeRefTyped")
+         dispid 0
+         method
+         name null
+         param null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs0014
+         pop
+         getlocal_1
+         typeof
+         pushstring "object"
+         equals
+         coerce_a
+         convert_b
+         ofs0014:dup
+         iffalse ofs0021
+         pop
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"QName")
+         istypelate
+         not
+         ofs0021:iffalse ofs0041
+         pushstring "{"
+         getlocal_0
+         getlocal_1
+         pushnull
+         findpropstrict Qname(PackageNamespace(""),"ShortClassName")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"ShortClassName") 1
+         callproperty Qname(PrivateNamespace(null,"1159"),"genLinkString") 3
+         add
+         pushstring "}"
+         add
+         returnvalue
+         ofs0041:findpropstrict Qname(PackageNamespace(""),"ShortClassName")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"ShortClassName") 1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function genLinkString(param1:*, param2:*, param3:String) : String
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"genLinkString")
+         dispid 0
+         method
+         name null
+         param null
+         param null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         convert_b
+         dup
+         iffalse ofs000f
+         pop
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"String")
+         istypelate
+         not
+         ofs000f:iffalse ofs001e
+         getlocal_1
+         getlocal_2
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         setlocal_1
+         pushnull
+         coerce_a
+         setlocal_2
+         ofs001e:getlocal_0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setLogRef") 1
+         convert_u
+         dup
+         setlocal 4
+         iffalse ofs0058
+         pushstring "<menu><a href=\'event:ref_"
+         getlocal 4
+         add
+         getlocal_2
+         iffalse ofs0043
+         pushstring "_"
+         getlocal_2
+         add
+         coerce_a
+         jump ofs0046
+         ofs0043:pushstring ""
+         coerce_a
+         ofs0046:add
+         pushstring "\'>"
+         add
+         getlocal_3
+         add
+         pushstring "</a></menu>"
+         add
+         returnvalue
+         jump ofs0058
+         ofs0058:getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function shortenString(param1:String, param2:int, param3:*, param4:* = null) : String
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"shortenString")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param null
+         param null
+         optional null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         pushbyte 0
+         greaterequals
+         dup
+         iffalse ofs0012
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_2
+         greaterthan
+         ofs0012:iffalse ofs0030
+         getlocal_1
+         pushbyte 0
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 2
+         coerce_s
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getlocal_3
+         getlocal 4
+         pushstring " ..."
+         callproperty Qname(PrivateNamespace(null,"1159"),"genLinkString") 3
+         add
+         returnvalue
+         ofs0030:getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function historyInc(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"historyInc")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getlocal_1
+         add
+         initproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         setlocal_2
+         getlocal_2
+         iffalse ofs0029
+         getlocal_0
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         callpropvoid Qname(PackageNamespace(""),"focus") 2
+         ofs0029:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function handleRefEvent(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"handleRefEvent")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"RECIEVER")
+         ifne ofs003a
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"writeUTF") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "ref"
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         jump ofs0040
+         ofs003a:getlocal_0
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"1159"),"handleString") 1
+         ofs0040:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleString(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"handleString")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 7
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_2
+         pushbyte 0
+         convert_u
+         setlocal_3
+         pushnull
+         coerce_s
+         setlocal 4
+         pushbyte 0
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal 6
+         getlocal_1
+         pushstring "refexit"
+         ifne ofs002f
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"exitFocus") 0
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         callpropvoid Qname(PackageNamespace(""),"setViewingChannels") 0
+         jump ofs0136
+         ofs002f:getlocal_1
+         pushstring "refprev"
+         ifne ofs0043
+         getlocal_0
+         pushbyte -2
+         callpropvoid Qname(PrivateNamespace(null,"1159"),"historyInc") 1
+         jump ofs0136
+         ofs0043:getlocal_1
+         pushstring "reffwd"
+         ifne ofs0057
+         getlocal_0
+         pushbyte 0
+         callpropvoid Qname(PrivateNamespace(null,"1159"),"historyInc") 1
+         jump ofs0136
+         ofs0057:getlocal_1
+         pushstring "refi"
+         ifne ofs0072
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_current")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         not
+         callpropvoid Qname(PackageNamespace(""),"focus") 2
+         jump ofs0136
+         ofs0072:getlocal_1
+         pushstring "_"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte 1
+         add
+         convert_i
+         setlocal_2
+         getlocal_2
+         pushbyte 0
+         ifngt ofs0129
+         pushstring ""
+         setlocal 4
+         getlocal_1
+         pushstring "_"
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 2
+         convert_i
+         dup
+         setlocal 5
+         pushbyte 0
+         ifngt ofs00c3
+         findpropstrict Qname(PackageNamespace(""),"uint")
+         getlocal_1
+         getlocal_2
+         getlocal 5
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 2
+         callproperty Qname(PackageNamespace(""),"uint") 1
+         convert_u
+         setlocal_3
+         getlocal_1
+         getlocal 5
+         pushbyte 1
+         add
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 1
+         coerce_s
+         setlocal 4
+         jump ofs00d1
+         ofs00c3:findpropstrict Qname(PackageNamespace(""),"uint")
+         getlocal_1
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"substring") 1
+         callproperty Qname(PackageNamespace(""),"uint") 1
+         convert_u
+         setlocal_3
+         ofs00d1:getlocal_0
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"getRefById") 1
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal 6
+         getlocal 4
+         iffalse ofs00ed
+         getlocal 6
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal 6
+         ofs00ed:getlocal 6
+         iffalse ofs0129
+         getlocal_1
+         pushstring "refe_"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte 0
+         ifne ofs011d
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         getproperty Qname(PackageNamespace(""),"mainPanel")
+         getproperty Qname(PackageNamespace(""),"reportChannel")
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"explodech") 2
+         jump ofs0128
+         ofs011d:getlocal_0
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         callpropvoid Qname(PackageNamespace(""),"focus") 2
+         ofs0128:returnvoid
+         ofs0129:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Reference no longer exist (garbage collected)."
+         pushbyte -2
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 2
+         ofs0136:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function focus(param1:*, param2:Boolean = false) : void
+      {
+         trait method Qname(PackageNamespace(""),"focus")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param null
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "focus"
+         callpropvoid Qname(PackageNamespace(""),"send") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"LogReferences")
+         getproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         callpropvoid Qname(PackageNamespace(""),"clear") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"LogReferences")
+         getproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         callpropvoid Qname(PackageNamespace(""),"setViewingChannels") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         iftrue ofs0039
+         getlocal_0
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         ofs0039:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_current")
+         getlocal_1
+         ifeq ofs0084
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1159"),"_current")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         ifnle ofs0064
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         jump ofs0071
+         ofs0064:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getlocal_1
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs0071:getlocal_0
+         dup
+         setlocal_3
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         increment
+         setlocal 4
+         getlocal_3
+         getlocal 4
+         setproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         kill 4
+         kill 3
+         ofs0084:getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         getlocal_0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         callpropvoid Qname(PackageNamespace(""),"inspect") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleFocused() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"handleFocused")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"LogReferences")
+         getproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         callpropvoid Qname(PackageNamespace(""),"clear") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"LogReferences")
+         getproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         callpropvoid Qname(PackageNamespace(""),"setViewingChannels") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function exitFocus() : void
+      {
+         trait method Qname(PackageNamespace(""),"exitFocus")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_1
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1159"),"_current")
+         getlocal_0
+         pushfalse
+         initproperty Qname(PrivateNamespace(null,"1159"),"_dofull")
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         getproperty Qname(PackageNamespace(""),"remoting")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"Remoting")
+         getproperty Qname(PackageNamespace(""),"SENDER")
+         ifne ofs004e
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_1
+         getlocal_1
+         pushstring "refexit"
+         callpropvoid Qname(PackageNamespace(""),"writeUTF") 1
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"remoter")
+         pushstring "ref"
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"send") 2
+         ofs004e:getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"console")
+         getlex Qname(PackageNamespace("com.junkbyte.console.core"),"LogReferences")
+         getproperty Qname(PackageNamespace(""),"INSPECTING_CHANNEL")
+         callpropvoid Qname(PackageNamespace(""),"clear") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function inspect(param1:*, param2:Boolean = true, param3:String = null) : void
+      {
+         trait method Qname(PackageNamespace(""),"inspect")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         flag NEED_ACTIVATION
+         param null
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         optional true
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 12
+         initscopedepth 7
+         maxscopedepth 12
+         try from ofs0e1a to ofs0eea target ofs0eee type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal 4
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 6
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 16
+         getscopeobject 1
+         pushfalse
+         setslot 18
+         getscopeobject 1
+         pushfalse
+         setslot 19
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 20
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 21
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 22
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 23
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 24
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 25
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 26
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 27
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 28
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setslot 29
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 30
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 31
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 32
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 33
+         getscopeobject 1
+         pushbyte 0
+         setslot 34
+         getscopeobject 1
+         pushbyte 0
+         setslot 35
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setslot 36
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 37
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 38
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 39
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 40
+         getscopeobject 1
+         pushundefined
+         coerce_a
+         setslot 41
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_2
+         setslot 2
+         getscopeobject 1
+         getlocal_3
+         setslot 3
+         getscopeobject 1
+         getslot 1
+         iftrue ofs00e2
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 1
+         pushbyte -2
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         returnvoid
+         ofs00e2:getscopeobject 1
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         callproperty Qname(PackageNamespace(""),"setLogRef") 1
+         convert_u
+         setslot 4
+         getscopeobject 1
+         pushstring ""
+         setslot 5
+         getscopeobject 1
+         getslot 2
+         iftrue ofs0106
+         getscopeobject 1
+         pushstring " [<a href=\'event:refi\'>show inherited</a>]"
+         setslot 5
+         ofs0106:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         iffalse ofs01f0
+         getscopeobject 1
+         pushstring "<b>[<a href=\'event:refexit\'>exit</a>]"
+         setslot 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         pushbyte 1
+         ifngt ofs012d
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring " [<a href=\'event:refprev\'>previous</a>]"
+         add
+         setslot 6
+         ofs012d:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         convert_b
+         dup
+         iffalse ofs0144
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_hisIndex")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1159"),"_history")
+         getproperty Qname(PackageNamespace(""),"length")
+         lessthan
+         ofs0144:iffalse ofs0155
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring " [<a href=\'event:reffwd\'>forward</a>]"
+         add
+         setslot 6
+         ofs0155:getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring "</b> || [<a href=\'event:ref_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "\'>refresh</a>]"
+         add
+         add
+         coerce_s
+         setslot 6
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring "</b> [<a href=\'event:refe_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "\'>explode</a>]"
+         add
+         add
+         coerce_s
+         setslot 6
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"commandLineAllowed")
+         iffalse ofs01a7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring " [<a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "\'>scope</a>]"
+         add
+         add
+         coerce_s
+         setslot 6
+         ofs01a7:getscopeobject 1
+         getslot 2
+         iffalse ofs01c0
+         getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         pushstring " [<a href=\'event:refi\'>hide inherited</a>]"
+         add
+         setslot 6
+         jump ofs01ce
+         ofs01c0:getscopeobject 1
+         getscopeobject 1
+         getslot 6
+         getscopeobject 1
+         getslot 5
+         add
+         coerce_s
+         setslot 6
+         ofs01ce:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 6
+         pushbyte -1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs01f0:getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.utils"),"describeType")
+         getscopeobject 1
+         getslot 1
+         callproperty Qname(PackageNamespace("flash.utils"),"describeType") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 7
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace(""),"Class")
+         istypelate
+         iffalse ofs021a
+         getscopeobject 1
+         getslot 1
+         coerce Qname(PackageNamespace(""),"Object")
+         jump ofs0224
+         ofs021a:getscopeobject 1
+         getslot 1
+         getproperty Multiname("constructor",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Object")
+         ofs0224:coerce Qname(PackageNamespace(""),"Object")
+         setslot 8
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace("flash.utils"),"describeType")
+         getscopeobject 1
+         getslot 8
+         callproperty Qname(PackageNamespace("flash.utils"),"describeType") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 9
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setslot 10
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace(""),"Class")
+         istypelate
+         setslot 11
+         getscopeobject 1
+         getscopeobject 1
+         getslot 11
+         iffalse ofs0264
+         pushstring "*"
+         jump ofs0266
+         ofs0264:pushstring ""
+         ofs0266:coerce_s
+         setslot 12
+         getscopeobject 1
+         pushstring "<b>{"
+         getscopeobject 1
+         getslot 12
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         pushnull
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 10
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         callproperty Qname(PrivateNamespace(null,"1159"),"genLinkString") 3
+         add
+         getscopeobject 1
+         getslot 12
+         add
+         pushstring "}</b>"
+         add
+         setslot 13
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         getslot 7
+         getproperty MultinameA("isStatic",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "true"
+         ifne ofs02bd
+         getscopeobject 1
+         getslot 14
+         pushstring "<b>static</b>"
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs02bd:getscopeobject 1
+         getslot 7
+         getproperty MultinameA("isDynamic",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "true"
+         ifne ofs02da
+         getscopeobject 1
+         getslot 14
+         pushstring "dynamic"
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs02da:getscopeobject 1
+         getslot 7
+         getproperty MultinameA("isFinal",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "true"
+         ifne ofs02f7
+         getscopeobject 1
+         getslot 14
+         pushstring "final"
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs02f7:getscopeobject 1
+         getslot 14
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs0325
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " <p-1>"
+         getscopeobject 1
+         getslot 14
+         pushstring " | "
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushstring "</p-1>"
+         add
+         add
+         coerce_s
+         setslot 13
+         ofs0325:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 13
+         pushbyte -2
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getproperty Multiname("extendsClass",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         getscopeobject 1
+         getslot 15
+         callproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         iffalse ofs03ff
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs03d4
+         ofs0369:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 23
+         getscopeobject 1
+         getscopeobject 1
+         getslot 23
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         coerce_s
+         setslot 12
+         getscopeobject 1
+         getslot 14
+         getscopeobject 1
+         getslot 12
+         pushstring "*"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"indexOf") 1
+         pushbyte 0
+         lessthan
+         iffalse ofs03b5
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getDefinitionByName")
+         getscopeobject 1
+         getslot 12
+         callproperty Qname(PackageNamespace("flash.utils"),"getDefinitionByName") 1
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 1
+         coerce_a
+         jump ofs03c3
+         ofs03b5:findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 12
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         coerce_a
+         ofs03c3:callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getscopeobject 1
+         getslot 2
+         iftrue ofs03d4
+         jump ofs03db
+         ofs03d4:hasnext2 6 5
+         iftrue ofs0369
+         ofs03db:kill 6
+         kill 5
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "<p10>Extends:</p10> "
+         getscopeobject 1
+         getslot 14
+         pushstring " &gt; "
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs03ff:getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         getproperty Multiname("implementsInterface",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         getscopeobject 1
+         getslot 15
+         callproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         iffalse ofs048c
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0461
+         ofs0431:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 24
+         getscopeobject 1
+         getslot 14
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.utils"),"getDefinitionByName")
+         getscopeobject 1
+         getslot 24
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PackageNamespace("flash.utils"),"getDefinitionByName") 1
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0461:hasnext2 6 5
+         iftrue ofs0431
+         kill 6
+         kill 5
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "<p10>Implements:</p10> "
+         getscopeobject 1
+         getslot 14
+         pushstring ", "
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs048c:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         pushbyte 0
+         setlocal 6
+         getscopeobject 1
+         getslot 7
+         getproperty Multiname("metadata",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         checkfilter
+         coerce_a
+         setlocal 7
+         getlex Qname(PackageNamespace(""),"XMLList")
+         pushstring ""
+         construct 1
+         setlocal 5
+         jump ofs04e9
+         ofs04c2:label
+         getlocal 7
+         getlocal 6
+         nextvalue
+         dup
+         setlocal 8
+         dup
+         setlocal 9
+         pushwith
+         getlex MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "Event"
+         equals
+         iffalse ofs04e4
+         getlocal 5
+         getlocal 6
+         getlocal 8
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs04e4:popscope
+         kill 9
+         kill 8
+         ofs04e9:hasnext2 7 6
+         iftrue ofs04c2
+         kill 7
+         kill 6
+         getlocal 5
+         kill 5
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         getscopeobject 1
+         getslot 15
+         callproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         iffalse ofs0684
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0649
+         ofs0518:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 25
+         getscopeobject 1
+         getscopeobject 1
+         getslot 25
+         getproperty Multiname("arg",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 26
+         getscopeobject 1
+         pushbyte 0
+         setlocal 8
+         getscopeobject 1
+         getslot 26
+         checkfilter
+         coerce_a
+         setlocal 9
+         getlex Qname(PackageNamespace(""),"XMLList")
+         pushstring ""
+         construct 1
+         setlocal 7
+         jump ofs0574
+         ofs054c:label
+         getlocal 9
+         getlocal 8
+         nextvalue
+         dup
+         setlocal 10
+         dup
+         setlocal 11
+         pushwith
+         getlex MultinameA("key",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "name"
+         equals
+         iffalse ofs056f
+         getlocal 7
+         getlocal 8
+         getlocal 10
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs056f:popscope
+         kill 11
+         kill 10
+         ofs0574:hasnext2 9 8
+         iftrue ofs054c
+         kill 9
+         kill 8
+         getlocal 7
+         kill 7
+         getproperty MultinameA("value",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setslot 27
+         getscopeobject 1
+         pushbyte 0
+         setlocal 8
+         getscopeobject 1
+         getslot 26
+         checkfilter
+         coerce_a
+         setlocal 9
+         getlex Qname(PackageNamespace(""),"XMLList")
+         pushstring ""
+         construct 1
+         setlocal 7
+         jump ofs05cc
+         ofs05a4:label
+         getlocal 9
+         getlocal 8
+         nextvalue
+         dup
+         setlocal 10
+         dup
+         setlocal 11
+         pushwith
+         getlex MultinameA("key",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "type"
+         equals
+         iffalse ofs05c7
+         getlocal 7
+         getlocal 8
+         getlocal 10
+         setproperty MultinameL([PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         ofs05c7:popscope
+         kill 11
+         kill 10
+         ofs05cc:hasnext2 9 8
+         iftrue ofs05a4
+         kill 9
+         kill 8
+         getlocal 7
+         kill 7
+         getproperty MultinameA("value",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setslot 28
+         getscopeobject 1
+         getslot 4
+         iffalse ofs062d
+         getscopeobject 1
+         getslot 14
+         pushstring "<a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "_dispatchEvent(new "
+         add
+         getscopeobject 1
+         getslot 28
+         add
+         pushstring "(\""
+         add
+         getscopeobject 1
+         getslot 27
+         add
+         pushstring "\"))\'>"
+         add
+         getscopeobject 1
+         getslot 27
+         add
+         pushstring "</a><p0>("
+         add
+         getscopeobject 1
+         getslot 28
+         add
+         pushstring ")</p0>"
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         jump ofs0649
+         ofs062d:getscopeobject 1
+         getslot 14
+         getscopeobject 1
+         getslot 27
+         pushstring "<p0>("
+         add
+         getscopeobject 1
+         getslot 28
+         add
+         pushstring ")</p0>"
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0649:hasnext2 6 5
+         iftrue ofs0518
+         kill 6
+         kill 5
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "<p10>Events:</p10> "
+         getscopeobject 1
+         getslot 14
+         pushstring "<p-1>; </p-1>"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0684:getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObject")
+         istypelate
+         iffalse ofs0766
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObject")
+         astypelate
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setslot 29
+         getscopeobject 1
+         getscopeobject 1
+         getslot 29
+         getproperty Qname(PackageNamespace(""),"parent")
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 30
+         getscopeobject 1
+         getslot 30
+         iffalse ofs0766
+         getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         pushstring "@"
+         getscopeobject 1
+         getslot 30
+         getscopeobject 1
+         getslot 29
+         callproperty Qname(PackageNamespace(""),"getChildIndex") 1
+         add
+         constructprop Qname(PackageNamespace(""),"Array") 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         jump ofs0739
+         ofs06d2:label
+         getscopeobject 1
+         getscopeobject 1
+         getslot 30
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 31
+         getscopeobject 1
+         getscopeobject 1
+         getslot 30
+         getproperty Qname(PackageNamespace(""),"parent")
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 30
+         getscopeobject 1
+         getscopeobject 1
+         getslot 30
+         iffalse ofs070b
+         pushstring "@"
+         getscopeobject 1
+         getslot 30
+         getscopeobject 1
+         getslot 31
+         callproperty Qname(PackageNamespace(""),"getChildIndex") 1
+         add
+         coerce_s
+         jump ofs070d
+         ofs070b:pushstring ""
+         ofs070d:coerce_s
+         setslot 32
+         getscopeobject 1
+         getslot 14
+         pushstring "<b>"
+         getscopeobject 1
+         getslot 31
+         getproperty Qname(PackageNamespace(""),"name")
+         add
+         pushstring "</b>"
+         add
+         getscopeobject 1
+         getslot 32
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 31
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 1
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0739:getscopeobject 1
+         getslot 30
+         iftrue ofs06d2
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "<p10>Parents:</p10> "
+         getscopeobject 1
+         getslot 14
+         pushstring "<p-1> -> </p-1>"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushstring "<br/>"
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0766:getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         istypelate
+         iffalse ofs081c
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         astypelate
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObjectContainer")
+         setslot 33
+         getscopeobject 1
+         getscopeobject 1
+         getslot 33
+         getproperty Qname(PackageNamespace(""),"numChildren")
+         convert_i
+         setslot 34
+         getscopeobject 1
+         pushbyte 0
+         setslot 35
+         jump ofs07e3
+         ofs079d:label
+         getscopeobject 1
+         getscopeobject 1
+         getslot 33
+         getscopeobject 1
+         getslot 35
+         callproperty Qname(PackageNamespace(""),"getChildAt") 1
+         coerce Qname(PackageNamespace("flash.display"),"DisplayObject")
+         setslot 36
+         getscopeobject 1
+         getslot 14
+         pushstring "<b>"
+         getscopeobject 1
+         getslot 36
+         getproperty Qname(PackageNamespace(""),"name")
+         add
+         pushstring "</b>@"
+         add
+         getscopeobject 1
+         getslot 35
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 36
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 1
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getscopeobject 1
+         getslot 35
+         increment_i
+         getscopeobject 1
+         swap
+         setslot 35
+         ofs07e3:getscopeobject 1
+         getslot 35
+         getscopeobject 1
+         getslot 34
+         iflt ofs079d
+         getscopeobject 1
+         getslot 34
+         iffalse ofs081c
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "<p10>Children:</p10> "
+         getscopeobject 1
+         getslot 14
+         pushstring "<p-1>; </p-1>"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushstring "<br/>"
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs081c:getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         getdescendants Multiname("constant",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0897
+         ofs0841:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 16
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring " const <p3>"
+         getscopeobject 1
+         getslot 16
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</p3>:"
+         add
+         getscopeobject 1
+         getslot 16
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring " = "
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 8
+         getscopeobject 1
+         getslot 16
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 2
+         add
+         pushstring "</p0>"
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0897:hasnext2 6 5
+         iftrue ofs0841
+         kill 6
+         kill 5
+         getscopeobject 1
+         getslot 15
+         callproperty Multiname("length",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         iffalse ofs08bf
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs08bf:getscopeobject 1
+         pushbyte 0
+         convert_u
+         setslot 17
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         getdescendants Multiname("method",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0a85
+         ofs08eb:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 20
+         getscopeobject 1
+         getslot 2
+         convert_b
+         dup
+         iftrue ofs090f
+         pop
+         getscopeobject 1
+         getslot 10
+         getscopeobject 1
+         getslot 20
+         getproperty MultinameA("declaredBy",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         equals
+         ofs090f:iffalse ofs0a7a
+         getscopeobject 1
+         pushtrue
+         setslot 18
+         getscopeobject 1
+         getscopeobject 1
+         getslot 20
+         callproperty Multiname("parent",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Multiname("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         pushstring "factory"
+         equals
+         not
+         setslot 19
+         getscopeobject 1
+         pushstring " "
+         getscopeobject 1
+         getslot 19
+         iffalse ofs0946
+         pushstring "static "
+         coerce_a
+         jump ofs0949
+         ofs0946:pushstring ""
+         coerce_a
+         ofs0949:add
+         pushstring "function "
+         add
+         setslot 13
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 37
+         getscopeobject 1
+         getscopeobject 1
+         getslot 20
+         getproperty Multiname("parameter",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 38
+         pushbyte 0
+         setlocal 7
+         getscopeobject 1
+         getslot 38
+         coerce_a
+         setlocal 8
+         jump ofs09bc
+         ofs0976:label
+         getscopeobject 1
+         getlocal 8
+         getlocal 7
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 39
+         getscopeobject 1
+         getslot 37
+         getscopeobject 1
+         getslot 39
+         getproperty MultinameA("optional",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "true"
+         equals
+         iffalse ofs09ae
+         pushstring "<i>"
+         getscopeobject 1
+         getslot 39
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</i>"
+         add
+         coerce_a
+         jump ofs09b7
+         ofs09ae:getscopeobject 1
+         getslot 39
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         ofs09b7:callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs09bc:hasnext2 8 7
+         iftrue ofs0976
+         kill 8
+         kill 7
+         getscopeobject 1
+         getslot 4
+         convert_b
+         dup
+         iffalse ofs09e2
+         pop
+         getscopeobject 1
+         getslot 19
+         convert_b
+         dup
+         iftrue ofs09e2
+         pop
+         getscopeobject 1
+         getslot 11
+         not
+         ofs09e2:iffalse ofs0a1e
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "<a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "_"
+         add
+         getscopeobject 1
+         getslot 20
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "()\'><p3>"
+         add
+         getscopeobject 1
+         getslot 20
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</p3></a>"
+         add
+         add
+         coerce_s
+         setslot 13
+         jump ofs0a3a
+         ofs0a1e:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "<p3>"
+         getscopeobject 1
+         getslot 20
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</p3>"
+         add
+         add
+         coerce_s
+         setslot 13
+         ofs0a3a:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "("
+         getscopeobject 1
+         getslot 37
+         pushstring ", "
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         add
+         pushstring "):"
+         add
+         getscopeobject 1
+         getslot 20
+         getproperty MultinameA("returnType",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         add
+         coerce_s
+         setslot 13
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 13
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0a85
+         ofs0a7a:getscopeobject 1
+         getslot 17
+         increment
+         convert_u
+         getscopeobject 1
+         swap
+         setslot 17
+         ofs0a85:hasnext2 6 5
+         iftrue ofs08eb
+         kill 6
+         kill 5
+         getscopeobject 1
+         getslot 17
+         iffalse ofs0abd
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "   \t + "
+         getscopeobject 1
+         getslot 17
+         add
+         pushstring " inherited methods."
+         add
+         getscopeobject 1
+         getslot 5
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0ad5
+         ofs0abd:getscopeobject 1
+         getslot 18
+         iffalse ofs0ad5
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0ad5:getscopeobject 1
+         pushfalse
+         setslot 18
+         getscopeobject 1
+         pushbyte 0
+         convert_u
+         setslot 17
+         getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         getdescendants Multiname("accessor",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0cba
+         ofs0b06:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 21
+         getscopeobject 1
+         getslot 2
+         convert_b
+         dup
+         iftrue ofs0b2a
+         pop
+         getscopeobject 1
+         getslot 10
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("declaredBy",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         equals
+         ofs0b2a:iffalse ofs0caf
+         getscopeobject 1
+         pushtrue
+         setslot 18
+         getscopeobject 1
+         getscopeobject 1
+         getslot 21
+         callproperty Multiname("parent",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Multiname("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         pushstring "factory"
+         equals
+         not
+         setslot 19
+         getscopeobject 1
+         pushstring " "
+         setslot 13
+         getscopeobject 1
+         getslot 19
+         iffalse ofs0b67
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "static "
+         add
+         setslot 13
+         ofs0b67:getscopeobject 1
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("access",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setslot 40
+         getscopeobject 1
+         getslot 40
+         pushstring "readonly"
+         ifne ofs0b90
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "get"
+         add
+         setslot 13
+         jump ofs0bb9
+         ofs0b90:getscopeobject 1
+         getslot 40
+         pushstring "writeonly"
+         ifne ofs0bac
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "set"
+         add
+         setslot 13
+         jump ofs0bb9
+         ofs0bac:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "assign"
+         add
+         setslot 13
+         ofs0bb9:getscopeobject 1
+         getslot 4
+         convert_b
+         dup
+         iffalse ofs0bd4
+         pop
+         getscopeobject 1
+         getslot 19
+         convert_b
+         dup
+         iftrue ofs0bd4
+         pop
+         getscopeobject 1
+         getslot 11
+         not
+         ofs0bd4:iffalse ofs0c19
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " <a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "_"
+         add
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "\'><p3>"
+         add
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</p3></a>:"
+         add
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         add
+         coerce_s
+         setslot 13
+         jump ofs0c3e
+         ofs0c19:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " <p3>"
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</p3>:"
+         add
+         getscopeobject 1
+         getslot 21
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         add
+         coerce_s
+         setslot 13
+         ofs0c3e:getscopeobject 1
+         getslot 40
+         pushstring "writeonly"
+         equals
+         not
+         dup
+         iffalse ofs0c5e
+         pop
+         getscopeobject 1
+         getslot 19
+         convert_b
+         dup
+         iftrue ofs0c5e
+         pop
+         getscopeobject 1
+         getslot 11
+         not
+         ofs0c5e:iffalse ofs0c99
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " = "
+         getlocal_0
+         getscopeobject 1
+         getslot 19
+         iffalse ofs0c7e
+         getscopeobject 1
+         getslot 8
+         coerce_a
+         jump ofs0c83
+         ofs0c7e:getscopeobject 1
+         getslot 1
+         coerce_a
+         ofs0c83:getscopeobject 1
+         getslot 21
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 2
+         add
+         add
+         coerce_s
+         setslot 13
+         ofs0c99:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 13
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0cba
+         ofs0caf:getscopeobject 1
+         getslot 17
+         increment
+         convert_u
+         getscopeobject 1
+         swap
+         setslot 17
+         ofs0cba:hasnext2 6 5
+         iftrue ofs0b06
+         kill 6
+         kill 5
+         getscopeobject 1
+         getslot 17
+         iffalse ofs0cf2
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "   \t + "
+         getscopeobject 1
+         getslot 17
+         add
+         pushstring " inherited accessors."
+         add
+         getscopeobject 1
+         getslot 5
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0d0a
+         ofs0cf2:getscopeobject 1
+         getslot 18
+         iffalse ofs0d0a
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0d0a:getscopeobject 1
+         getscopeobject 1
+         getslot 9
+         getdescendants Multiname("variable",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setslot 15
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 15
+         coerce_a
+         setlocal 6
+         jump ofs0e0f
+         ofs0d27:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 22
+         getscopeobject 1
+         getscopeobject 1
+         getslot 22
+         callproperty Multiname("parent",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Multiname("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         pushstring "factory"
+         equals
+         not
+         setslot 19
+         getscopeobject 1
+         getscopeobject 1
+         getslot 19
+         iffalse ofs0d5c
+         pushstring " static"
+         jump ofs0d5e
+         ofs0d5c:pushstring ""
+         ofs0d5e:coerce_s
+         setslot 13
+         getscopeobject 1
+         getslot 4
+         iffalse ofs0da1
+         getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " var <p3><a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "_"
+         add
+         getscopeobject 1
+         getslot 22
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring " = \'>"
+         add
+         getscopeobject 1
+         getslot 22
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</a>"
+         add
+         add
+         coerce_s
+         setslot 13
+         jump ofs0db8
+         ofs0da1:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring " var <p3>"
+         getscopeobject 1
+         getslot 22
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         add
+         coerce_s
+         setslot 13
+         ofs0db8:getscopeobject 1
+         getscopeobject 1
+         getslot 13
+         pushstring "</p3>:"
+         getscopeobject 1
+         getslot 22
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring " = "
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 19
+         iffalse ofs0de2
+         getscopeobject 1
+         getslot 8
+         coerce_a
+         jump ofs0de7
+         ofs0de2:getscopeobject 1
+         getslot 1
+         coerce_a
+         ofs0de7:getscopeobject 1
+         getslot 22
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Multiname("toString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 2
+         add
+         add
+         coerce_s
+         setslot 13
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 13
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0e0f:hasnext2 6 5
+         iftrue ofs0d27
+         kill 6
+         kill 5
+         ofs0e1a:getscopeobject 1
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setslot 14
+         pushbyte 0
+         setlocal 5
+         getscopeobject 1
+         getslot 1
+         coerce_a
+         setlocal 6
+         jump ofs0edf
+         ofs0e31:label
+         getscopeobject 1
+         getlocal 6
+         getlocal 5
+         nextname
+         coerce_a
+         setslot 41
+         getscopeobject 1
+         getslot 41
+         getlex Qname(PackageNamespace(""),"String")
+         istypelate
+         iffalse ofs0eb0
+         getscopeobject 1
+         getslot 4
+         iffalse ofs0e79
+         getscopeobject 1
+         pushstring "<a href=\'event:cl_"
+         getscopeobject 1
+         getslot 4
+         add
+         pushstring "_"
+         add
+         getscopeobject 1
+         getslot 41
+         add
+         pushstring " = \'>"
+         add
+         getscopeobject 1
+         getslot 41
+         add
+         pushstring "</a>"
+         add
+         setslot 13
+         jump ofs0e82
+         ofs0e79:getscopeobject 1
+         getscopeobject 1
+         getslot 41
+         coerce_s
+         setslot 13
+         ofs0e82:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring " dynamic var <p3>"
+         getscopeobject 1
+         getslot 13
+         add
+         pushstring "</p3> = "
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 41
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 2
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0edf
+         ofs0eb0:findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring " dictionary <p3>"
+         getlocal_0
+         getscopeobject 1
+         getslot 41
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 1
+         add
+         pushstring "</p3> = "
+         add
+         getlocal_0
+         getscopeobject 1
+         getslot 1
+         getscopeobject 1
+         getslot 41
+         callproperty Qname(PrivateNamespace(null,"1159"),"makeValue") 2
+         add
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0edf:hasnext2 6 5
+         iftrue ofs0e31
+         kill 6
+         kill 5
+         ofs0eea:jump ofs0f1a
+         ofs0eee:getlocal_0
+         pushscope
+         getlocal 4
+         pushscope
+         newcatch 0
+         dup
+         setlocal 5
+         dup
+         pushscope
+         swap
+         setslot 1
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "Could not get dynamic values. "
+         getscopeobject 2
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"message")
+         add
+         pushbyte 9
+         pushfalse
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         popscope
+         kill 5
+         ofs0f1a:getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace(""),"String")
+         istypelate
+         iffalse ofs0f64
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "String"
+         pushbyte 10
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 1
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         jump ofs0fbe
+         ofs0f64:getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace(""),"XML")
+         istypelate
+         dup
+         iftrue ofs0f78
+         pop
+         getscopeobject 1
+         getslot 1
+         getlex Qname(PackageNamespace(""),"XMLList")
+         istypelate
+         ofs0f78:iffalse ofs0fbe
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring "XMLString"
+         pushbyte 10
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         findpropstrict Qname(PackageNamespace(""),"EscHTML")
+         getscopeobject 1
+         getslot 1
+         callproperty Multiname("toXMLString",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         callproperty Qname(PackageNamespace(""),"EscHTML") 1
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0fbe:getscopeobject 1
+         getslot 6
+         iffalse ofs0fe8
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         pushstring ""
+         pushbyte 1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         findpropstrict Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report")
+         getscopeobject 1
+         getslot 6
+         pushbyte -1
+         pushtrue
+         getscopeobject 1
+         getslot 3
+         callpropvoid Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"report") 4
+         ofs0fe8:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPossibleCalls(param1:*) : Array
+      {
+         trait method Qname(PackageNamespace(""),"getPossibleCalls")
+         dispid 0
+         method
+         name null
+         param null
+         returns Qname(PackageNamespace(""),"Array")
+         
+         body
+         maxstack 4
+         localcount 15
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 6
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 7
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 8
+         pushnull
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal 9
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 10
+         findpropstrict Qname(PackageNamespace(""),"Array")
+         constructprop Qname(PackageNamespace(""),"Array") 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("flash.utils"),"describeType")
+         getlocal_1
+         callproperty Qname(PackageNamespace("flash.utils"),"describeType") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_3
+         getlocal_3
+         getproperty Multiname("method",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal 4
+         pushbyte 0
+         setlocal 11
+         getlocal 4
+         coerce_a
+         setlocal 12
+         jump ofs00e3
+         ofs004b:label
+         getlocal 12
+         getlocal 11
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 5
+         newarray 0
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 8
+         getlocal 5
+         getproperty Multiname("parameter",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal 9
+         pushbyte 0
+         setlocal 13
+         getlocal 9
+         coerce_a
+         setlocal 14
+         jump ofs00ae
+         ofs0072:label
+         getlocal 14
+         getlocal 13
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 10
+         getlocal 8
+         getlocal 10
+         getproperty MultinameA("optional",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "true"
+         equals
+         iffalse ofs00a2
+         pushstring "<i>"
+         getlocal 10
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         pushstring "</i>"
+         add
+         coerce_a
+         jump ofs00a9
+         ofs00a2:getlocal 10
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_a
+         ofs00a9:callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs00ae:hasnext2 14 13
+         iftrue ofs0072
+         kill 14
+         kill 13
+         getlocal_2
+         getlocal 5
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "("
+         add
+         getlocal 8
+         pushstring ", "
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"join") 1
+         pushstring " ):"
+         add
+         getlocal 5
+         getproperty MultinameA("returnType",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         add
+         newarray 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs00e3:hasnext2 12 11
+         iftrue ofs004b
+         kill 12
+         kill 11
+         getlocal_3
+         getproperty Multiname("accessor",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal 4
+         pushbyte 0
+         setlocal 11
+         getlocal 4
+         coerce_a
+         setlocal 12
+         jump ofs012c
+         ofs0104:label
+         getlocal 12
+         getlocal 11
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 6
+         getlocal_2
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal 6
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal 6
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         newarray 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs012c:hasnext2 12 11
+         iftrue ofs0104
+         kill 12
+         kill 11
+         getlocal_3
+         getproperty Multiname("variable",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"XMLList")
+         setlocal 4
+         pushbyte 0
+         setlocal 11
+         getlocal 4
+         coerce_a
+         setlocal 12
+         jump ofs0175
+         ofs014d:label
+         getlocal 12
+         getlocal 11
+         nextvalue
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal 7
+         getlocal_2
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal 7
+         getproperty MultinameA("name",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal 7
+         getproperty MultinameA("type",[PrivateNamespace(null,"1159"),PackageNamespace(""),Namespace("http://adobe.com/AS3/2006/builtin"),PackageInternalNs("com.junkbyte.console.core"),PrivateNamespace(null,"2096"),PackageNamespace("com.junkbyte.console.core"),ProtectedNamespace("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:LogReferences"),StaticProtectedNs("com.junkbyte.console.core:ConsoleCore"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         newarray 2
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs0175:hasnext2 12 11
+         iftrue ofs014d
+         kill 12
+         kill 11
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeValue(param1:*, param2:* = null) : String
+      {
+         trait method Qname(PrivateNamespace(null,"1159"),"makeValue")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param null
+         param null
+         optional null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         pushfalse
+         getlex Qname(ProtectedNamespace("com.junkbyte.console.core:ConsoleCore"),"config")
+         getproperty Qname(PackageNamespace(""),"useObjectLinking")
+         iffalse ofs0016
+         pushbyte 100
+         jump ofs0018
+         ofs0016:pushbyte -1
+         ofs0018:callproperty Qname(PackageNamespace(""),"makeString") 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

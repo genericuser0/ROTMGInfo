@@ -1,0 +1,280 @@
+package kabam.rotmg.account.steam.services
+{
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.services.RegisterAccountTask;
+   import kabam.rotmg.account.steam.SteamApi;
+   import kabam.rotmg.account.web.model.AccountData;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class SteamRegisterAccountTask extends BaseTask implements RegisterAccountTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var api:SteamApi;
+      
+      [Inject]
+      public var data:AccountData;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      private var client:AppEngineClient;
+      
+      public function SteamRegisterAccountTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "startTask"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"842"),"client")
+         pushbyte 2
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"setMaxRetries") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"842"),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"842"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"842"),"client")
+         pushstring "/steamworks/register"
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"842"),"makeDataPacket") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"842"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0011
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"842"),"onRegisterDone") 1
+         jump ofs0017
+         ofs0011:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"842"),"onRegisterError") 1
+         ofs0017:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeDataPacket() : Object
+      {
+         trait method Qname(PrivateNamespace(null,"842"),"makeDataPacket")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"api")
+         callproperty Qname(Namespace("kabam.rotmg.account.steam:SteamApi"),"getSessionAuthentication") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"username")
+         setproperty Multiname("newGUID",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"data")
+         getproperty Qname(PackageNamespace(""),"password")
+         setproperty Multiname("newPassword",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getEntryTag") 0
+         setproperty Multiname("entrytag",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRegisterDone(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"842"),"onRegisterDone")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getlocal_1
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "done - {0}"
+         getlocal_2
+         getproperty Multiname("GUID",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         newarray 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_2
+         getproperty Multiname("GUID",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_2
+         getproperty Multiname("Secret",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         pushstring ""
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"updateUser") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         getlocal_2
+         getproperty Multiname("PlatformToken",[PrivateNamespace(null,"842"),PackageNamespace(""),PrivateNamespace(null,"1821"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.rotmg.account.steam.services:SteamRegisterAccountTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         callpropvoid Qname(Namespace("kabam.rotmg.account.core:Account"),"setPlatformToken") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRegisterError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"842"),"onRegisterError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "error - {0}"
+         getlocal_1
+         newarray 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 2
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushfalse
+         getlocal_1
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,261 @@
+package io.decagames.rotmg.supportCampaign.tasks
+{
+   import io.decagames.rotmg.supportCampaign.data.SupporterCampaignModel;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class GetCampaignStatusTask extends BaseTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      [Inject]
+      public var model:SupporterCampaignModel;
+      
+      public function GetCampaignStatusTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("io.decagames.rotmg.supportCampaign.tasks:GetCampaignStatusTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetCampaignStatus start"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"196"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "/supportCampaign/status"
+         getlocal_1
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"196"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0011
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"196"),"onCampaignUpdate") 1
+         jump ofs0017
+         ofs0011:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"196"),"onTextError") 1
+         ofs0017:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTextError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"196"),"onTextError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetCampaignStatus error"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCampaignUpdate(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"196"),"onCampaignUpdate")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 6
+         maxscopedepth 11
+         try from ofs0012 to ofs0021 target ofs0025 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 2
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         ofs0012:getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getscopeobject 1
+         getslot 1
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 2
+         ofs0021:jump ofs004e
+         ofs0025:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         getlex Qname(PackageNamespace(""),"logger")
+         pushstring "Error parsing campaign data: "
+         getscopeobject 1
+         getslot 1
+         add
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"error") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         popscope
+         kill 3
+         ofs004e:getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "GetCampaignStatus update"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         getscopeobject 1
+         getslot 2
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getscopeobject 1
+         getslot 2
+         callpropvoid Qname(PackageNamespace(""),"parseConfigData") 1
+         findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         pushtrue
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

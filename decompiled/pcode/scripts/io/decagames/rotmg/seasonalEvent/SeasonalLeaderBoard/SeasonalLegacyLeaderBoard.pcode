@@ -1,0 +1,946 @@
+package io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard
+{
+   import com.company.assembleegameclient.ui.dropdown.DropDown;
+   import flash.display.Sprite;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormatAlign;
+   import io.decagames.rotmg.shop.mysteryBox.rollModal.elements.Spinner;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.gird.UIGrid;
+   import io.decagames.rotmg.ui.gird.UIGridElement;
+   import io.decagames.rotmg.ui.labels.UILabel;
+   import io.decagames.rotmg.ui.popups.UIPopup;
+   import io.decagames.rotmg.ui.scroll.UIScrollbar;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.tabs.UITab;
+   import io.decagames.rotmg.ui.tabs.UITabs;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   
+   public class SeasonalLegacyLeaderBoard extends UIPopup
+   {
+      
+      public static const TOP_20_TAB_LABEL:String = "Top 20";
+      
+      public static const PLAYER_TAB_LABEL:String = "Your Position";
+      
+      public static const SCROLL_Y_OFFSET:int = 175;
+      
+      public static const SCROLL_HEIGHT:int = 390;
+      
+      public static const WIDTH:int = 600;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"TOP_20_TAB_LABEL")
+         pushstring "Top 20"
+         initproperty Qname(PackageNamespace(""),"TOP_20_TAB_LABEL")
+         findproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         pushstring "Your Position"
+         initproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         findproperty Qname(PackageNamespace(""),"SCROLL_Y_OFFSET")
+         pushshort 175
+         initproperty Qname(PackageNamespace(""),"SCROLL_Y_OFFSET")
+         findproperty Qname(PackageNamespace(""),"SCROLL_HEIGHT")
+         pushshort 390
+         initproperty Qname(PackageNamespace(""),"SCROLL_HEIGHT")
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 600
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _tabs:UITabs;
+      
+      private var _tabContent:Sprite;
+      
+      private var _spinnersContainer:Sprite;
+      
+      private var _spinner:Spinner;
+      
+      private var _contentInset:SliceScalingBitmap;
+      
+      private var _contentTabs:SliceScalingBitmap;
+      
+      private var _top20Grid:UIGrid;
+      
+      private var _yourPositionGrid:UIGrid;
+      
+      private var _error:UILabel;
+      
+      private var _dropDown:DropDown;
+      
+      private var _seasons:Vector.<String>;
+      
+      public function SeasonalLegacyLeaderBoard()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         constructsuper 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"init") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addTop20Item(param1:SeasonalLeaderBoardItemData) : void
+      {
+         trait method Qname(PackageNamespace(""),"addTop20Item")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement")
+         setlocal_3
+         getlocal_3
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_top20Grid")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addGridElement") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addPlayerListItem(param1:SeasonalLeaderBoardItemData) : void
+      {
+         trait method Qname(PackageNamespace(""),"addPlayerListItem")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItem")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement") 0
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGridElement")
+         setlocal_3
+         getlocal_3
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_yourPositionGrid")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addGridElement") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clearLeaderBoard() : void
+      {
+         trait method Qname(PackageNamespace(""),"clearLeaderBoard")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_top20Grid")
+         iffalse ofs001a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_top20Grid")
+         callpropvoid Qname(PackageNamespace(""),"clearGrid") 0
+         ofs001a:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_yourPositionGrid")
+         iffalse ofs002a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_yourPositionGrid")
+         callpropvoid Qname(PackageNamespace(""),"clearGrid") 0
+         ofs002a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setErrorMessage(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"setErrorMessage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setDropDownData(param1:Vector.<String>) : void
+      {
+         trait method Qname(PackageNamespace(""),"setDropDownData")
+         dispid 0
+         method
+         name null
+         param TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"String")>)
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"274"),"_seasons")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createDropDown") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function init() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createGrids") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createContentInset") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createContentTabs") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"addTabs") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createSpinner") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"274"),"createError") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createDropDown() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createDropDown")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dropdown"),"DropDown")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_seasons")
+         pushshort 200
+         pushbyte 20
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dropdown"),"DropDown") 3
+         initproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         pushbyte 2
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         getlex Qname(PackageNamespace(""),"SCROLL_Y_OFFSET")
+         pushbyte 63
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createError() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createError")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.labels"),"UILabel") 0
+         initproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushbyte 14
+         pushint 16711680
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"createLabelFormat") 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"NONE")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         setproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_error")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createSpinner() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createSpinner")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"274"),"_spinnersContainer")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinnersContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),"Spinner")
+         pushshort 180
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),"Spinner") 1
+         initproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         pushdouble 0.1
+         dup
+         setlocal_1
+         setproperty Qname(PackageNamespace(""),"scaleY")
+         getlocal_1
+         kill 1
+         setproperty Qname(PackageNamespace(""),"scaleX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         callpropvoid Qname(PackageNamespace(""),"pause") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinnersContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createGrids() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createGrids")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 20
+         subtract
+         pushbyte 1
+         pushbyte 3
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid") 3
+         initproperty Qname(PrivateNamespace(null,"274"),"_top20Grid")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 20
+         subtract
+         pushbyte 1
+         pushbyte 3
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid") 3
+         initproperty Qname(PrivateNamespace(null,"274"),"_yourPositionGrid")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContentTabs() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createContentTabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tab_inset_content_background"
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 32
+         subtract
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         pushbyte 45
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         pushbyte 16
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         getlex Qname(PackageNamespace(""),"SCROLL_Y_OFFSET")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 6
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContentInset() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createContentInset")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "popup_content_inset"
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 20
+         subtract
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getlex Qname(PackageNamespace(""),"SCROLL_HEIGHT")
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getlex Qname(PackageNamespace(""),"SCROLL_Y_OFFSET")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addTabs() : void
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"addTabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 30
+         subtract
+         pushtrue
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs") 2
+         initproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"TOP_20_TAB_LABEL")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_top20Grid")
+         callproperty Qname(PrivateNamespace(null,"274"),"createTab") 3
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addTab") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_yourPositionGrid")
+         callproperty Qname(PrivateNamespace(null,"274"),"createTab") 3
+         pushfalse
+         callpropvoid Qname(PackageNamespace(""),"addTab") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         pushbyte 16
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentTabs")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createTab(param1:String, param2:Sprite, param3:UIGrid) : UITab
+      {
+         trait method Qname(PrivateNamespace(null,"274"),"createTab")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace("flash.display"),"Sprite")
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.gird"),"UIGrid")
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         
+         body
+         maxstack 5
+         localcount 8
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         getlocal_1
+         pushtrue
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal 4
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"274"),"_tabContent")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabContent")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         pushbyte 16
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         pushshort 370
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         getlocal 5
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         dup
+         setlocal 6
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"mouseRollSpeedFactor")
+         getlocal 6
+         getlocal 4
+         setproperty Qname(PackageNamespace(""),"scrollObject")
+         getlocal 6
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"content")
+         getlocal 6
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 46
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 6
+         pushbyte 16
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabContent")
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 7
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal 7
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal 7
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 7
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal 7
+         setproperty Qname(PackageNamespace(""),"mask")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabContent")
+         getlocal 7
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabContent")
+         callpropvoid Qname(PackageNamespace(""),"addContent") 1
+         getlocal 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get tabs() : UITabs
+      {
+         trait getter Qname(PackageNamespace(""),"tabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_tabs")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get spinner() : Spinner
+      {
+         trait getter Qname(PackageNamespace(""),"spinner")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal.elements"),"Spinner")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_spinner")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get dropDown() : DropDown
+      {
+         trait getter Qname(PackageNamespace(""),"dropDown")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.ui.dropdown"),"DropDown")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 11
+         maxscopedepth 12
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"274"),"_dropDown")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,1037 @@
+package kabam.rotmg.ui
+{
+   import com.company.assembleegameclient.account.ui.ChooseNameFrame;
+   import com.company.assembleegameclient.account.ui.ChooseNameFrameMediator;
+   import com.company.assembleegameclient.account.ui.CreateGuildFrame;
+   import com.company.assembleegameclient.account.ui.NewChooseNameFrame;
+   import com.company.assembleegameclient.account.ui.NewChooseNameFrameMediator;
+   import com.company.assembleegameclient.account.ui.components.CreateGuildFrameMediator;
+   import com.company.assembleegameclient.map.partyoverlay.GameObjectArrow;
+   import com.company.assembleegameclient.mapeditor.MapEditor;
+   import com.company.assembleegameclient.objects.ImageFactory;
+   import com.company.assembleegameclient.screens.AccountScreen;
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import com.company.assembleegameclient.screens.CharacterTypeSelectionMediator;
+   import com.company.assembleegameclient.screens.CharacterTypeSelectionScreen;
+   import com.company.assembleegameclient.screens.CreditsScreen;
+   import com.company.assembleegameclient.screens.GraveyardLine;
+   import com.company.assembleegameclient.screens.LeagueItem;
+   import com.company.assembleegameclient.screens.LeagueItemMediator;
+   import com.company.assembleegameclient.screens.LoadingScreen;
+   import com.company.assembleegameclient.screens.NewCharacterScreen;
+   import com.company.assembleegameclient.screens.ServersScreen;
+   import com.company.assembleegameclient.screens.charrects.CharacterRectList;
+   import com.company.assembleegameclient.screens.charrects.CurrentCharacterRect;
+   import com.company.assembleegameclient.ui.dialogs.ErrorDialog;
+   import com.company.assembleegameclient.ui.icons.IconButtonFactory;
+   import com.company.assembleegameclient.ui.language.LanguageOptionOverlay;
+   import com.company.assembleegameclient.ui.language.LanguageOptionOverlayMediator;
+   import com.company.assembleegameclient.ui.menu.PlayerGroupMenu;
+   import com.company.assembleegameclient.ui.panels.ArenaPortalPanel;
+   import com.company.assembleegameclient.ui.panels.GuildRegisterPanel;
+   import com.company.assembleegameclient.ui.panels.InteractPanel;
+   import com.company.assembleegameclient.ui.panels.itemgrids.ItemGrid;
+   import com.company.assembleegameclient.ui.panels.mediators.ArenaPortalPanelMediator;
+   import com.company.assembleegameclient.ui.panels.mediators.GuildRegisterPanelMediator;
+   import com.company.assembleegameclient.ui.panels.mediators.InteractPanelMediator;
+   import com.company.assembleegameclient.ui.panels.mediators.ItemGridMediator;
+   import io.decagames.rotmg.characterMetrics.tracker.CharactersMetricsTracker;
+   import io.decagames.rotmg.fame.FameContentPopup;
+   import io.decagames.rotmg.fame.FameContentPopupMediator;
+   import io.decagames.rotmg.fame.FameStatsLineMediator;
+   import io.decagames.rotmg.fame.StatsLine;
+   import io.decagames.rotmg.fame.data.FameTracker;
+   import io.decagames.rotmg.pets.tasks.GetOwnedPetSkinsTask;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLeaderBoardButton;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLeaderBoardButtonMediator;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLegacyLeaderBoard;
+   import io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard.SeasonalLegacyLeaderBoardMediator;
+   import io.decagames.rotmg.seasonalEvent.commands.RequestLegacyChallengerListCommand;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventComingPopup;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventComingPopupMediator;
+   import io.decagames.rotmg.seasonalEvent.signals.RequestLegacySeasonSignal;
+   import io.decagames.rotmg.seasonalEvent.signals.ShowSeasonComingPopupSignal;
+   import io.decagames.rotmg.seasonalEvent.tasks.GetLegacySeasonsTask;
+   import io.decagames.rotmg.seasonalEvent.tasks.GetSeasonalEventTask;
+   import io.decagames.rotmg.shop.ShopBuyButton;
+   import io.decagames.rotmg.shop.ShopBuyButtonMediator;
+   import io.decagames.rotmg.shop.ShopPopupMediator;
+   import io.decagames.rotmg.shop.ShopPopupView;
+   import io.decagames.rotmg.shop.mysteryBox.MysteryBoxTile;
+   import io.decagames.rotmg.shop.mysteryBox.MysteryBoxTileMediator;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.ItemBox;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.ItemBoxMediator;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.MysteryBoxContentPopup;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.MysteryBoxContentPopupMediator;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.SlotBox;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.SlotBoxMediator;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.UIItemContainer;
+   import io.decagames.rotmg.shop.mysteryBox.contentPopup.UIItemContainerMediator;
+   import io.decagames.rotmg.shop.mysteryBox.rollModal.MysteryBoxRollModal;
+   import io.decagames.rotmg.shop.mysteryBox.rollModal.MysteryBoxRollModalMediator;
+   import io.decagames.rotmg.shop.packages.PackageBoxTile;
+   import io.decagames.rotmg.shop.packages.PackageBoxTileMediator;
+   import io.decagames.rotmg.shop.packages.contentPopup.PackageBoxContentPopup;
+   import io.decagames.rotmg.shop.packages.contentPopup.PackageBoxContentPopupMediator;
+   import io.decagames.rotmg.shop.packages.startupPackage.StartupPackage;
+   import io.decagames.rotmg.shop.packages.startupPackage.StartupPackageMediator;
+   import io.decagames.rotmg.supportCampaign.tasks.GetCampaignStatusTask;
+   import io.decagames.rotmg.ui.popups.PopupMediator;
+   import io.decagames.rotmg.ui.popups.PopupView;
+   import io.decagames.rotmg.ui.popups.modal.ConfirmationModal;
+   import io.decagames.rotmg.ui.popups.modal.ConfirmationModalMediator;
+   import io.decagames.rotmg.ui.popups.modal.ModalPopup;
+   import io.decagames.rotmg.ui.popups.modal.ModalPopupMediator;
+   import io.decagames.rotmg.ui.popups.modal.buttons.BuyGoldButton;
+   import io.decagames.rotmg.ui.popups.modal.buttons.BuyGoldButtonMediator;
+   import io.decagames.rotmg.ui.popups.modal.buttons.CancelButtonMediator;
+   import io.decagames.rotmg.ui.popups.modal.buttons.ClosePopupButton;
+   import io.decagames.rotmg.ui.popups.signals.CloseAllPopupsSignal;
+   import io.decagames.rotmg.ui.popups.signals.CloseCurrentPopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupByClassSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.RemoveLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowLockFade;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import io.decagames.rotmg.ui.scroll.UIScrollbar;
+   import io.decagames.rotmg.ui.scroll.UIScrollbarMediator;
+   import io.decagames.rotmg.ui.spinner.NumberSpinner;
+   import io.decagames.rotmg.ui.spinner.NumberSpinnerMediator;
+   import io.decagames.rotmg.ui.tabs.UITab;
+   import io.decagames.rotmg.ui.tabs.UITabMediator;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import io.decagames.rotmg.unity.popup.UnitySignUpPopup;
+   import io.decagames.rotmg.unity.popup.UnitySignUpPopupMediator;
+   import kabam.rotmg.account.core.services.GetCharListTask;
+   import kabam.rotmg.account.core.services.LoadAccountTask;
+   import kabam.rotmg.account.core.view.AccountInfoMediator;
+   import kabam.rotmg.account.core.view.AccountInfoView;
+   import kabam.rotmg.account.core.view.RegisterPromptDialog;
+   import kabam.rotmg.account.core.view.RegisterPromptDialogMediator;
+   import kabam.rotmg.application.api.ApplicationSetup;
+   import kabam.rotmg.dailyLogin.tasks.FetchPlayerCalendarTask;
+   import kabam.rotmg.death.view.ResurrectionView;
+   import kabam.rotmg.death.view.ResurrectionViewMediator;
+   import kabam.rotmg.game.model.PotionInventoryModel;
+   import kabam.rotmg.game.view.NameChangerPanel;
+   import kabam.rotmg.game.view.NameChangerPanelMediator;
+   import kabam.rotmg.game.view.TextPanel;
+   import kabam.rotmg.game.view.TextPanelMediator;
+   import kabam.rotmg.game.view.components.StatsTabHotKeyInputSignal;
+   import kabam.rotmg.game.view.components.StatsUndockedSignal;
+   import kabam.rotmg.news.services.GetInGameNewsTask;
+   import kabam.rotmg.startup.control.StartupSequence;
+   import kabam.rotmg.ui.commands.EnterGameCommand;
+   import kabam.rotmg.ui.commands.HUDInitCommand;
+   import kabam.rotmg.ui.commands.PollVerifyEmailCommand;
+   import kabam.rotmg.ui.commands.RefreshScreenAfterLoginCommand;
+   import kabam.rotmg.ui.commands.ShowHideKeyUICommand;
+   import kabam.rotmg.ui.commands.ShowLoadingUICommand;
+   import kabam.rotmg.ui.commands.ShowTitleUICommand;
+   import kabam.rotmg.ui.controller.GameObjectArrowMediator;
+   import kabam.rotmg.ui.controller.UnFocusAbleMediator;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.noservers.NoServersDialogFactory;
+   import kabam.rotmg.ui.noservers.ProductionNoServersDialogFactory;
+   import kabam.rotmg.ui.noservers.TestingNoServersDialogFactory;
+   import kabam.rotmg.ui.signals.EnterGameSignal;
+   import kabam.rotmg.ui.signals.HUDModelInitialized;
+   import kabam.rotmg.ui.signals.HUDSetupStarted;
+   import kabam.rotmg.ui.signals.HideKeySignal;
+   import kabam.rotmg.ui.signals.NameChangedSignal;
+   import kabam.rotmg.ui.signals.PollVerifyEmailSignal;
+   import kabam.rotmg.ui.signals.RealmHeroesSignal;
+   import kabam.rotmg.ui.signals.RealmOryxSignal;
+   import kabam.rotmg.ui.signals.RealmQuestLevelSignal;
+   import kabam.rotmg.ui.signals.RealmServerNameSignal;
+   import kabam.rotmg.ui.signals.RefreshScreenAfterLoginSignal;
+   import kabam.rotmg.ui.signals.ShowHideKeyUISignal;
+   import kabam.rotmg.ui.signals.ShowKeySignal;
+   import kabam.rotmg.ui.signals.ShowLoadingUISignal;
+   import kabam.rotmg.ui.signals.ShowTitleUISignal;
+   import kabam.rotmg.ui.signals.ToggleRealmQuestsDisplaySignal;
+   import kabam.rotmg.ui.signals.ToggleShowTierTagSignal;
+   import kabam.rotmg.ui.signals.UpdateBackpackTabSignal;
+   import kabam.rotmg.ui.signals.UpdateHUDSignal;
+   import kabam.rotmg.ui.signals.UpdatePotionInventorySignal;
+   import kabam.rotmg.ui.signals.UpdateQuestSignal;
+   import kabam.rotmg.ui.view.AccountScreenMediator;
+   import kabam.rotmg.ui.view.AgeVerificationDialog;
+   import kabam.rotmg.ui.view.AgeVerificationMediator;
+   import kabam.rotmg.ui.view.CharacterDetailsMediator;
+   import kabam.rotmg.ui.view.CharacterDetailsView;
+   import kabam.rotmg.ui.view.CharacterRectListMediator;
+   import kabam.rotmg.ui.view.CharacterSlotNeedGoldDialog;
+   import kabam.rotmg.ui.view.CharacterSlotNeedGoldMediator;
+   import kabam.rotmg.ui.view.CharacterSlotRegisterDialog;
+   import kabam.rotmg.ui.view.CharacterSlotRegisterMediator;
+   import kabam.rotmg.ui.view.CreditsMediator;
+   import kabam.rotmg.ui.view.CurrentCharacterMediator;
+   import kabam.rotmg.ui.view.CurrentCharacterRectMediator;
+   import kabam.rotmg.ui.view.ErrorDialogMediator;
+   import kabam.rotmg.ui.view.HUDMediator;
+   import kabam.rotmg.ui.view.HUDView;
+   import kabam.rotmg.ui.view.KeysMediator;
+   import kabam.rotmg.ui.view.KeysView;
+   import kabam.rotmg.ui.view.LoadingMediator;
+   import kabam.rotmg.ui.view.MapEditorMediator;
+   import kabam.rotmg.ui.view.NewCharacterMediator;
+   import kabam.rotmg.ui.view.NewsLineMediator;
+   import kabam.rotmg.ui.view.NotEnoughGoldDialog;
+   import kabam.rotmg.ui.view.NotEnoughGoldMediator;
+   import kabam.rotmg.ui.view.ServersMediator;
+   import kabam.rotmg.ui.view.StatMetersMediator;
+   import kabam.rotmg.ui.view.StatMetersView;
+   import kabam.rotmg.ui.view.StatsDockedSignal;
+   import kabam.rotmg.ui.view.TitleMediator;
+   import kabam.rotmg.ui.view.TitleView;
+   import kabam.rotmg.ui.view.UnFocusAble;
+   import kabam.rotmg.ui.view.components.PotionSlotMediator;
+   import kabam.rotmg.ui.view.components.PotionSlotView;
+   import org.swiftsuspenders.Injector;
+   import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
+   import robotlegs.bender.extensions.signalCommandMap.api.ISignalCommandMap;
+   import robotlegs.bender.framework.api.IConfig;
+   
+   public class UIConfig implements IConfig
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var injector:Injector;
+      
+      [Inject]
+      public var mediatorMap:IMediatorMap;
+      
+      [Inject]
+      public var commandMap:ISignalCommandMap;
+      
+      [Inject]
+      public var setup:ApplicationSetup;
+      
+      [Inject]
+      public var startup:StartupSequence;
+      
+      public function UIConfig()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function configure() : void
+      {
+         trait method Qname(PackageNamespace(""),"configure")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"NameChangedSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.model"),"PotionInventoryModel")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"UpdatePotionInventorySignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"UpdateBackpackTabSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view.components"),"StatsUndockedSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"StatsDockedSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view.components"),"StatsTabHotKeyInputSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.icons"),"IconButtonFactory")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ImageFactory")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowPopupSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ClosePopupSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"CloseCurrentPopupSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ClosePopupByClassSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"CloseAllPopupsSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"ShowLockFade")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.signals"),"RemoveLockFade")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ToggleShowTierTagSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowHideKeyUISignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"RealmHeroesSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"RealmQuestLevelSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"RealmOryxSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"RealmServerNameSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ToggleRealmQuestsDisplaySignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"UpdateQuestSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"PollVerifyEmailSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.signals"),"ShowSeasonComingPopupSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.characterMetrics.tracker"),"CharactersMetricsTracker")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame.data"),"FameTracker")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.characterMetrics.tracker"),"CharactersMetricsTracker")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame.data"),"FameTracker")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowLoadingUISignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"ShowLoadingUICommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowTitleUISignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"ShowTitleUICommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"EnterGameSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"EnterGameCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"PollVerifyEmailSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"PollVerifyEmailCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.signals"),"RequestLegacySeasonSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.commands"),"RequestLegacyChallengerListCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"LoadingScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"LoadingMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"ServersScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"ServersMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CreditsScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CreditsMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CurrentCharacterMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventComingPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventComingPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterTypeSelectionScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterTypeSelectionMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"LeagueItem")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"LeagueItemMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.view"),"AccountInfoView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.view"),"AccountInfoMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"AccountScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"AccountScreenMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"NewCharacterScreen")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"NewCharacterMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.mapeditor"),"MapEditor")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"MapEditorMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens.charrects"),"CurrentCharacterRect")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CurrentCharacterRectMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens.charrects"),"CharacterRectList")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterRectListMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"ErrorDialogMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.screens"),"GraveyardLine")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"NewsLineMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"NotEnoughGoldMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"InteractPanel")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.mediators"),"InteractPanelMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"TextPanel")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"TextPanelMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.itemgrids"),"ItemGrid")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.mediators"),"ItemGridMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotRegisterDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotRegisterMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialogMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotNeedGoldDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterSlotNeedGoldMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"NameChangerPanel")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.game.view"),"NameChangerPanelMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"GuildRegisterPanel")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.mediators"),"GuildRegisterPanelMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"ChooseNameFrame")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"ChooseNameFrameMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"CreateGuildFrame")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui.components"),"CreateGuildFrameMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"NewChooseNameFrame")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"NewChooseNameFrameMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.menu"),"PlayerGroupMenu")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui"),"PlayerGroupMenuMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"AgeVerificationDialog")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"AgeVerificationMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.language"),"LanguageOptionOverlay")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.language"),"LanguageOptionOverlayMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels"),"ArenaPortalPanel")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.panels.mediators"),"ArenaPortalPanelMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"StatMetersView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"StatMetersMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"HUDView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"HUDMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"PotionSlotView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view.components"),"PotionSlotMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.death.view"),"ResurrectionView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.death.view"),"ResurrectionViewMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.map.partyoverlay"),"GameObjectArrow")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.controller"),"GameObjectArrowMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"UnFocusAble")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.controller"),"UnFocusAbleMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopPopupView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButton")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop"),"ShopBuyButtonMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame"),"FameContentPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame"),"FameContentPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox"),"MysteryBoxTile")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox"),"MysteryBoxTileMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages"),"PackageBoxTile")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages"),"PackageBoxTileMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"NumberSpinner")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.spinner"),"NumberSpinnerMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"MysteryBoxContentPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"MysteryBoxContentPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages.contentPopup"),"PackageBoxContentPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages.contentPopup"),"PackageBoxContentPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"ItemBox")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"ItemBoxMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"SlotBox")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"SlotBoxMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbarMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"UIItemContainer")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.contentPopup"),"UIItemContainerMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame"),"StatsLine")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.fame"),"FameStatsLineMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardButton")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardButtonMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLegacyLeaderBoard")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLegacyLeaderBoardMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"PopupView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups"),"PopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ModalPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ModalPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.buttons"),"BuyGoldButton")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.buttons"),"BuyGoldButtonMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.buttons"),"ClosePopupButton")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal.buttons"),"CancelButtonMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.modal"),"ConfirmationModalMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal"),"MysteryBoxRollModal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.mysteryBox.rollModal"),"MysteryBoxRollModalMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages.startupPackage"),"StartupPackage")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.shop.packages.startupPackage"),"StartupPackageMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.unity.popup"),"UnitySignUpPopup")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.unity.popup"),"UnitySignUpPopupMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pop
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"25"),"setupKeyUI") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"25"),"mapNoServersDialogFactory") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"25"),"setupCharacterWindow") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowLoadingUISignal")
+         pushbyte -1
+         callpropvoid Qname(PackageNamespace(""),"addSignal") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"LoadAccountTask")
+         pushbyte 2
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.account.core.services"),"GetCharListTask")
+         pushbyte 3
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.dailyLogin.tasks"),"FetchPlayerCalendarTask")
+         pushbyte 4
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.tasks"),"GetOwnedPetSkinsTask")
+         pushbyte 5
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.tasks"),"GetSeasonalEventTask")
+         pushbyte 6
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.news.services"),"GetInGameNewsTask")
+         pushbyte 7
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.supportCampaign.tasks"),"GetCampaignStatusTask")
+         pushbyte 8
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.tasks"),"GetLegacySeasonsTask")
+         pushbyte 9
+         callpropvoid Qname(PackageNamespace(""),"addTask") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"startup")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowTitleUISignal")
+         getlex Qname(PackageNamespace("kabam.rotmg.startup.control"),"StartupSequence")
+         getproperty Qname(PackageNamespace(""),"LAST")
+         callpropvoid Qname(PackageNamespace(""),"addSignal") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setupKeyUI() : void
+      {
+         trait method Qname(PrivateNamespace(null,"25"),"setupKeyUI")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowKeySignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowKeySignal")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowKeySignal") 0
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"HideKeySignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.signals"),"HideKeySignal")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.signals"),"HideKeySignal") 0
+         callpropvoid Qname(PackageNamespace(""),"toValue") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"ShowHideKeyUISignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"ShowHideKeyUICommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"RefreshScreenAfterLoginSignal")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"RefreshScreenAfterLoginCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"KeysView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"KeysMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function mapNoServersDialogFactory() : void
+      {
+         trait method Qname(PrivateNamespace(null,"25"),"mapNoServersDialogFactory")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setup")
+         callproperty Qname(Namespace("kabam.rotmg.application.api:ApplicationSetup"),"useProductionDialogs") 0
+         iffalse ofs0024
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.noservers"),"NoServersDialogFactory")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.noservers"),"ProductionNoServersDialogFactory")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         jump ofs0036
+         ofs0024:getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.noservers"),"NoServersDialogFactory")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.noservers"),"TestingNoServersDialogFactory")
+         callpropvoid Qname(PackageNamespace(""),"toSingleton") 1
+         ofs0036:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setupCharacterWindow() : void
+      {
+         trait method Qname(PrivateNamespace(null,"25"),"setupCharacterWindow")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.model"),"HUDModel")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"UpdateHUDSignal")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"injector")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"HUDModelInitialized")
+         callproperty Qname(PackageNamespace(""),"map") 1
+         callpropvoid Qname(PackageNamespace(""),"asSingleton") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"commandMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.signals"),"HUDSetupStarted")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.signalCommandMap.api:ISignalCommandMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.commands"),"HUDInitCommand")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.commandCenter.dsl:ICommandMapper"),"toCommand") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"mediatorMap")
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterDetailsView")
+         callproperty Qname(Namespace("robotlegs.bender.extensions.mediatorMap.api:IMediatorMap"),"map") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.view"),"CharacterDetailsMediator")
+         callpropvoid Qname(Namespace("robotlegs.bender.extensions.mediatorMap.dsl:IMediatorMapper"),"toMediator") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

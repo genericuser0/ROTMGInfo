@@ -1,0 +1,841 @@
+package kabam.rotmg.game.view
+{
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.DeprecatedTextButton;
+   import com.company.assembleegameclient.ui.RankText;
+   import com.company.assembleegameclient.ui.panels.Panel;
+   import com.company.assembleegameclient.util.Currency;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.KeyboardEvent;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFormatAlign;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StringBuilder;
+   import kabam.rotmg.util.components.LegacyBuyButton;
+   import org.osflash.signals.Signal;
+   
+   public class NameChangerPanel extends Panel
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var chooseName:Signal;
+      
+      public var buy_:Boolean;
+      
+      private var title_:TextFieldDisplayConcrete;
+      
+      private var button_:Sprite;
+      
+      public function NameChangerPanel(param1:GameSprite, param2:int)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game"),"GameSprite")
+         param Qname(PackageNamespace(""),"int")
+         returns null
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_3
+         pushnull
+         coerce_s
+         setlocal 4
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PackageNamespace(""),"chooseName")
+         getlocal_0
+         getlocal_1
+         constructsuper 1
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"204"),"hasMapAndPlayer") 0
+         iffalse ofs0069
+         getlex Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_3
+         getlocal_0
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"nameChosen_")
+         initproperty Qname(PackageNamespace(""),"buy_")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"204"),"createNameText") 0
+         coerce_s
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buy_")
+         iffalse ofs0051
+         getlocal_0
+         getlocal 4
+         callpropvoid Qname(PrivateNamespace(null,"204"),"handleAlreadyHasName") 1
+         jump ofs0069
+         ofs0051:getlocal_3
+         getproperty Qname(PackageNamespace(""),"numStars_")
+         getlocal_2
+         ifnlt ofs0064
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"204"),"handleInsufficientRank") 1
+         jump ofs0069
+         ofs0064:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"204"),"handleNoName") 0
+         ofs0069:findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"ADDED_TO_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"onAddedToStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAddedToStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"onAddedToStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         iffalse ofs001c
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs001c:findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function hasMapAndPlayer() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"hasMapAndPlayer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         convert_b
+         dup
+         iffalse ofs0019
+         pop
+         getlex Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         convert_b
+         ofs0019:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createNameText() : String
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"createNameText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 5
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce_s
+         setlocal_1
+         getlex Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getName") 0
+         coerce_s
+         setlocal_1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         callproperty Qname(PackageNamespace(""),"setTextWidth") 1
+         initproperty Qname(PrivateNamespace(null,"204"),"title_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setBold") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setWordWrap") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setMultiLine") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFormatAlign")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setHorizontalAlign") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleAlreadyHasName(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"handleAlreadyHasName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"204"),"makeNameText") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_CHANGE")
+         pushbyte 16
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGE_PRICE")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         constructprop Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton") 4
+         coerce Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"readyForPlacement")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"positionButton")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGE_PRICE")
+         getlex Qname(PackageNamespace(""),"gs_")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         getproperty Qname(PackageNamespace(""),"credits_")
+         lessequals
+         setlocal_3
+         getlocal_3
+         iftrue ofs007e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace("kabam.rotmg.util.components"),"LegacyBuyButton")
+         astypelate
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"setEnabled") 1
+         jump ofs0083
+         ofs007e:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"204"),"addListeners") 0
+         ofs0083:findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"positionButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         pushbyte 17
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleNoName() : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"handleNoName")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_TEXT")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         pushbyte 6
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_CHOOSE")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 2
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"positionTextButton")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"204"),"button_")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"204"),"addListeners") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionTextButton() : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"positionTextButton")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getproperty Qname(PackageNamespace(""),"height")
+         subtract
+         pushbyte 4
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addListeners() : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"addListeners")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"button_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"onButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function handleInsufficientRank(param1:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"handleInsufficientRank")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_TEXT")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 16
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 16777215
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         setlocal_3
+         getlocal_3
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_REQUIRE_RANK")
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 3
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"RankText")
+         getlocal_1
+         pushfalse
+         pushfalse
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"RankText") 3
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 4
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 4
+         add
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         pushbyte 2
+         divide
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getlex Qname(PackageNamespace(""),"HEIGHT")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         divide
+         subtract
+         pushbyte 20
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         getproperty Qname(PackageNamespace(""),"KEY_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"onKeyDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeNameText(param1:String) : StringBuilder
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"makeNameText")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StringBuilder")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"NAME_CHANGER_NAME_IS")
+         pushstring "name"
+         getlocal_1
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onKeyDown(param1:KeyboardEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"onKeyDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"KeyboardEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"keyCode")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("interact",[PrivateNamespace(null,"204"),PackageNamespace(""),PrivateNamespace(null,"1374"),PackageNamespace("kabam.rotmg.game.view"),PackageInternalNs("kabam.rotmg.game.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.game.view:NameChangerPanel"),StaticProtectedNs("kabam.rotmg.game.view:NameChangerPanel"),StaticProtectedNs("com.company.assembleegameclient.ui.panels:Panel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         equals
+         dup
+         iffalse ofs0020
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"focus")
+         pushnull
+         equals
+         ofs0020:iffalse ofs0029
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"204"),"performAction") 0
+         ofs0029:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onButtonClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"onButtonClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"204"),"performAction") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function performAction() : void
+      {
+         trait method Qname(PrivateNamespace(null,"204"),"performAction")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chooseName")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function updateName(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"updateName")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"204"),"makeNameText") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"204"),"title_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,938 @@
+package io.decagames.rotmg.dailyQuests.view.list
+{
+   import flash.display.Sprite;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.scroll.UIScrollbar;
+   import io.decagames.rotmg.ui.sliceScaling.SliceScalingBitmap;
+   import io.decagames.rotmg.ui.tabs.TabButton;
+   import io.decagames.rotmg.ui.tabs.UITab;
+   import io.decagames.rotmg.ui.tabs.UITabs;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   
+   public class DailyQuestsList extends Sprite
+   {
+      
+      public static const QUEST_TAB_LABEL:String = "Quests";
+      
+      public static const EVENT_TAB_LABEL:String = "Events";
+      
+      public static const SCROLL_BAR_HEIGHT:int = 345;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"QUEST_TAB_LABEL")
+         pushstring "Quests"
+         initproperty Qname(PackageNamespace(""),"QUEST_TAB_LABEL")
+         findproperty Qname(PackageNamespace(""),"EVENT_TAB_LABEL")
+         pushstring "Events"
+         initproperty Qname(PackageNamespace(""),"EVENT_TAB_LABEL")
+         findproperty Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         pushshort 345
+         initproperty Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var questLinesPosition:int = 0;
+      
+      private var eventLinesPosition:int = 0;
+      
+      private var questsContainer:Sprite;
+      
+      private var eventsContainer:Sprite;
+      
+      private var _tabs:UITabs;
+      
+      private var eventsTab:TabButton;
+      
+      private var contentTabs:SliceScalingBitmap;
+      
+      private var contentInset:SliceScalingBitmap;
+      
+      private var _dailyQuestElements:Vector.<DailyQuestListElement>;
+      
+      private var _eventQuestElements:Vector.<DailyQuestListElement>;
+      
+      public function DailyQuestsList()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"453"),"init") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function init() : void
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"init")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"453"),"createContentTabs") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"453"),"createContentInset") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"453"),"createTabs") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createTabs() : void
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"createTabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs")
+         pushshort 230
+         pushtrue
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs") 2
+         initproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"453"),"createQuestsTab") 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addTab") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"453"),"createEventsTab") 0
+         callpropvoid Qname(PackageNamespace(""),"addTab") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContentInset() : void
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"createContentInset")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "popup_content_inset"
+         pushshort 230
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         pushshort 360
+         setproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         pushbyte 35
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createContentTabs() : void
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"createContentTabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "tab_inset_content_background"
+         pushshort 230
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 3
+         initproperty Qname(PrivateNamespace(null,"453"),"contentTabs")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentTabs")
+         pushbyte 45
+         setproperty Qname(PackageNamespace(""),"height")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentTabs")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createQuestsTab() : UITab
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"createQuestsTab")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal 4
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         getlex Qname(PackageNamespace(""),"QUEST_TAB_LABEL")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         getlex Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         setlocal_3
+         getlocal_3
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"mouseRollSpeedFactor")
+         getlocal_3
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"scrollObject")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         setproperty Qname(PackageNamespace(""),"content")
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 25
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         pushbyte 7
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushshort 230
+         getlex Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getlocal 4
+         setproperty Qname(PackageNamespace(""),"mask")
+         getlocal_2
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addContent") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function createEventsTab() : UITab
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"createEventsTab")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         
+         body
+         maxstack 5
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         pushstring "Events"
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITab")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         getlex Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar") 1
+         coerce Qname(PackageNamespace("io.decagames.rotmg.ui.scroll"),"UIScrollbar")
+         setlocal_3
+         getlocal_3
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"mouseRollSpeedFactor")
+         getlocal_3
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"scrollObject")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         setproperty Qname(PackageNamespace(""),"content")
+         getlocal_2
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"contentInset")
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 25
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_3
+         pushbyte 7
+         setproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         coerce Qname(PackageNamespace("flash.display"),"Sprite")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 1
+         getlocal 4
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushshort 230
+         getlex Qname(PackageNamespace(""),"SCROLL_BAR_HEIGHT")
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getlocal 4
+         setproperty Qname(PackageNamespace(""),"mask")
+         getlocal_2
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addContent") 1
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addIndicator(param1:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"addIndicator")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         getlex Qname(PackageNamespace(""),"EVENT_TAB_LABEL")
+         callproperty Qname(PackageNamespace(""),"getTabButtonByLabel") 1
+         initproperty Qname(PrivateNamespace(null,"453"),"eventsTab")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsTab")
+         iffalse ofs0031
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsTab")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"showIndicator")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsTab")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"onEventsClick")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         ofs0031:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onEventsClick(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"453"),"onEventsClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton")
+         getlocal_1
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton") 1
+         getproperty Qname(PackageNamespace(""),"hasIndicator")
+         iffalse ofs001d
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton")
+         getlocal_1
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"TabButton") 1
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"showIndicator")
+         ofs001d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addQuestToList(param1:DailyQuestListElement) : void
+      {
+         trait method Qname(PackageNamespace(""),"addQuestToList")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         iftrue ofs001f
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"453"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.tabs"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1504"),PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),PackageInternalNs("io.decagames.rotmg.dailyQuests.view.list"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.view.list:DailyQuestsList"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.view.list:DailyQuestsList"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         ofs001f:getlocal_1
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questLinesPosition")
+         pushbyte 35
+         multiply
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"453"),"questLinesPosition")
+         increment_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"453"),"questLinesPosition")
+         kill 3
+         kill 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function addEventToList(param1:DailyQuestListElement) : void
+      {
+         trait method Qname(PackageNamespace(""),"addEventToList")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         iftrue ofs001f
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"453"),PackageNamespace(""),PackageNamespace("io.decagames.rotmg.ui.tabs"),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1504"),PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),PackageInternalNs("io.decagames.rotmg.dailyQuests.view.list"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.dailyQuests.view.list:DailyQuestsList"),StaticProtectedNs("io.decagames.rotmg.dailyQuests.view.list:DailyQuestsList"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         ofs001f:getlocal_1
+         pushbyte 10
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventLinesPosition")
+         pushbyte 35
+         multiply
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         dup
+         setlocal_2
+         getproperty Qname(PrivateNamespace(null,"453"),"eventLinesPosition")
+         increment_i
+         setlocal_3
+         getlocal_2
+         getlocal_3
+         setproperty Qname(PrivateNamespace(null,"453"),"eventLinesPosition")
+         kill 3
+         kill 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         getlocal_1
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get list() : Sprite
+      {
+         trait getter Qname(PackageNamespace(""),"list")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"Sprite")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get tabs() : UITabs
+      {
+         trait getter Qname(PackageNamespace(""),"tabs")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("io.decagames.rotmg.ui.tabs"),"UITabs")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_tabs")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clearQuestLists() : void
+      {
+         trait method Qname(PackageNamespace(""),"clearQuestLists")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_1
+         jump ofs0023
+         ofs000b:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"removeChildAt") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         astypelate
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_1
+         ofs0023:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"questsContainer")
+         getproperty Qname(PackageNamespace(""),"numChildren")
+         pushbyte 0
+         ifgt ofs000b
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"453"),"questLinesPosition")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         coerce_a
+         dup
+         iffalse ofs0051
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         pushbyte 0
+         dup
+         setlocal_2
+         setproperty Qname(PackageNamespace(""),"length")
+         getlocal_2
+         kill 2
+         coerce_a
+         ofs0051:pop
+         jump ofs006e
+         ofs0056:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"removeChildAt") 1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         astypelate
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_1
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_1
+         ofs006e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"eventsContainer")
+         getproperty Qname(PackageNamespace(""),"numChildren")
+         pushbyte 0
+         ifgt ofs0056
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"453"),"eventLinesPosition")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         coerce_a
+         dup
+         iffalse ofs009c
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         pushbyte 0
+         dup
+         setlocal_2
+         setproperty Qname(PackageNamespace(""),"length")
+         getlocal_2
+         kill 2
+         coerce_a
+         ofs009c:pop
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getCurrentlySelected(param1:String) : DailyQuestListElement
+      {
+         trait method Qname(PackageNamespace(""),"getCurrentlySelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         
+         body
+         maxstack 2
+         localcount 7
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_3
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal 4
+         getlocal_1
+         getlex Qname(PackageNamespace(""),"QUEST_TAB_LABEL")
+         ifne ofs0054
+         pushbyte 0
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_dailyQuestElements")
+         coerce_a
+         setlocal 6
+         jump ofs0045
+         ofs002a:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"isSelected")
+         iffalse ofs0045
+         getlocal_3
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_2
+         jump ofs004c
+         ofs0045:hasnext2 6 5
+         iftrue ofs002a
+         ofs004c:kill 6
+         kill 5
+         jump ofs0094
+         ofs0054:getlocal_1
+         getlex Qname(PackageNamespace(""),"EVENT_TAB_LABEL")
+         ifne ofs0094
+         pushbyte 0
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"453"),"_eventQuestElements")
+         coerce_a
+         setlocal 6
+         jump ofs0089
+         ofs006c:label
+         getlocal 6
+         getlocal 5
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         dup
+         setlocal 4
+         getproperty Qname(PackageNamespace(""),"isSelected")
+         iffalse ofs0089
+         getlocal 4
+         coerce Qname(PackageNamespace("io.decagames.rotmg.dailyQuests.view.list"),"DailyQuestListElement")
+         setlocal_2
+         jump ofs0090
+         ofs0089:hasnext2 6 5
+         iftrue ofs006c
+         ofs0090:kill 6
+         kill 5
+         ofs0094:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

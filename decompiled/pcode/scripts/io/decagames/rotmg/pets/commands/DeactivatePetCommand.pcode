@@ -1,0 +1,114 @@
+package io.decagames.rotmg.pets.commands
+{
+   import io.decagames.rotmg.pets.data.PetsModel;
+   import io.decagames.rotmg.pets.utils.PetsConstants;
+   import kabam.lib.net.api.MessageProvider;
+   import kabam.lib.net.impl.SocketServer;
+   import kabam.rotmg.messaging.impl.GameServerConnection;
+   import kabam.rotmg.messaging.impl.outgoing.ActivePetUpdateRequest;
+   import robotlegs.bender.bundles.mvcs.Command;
+   
+   public class DeactivatePetCommand extends Command
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var instanceID:uint;
+      
+      [Inject]
+      public var messages:MessageProvider;
+      
+      [Inject]
+      public var server:SocketServer;
+      
+      [Inject]
+      public var model:PetsModel;
+      
+      public function DeactivatePetCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messages")
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"ACTIVE_PET_UPDATE_REQUEST")
+         callproperty Qname(Namespace("kabam.lib.net.api:MessageProvider"),"require") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl.outgoing"),"ActivePetUpdateRequest")
+         astypelate
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl.outgoing"),"ActivePetUpdateRequest")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"instanceID")
+         setproperty Qname(PackageNamespace(""),"instanceid")
+         getlocal_1
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.utils"),"PetsConstants")
+         getproperty Qname(PackageNamespace(""),"FOLLOWING")
+         setproperty Qname(PackageNamespace(""),"commandtype")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"server")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"sendMessage") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

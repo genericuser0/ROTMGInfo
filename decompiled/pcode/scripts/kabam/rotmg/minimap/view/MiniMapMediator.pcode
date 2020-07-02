@@ -1,0 +1,468 @@
+package kabam.rotmg.minimap.view
+{
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.objects.Player;
+   import flash.utils.Dictionary;
+   import kabam.rotmg.core.view.Layers;
+   import kabam.rotmg.game.focus.control.SetGameFocusSignal;
+   import kabam.rotmg.game.signals.ExitGameSignal;
+   import kabam.rotmg.minimap.control.MiniMapZoomSignal;
+   import kabam.rotmg.minimap.control.UpdateGameObjectTileSignal;
+   import kabam.rotmg.minimap.control.UpdateGroundTileSignal;
+   import kabam.rotmg.minimap.model.UpdateGroundTileVO;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.model.UpdateGameObjectTileVO;
+   import kabam.rotmg.ui.signals.UpdateHUDSignal;
+   import robotlegs.bender.extensions.mediatorMap.api.IMediator;
+   
+   public class MiniMapMediator implements IMediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:MiniMap;
+      
+      [Inject]
+      public var model:HUDModel;
+      
+      [Inject]
+      public var setFocus:SetGameFocusSignal;
+      
+      [Inject]
+      public var updateGroundTileSignal:UpdateGroundTileSignal;
+      
+      [Inject]
+      public var updateGameObjectTileSignal:UpdateGameObjectTileSignal;
+      
+      [Inject]
+      public var miniMapZoomSignal:MiniMapZoomSignal;
+      
+      [Inject]
+      public var updateHUD:UpdateHUDSignal;
+      
+      [Inject]
+      public var exitGameSignal:ExitGameSignal;
+      
+      [Inject]
+      public var layers:Layers;
+      
+      public function MiniMapMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         callpropvoid Qname(PackageNamespace(""),"setMap") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setFocus")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onSetFocus")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateHUD")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateGameObjectTileSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateGameObjectTile")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateGroundTileSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateGroundTile")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"miniMapZoomSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onMiniMapZoom")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"exitGameSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onExitGame")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"layers")
+         getproperty Qname(PackageNamespace(""),"top")
+         setproperty Qname(PackageNamespace(""),"menuLayer")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onExitGame() : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onExitGame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"deactivate") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setFocus")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onSetFocus")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateHUD")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateHUD")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateGameObjectTileSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateGameObjectTile")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateGroundTileSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onUpdateGroundTile")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"miniMapZoomSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onMiniMapZoom")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"exitGameSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"485"),"onExitGame")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSetFocus(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onSetFocus")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"485"),"getFocusById") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"setFocus") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getFocusById(param1:String) : GameObject
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"getFocusById")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         
+         body
+         maxstack 2
+         localcount 6
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal_3
+         getlocal_1
+         pushstring ""
+         ifne ofs0019
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         returnvalue
+         ofs0019:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"goDict_")
+         coerce Qname(PackageNamespace("flash.utils"),"Dictionary")
+         setlocal_2
+         pushbyte 0
+         setlocal 4
+         getlocal_2
+         coerce_a
+         setlocal 5
+         jump ofs0048
+         ofs0033:label
+         getlocal 5
+         getlocal 4
+         nextvalue
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"name_")
+         getlocal_1
+         ifne ofs0048
+         getlocal_3
+         returnvalue
+         ofs0048:hasnext2 5 4
+         iftrue ofs0033
+         kill 5
+         kill 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Qname(PackageNamespace(""),"player_")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onUpdateGroundTile(param1:UpdateGroundTileVO) : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onUpdateGroundTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.minimap.model"),"UpdateGroundTileVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"tileX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"tileY")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"tileType")
+         callpropvoid Qname(PackageNamespace(""),"setGroundTile") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onUpdateGameObjectTile(param1:UpdateGameObjectTileVO) : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onUpdateGameObjectTile")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.ui.model"),"UpdateGameObjectTileVO")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"tileX")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"tileY")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"gameObject")
+         callpropvoid Qname(PackageNamespace(""),"setGameObjectTile") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMiniMapZoom(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onMiniMapZoom")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.minimap.control"),"MiniMapZoomSignal")
+         getproperty Qname(PackageNamespace(""),"IN")
+         ifne ofs001a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"zoomIn") 0
+         jump ofs002e
+         ofs001a:getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.minimap.control"),"MiniMapZoomSignal")
+         getproperty Qname(PackageNamespace(""),"OUT")
+         ifne ofs002e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"zoomOut") 0
+         ofs002e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onUpdateHUD(param1:Player) : void
+      {
+         trait method Qname(PrivateNamespace(null,"485"),"onUpdateHUD")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"draw") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,663 @@
+package com.company.assembleegameclient.map
+{
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.util.RandomUtil;
+   import flash.geom.Matrix3D;
+   import flash.geom.PerspectiveProjection;
+   import flash.geom.Rectangle;
+   import flash.geom.Vector3D;
+   
+   public class Camera
+   {
+      
+      public static const lN_:Vector3D;
+      
+      public static const CENTER_SCREEN_RECT:Rectangle;
+      
+      public static const OFFSET_SCREEN_RECT:Rectangle;
+      
+      private static const SCREENSHOT_SCREEN_RECT:Rectangle;
+      
+      private static const SLIM_SCREENSHOT_SCREEN_RECT:Rectangle;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 6
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"lN_")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+         pushbyte 0
+         dup
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 3
+         initproperty Qname(PackageNamespace(""),"lN_")
+         findproperty Qname(PackageNamespace(""),"CENTER_SCREEN_RECT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushshort -300
+         pushshort -325
+         pushshort 600
+         pushshort 600
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         initproperty Qname(PackageNamespace(""),"CENTER_SCREEN_RECT")
+         findproperty Qname(PackageNamespace(""),"OFFSET_SCREEN_RECT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushshort -300
+         pushshort -450
+         pushshort 600
+         pushshort 600
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         initproperty Qname(PackageNamespace(""),"OFFSET_SCREEN_RECT")
+         findproperty Qname(PrivateNamespace(null,"686"),"SCREENSHOT_SCREEN_RECT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushshort -400
+         pushshort -325
+         pushshort 800
+         pushshort 600
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         initproperty Qname(PrivateNamespace(null,"686"),"SCREENSHOT_SCREEN_RECT")
+         findproperty Qname(PrivateNamespace(null,"686"),"SLIM_SCREENSHOT_SCREEN_RECT")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         pushshort -400
+         pushshort -275
+         pushshort 800
+         pushshort 500
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         initproperty Qname(PrivateNamespace(null,"686"),"SLIM_SCREENSHOT_SCREEN_RECT")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var x_:Number;
+      
+      public var y_:Number;
+      
+      public var z_:Number;
+      
+      public var angleRad_:Number;
+      
+      public var clipRect_:Rectangle;
+      
+      public var pp_:PerspectiveProjection;
+      
+      public var maxDist_:Number;
+      
+      public var maxDistSq_:Number;
+      
+      public var isHallucinating_:Boolean = false;
+      
+      public var wToS_:Matrix3D;
+      
+      public var wToV_:Matrix3D;
+      
+      public var vToS_:Matrix3D;
+      
+      private var nonPPMatrix_:Matrix3D;
+      
+      private var p_:Vector3D;
+      
+      private var f_:Vector3D;
+      
+      private var u_:Vector3D;
+      
+      private var r_:Vector3D;
+      
+      private var isJittering_:Boolean = false;
+      
+      private var jitter_:Number = 0;
+      
+      private const MAX_JITTER:Number = 0.5;
+      
+      private const JITTER_BUILDUP_MS:int = 10000;
+      
+      private var rd_:Vector.<Number>;
+      
+      public function Camera()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"PerspectiveProjection")
+         constructprop Qname(PackageNamespace("flash.geom"),"PerspectiveProjection") 0
+         initproperty Qname(PackageNamespace(""),"pp_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix3D") 0
+         initproperty Qname(PackageNamespace(""),"wToS_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix3D") 0
+         initproperty Qname(PackageNamespace(""),"wToV_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix3D") 0
+         initproperty Qname(PackageNamespace(""),"vToS_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Matrix3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Matrix3D") 0
+         initproperty Qname(PrivateNamespace(null,"686"),"nonPPMatrix_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 0
+         initproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 0
+         initproperty Qname(PrivateNamespace(null,"686"),"f_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 0
+         initproperty Qname(PrivateNamespace(null,"686"),"u_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+         constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 0
+         initproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getlocal_0
+         getlex Multiname("Vector",[PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         pushbyte 16
+         pushtrue
+         construct 2
+         initproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"pp_")
+         pushbyte 3
+         setproperty Qname(PackageNamespace(""),"focalLength")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"pp_")
+         pushbyte 48
+         setproperty Qname(PackageNamespace(""),"fieldOfView")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"nonPPMatrix_")
+         pushbyte 50
+         dup
+         dup
+         callpropvoid Qname(PackageNamespace(""),"appendScale") 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         pushbyte -1
+         setproperty Qname(PackageNamespace(""),"z")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function configureCamera(param1:GameObject, param2:Boolean) : void
+      {
+         trait method Qname(PackageNamespace(""),"configureCamera")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 5
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("centerOnPlayer",[PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         iffalse ofs001a
+         getlex Qname(PackageNamespace(""),"CENTER_SCREEN_RECT")
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         jump ofs0020
+         ofs001a:getlex Qname(PackageNamespace(""),"OFFSET_SCREEN_RECT")
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         ofs0020:coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"screenShotMode_")
+         iffalse ofs004b
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"screenShotSlimMode_")
+         iftrue ofs0044
+         getlex Qname(PrivateNamespace(null,"686"),"SCREENSHOT_SCREEN_RECT")
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_3
+         jump ofs004b
+         ofs0044:getlex Qname(PrivateNamespace(null,"686"),"SLIM_SCREENSHOT_SCREEN_RECT")
+         coerce Qname(PackageNamespace("flash.geom"),"Rectangle")
+         setlocal_3
+         ofs004b:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("cameraAngle",[PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         convert_d
+         setlocal 4
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"x_")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"y_")
+         pushbyte 12
+         getlocal 4
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"configure") 5
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"isHallucinating_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function startJitter() : void
+      {
+         trait method Qname(PackageNamespace(""),"startJitter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"686"),"isJittering_")
+         getlocal_0
+         pushbyte 0
+         initproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function update(param1:Number) : void
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"isJittering_")
+         convert_b
+         dup
+         iffalse ofs0016
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"MAX_JITTER")
+         lessthan
+         ofs0016:iffalse ofs0042
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"MAX_JITTER")
+         multiply
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"JITTER_BUILDUP_MS")
+         divide
+         add
+         initproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"MAX_JITTER")
+         ifngt ofs0042
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"MAX_JITTER")
+         initproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         ofs0042:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function configure(param1:Number, param2:Number, param3:Number, param4:Number, param5:Rectangle) : void
+      {
+         trait method Qname(PackageNamespace(""),"configure")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace("flash.geom"),"Rectangle")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 8
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"isJittering_")
+         iffalse ofs002a
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"RandomUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         callproperty Qname(PackageNamespace(""),"plusMinus") 1
+         add
+         convert_d
+         setlocal_1
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"RandomUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"jitter_")
+         callproperty Qname(PackageNamespace(""),"plusMinus") 1
+         add
+         convert_d
+         setlocal_2
+         ofs002a:getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"z_")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PackageNamespace(""),"angleRad_")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PackageNamespace(""),"clipRect_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_3
+         setproperty Qname(PackageNamespace(""),"z")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"angleRad_")
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"angleRad_")
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"z")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"angleRad_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushbyte 2
+         divide
+         add
+         callproperty Qname(PackageNamespace(""),"cos") 1
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"angleRad_")
+         getlex Qname(PackageNamespace(""),"Math")
+         getproperty Qname(PackageNamespace(""),"PI")
+         pushbyte 2
+         divide
+         add
+         callproperty Qname(PackageNamespace(""),"sin") 1
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"z")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         getproperty Qname(PackageNamespace(""),"x")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 3
+         pushbyte 0
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         getproperty Qname(PackageNamespace(""),"y")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 7
+         pushbyte 0
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 8
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         getproperty Qname(PackageNamespace(""),"z")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 9
+         pushbyte -1
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 10
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         getproperty Qname(PackageNamespace(""),"z")
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 11
+         pushbyte 0
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 12
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"r_")
+         callproperty Qname(PackageNamespace(""),"dotProduct") 1
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 13
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"u_")
+         callproperty Qname(PackageNamespace(""),"dotProduct") 1
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 14
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"p_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"f_")
+         callproperty Qname(PackageNamespace(""),"dotProduct") 1
+         negate
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         pushbyte 15
+         pushbyte 1
+         setproperty MultinameL([PrivateNamespace(null,"686"),PackageNamespace(""),PrivateNamespace(null,"1683"),PackageNamespace("com.company.assembleegameclient.map"),PackageInternalNs("com.company.assembleegameclient.map"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map:Camera"),StaticProtectedNs("com.company.assembleegameclient.map:Camera")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"wToV_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"rd_")
+         setproperty Qname(PackageNamespace(""),"rawData")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"686"),"nonPPMatrix_")
+         initproperty Qname(PackageNamespace(""),"vToS_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"wToS_")
+         callpropvoid Qname(PackageNamespace(""),"identity") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"wToS_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"wToV_")
+         callpropvoid Qname(PackageNamespace(""),"append") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"wToS_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vToS_")
+         callpropvoid Qname(PackageNamespace(""),"append") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"clipRect_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         pushbyte 50
+         multiply
+         divide
+         convert_d
+         setlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"clipRect_")
+         getproperty Qname(PackageNamespace(""),"height")
+         pushbyte 2
+         pushbyte 50
+         multiply
+         divide
+         convert_d
+         setlocal 7
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getlocal 6
+         multiply
+         getlocal 7
+         getlocal 7
+         multiply
+         add
+         callproperty Qname(PackageNamespace(""),"sqrt") 1
+         pushbyte 1
+         add
+         initproperty Qname(PackageNamespace(""),"maxDist_")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxDist_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"maxDist_")
+         multiply
+         initproperty Qname(PackageNamespace(""),"maxDistSq_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

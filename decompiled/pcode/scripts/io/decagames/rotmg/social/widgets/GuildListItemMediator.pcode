@@ -1,0 +1,815 @@
+package io.decagames.rotmg.social.widgets
+{
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.game.GameSprite;
+   import com.company.assembleegameclient.game.events.GuildResultEvent;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.ui.dialogs.Dialog;
+   import com.company.assembleegameclient.util.GuildUtil;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.social.model.SocialModel;
+   import io.decagames.rotmg.social.signals.RefreshListSignal;
+   import io.decagames.rotmg.ui.popups.signals.CloseCurrentPopupSignal;
+   import kabam.rotmg.chat.control.ShowChatInputSignal;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.dialogs.control.CloseDialogsSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.game.model.GameInitData;
+   import kabam.rotmg.game.signals.PlayGameSignal;
+   import kabam.rotmg.messaging.impl.GameServerConnection;
+   import kabam.rotmg.text.model.TextKey;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.ui.model.HUDModel;
+   import kabam.rotmg.ui.signals.EnterGameSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class GuildListItemMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:GuildListItem;
+      
+      [Inject]
+      public var enterGame:EnterGameSignal;
+      
+      [Inject]
+      public var socialModel:SocialModel;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var playGame:PlayGameSignal;
+      
+      [Inject]
+      public var chatSignal:ShowChatInputSignal;
+      
+      [Inject]
+      public var closeCurrentPopup:CloseCurrentPopupSignal;
+      
+      [Inject]
+      public var refreshSignal:RefreshListSignal;
+      
+      [Inject]
+      public var openDialogSignal:OpenDialogSignal;
+      
+      [Inject]
+      public var closeDialogsSignal:CloseDialogsSignal;
+      
+      [Inject]
+      public var hudModel:HUDModel;
+      
+      private var _gameServerConnection:GameServerConnection;
+      
+      private var _gameSprite:GameSprite;
+      
+      public function GuildListItemMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"hudModel")
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         initproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getproperty Qname(PackageNamespace(""),"gsc_")
+         initproperty Qname(PrivateNamespace(null,"406"),"_gameServerConnection")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         iffalse ofs0038
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"removeButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onRemoveClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0038:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         iffalse ofs0058
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"messageButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onMessageClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0058:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         iffalse ofs0078
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"teleportButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onTeleportClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0078:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"promoteButton")
+         iffalse ofs0098
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"promoteButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onPromoteClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs0098:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"demoteButton")
+         iffalse ofs00b8
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"demoteButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onDemoteClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs00b8:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onRemoveClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         pushstring ""
+         pushstring ""
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"REMOVE_LEFT")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"REMOVE_RIGHT")
+         pushstring "/removeFromGuild"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog") 5
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"REMOVE_TEXT")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callpropvoid Qname(PackageNamespace(""),"setTextParams") 2
+         getlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"REMOVE_TITLE")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setTitleStringBuilder") 1
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onCancelDialog")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onVerifiedRemove")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialogSignal")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onVerifiedRemove(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onVerifiedRemove")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogsSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         getproperty Qname(PackageNamespace(""),"EVENT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onRemoveResult")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameServerConnection")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         callpropvoid Qname(PackageNamespace(""),"guildRemove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemoveResult(param1:GuildResultEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onRemoveResult")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         getproperty Qname(PackageNamespace(""),"EVENT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onRemoveResult")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"success_")
+         iftrue ofs0021
+         jump ofs0044
+         ofs0021:getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         callpropvoid Qname(PackageNamespace(""),"removeGuildMember") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"refreshSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.social.signals"),"RefreshListSignal")
+         getproperty Qname(PackageNamespace(""),"CONTEXT_GUILD_LIST")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"success_")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         ofs0044:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCancelDialog(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onCancelDialog")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogsSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTeleportClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onTeleportClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getproperty Qname(PackageNamespace(""),"currentCharId")
+         callproperty Qname(PackageNamespace(""),"getCharacterById") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_3
+         getlocal_3
+         iffalse ofs0030
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"charXML_")
+         getproperty Multiname("IsChallenger",[PrivateNamespace(null,"406"),PackageNamespace(""),PrivateNamespace(null,"1478"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         callproperty Qname(PackageNamespace(""),"int") 1
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         convert_b
+         setlocal_2
+         ofs0030:getlocal_2
+         iffalse ofs004d
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"serverName")
+         setproperty Multiname("preferredChallengerServer",[PrivateNamespace(null,"406"),PackageNamespace(""),PrivateNamespace(null,"1478"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         jump ofs0061
+         ofs004d:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"serverName")
+         setproperty Multiname("preferredServer",[PrivateNamespace(null,"406"),PackageNamespace(""),PrivateNamespace(null,"1478"),PackageNamespace("io.decagames.rotmg.social.widgets"),PackageInternalNs("io.decagames.rotmg.social.widgets"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("io.decagames.rotmg.social.widgets:GuildListItemMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         ofs0061:getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"enterGame")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         dup
+         setlocal 4
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"createCharacter")
+         getlocal 4
+         getlocal_3
+         callproperty Qname(PackageNamespace(""),"charId") 0
+         setproperty Qname(PackageNamespace(""),"charId")
+         getlocal 4
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isNewGame")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playGame")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopup")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onMessageClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onMessageClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"chatSignal")
+         pushtrue
+         pushstring "/tell "
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         add
+         pushstring " "
+         add
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeCurrentPopup")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPromoteClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onPromoteClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"rank")
+         callproperty Qname(PackageNamespace(""),"promotedRank") 1
+         callproperty Qname(PackageNamespace(""),"rankToString") 1
+         coerce_s
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         pushstring ""
+         pushstring ""
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PROMOTE_LEFTBUTTON")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PROMOTE_RIGHTBUTTON")
+         pushstring "/promote"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog") 5
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         setlocal_3
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PROMOTE_TEXT")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         pushstring "rank"
+         getlocal_2
+         newobject 2
+         callpropvoid Qname(PackageNamespace(""),"setTextParams") 2
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"PROMOTE_TITLE")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setTitleStringBuilder") 1
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onCancelDialog")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onVerifiedPromote")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialogSignal")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onVerifiedPromote(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onVerifiedPromote")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogsSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         getproperty Qname(PackageNamespace(""),"EVENT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onSetRankResult")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameServerConnection")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"rank")
+         callproperty Qname(PackageNamespace(""),"promotedRank") 1
+         callpropvoid Qname(PackageNamespace(""),"changeGuildRank") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSetRankResult(param1:GuildResultEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onSetRankResult")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         getproperty Qname(PackageNamespace(""),"EVENT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onSetRankResult")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"success_")
+         iftrue ofs0021
+         jump ofs0029
+         ofs0021:getlocal_0
+         getproperty Qname(PackageNamespace(""),"socialModel")
+         callpropvoid Qname(PackageNamespace(""),"loadGuildData") 0
+         ofs0029:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDemoteClick(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onDemoteClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"rank")
+         callproperty Qname(PackageNamespace(""),"demotedRank") 1
+         callproperty Qname(PackageNamespace(""),"rankToString") 1
+         coerce_s
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         pushstring ""
+         pushstring ""
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"DEMOTE_LEFT")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"DEMOTE_RIGHT")
+         pushstring "/demote"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog") 5
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         setlocal_3
+         getlocal_3
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"DEMOTE_TEXT")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         pushstring "rank"
+         getlocal_2
+         newobject 2
+         callpropvoid Qname(PackageNamespace(""),"setTextParams") 2
+         getlocal_3
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"DEMOTE_TITLE")
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         newobject 1
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setTitleStringBuilder") 1
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onCancelDialog")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"Dialog")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onVerifiedDemote")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialogSignal")
+         getlocal_3
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onVerifiedDemote(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"406"),"onVerifiedDemote")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closeDialogsSignal")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameSprite")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.game.events"),"GuildResultEvent")
+         getproperty Qname(PackageNamespace(""),"EVENT")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"onSetRankResult")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"406"),"_gameServerConnection")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callproperty Qname(PackageNamespace(""),"getLabelText") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"GuildUtil")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"guildMemberVO")
+         getproperty Qname(PackageNamespace(""),"rank")
+         callproperty Qname(PackageNamespace(""),"demotedRank") 1
+         callpropvoid Qname(PackageNamespace(""),"changeGuildRank") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,230 @@
+package com.hurlant.crypto.symmetric
+{
+   import flash.utils.ByteArray;
+   
+   public class PKCS5 implements IPad
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var blockSize:uint;
+      
+      public function PKCS5(param1:uint = 0)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"uint")
+         optional 0
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1134"),"blockSize")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function pad(param1:ByteArray) : void
+      {
+         trait method Qname(PackageNamespace(""),"pad")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1134"),"blockSize")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1134"),"blockSize")
+         modulo
+         subtract
+         convert_u
+         setlocal_2
+         pushbyte 0
+         convert_u
+         setlocal_3
+         jump ofs0029
+         ofs001a:label
+         getlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"1134"),PackageNamespace(""),PrivateNamespace(null,"2078"),PackageNamespace("com.hurlant.crypto.symmetric"),PackageInternalNs("com.hurlant.crypto.symmetric"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.hurlant.crypto.symmetric:PKCS5"),StaticProtectedNs("com.hurlant.crypto.symmetric:PKCS5")])
+         getlocal_3
+         increment
+         convert_u
+         setlocal_3
+         ofs0029:getlocal_3
+         getlocal_2
+         iflt ofs001a
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function unpad(param1:ByteArray) : void
+      {
+         trait method Qname(PackageNamespace(""),"unpad")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 7
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         convert_u
+         setlocal 4
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1134"),"blockSize")
+         modulo
+         convert_u
+         setlocal_2
+         getlocal_2
+         pushbyte 0
+         ifeq ofs0025
+         findpropstrict Qname(PackageNamespace(""),"Error")
+         pushstring "PKCS#5::unpad: ByteArray.length isn\'t a multiple of the blockSize"
+         constructprop Qname(PackageNamespace(""),"Error") 1
+         throw
+         ofs0025:getlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"1134"),PackageNamespace(""),PrivateNamespace(null,"2078"),PackageNamespace("com.hurlant.crypto.symmetric"),PackageInternalNs("com.hurlant.crypto.symmetric"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.hurlant.crypto.symmetric:PKCS5"),StaticProtectedNs("com.hurlant.crypto.symmetric:PKCS5")])
+         convert_u
+         setlocal_2
+         getlocal_2
+         convert_u
+         setlocal_3
+         jump ofs0081
+         ofs0038:label
+         getlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         getproperty MultinameL([PrivateNamespace(null,"1134"),PackageNamespace(""),PrivateNamespace(null,"2078"),PackageNamespace("com.hurlant.crypto.symmetric"),PackageInternalNs("com.hurlant.crypto.symmetric"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.hurlant.crypto.symmetric:PKCS5"),StaticProtectedNs("com.hurlant.crypto.symmetric:PKCS5")])
+         convert_u
+         setlocal 4
+         getlocal_1
+         dup
+         setlocal 5
+         getproperty Qname(PackageNamespace(""),"length")
+         decrement
+         setlocal 6
+         getlocal 5
+         getlocal 6
+         setproperty Qname(PackageNamespace(""),"length")
+         kill 6
+         kill 5
+         getlocal_2
+         getlocal 4
+         ifeq ofs007d
+         findpropstrict Qname(PackageNamespace(""),"Error")
+         pushstring "PKCS#5:unpad: Invalid padding value. expected ["
+         getlocal_2
+         add
+         pushstring "], found ["
+         add
+         getlocal 4
+         add
+         pushstring "]"
+         add
+         constructprop Qname(PackageNamespace(""),"Error") 1
+         throw
+         ofs007d:getlocal_3
+         decrement
+         convert_u
+         setlocal_3
+         ofs0081:getlocal_3
+         pushbyte 0
+         ifgt ofs0038
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setBlockSize(param1:uint) : void
+      {
+         trait method Qname(PackageNamespace(""),"setBlockSize")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"uint")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"1134"),"blockSize")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,287 @@
+package kabam.rotmg.death.control
+{
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import kabam.lib.tasks.DispatchSignalTask;
+   import kabam.lib.tasks.TaskMonitor;
+   import kabam.lib.tasks.TaskSequence;
+   import kabam.rotmg.account.core.services.GetCharListTask;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   import kabam.rotmg.fame.control.ShowFameViewSignal;
+   import kabam.rotmg.fame.model.FameVO;
+   import kabam.rotmg.fame.model.SimpleFameVO;
+   import kabam.rotmg.messaging.impl.incoming.Death;
+   
+   public class HandleNormalDeathCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var death:Death;
+      
+      [Inject]
+      public var player:PlayerModel;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      [Inject]
+      public var task:GetCharListTask;
+      
+      [Inject]
+      public var showFame:ShowFameViewSignal;
+      
+      [Inject]
+      public var monitor:TaskMonitor;
+      
+      private var fameVO:FameVO;
+      
+      public function HandleNormalDeathCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fame.model"),"SimpleFameVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"death")
+         getproperty Qname(PackageNamespace(""),"accountId_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"death")
+         getproperty Qname(PackageNamespace(""),"charId_")
+         constructprop Qname(PackageNamespace("kabam.rotmg.fame.model"),"SimpleFameVO") 2
+         initproperty Qname(PrivateNamespace(null,"468"),"fameVO")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"468"),"trackDeath") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"468"),"updateParameters") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"468"),"gotoFameView") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function trackDeath() : void
+      {
+         trait method Qname(PrivateNamespace(null,"468"),"trackDeath")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"death")
+         getproperty Qname(PackageNamespace(""),"charId_")
+         callproperty Qname(PackageNamespace(""),"getCharById") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0024
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"level") 0
+         convert_i
+         jump ofs0026
+         ofs0024:pushbyte 0
+         ofs0026:convert_i
+         setlocal_2
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_3
+         getlocal_3
+         pushstring "killedBy"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"death")
+         getproperty Qname(PackageNamespace(""),"killedBy_")
+         setproperty Qname(PackageNamespace(""),"action")
+         getlocal_3
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"value")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateParameters() : void
+      {
+         trait method Qname(PrivateNamespace(null,"468"),"updateParameters")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         pushfalse
+         setproperty Multiname("needsRandomRealm",[PrivateNamespace(null,"468"),PackageNamespace(""),PrivateNamespace(null,"1514"),PackageNamespace("kabam.rotmg.death.control"),PackageInternalNs("kabam.rotmg.death.control"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.death.control:HandleNormalDeathCommand"),StaticProtectedNs("kabam.rotmg.death.control:HandleNormalDeathCommand")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function gotoFameView() : void
+      {
+         trait method Qname(PrivateNamespace(null,"468"),"gotoFameView")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         callproperty Qname(PackageNamespace(""),"getAccountId") 0
+         pushstring ""
+         ifne ofs0019
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"468"),"gotoFameViewOnceDataIsLoaded") 0
+         jump ofs0025
+         ofs0019:getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFame")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"468"),"fameVO")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0025:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function gotoFameViewOnceDataIsLoaded() : void
+      {
+         trait method Qname(PrivateNamespace(null,"468"),"gotoFameViewOnceDataIsLoaded")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence") 0
+         coerce Qname(PackageNamespace("kabam.lib.tasks"),"TaskSequence")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFame")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"468"),"fameVO")
+         constructprop Qname(PackageNamespace("kabam.lib.tasks"),"DispatchSignalTask") 2
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"monitor")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

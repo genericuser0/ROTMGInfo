@@ -1,0 +1,460 @@
+package io.decagames.rotmg.pets.popup.upgradeYard
+{
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.util.Currency;
+   import io.decagames.rotmg.pets.data.PetsModel;
+   import io.decagames.rotmg.pets.data.vo.requests.UpgradePetYardRequestVO;
+   import io.decagames.rotmg.pets.signals.UpgradePetSignal;
+   import io.decagames.rotmg.shop.NotEnoughResources;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.buttons.SliceScalingButton;
+   import io.decagames.rotmg.ui.popups.header.PopupHeader;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.game.model.GameModel;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class PetYardUpgradeDialogMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:PetYardUpgradeDialog;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      private var closeButton:SliceScalingButton;
+      
+      [Inject]
+      public var gameModel:GameModel;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var showDialog:ShowPopupSignal;
+      
+      [Inject]
+      public var model:PetsModel;
+      
+      [Inject]
+      public var upgradePet:UpgradePetSignal;
+      
+      public function PetYardUpgradeDialogMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "close_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(PrivateNamespace(null,"310"),"closeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"closeButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"closeButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.header"),"PopupHeader")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         callpropvoid Qname(PackageNamespace(""),"addButton") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upgradeFameButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onFamePurchase")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upgradeGoldButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onGoldPurchase")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"closeButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upgradeFameButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onFamePurchase")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"upgradeGoldButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"onGoldPurchase")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"310"),"onClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFamePurchase(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"310"),"onFamePurchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getPetYardUpgradeFamePrice") 0
+         callpropvoid Qname(PrivateNamespace(null,"310"),"purchase") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onGoldPurchase(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"310"),"onGoldPurchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getPetYardUpgradeGoldPrice") 0
+         callpropvoid Qname(PrivateNamespace(null,"310"),"purchase") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function purchase(param1:int, param2:int) : void
+      {
+         trait method Qname(PrivateNamespace(null,"310"),"purchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         equals
+         dup
+         iffalse ofs0017
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"currentGold")
+         getlocal_2
+         lessthan
+         ofs0017:iffalse ofs0035
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showDialog")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"GOLD")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         ofs0035:getlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         equals
+         dup
+         iffalse ofs004a
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"310"),"currentFame")
+         getlocal_2
+         lessthan
+         ofs004a:iffalse ofs0068
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showDialog")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources")
+         pushshort 300
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"Currency")
+         getproperty Qname(PackageNamespace(""),"FAME")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.shop"),"NotEnoughResources") 2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         ofs0068:getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getPetYardObjectID") 0
+         convert_i
+         setlocal_3
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO")
+         getlocal_3
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO") 2
+         coerce Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"upgradePet")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function get currentGold() : int
+      {
+         trait getter Qname(PrivateNamespace(null,"310"),"currentGold")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs0018
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"credits_")
+         returnvalue
+         ofs0018:getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushnull
+         ifeq ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callproperty Qname(PackageNamespace(""),"getCredits") 0
+         returnvalue
+         ofs002a:pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function get currentFame() : int
+      {
+         trait getter Qname(PrivateNamespace(null,"310"),"currentFame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"gameModel")
+         getproperty Qname(PackageNamespace(""),"player")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setlocal_1
+         getlocal_1
+         pushnull
+         ifeq ofs0018
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"fame_")
+         returnvalue
+         ofs0018:getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushnull
+         ifeq ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callproperty Qname(PackageNamespace(""),"getFame") 0
+         returnvalue
+         ofs002a:pushbyte 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

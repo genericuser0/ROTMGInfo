@@ -1,0 +1,726 @@
+package kabam.rotmg.ui.view
+{
+   import com.company.assembleegameclient.appengine.SavedCharacter;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import com.company.assembleegameclient.screens.NewCharacterScreen;
+   import com.company.assembleegameclient.screens.ServersScreen;
+   import com.company.util.MoreDateUtil;
+   import flash.events.MouseEvent;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventComingPopup;
+   import io.decagames.rotmg.seasonalEvent.popups.SeasonalEventErrorPopup;
+   import io.decagames.rotmg.seasonalEvent.signals.ShowSeasonComingPopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.popups.signals.ShowPopupSignal;
+   import kabam.rotmg.account.securityQuestions.data.SecurityQuestionsModel;
+   import kabam.rotmg.account.securityQuestions.view.SecurityQuestionsInfoDialog;
+   import kabam.rotmg.classes.model.CharacterClass;
+   import kabam.rotmg.classes.model.ClassesModel;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.service.TrackingData;
+   import kabam.rotmg.core.signals.SetScreenSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.core.signals.TrackEventSignal;
+   import kabam.rotmg.core.signals.TrackPageViewSignal;
+   import kabam.rotmg.dialogs.control.AddPopupToStartupQueueSignal;
+   import kabam.rotmg.dialogs.control.FlushPopupStartupQueueSignal;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.dialogs.model.PopupNamesConfig;
+   import kabam.rotmg.game.model.GameInitData;
+   import kabam.rotmg.game.signals.PlayGameSignal;
+   import kabam.rotmg.packages.control.InitPackagesSignal;
+   import kabam.rotmg.ui.signals.NameChangedSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class CurrentCharacterMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:CharacterSelectionAndNewsScreen;
+      
+      [Inject]
+      public var playerModel:PlayerModel;
+      
+      [Inject]
+      public var classesModel:ClassesModel;
+      
+      [Inject]
+      public var track:TrackEventSignal;
+      
+      [Inject]
+      public var setScreen:SetScreenSignal;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var playGame:PlayGameSignal;
+      
+      [Inject]
+      public var nameChanged:NameChangedSignal;
+      
+      [Inject]
+      public var trackPage:TrackPageViewSignal;
+      
+      [Inject]
+      public var initPackages:InitPackagesSignal;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      [Inject]
+      public var securityQuestionsModel:SecurityQuestionsModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var showPopupSignal:ShowPopupSignal;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var addToQueueSignal:AddPopupToStartupQueueSignal;
+      
+      [Inject]
+      public var flushQueueSignal:FlushPopupStartupQueueSignal;
+      
+      [Inject]
+      public var showSeasonComingPopupSignal:ShowSeasonComingPopupSignal;
+      
+      private var seasonalEventErrorPopUp:SeasonalEventErrorPopup;
+      
+      private const DAY_IN_MILLISECONDS:int = 86400000;
+      
+      private const MINUTES_IN_MILLISECONDS:int = 60000;
+      
+      public function CurrentCharacterMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal_1
+         pushnan
+         setlocal_2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"170"),"trackSomething") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         callpropvoid Qname(PackageNamespace(""),"initialize") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"newCharacter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"showClasses")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"playGame")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onPlayGame")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"serversClicked")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"showServersScreen")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"trackPage")
+         pushstring "/currentCharScreen"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nameChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNameChanged")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"initPackages")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"securityQuestionsModel")
+         getproperty Qname(PackageNamespace(""),"showSecurityQuestionsOnStartup")
+         iffalse ofs009c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.securityQuestions.view"),"SecurityQuestionsInfoDialog")
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.securityQuestions.view"),"SecurityQuestionsInfoDialog") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs009c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"scheduledSeasonalEvent")
+         iffalse ofs0120
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"CHALLENGER_INFO_POPUP")
+         getproperty MultinameL([PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         iffalse ofs0102
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"CHALLENGER_INFO_POPUP")
+         getproperty MultinameL([PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         convert_d
+         setlocal_1
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         getproperty Qname(PackageNamespace(""),"time")
+         convert_d
+         setlocal_2
+         getlocal_2
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"DAY_IN_MILLISECONDS")
+         add
+         subtract
+         pushbyte 0
+         ifngt ofs00fe
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"170"),"showSeasonsComingPopup") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"CHALLENGER_INFO_POPUP")
+         getlocal_2
+         setproperty MultinameL([PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         ofs00fe:jump ofs0120
+         ofs0102:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"170"),"showSeasonsComingPopup") 0
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlex Qname(PackageNamespace("kabam.rotmg.dialogs.model"),"PopupNamesConfig")
+         getproperty Qname(PackageNamespace(""),"CHALLENGER_INFO_POPUP")
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         constructprop Qname(PackageNamespace(""),"Date") 0
+         getproperty Qname(PackageNamespace(""),"time")
+         setproperty MultinameL([PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         ofs0120:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"nameChanged")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNameChanged")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"close")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"newCharacter")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"showClasses")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onNewCharacter")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"playGame")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onPlayGame")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNameChanged(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"onNameChanged")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setName") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonsComingPopup() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"showSeasonsComingPopup")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventComingPopup")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"scheduledSeasonalEvent")
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventComingPopup") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showServersScreen() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"showServersScreen")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreen")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"ServersScreen")
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"ServersScreen") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function trackSomething() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"trackSomething")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_2
+         getlex Qname(PackageNamespace("com.company.util"),"MoreDateUtil")
+         callproperty Qname(PackageNamespace(""),"getDayStringInPT") 0
+         coerce_s
+         setlocal_1
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("lastDailyAnalytics",[PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlocal_1
+         ifeq ofs0054
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_2
+         getlocal_2
+         pushstring "joinDate"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("joinDate",[PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         setproperty Qname(PackageNamespace(""),"action")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getlocal_1
+         setproperty Multiname("lastDailyAnalytics",[PrivateNamespace(null,"170"),PackageNamespace(""),PrivateNamespace(null,"1362"),PackageNamespace("kabam.rotmg.ui.view"),PackageInternalNs("kabam.rotmg.ui.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("kabam.rotmg.ui.view:CurrentCharacterMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         callpropvoid Qname(PackageNamespace(""),"save") 0
+         ofs0054:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onNewCharacter() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"onNewCharacter")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"remainingCharacters")
+         pushbyte 0
+         equals
+         ofs001a:iffalse ofs002b
+         getlocal_0
+         pushstring "You cannot create more characters"
+         callpropvoid Qname(PrivateNamespace(null,"170"),"showSeasonalErrorPopUp") 1
+         jump ofs003a
+         ofs002b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreen")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"NewCharacterScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"NewCharacterScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSeasonalErrorPopUp(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"showSeasonalErrorPopUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup")
+         getlocal_1
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.popups"),"SeasonalEventErrorPopup") 1
+         initproperty Qname(PrivateNamespace(null,"170"),"seasonalEventErrorPopUp")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showPopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSeasonalErrorPopUpClose(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"onSeasonalErrorPopUpClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"seasonalEventErrorPopUp")
+         getproperty Qname(PackageNamespace(""),"okButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"onSeasonalErrorPopUpClose")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"170"),"seasonalEventErrorPopUp")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"onClose")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"isChallenger")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isInvalidated")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isLogOutLogIn")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"TitleView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onPlayGame() : void
+      {
+         trait method Qname(PrivateNamespace(null,"170"),"onPlayGame")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"getCharacterByIndex") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.appengine"),"SavedCharacter")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playerModel")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"charId") 0
+         setproperty Qname(PackageNamespace(""),"currentCharId")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"classesModel")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"objectType") 0
+         callproperty Qname(PackageNamespace(""),"getCharacterClass") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterClass")
+         setlocal_2
+         getlocal_2
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setIsSelected") 1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"skins")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"skinType") 0
+         callproperty Qname(PackageNamespace(""),"getSkin") 1
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setIsSelected") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"TrackingData")
+         setlocal_3
+         getlocal_3
+         pushstring "character"
+         setproperty Qname(PackageNamespace(""),"category")
+         getlocal_3
+         pushstring "select"
+         setproperty Qname(PackageNamespace(""),"action")
+         getlocal_3
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"displayId") 0
+         setproperty Qname(PackageNamespace(""),"label")
+         getlocal_3
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"level") 0
+         setproperty Qname(PackageNamespace(""),"value")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         constructprop Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.game.model"),"GameInitData")
+         dup
+         setlocal 4
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"createCharacter")
+         getlocal 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"charId") 0
+         setproperty Qname(PackageNamespace(""),"charId")
+         getlocal 4
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"isNewGame")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"playGame")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

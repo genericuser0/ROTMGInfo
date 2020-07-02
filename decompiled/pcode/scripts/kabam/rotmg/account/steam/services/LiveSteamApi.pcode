@@ -1,0 +1,562 @@
+package kabam.rotmg.account.steam.services
+{
+   import flash.display.Loader;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.net.URLRequest;
+   import kabam.rotmg.account.steam.SteamApi;
+   import org.osflash.signals.OnceSignal;
+   import org.osflash.signals.Signal;
+   import robotlegs.bender.framework.api.ILogger;
+   
+   public class LiveSteamApi extends Sprite implements SteamApi
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var logger:ILogger;
+      
+      private const _loaded:Signal;
+      
+      private const _sessionReceived:Signal;
+      
+      private const _paymentAuthorized:Signal;
+      
+      private var loader:Loader;
+      
+      private var api;
+      
+      private var steamID:String;
+      
+      private var sessionTicket:String;
+      
+      public function LiveSteamApi()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         initproperty Qname(PrivateNamespace(null,"845"),"_loaded")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"Boolean")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 1
+         initproperty Qname(PrivateNamespace(null,"845"),"_sessionReceived")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         getlex Qname(PackageNamespace(""),"uint")
+         getlex Qname(PackageNamespace(""),"String")
+         getlex Qname(PackageNamespace(""),"Boolean")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 3
+         initproperty Qname(PrivateNamespace(null,"845"),"_paymentAuthorized")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function load(param1:String) : void
+      {
+         trait method Qname(PackageNamespace(""),"load")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "LiveSteamApi load"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"info") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Loader")
+         constructprop Qname(PackageNamespace("flash.display"),"Loader") 0
+         dup
+         setlocal_2
+         initproperty Qname(PrivateNamespace(null,"845"),"loader")
+         getlocal_2
+         kill 2
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"loader")
+         getproperty Qname(PackageNamespace(""),"contentLoaderInfo")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"onAPILoaded")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"loader")
+         findpropstrict Qname(PackageNamespace("flash.net"),"URLRequest")
+         getlocal_1
+         constructprop Qname(PackageNamespace("flash.net"),"URLRequest") 1
+         callpropvoid Qname(PackageNamespace(""),"load") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onAPILoaded(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"845"),"onAPILoaded")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"loader")
+         getproperty Qname(PackageNamespace(""),"contentLoaderInfo")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"onAPILoaded")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"target")
+         getproperty Multiname("content",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         initproperty Qname(PrivateNamespace(null,"845"),"api")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         pushstring "STEAM_MICRO_TXN_AUTH"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"onSteamMicroTxnAuthEvent")
+         callpropvoid Multiname("addEventListener",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loaded")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSteamMicroTxnAuthEvent(param1:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"845"),"onSteamMicroTxnAuthEvent")
+         dispid 0
+         method
+         name null
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "LiveSteamApi onSteamMicroTxnAuthEvent: {0}"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"sessionTicket")
+         newarray 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 2
+         findpropstrict Qname(PackageNamespace(""),"uint")
+         getlocal_1
+         getproperty Multiname("appID",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"uint") 1
+         convert_u
+         setlocal_2
+         findpropstrict Qname(PackageNamespace(""),"String")
+         getlocal_1
+         getproperty Multiname("orderID",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"String") 1
+         coerce_s
+         setlocal_3
+         findpropstrict Qname(PackageNamespace(""),"Boolean")
+         getlocal_1
+         getproperty Multiname("isAuthorized",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callproperty Qname(PackageNamespace(""),"Boolean") 1
+         convert_b
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"_paymentAuthorized")
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function requestSessionTicket() : void
+      {
+         trait method Qname(PackageNamespace(""),"requestSessionTicket")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "LiveSteamApi requestSessionTicket"
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"onSessionTicketResponse")
+         callpropvoid Multiname("requestSessionTicket",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSessionTicketResponse(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"845"),"onSessionTicketResponse")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushnull
+         equals
+         not
+         setlocal_2
+         getlocal_2
+         coerce_a
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getlocal_1
+         dup
+         setlocal_3
+         initproperty Qname(PrivateNamespace(null,"845"),"sessionTicket")
+         getlocal_3
+         kill 3
+         coerce_a
+         ofs001a:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"logger")
+         pushstring "LiveSteamApi sessionTicket: {0}"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"sessionTicket")
+         newarray 1
+         callpropvoid Qname(Namespace("robotlegs.bender.framework.api:ILogger"),"debug") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"sessionReceived")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getSessionAuthentication() : Object
+      {
+         trait method Qname(PackageNamespace(""),"getSessionAuthentication")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         newobject 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"steamID")
+         coerce_s
+         dup
+         iftrue ofs001e
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         callproperty Multiname("getSteamID",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         coerce_s
+         ofs001e:dup
+         setlocal_2
+         initproperty Qname(PrivateNamespace(null,"845"),"steamID")
+         getlocal_2
+         kill 2
+         setproperty Multiname("steamid",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"sessionTicket")
+         setproperty Multiname("sessionticket",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getSteamId() : String
+      {
+         trait method Qname(PackageNamespace(""),"getSteamId")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         callproperty Multiname("getSteamID",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function reportStatistic(param1:String, param2:int) : void
+      {
+         trait method Qname(PackageNamespace(""),"reportStatistic")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         getlocal_1
+         getlocal_2
+         callpropvoid Multiname("setStatFromInt",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get loaded() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"loaded")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"_loaded")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get sessionReceived() : Signal
+      {
+         trait getter Qname(PackageNamespace(""),"sessionReceived")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"_sessionReceived")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get paymentAuthorized() : OnceSignal
+      {
+         trait getter Qname(PackageNamespace(""),"paymentAuthorized")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("org.osflash.signals"),"OnceSignal")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"_paymentAuthorized")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get isOverlayEnabled() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"isOverlayEnabled")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         callproperty Multiname("isOverlayEnabled",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getPersonaName() : String
+      {
+         trait method Qname(PackageNamespace(""),"getPersonaName")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"845"),"api")
+         callproperty Multiname("getPersonaName",[PrivateNamespace(null,"845"),PackageNamespace(""),PrivateNamespace(null,"1822"),PackageNamespace("kabam.rotmg.account.steam.services"),PackageInternalNs("kabam.rotmg.account.steam.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("kabam.rotmg.account.steam.services:LiveSteamApi"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

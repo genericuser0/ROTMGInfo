@@ -1,0 +1,424 @@
+package kabam.rotmg.build.impl
+{
+   import flash.display.LoaderInfo;
+   import flash.net.LocalConnection;
+   import flash.system.Capabilities;
+   import kabam.rotmg.build.api.BuildData;
+   import kabam.rotmg.build.api.BuildEnvironment;
+   
+   public class CompileTimeBuildData implements BuildData
+   {
+      
+      private static const DESKTOP:String = "Desktop";
+      
+      private static const ROTMG:String = "www.realmofthemadgod.com";
+      
+      private static const ROTMG_APPSPOT:String = "realmofthemadgodhrd.appspot.com";
+      
+      private static const ROTMG_TESTING:String = "test.realmofthemadgod.com";
+      
+      private static const ROTMG_TESTING_MAP:String = "test.realmofthemadgod.com";
+      
+      private static const ROTMG_TESTING2:String = "test2.realmofthemadgod.com";
+      
+      private static const STEAM_PRODUCTION_CONFIG:String = "Production";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"93"),"DESKTOP")
+         pushstring "Desktop"
+         initproperty Qname(PrivateNamespace(null,"93"),"DESKTOP")
+         findproperty Qname(PrivateNamespace(null,"93"),"ROTMG")
+         pushstring "www.realmofthemadgod.com"
+         initproperty Qname(PrivateNamespace(null,"93"),"ROTMG")
+         findproperty Qname(PrivateNamespace(null,"93"),"ROTMG_APPSPOT")
+         pushstring "realmofthemadgodhrd.appspot.com"
+         initproperty Qname(PrivateNamespace(null,"93"),"ROTMG_APPSPOT")
+         findproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING")
+         pushstring "test.realmofthemadgod.com"
+         initproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING")
+         findproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING_MAP")
+         pushstring "test.realmofthemadgod.com"
+         initproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING_MAP")
+         findproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING2")
+         pushstring "test2.realmofthemadgod.com"
+         initproperty Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING2")
+         findproperty Qname(PrivateNamespace(null,"93"),"STEAM_PRODUCTION_CONFIG")
+         pushstring "Production"
+         initproperty Qname(PrivateNamespace(null,"93"),"STEAM_PRODUCTION_CONFIG")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var loaderInfo:LoaderInfo;
+      
+      [Inject]
+      public var environments:BuildEnvironments;
+      
+      private var isParsed:Boolean = false;
+      
+      private var environment:BuildEnvironment;
+      
+      public function CompileTimeBuildData()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getEnvironmentString() : String
+      {
+         trait method Qname(PackageNamespace(""),"getEnvironmentString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "production"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toLowerCase") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getEnvironment() : BuildEnvironment
+      {
+         trait method Qname(PackageNamespace(""),"getEnvironment")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"93"),"isParsed")
+         coerce_a
+         dup
+         iftrue ofs0013
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"93"),"parseEnvironment") 0
+         coerce_a
+         ofs0013:pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"93"),"environment")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function parseEnvironment() : void
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"parseEnvironment")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushtrue
+         initproperty Qname(PrivateNamespace(null,"93"),"isParsed")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"getEnvironmentString") 0
+         callpropvoid Qname(PrivateNamespace(null,"93"),"setEnvironmentValue") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setEnvironmentValue(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"setEnvironmentValue")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 4
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("flash.net"),"LocalConnection")
+         setlocal_3
+         getlocal_0
+         getlocal_1
+         callproperty Qname(PrivateNamespace(null,"93"),"conditionsRequireTesting") 1
+         convert_b
+         setlocal_2
+         getlocal_2
+         iffalse ofs0063
+         findpropstrict Qname(PackageNamespace("flash.net"),"LocalConnection")
+         constructprop Qname(PackageNamespace("flash.net"),"LocalConnection") 0
+         coerce Qname(PackageNamespace("flash.net"),"LocalConnection")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"domain")
+         getlex Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING")
+         equals
+         dup
+         iftrue ofs0037
+         pop
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"domain")
+         getlex Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING_MAP")
+         equals
+         ofs0037:iffalse ofs0049
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"TESTING")
+         initproperty Qname(PrivateNamespace(null,"93"),"environment")
+         jump ofs005f
+         ofs0049:getlocal_3
+         getproperty Qname(PackageNamespace(""),"domain")
+         getlex Qname(PrivateNamespace(null,"93"),"ROTMG_TESTING2")
+         ifne ofs005f
+         getlocal_0
+         getlex Qname(PackageNamespace("kabam.rotmg.build.api"),"BuildEnvironment")
+         getproperty Qname(PackageNamespace(""),"TESTING2")
+         initproperty Qname(PrivateNamespace(null,"93"),"environment")
+         ofs005f:jump ofs0070
+         ofs0063:getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"environments")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getEnvironment") 1
+         initproperty Qname(PrivateNamespace(null,"93"),"environment")
+         ofs0070:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function conditionsRequireTesting(param1:String) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"conditionsRequireTesting")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace("kabam.rotmg.build.impl"),"BuildEnvironments")
+         getproperty Qname(PackageNamespace(""),"PRODUCTION")
+         equals
+         dup
+         iffalse ofs0017
+         pop
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"93"),"isMarkedAsProductionRelease") 0
+         not
+         ofs0017:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isMarkedAsProductionRelease() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"isMarkedAsProductionRelease")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"93"),"isDesktopPlayer") 0
+         iffalse ofs0015
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"93"),"isSteamProductionDeployment") 0
+         convert_b
+         jump ofs001b
+         ofs0015:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"93"),"isHostedOnProductionServers") 0
+         convert_b
+         ofs001b:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isDesktopPlayer() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"isDesktopPlayer")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("flash.system"),"Capabilities")
+         getproperty Qname(PackageNamespace(""),"playerType")
+         getlex Qname(PrivateNamespace(null,"93"),"DESKTOP")
+         equals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isSteamProductionDeployment() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"isSteamProductionDeployment")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"loaderInfo")
+         getproperty Qname(PackageNamespace(""),"parameters")
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getproperty Multiname("deployment",[PrivateNamespace(null,"93"),Namespace("http://adobe.com/AS3/2006/builtin"),PackageNamespace(""),PackageNamespace("kabam.rotmg.build.impl"),PrivateNamespace(null,"1334"),PackageInternalNs("kabam.rotmg.build.impl"),ProtectedNamespace("kabam.rotmg.build.impl:CompileTimeBuildData"),StaticProtectedNs("kabam.rotmg.build.impl:CompileTimeBuildData")])
+         getlex Qname(PrivateNamespace(null,"93"),"STEAM_PRODUCTION_CONFIG")
+         equals
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isHostedOnProductionServers() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"93"),"isHostedOnProductionServers")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.net"),"LocalConnection")
+         constructprop Qname(PackageNamespace("flash.net"),"LocalConnection") 0
+         coerce Qname(PackageNamespace("flash.net"),"LocalConnection")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"domain")
+         getlex Qname(PrivateNamespace(null,"93"),"ROTMG")
+         equals
+         dup
+         iftrue ofs0025
+         pop
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"domain")
+         getlex Qname(PrivateNamespace(null,"93"),"ROTMG_APPSPOT")
+         equals
+         ofs0025:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

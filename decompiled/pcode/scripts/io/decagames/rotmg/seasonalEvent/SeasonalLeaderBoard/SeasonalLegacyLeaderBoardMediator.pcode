@@ -1,0 +1,960 @@
+package io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard
+{
+   import flash.events.Event;
+   import io.decagames.rotmg.seasonalEvent.data.LegacySeasonData;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import io.decagames.rotmg.seasonalEvent.signals.RequestLegacySeasonSignal;
+   import io.decagames.rotmg.seasonalEvent.signals.SeasonalLeaderBoardErrorSignal;
+   import io.decagames.rotmg.ui.buttons.BaseButton;
+   import io.decagames.rotmg.ui.buttons.SliceScalingButton;
+   import io.decagames.rotmg.ui.defaults.DefaultLabelFormat;
+   import io.decagames.rotmg.ui.popups.header.PopupHeader;
+   import io.decagames.rotmg.ui.popups.signals.ClosePopupSignal;
+   import io.decagames.rotmg.ui.texture.TextureParser;
+   import kabam.rotmg.core.signals.HideTooltipsSignal;
+   import kabam.rotmg.core.signals.ShowTooltipSignal;
+   import kabam.rotmg.legends.control.FameListUpdateSignal;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class SeasonalLegacyLeaderBoardMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:SeasonalLegacyLeaderBoard;
+      
+      [Inject]
+      public var closePopupSignal:ClosePopupSignal;
+      
+      [Inject]
+      public var showTooltipSignal:ShowTooltipSignal;
+      
+      [Inject]
+      public var hideTooltipSignal:HideTooltipsSignal;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var seasonalLeaderBoardErrorSignal:SeasonalLeaderBoardErrorSignal;
+      
+      [Inject]
+      public var requestLegacySeasonSignal:RequestLegacySeasonSignal;
+      
+      [Inject]
+      public var updateBoardSignal:FameListUpdateSignal;
+      
+      private var closeButton:SliceScalingButton;
+      
+      private var _currentSeasonId:String = "";
+      
+      private var _isActiveSeason:Boolean;
+      
+      private var _legacyLeaderBoardSeasons:Vector.<LegacySeasonData>;
+      
+      public function SeasonalLegacyLeaderBoardMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"200"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1371"),PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")
+         applytype 1
+         pushbyte 0
+         construct 1
+         initproperty Qname(PrivateNamespace(null,"200"),"_legacyLeaderBoardSeasons")
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalLeaderBoardErrorSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onLeaderBoardError")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         pushstring "Seasons Leaderboard"
+         pushshort 480
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.defaults"),"DefaultLabelFormat")
+         getproperty Qname(PackageNamespace(""),"defaultMediumPopupTitle")
+         callpropvoid Qname(PackageNamespace(""),"setTitle") 3
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.texture"),"TextureParser")
+         getproperty Qname(PackageNamespace(""),"instance")
+         pushstring "UI"
+         pushstring "close_button"
+         callproperty Qname(PackageNamespace(""),"getSliceScalingBitmap") 2
+         constructprop Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"SliceScalingButton") 1
+         initproperty Qname(PrivateNamespace(null,"200"),"closeButton")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"closeButton")
+         getproperty Qname(PackageNamespace(""),"clickSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onClose")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"header")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"closeButton")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.ui.popups.header"),"PopupHeader")
+         getproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         callpropvoid Qname(PackageNamespace(""),"addButton") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"tabSelectedSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onTabSelected")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"setSeasonData") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateBoardSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"updateLeaderBoard")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setSeasonData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"setSeasonData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")
+         setlocal 5
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"200"),PackageNamespace(""),PackageNamespace("__AS3__.vec"),PrivateNamespace(null,"1371"),PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         getlex Qname(PackageNamespace(""),"String")
+         applytype 1
+         pushbyte 0
+         construct 1
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace(""),"String")>)
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"legacySeasons")
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")>)
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         jump ofs005f
+         ofs0033:label
+         getlocal_2
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"200"),PackageNamespace(""),PrivateNamespace(null,"1371"),PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")
+         dup
+         setlocal 5
+         getproperty Qname(PackageNamespace(""),"hasLeaderBoard")
+         iffalse ofs005d
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_legacyLeaderBoardSeasons")
+         getlocal 5
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         getlocal_1
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"title")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"push") 1
+         ofs005d:inclocal_i 4
+         ofs005f:getlocal 4
+         getlocal_3
+         iflt ofs0033
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 0
+         ifngt ofs009e
+         getlocal_0
+         pushstring ""
+         initproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         getlocal_1
+         pushstring "Click to choose a season!"
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"unshift") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setDropDownData") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"dropDown")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CHANGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onDropDownChanged")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs009e:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDropDownChanged(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"onDropDownChanged")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"resetLeaderBoard") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"showSpinner") 0
+         getlocal_0
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"200"),"getSeasonId") 0
+         initproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         callproperty Qname(PrivateNamespace(null,"200"),"isSeasonActive") 1
+         iffalse ofs003c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         callproperty Qname(PackageNamespace(""),"getTabButtonByLabel") 1
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         jump ofs0052
+         ofs003c:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         callproperty Qname(PackageNamespace(""),"getTabButtonByLabel") 1
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         ofs0052:getlocal_0
+         getproperty Qname(PackageNamespace(""),"requestLegacySeasonSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isSeasonActive(param1:String) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"isSeasonActive")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushfalse
+         setlocal_2
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_legacyLeaderBoardSeasons")
+         getproperty Qname(PackageNamespace(""),"length")
+         convert_i
+         setlocal_3
+         pushbyte 0
+         setlocal 4
+         jump ofs0048
+         ofs001a:label
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_legacyLeaderBoardSeasons")
+         getlocal 4
+         getproperty MultinameL([PrivateNamespace(null,"200"),PackageNamespace(""),PrivateNamespace(null,"1371"),PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),PackageInternalNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard:SeasonalLegacyLeaderBoardMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.data"),"LegacySeasonData")
+         setlocal 5
+         getlocal_1
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"seasonId")
+         equals
+         dup
+         iffalse ofs003c
+         pop
+         getlocal 5
+         getproperty Qname(PackageNamespace(""),"active")
+         convert_b
+         ofs003c:iffalse ofs0046
+         pushtrue
+         setlocal_2
+         jump ofs004f
+         ofs0046:inclocal_i 4
+         ofs0048:getlocal 4
+         getlocal_3
+         iflt ofs001a
+         ofs004f:getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function resetLeaderBoard() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"resetLeaderBoard")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearLeaderBoard") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"pause") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"leaderboardLegacyTop20ItemDatas")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"leaderboardLegacyPlayerItemDatas")
+         getlocal_0
+         pushstring ""
+         initproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"currentTabLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         ifne ofs0060
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"tabSelectedSignal")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLegacyLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"TOP_20_TAB_LABEL")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         ofs0060:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getSeasonId() : String
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"getSeasonId")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"dropDown")
+         callproperty Qname(PackageNamespace(""),"getValue") 0
+         coerce_s
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"getSeasonIdByTitle") 1
+         coerce_s
+         setlocal_2
+         getlocal_2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onLeaderBoardError(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"onLeaderBoardError")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearLeaderBoard") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"pause") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setErrorMessage") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getTimeFormat(param1:Number) : String
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"getTimeFormat")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 6
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"Date")
+         getlocal_1
+         constructprop Qname(PackageNamespace(""),"Date") 1
+         coerce Qname(PackageNamespace(""),"Date")
+         setlocal_2
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getHours") 0
+         pushbyte 9
+         greaterthan
+         iffalse ofs0028
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getHours") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_s
+         jump ofs0033
+         ofs0028:pushstring "0"
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getHours") 0
+         add
+         coerce_s
+         ofs0033:coerce_s
+         setlocal_3
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getMinutes") 0
+         pushbyte 9
+         greaterthan
+         iffalse ofs0052
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getMinutes") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_s
+         jump ofs005d
+         ofs0052:pushstring "0"
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getMinutes") 0
+         add
+         coerce_s
+         ofs005d:coerce_s
+         setlocal 4
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getSeconds") 0
+         pushbyte 9
+         greaterthan
+         iffalse ofs007d
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getSeconds") 0
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"toString") 0
+         coerce_s
+         jump ofs0088
+         ofs007d:pushstring "0"
+         getlocal_2
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"getSeconds") 0
+         add
+         coerce_s
+         ofs0088:coerce_s
+         setlocal 5
+         getlocal_3
+         pushstring ":"
+         add
+         getlocal 4
+         add
+         pushstring ":"
+         add
+         getlocal 5
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onTabSelected(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"onTabSelected")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         pushstring ""
+         ifeq ofs0016
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"showSpinner") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"updateLeaderBoard") 0
+         ofs0016:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showSpinner() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"showSpinner")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"resume") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"visible")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateLeaderBoard() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"updateLeaderBoard")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"currentTabLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"TOP_20_TAB_LABEL")
+         ifne ofs002b
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"leaderboardLegacyTop20ItemDatas")
+         iffalse ofs0027
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"upDateTop20") 0
+         ofs0027:jump ofs0089
+         ofs002b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"currentTabLabel")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoard")
+         getproperty Qname(PackageNamespace(""),"PLAYER_TAB_LABEL")
+         ifne ofs007a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"leaderboardLegacyPlayerItemDatas")
+         iffalse ofs0054
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"200"),"upDatePlayerPosition") 0
+         jump ofs0076
+         ofs0054:getlocal_0
+         getproperty Qname(PackageNamespace(""),"requestLegacySeasonSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         pushstring ""
+         ifeq ofs006b
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"_currentSeasonId")
+         coerce_a
+         jump ofs0071
+         ofs006b:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"200"),"getSeasonId") 0
+         coerce_a
+         ofs0071:pushfalse
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 2
+         ofs0076:jump ofs0089
+         ofs007a:getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"tabs")
+         getproperty Qname(PackageNamespace(""),"currentTabLabel")
+         callpropvoid Qname(PrivateNamespace(null,"200"),"onTabSelected") 1
+         ofs0089:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function upDateTop20() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"upDateTop20")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearLeaderBoard") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"pause") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"leaderboardLegacyTop20ItemDatas")
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")>)
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         coerce_a
+         setlocal 4
+         jump ofs004a
+         ofs0039:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addTop20Item") 1
+         ofs004a:hasnext2 4 3
+         iftrue ofs0039
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function upDatePlayerPosition() : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"upDatePlayerPosition")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearLeaderBoard") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"visible")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"spinner")
+         callpropvoid Qname(PackageNamespace(""),"pause") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"leaderboardLegacyPlayerItemDatas")
+         coerce TypeName(Qname(PackageNamespace("__AS3__.vec"),"Vector")<Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")>)
+         setlocal_1
+         pushbyte 0
+         setlocal_3
+         getlocal_1
+         coerce_a
+         setlocal 4
+         jump ofs004a
+         ofs0039:label
+         getlocal 4
+         getlocal_3
+         nextvalue
+         coerce Qname(PackageNamespace("io.decagames.rotmg.seasonalEvent.SeasonalLeaderBoard"),"SeasonalLeaderBoardItemData")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"addPlayerListItem") 1
+         ofs004a:hasnext2 4 3
+         iftrue ofs0039
+         kill 4
+         kill 3
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"closeButton")
+         callpropvoid Qname(PackageNamespace(""),"dispose") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalLeaderBoardErrorSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onLeaderBoardError")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"updateBoardSignal")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"updateLeaderBoard")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"dropDown")
+         iffalse ofs004a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"dropDown")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CHANGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"200"),"onDropDownChanged")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs004a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClose(param1:BaseButton) : void
+      {
+         trait method Qname(PrivateNamespace(null,"200"),"onClose")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("io.decagames.rotmg.ui.buttons"),"BaseButton")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"closePopupSignal")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

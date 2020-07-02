@@ -1,0 +1,814 @@
+package com.company.assembleegameclient.map.mapoverlay
+{
+   import com.company.assembleegameclient.map.Camera;
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.objects.Player;
+   import com.company.assembleegameclient.parameters.Parameters;
+   import com.company.util.GraphicsUtil;
+   import flash.display.CapsStyle;
+   import flash.display.GraphicsPath;
+   import flash.display.GraphicsPathCommand;
+   import flash.display.GraphicsSolidFill;
+   import flash.display.GraphicsStroke;
+   import flash.display.IGraphicsData;
+   import flash.display.JointStyle;
+   import flash.display.LineScaleMode;
+   import flash.display.Sprite;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.geom.Point;
+   import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
+   import flash.text.TextFormat;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.ui.model.HUDModel;
+   
+   public class SpeechBalloon extends Sprite implements IMapOverlayElement
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var go_:GameObject;
+      
+      public var lifetime_:int;
+      
+      public var hideable_:Boolean;
+      
+      public var offset_:Point;
+      
+      public var text_:TextField;
+      
+      private var backgroundFill_:GraphicsSolidFill;
+      
+      private var outlineFill_:GraphicsSolidFill;
+      
+      private var lineStyle_:GraphicsStroke;
+      
+      private var path_:GraphicsPath;
+      
+      private const graphicsData_:Vector.<IGraphicsData>;
+      
+      private var senderName:String;
+      
+      private var isTrade:Boolean;
+      
+      private var isGuild:Boolean;
+      
+      private var startTime_:int = 0;
+      
+      public function SpeechBalloon(param1:GameObject, param2:String, param3:String, param4:Boolean, param5:Boolean, param6:uint, param7:Number, param8:uint, param9:Number, param10:uint, param11:int, param12:Boolean, param13:Boolean)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"uint")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns null
+         
+         body
+         maxstack 10
+         localcount 17
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 0
+         initproperty Qname(PackageNamespace(""),"offset_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushbyte 0
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"718"),"backgroundFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 16777215
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"718"),"outlineFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsStroke")
+         pushbyte 2
+         pushfalse
+         getlex Qname(PackageNamespace("flash.display"),"LineScaleMode")
+         getproperty Qname(PackageNamespace(""),"NORMAL")
+         getlex Qname(PackageNamespace("flash.display"),"CapsStyle")
+         getproperty Qname(PackageNamespace(""),"NONE")
+         getlex Qname(PackageNamespace("flash.display"),"JointStyle")
+         getproperty Qname(PackageNamespace(""),"ROUND")
+         pushbyte 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"outlineFill_")
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsStroke") 7
+         initproperty Qname(PrivateNamespace(null,"718"),"lineStyle_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         initproperty Qname(PrivateNamespace(null,"718"),"path_")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 5
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"lineStyle_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"backgroundFill_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"path_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 3
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 4
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_STROKE")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(PrivateNamespace(null,"718"),"graphicsData_")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"go_")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"718"),"isTrade")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PrivateNamespace(null,"718"),"isGuild")
+         getlocal_0
+         getlocal 11
+         pushshort 1000
+         multiply
+         initproperty Qname(PackageNamespace(""),"lifetime_")
+         getlocal_0
+         getlocal 13
+         initproperty Qname(PackageNamespace(""),"hideable_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextField")
+         constructprop Qname(PackageNamespace("flash.text"),"TextField") 0
+         initproperty Qname(PackageNamespace(""),"text_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"embedFonts")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushshort 150
+         setproperty Qname(PackageNamespace(""),"width")
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextFormat")
+         constructprop Qname(PackageNamespace("flash.text"),"TextFormat") 0
+         coerce Qname(PackageNamespace("flash.text"),"TextFormat")
+         dup
+         setlocal 14
+         pushstring "Myriad Pro"
+         setproperty Qname(PackageNamespace(""),"font")
+         getlocal 14
+         pushbyte 14
+         setproperty Qname(PackageNamespace(""),"size")
+         getlocal 14
+         getlocal 12
+         setproperty Qname(PackageNamespace(""),"bold")
+         getlocal 14
+         getlocal 10
+         setproperty Qname(PackageNamespace(""),"color")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         getlocal 14
+         setproperty Qname(PackageNamespace(""),"defaultTextFormat")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"selectable")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"multiline")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"wordWrap")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         getlocal_2
+         setproperty Qname(PackageNamespace(""),"text")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text_")
+         getproperty Qname(PackageNamespace(""),"textWidth")
+         pushbyte 4
+         add
+         convert_i
+         setlocal 15
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offset_")
+         getlocal 15
+         negate
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"backgroundFill_")
+         getlocal 6
+         setproperty Qname(PackageNamespace(""),"color")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"backgroundFill_")
+         getlocal 7
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"outlineFill_")
+         getlocal 8
+         setproperty Qname(PackageNamespace(""),"color")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"outlineFill_")
+         getlocal 9
+         setproperty Qname(PackageNamespace(""),"alpha")
+         getlex Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"clearPath") 1
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte -6
+         pushbyte -6
+         getlocal 15
+         pushbyte 12
+         add
+         getlex Qname(PackageNamespace(""),"height")
+         pushbyte 12
+         add
+         pushbyte 4
+         pushbyte 1
+         dup
+         dup
+         pushbyte 1
+         newarray 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"path_")
+         getproperty Qname(PackageNamespace(""),"commands")
+         pushbyte 6
+         pushbyte 0
+         getlex Qname(PackageNamespace("flash.display"),"GraphicsPathCommand")
+         getproperty Qname(PackageNamespace(""),"LINE_TO")
+         getlex Qname(PackageNamespace("flash.display"),"GraphicsPathCommand")
+         getproperty Qname(PackageNamespace(""),"LINE_TO")
+         getlex Qname(PackageNamespace("flash.display"),"GraphicsPathCommand")
+         getproperty Qname(PackageNamespace(""),"LINE_TO")
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 5
+         getlex Qname(PackageNamespace(""),"height")
+         convert_i
+         setlocal 16
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"path_")
+         getproperty Qname(PackageNamespace(""),"data")
+         pushbyte 12
+         pushbyte 0
+         getlocal 15
+         pushbyte 2
+         divide
+         pushbyte 8
+         add
+         getlocal 16
+         pushbyte 6
+         add
+         getlocal 15
+         pushbyte 2
+         divide
+         getlocal 16
+         pushbyte 18
+         add
+         getlocal 15
+         pushbyte 2
+         divide
+         pushbyte 8
+         subtract
+         getlocal 16
+         pushbyte 6
+         add
+         callpropvoid Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"splice") 8
+         getlex Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"graphicsData_")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         findproperty Qname(PackageNamespace(""),"filters")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 16
+         dup
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 6
+         newarray 1
+         initproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offset_")
+         getlex Qname(PackageNamespace(""),"height")
+         negate
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"texture_")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"size_")
+         pushbyte 100
+         divide
+         multiply
+         pushbyte 5
+         multiply
+         subtract
+         pushbyte 2
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         findproperty Qname(PackageNamespace(""),"visible")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"RIGHT_CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"onSpeechBalloonRightClicked")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSpeechBalloonRightClicked(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"718"),"onSpeechBalloonRightClicked")
+         dispid 0
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 15
+         try from ofs0027 to ofs01aa target ofs01ae type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"e")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"HUDModel")
+         setslot 3
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setslot 4
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"objectId_")
+         convert_i
+         setslot 2
+         ofs0027:getscopeobject 1
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.ui.model"),"HUDModel")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.ui.model"),"HUDModel")
+         setslot 3
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("goDict_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getscopeobject 1
+         getslot 2
+         getproperty MultinameL([PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs0076
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("goDict_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getscopeobject 1
+         getslot 2
+         getproperty MultinameL([PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         istypelate
+         ofs0076:dup
+         iffalse ofs0094
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("player_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("objectId_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getscopeobject 1
+         getslot 2
+         equals
+         not
+         ofs0094:iffalse ofs00dc
+         getscopeobject 1
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("goDict_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getscopeobject 1
+         getslot 2
+         getproperty MultinameL([PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         astypelate
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"Player")
+         setslot 4
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getscopeobject 1
+         getslot 4
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         callpropvoid Qname(PackageNamespace(""),"addChatPlayerMenu") 3
+         jump ofs01aa
+         ofs00dc:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"isTrade")
+         not
+         dup
+         iffalse ofs00ee
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         pushnull
+         equals
+         not
+         ofs00ee:dup
+         iffalse ofs00fc
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         pushstring ""
+         equals
+         not
+         ofs00fc:dup
+         iffalse ofs011a
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("player_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("name_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         equals
+         not
+         ofs011a:iffalse ofs0146
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         pushnull
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"isGuild")
+         callpropvoid Qname(PackageNamespace(""),"addChatPlayerMenu") 5
+         jump ofs01aa
+         ofs0146:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"isTrade")
+         convert_b
+         dup
+         iffalse ofs0158
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         pushnull
+         equals
+         not
+         ofs0158:dup
+         iffalse ofs0166
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         pushstring ""
+         equals
+         not
+         ofs0166:dup
+         iffalse ofs0184
+         pop
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         getproperty Qname(PackageNamespace(""),"map")
+         getproperty Multiname("player_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("name_",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         equals
+         not
+         ofs0184:iffalse ofs01aa
+         getscopeobject 1
+         getslot 3
+         getproperty Qname(PackageNamespace(""),"gameSprite")
+         pushnull
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageX")
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"stageY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"senderName")
+         pushfalse
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addChatPlayerMenu") 6
+         ofs01aa:jump ofs01be
+         ofs01ae:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         popscope
+         kill 3
+         ofs01be:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function draw(param1:Camera, param2:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"draw")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.map"),"Camera")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 4
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"startTime_")
+         pushbyte 0
+         ifne ofs0011
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"718"),"startTime_")
+         ofs0011:getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"718"),"startTime_")
+         subtract
+         convert_i
+         setlocal_3
+         getlocal_3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"lifetime_")
+         greaterthan
+         dup
+         iftrue ofs003b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         pushnull
+         equals
+         not
+         dup
+         iffalse ofs003b
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"map_")
+         pushnull
+         equals
+         ofs003b:iffalse ofs0041
+         pushfalse
+         returnvalue
+         ofs0041:getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         pushnull
+         equals
+         dup
+         iftrue ofs0055
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"drawn_")
+         not
+         ofs0055:iffalse ofs0062
+         findproperty Qname(PackageNamespace(""),"visible")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"visible")
+         pushtrue
+         returnvalue
+         ofs0062:getlocal_0
+         getproperty Qname(PackageNamespace(""),"hideable_")
+         convert_b
+         dup
+         iffalse ofs0078
+         pop
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.parameters"),"Parameters")
+         getproperty Qname(PackageNamespace(""),"data_")
+         getproperty Multiname("textBubbles",[PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         not
+         ofs0078:iffalse ofs0085
+         findproperty Qname(PackageNamespace(""),"visible")
+         pushfalse
+         initproperty Qname(PackageNamespace(""),"visible")
+         pushtrue
+         returnvalue
+         ofs0085:findproperty Qname(PackageNamespace(""),"visible")
+         pushtrue
+         initproperty Qname(PackageNamespace(""),"visible")
+         findproperty Qname(PackageNamespace(""),"x")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"posS_")
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offset_")
+         getproperty Qname(PackageNamespace(""),"x")
+         add
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"x")
+         findproperty Qname(PackageNamespace(""),"y")
+         findpropstrict Qname(PackageNamespace(""),"int")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"posS_")
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"718"),PackageNamespace(""),PrivateNamespace(null,"1725"),PackageNamespace("com.company.assembleegameclient.map.mapoverlay"),PackageInternalNs("com.company.assembleegameclient.map.mapoverlay"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("com.company.assembleegameclient.map.mapoverlay:SpeechBalloon"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offset_")
+         getproperty Qname(PackageNamespace(""),"y")
+         add
+         callproperty Qname(PackageNamespace(""),"int") 1
+         initproperty Qname(PackageNamespace(""),"y")
+         pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getGameObject() : GameObject
+      {
+         trait method Qname(PackageNamespace(""),"getGameObject")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function dispose() : void
+      {
+         trait method Qname(PackageNamespace(""),"dispose")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

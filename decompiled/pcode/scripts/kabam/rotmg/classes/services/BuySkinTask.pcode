@@ -1,0 +1,277 @@
+package kabam.rotmg.classes.services
+{
+   import com.company.assembleegameclient.ui.dialogs.ErrorDialog;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.lib.tasks.BaseTask;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.appengine.api.AppEngineClient;
+   import kabam.rotmg.classes.model.CharacterSkin;
+   import kabam.rotmg.classes.model.CharacterSkinState;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   
+   public class BuySkinTask extends BaseTask
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var skin:CharacterSkin;
+      
+      [Inject]
+      public var client:AppEngineClient;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var player:PlayerModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      public function BuySkinTask()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override protected function startTask() : void
+      {
+         trait method Qname(ProtectedNamespace("kabam.rotmg.classes.services:BuySkinTask"),"startTask")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getlex Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterSkinState")
+         getproperty Qname(PackageNamespace(""),"PURCHASING")
+         callpropvoid Qname(PackageNamespace(""),"setState") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getproperty Qname(PackageNamespace(""),"cost")
+         negate
+         callpropvoid Qname(PackageNamespace(""),"changeCredits") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         getproperty Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"52"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"client")
+         pushstring "account/purchaseSkin"
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"52"),"makeCredentials") 0
+         callpropvoid Qname(Namespace("kabam.rotmg.appengine.api:AppEngineClient"),"sendRequest") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeCredentials() : Object
+      {
+         trait method Qname(PrivateNamespace(null,"52"),"makeCredentials")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Object")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getCredentials") 0
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getproperty Qname(PackageNamespace(""),"id")
+         setproperty Multiname("skinType",[PrivateNamespace(null,"52"),PackageNamespace(""),PrivateNamespace(null,"1316"),PackageNamespace("kabam.rotmg.classes.services"),PackageInternalNs("kabam.rotmg.classes.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.classes.services:BuySkinTask"),StaticProtectedNs("kabam.rotmg.classes.services:BuySkinTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         setproperty Multiname("isChallenger",[PrivateNamespace(null,"52"),PackageNamespace(""),PrivateNamespace(null,"1316"),PackageNamespace("kabam.rotmg.classes.services"),PackageInternalNs("kabam.rotmg.classes.services"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.classes.services:BuySkinTask"),StaticProtectedNs("kabam.rotmg.classes.services:BuySkinTask"),StaticProtectedNs("kabam.lib.tasks:BaseTask")])
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Boolean, param2:*) : void
+      {
+         trait method Qname(PrivateNamespace(null,"52"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         param null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         iffalse ofs0010
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"52"),"completePurchase") 0
+         jump ofs0016
+         ofs0010:getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"52"),"abandonPurchase") 1
+         ofs0016:findpropstrict Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask")
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(ProtectedNamespace("kabam.lib.tasks:BaseTask"),"completeTask") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function completePurchase() : void
+      {
+         trait method Qname(PrivateNamespace(null,"52"),"completePurchase")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getlex Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterSkinState")
+         getproperty Qname(PackageNamespace(""),"OWNED")
+         callpropvoid Qname(PackageNamespace(""),"setState") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setIsSelected") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function abandonPurchase(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"52"),"abandonPurchase")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         getlocal_1
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog") 1
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.ui.dialogs"),"ErrorDialog")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getlex Qname(PackageNamespace("kabam.rotmg.classes.model"),"CharacterSkinState")
+         getproperty Qname(PackageNamespace(""),"PURCHASABLE")
+         callpropvoid Qname(PackageNamespace(""),"setState") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"skin")
+         getproperty Qname(PackageNamespace(""),"cost")
+         callpropvoid Qname(PackageNamespace(""),"changeCredits") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

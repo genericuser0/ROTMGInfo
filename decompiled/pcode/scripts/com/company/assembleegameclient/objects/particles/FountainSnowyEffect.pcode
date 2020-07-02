@@ -1,0 +1,471 @@
+package com.company.assembleegameclient.objects.particles
+{
+   import com.company.assembleegameclient.objects.GameObject;
+   import com.company.assembleegameclient.util.FreeList;
+   
+   public class FountainSnowyEffect extends ParticleEffect
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 6
+         maxscopedepth 7
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var go_:GameObject;
+      
+      public var color_:uint;
+      
+      public var lastUpdate_:int = -1;
+      
+      public function FountainSnowyEffect(param1:GameObject, param2:EffectProperties)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects"),"GameObject")
+         param Qname(PackageNamespace("com.company.assembleegameclient.objects.particles"),"EffectProperties")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"go_")
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"color")
+         initproperty Qname(PackageNamespace(""),"color_")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function update(param1:int, param2:int) : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"update")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"int")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 5
+         localcount 6
+         initscopedepth 7
+         maxscopedepth 8
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal 4
+         pushnull
+         coerce Qname(PrivateNamespace(null,"928"),"FountainSnowyParticle")
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"map_")
+         pushnull
+         ifne ofs001a
+         pushfalse
+         returnvalue
+         ofs001a:getlocal_0
+         getproperty Qname(PackageNamespace(""),"lastUpdate_")
+         pushbyte 0
+         ifnlt ofs0037
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"Math")
+         pushbyte 0
+         getlocal_1
+         pushshort 400
+         subtract
+         callproperty Qname(PackageNamespace(""),"max") 2
+         initproperty Qname(PackageNamespace(""),"lastUpdate_")
+         ofs0037:findproperty Qname(PackageNamespace(""),"x_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"x_")
+         initproperty Qname(PackageNamespace(""),"x_")
+         findproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"go_")
+         getproperty Qname(PackageNamespace(""),"y_")
+         initproperty Qname(PackageNamespace(""),"y_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"lastUpdate_")
+         pushbyte 50
+         divide
+         convert_i
+         setlocal_3
+         jump ofs00a1
+         ofs005e:label
+         getlocal_3
+         pushbyte 50
+         multiply
+         convert_i
+         setlocal 4
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FreeList")
+         getlex Qname(PrivateNamespace(null,"928"),"FountainSnowyParticle")
+         callproperty Qname(PackageNamespace(""),"newObject") 1
+         getlex Qname(PrivateNamespace(null,"928"),"FountainSnowyParticle")
+         astypelate
+         coerce Qname(PrivateNamespace(null,"928"),"FountainSnowyParticle")
+         dup
+         setlocal 5
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"color_")
+         callpropvoid Qname(PackageNamespace(""),"setColor") 1
+         getlocal 5
+         getlocal 4
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"restart") 2
+         getlex Qname(PackageNamespace(""),"map_")
+         getlocal 5
+         getlex Qname(PackageNamespace(""),"x_")
+         getlex Qname(PackageNamespace(""),"y_")
+         callpropvoid Qname(PackageNamespace(""),"addObj") 3
+         getlocal_3
+         pushbyte 2
+         add
+         convert_i
+         setlocal_3
+         ofs00a1:getlocal_3
+         getlocal_1
+         pushbyte 50
+         divide
+         iflt ofs005e
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"lastUpdate_")
+         pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}
+
+import com.company.assembleegameclient.objects.particles.Particle;
+import com.company.assembleegameclient.util.FreeList;
+import flash.geom.Vector3D;
+
+class FountainSnowyParticle extends Particle
+{
+   
+   private static const G:Number = -0.8;
+   
+   private static const VI:Number = 2;
+   
+   private static const ZI:Number = 0.75;
+   
+   {
+      method
+      name null
+      returns null
+      
+      body
+      maxstack 2
+      localcount 1
+      initscopedepth 5
+      maxscopedepth 6
+      
+      code
+      getlocal_0
+      pushscope
+      findproperty Qname(PrivateNamespace(null,"1265"),"G")
+      pushdouble -0.8
+      initproperty Qname(PrivateNamespace(null,"1265"),"G")
+      findproperty Qname(PrivateNamespace(null,"1265"),"VI")
+      pushbyte 2
+      initproperty Qname(PrivateNamespace(null,"1265"),"VI")
+      findproperty Qname(PrivateNamespace(null,"1265"),"ZI")
+      pushdouble 0.75
+      initproperty Qname(PrivateNamespace(null,"1265"),"ZI")
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   public var startTime_:int;
+   
+   protected var moveVec_:Vector3D;
+   
+   function FountainSnowyParticle(param1:uint = 4285909)
+   {
+      method
+      name null
+      flag HAS_OPTIONAL
+      param Qname(PackageNamespace(""),"uint")
+      optional 4285909
+      returns null
+      
+      body
+      maxstack 4
+      localcount 2
+      initscopedepth 6
+      maxscopedepth 7
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      findpropstrict Qname(PackageNamespace("flash.geom"),"Vector3D")
+      constructprop Qname(PackageNamespace("flash.geom"),"Vector3D") 0
+      initproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getlocal_0
+      getlocal_1
+      getlex Qname(PrivateNamespace(null,"1265"),"ZI")
+      pushbyte 100
+      constructsuper 3
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   public function restart(param1:int, param2:int) : void
+   {
+      trait method Qname(PackageNamespace(""),"restart")
+      dispid 0
+      method
+      name null
+      param Qname(PackageNamespace(""),"int")
+      param Qname(PackageNamespace(""),"int")
+      returns Qname(PackageNamespace(""),"void")
+      
+      body
+      maxstack 5
+      localcount 6
+      initscopedepth 6
+      maxscopedepth 7
+      
+      code
+      getlocal_0
+      pushscope
+      pushbyte 0
+      setlocal 4
+      pushbyte 2
+      getlex Qname(PackageNamespace(""),"Math")
+      getproperty Qname(PackageNamespace(""),"PI")
+      multiply
+      getlex Qname(PackageNamespace(""),"Math")
+      callproperty Qname(PackageNamespace(""),"random") 0
+      multiply
+      convert_d
+      setlocal_3
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getlex Qname(PackageNamespace(""),"Math")
+      getlocal_3
+      callproperty Qname(PackageNamespace(""),"cos") 1
+      setproperty Qname(PackageNamespace(""),"x")
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getlex Qname(PackageNamespace(""),"Math")
+      getlocal_3
+      callproperty Qname(PackageNamespace(""),"sin") 1
+      setproperty Qname(PackageNamespace(""),"y")
+      getlocal_0
+      getlocal_1
+      initproperty Qname(PackageNamespace(""),"startTime_")
+      getlocal_2
+      getlocal_0
+      getproperty Qname(PackageNamespace(""),"startTime_")
+      subtract
+      convert_i
+      setlocal 4
+      findproperty Qname(PackageNamespace(""),"x_")
+      getlex Qname(PackageNamespace(""),"x_")
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getproperty Qname(PackageNamespace(""),"x")
+      getlocal 4
+      multiply
+      pushdouble 8.0E-4
+      multiply
+      add
+      initproperty Qname(PackageNamespace(""),"x_")
+      findproperty Qname(PackageNamespace(""),"y_")
+      getlex Qname(PackageNamespace(""),"y_")
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getproperty Qname(PackageNamespace(""),"y")
+      getlocal 4
+      multiply
+      pushdouble 8.0E-4
+      multiply
+      add
+      initproperty Qname(PackageNamespace(""),"y_")
+      getlocal_2
+      getlocal_0
+      getproperty Qname(PackageNamespace(""),"startTime_")
+      subtract
+      pushshort 1000
+      divide
+      convert_d
+      setlocal 5
+      findproperty Qname(PackageNamespace(""),"z_")
+      pushdouble 0.75
+      getlex Qname(PrivateNamespace(null,"1265"),"VI")
+      getlocal 5
+      multiply
+      add
+      getlex Qname(PrivateNamespace(null,"1265"),"G")
+      getlocal 5
+      getlocal 5
+      multiply
+      multiply
+      add
+      initproperty Qname(PackageNamespace(""),"z_")
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override public function removeFromMap() : void
+   {
+      trait method Qname(PackageNamespace(""),"removeFromMap")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      returns Qname(PackageNamespace(""),"void")
+      
+      body
+      maxstack 2
+      localcount 1
+      initscopedepth 6
+      maxscopedepth 7
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_0
+      callsupervoid Qname(PackageNamespace(""),"removeFromMap") 0
+      getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"FreeList")
+      getlocal_0
+      callpropvoid Qname(PackageNamespace(""),"deleteObject") 1
+      returnvoid
+      end ; code
+      end ; body
+      end ; method
+   }
+   
+   override public function update(param1:int, param2:int) : Boolean
+   {
+      trait method Qname(PackageNamespace(""),"update")
+      flag OVERRIDE
+      dispid 0
+      method
+      name null
+      param Qname(PackageNamespace(""),"int")
+      param Qname(PackageNamespace(""),"int")
+      returns Qname(PackageNamespace(""),"Boolean")
+      
+      body
+      maxstack 5
+      localcount 4
+      initscopedepth 6
+      maxscopedepth 7
+      
+      code
+      getlocal_0
+      pushscope
+      getlocal_1
+      getlocal_0
+      getproperty Qname(PackageNamespace(""),"startTime_")
+      subtract
+      pushshort 1000
+      divide
+      convert_d
+      setlocal_3
+      findpropstrict Qname(PackageNamespace(""),"moveTo")
+      getlex Qname(PackageNamespace(""),"x_")
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getproperty Qname(PackageNamespace(""),"x")
+      getlocal_2
+      multiply
+      pushdouble 8.0E-4
+      multiply
+      add
+      getlex Qname(PackageNamespace(""),"y_")
+      getlocal_0
+      getproperty Qname(ProtectedNamespace("FountainSnowyEffect.as$1191:FountainSnowyParticle"),"moveVec_")
+      getproperty Qname(PackageNamespace(""),"y")
+      getlocal_2
+      multiply
+      pushdouble 8.0E-4
+      multiply
+      add
+      callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+      findpropstrict Qname(PackageNamespace(""),"moveTo")
+      getlex Qname(PackageNamespace(""),"x_")
+      getlex Qname(PackageNamespace(""),"Math")
+      callproperty Qname(PackageNamespace(""),"random") 0
+      pushdouble 0.1
+      multiply
+      add
+      pushdouble 0.05
+      subtract
+      getlex Qname(PackageNamespace(""),"y_")
+      getlex Qname(PackageNamespace(""),"Math")
+      callproperty Qname(PackageNamespace(""),"random") 0
+      pushdouble 0.1
+      multiply
+      add
+      pushdouble 0.05
+      subtract
+      callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+      findproperty Qname(PackageNamespace(""),"z_")
+      pushdouble 0.75
+      getlex Qname(PrivateNamespace(null,"1265"),"VI")
+      getlocal_3
+      multiply
+      add
+      getlex Qname(PrivateNamespace(null,"1265"),"G")
+      getlocal_3
+      getlocal_3
+      multiply
+      multiply
+      add
+      initproperty Qname(PackageNamespace(""),"z_")
+      getlex Qname(PackageNamespace(""),"z_")
+      pushdouble 0.0
+      greaterthan
+      returnvalue
+      end ; code
+      end ; body
+      end ; method
+   }
+}

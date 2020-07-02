@@ -1,0 +1,320 @@
+package com.junkbyte.console.vos
+{
+   import flash.utils.ByteArray;
+   
+   public class Log
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var line:uint;
+      
+      public var text:String;
+      
+      public var ch:String;
+      
+      public var priority:int;
+      
+      public var repeat:Boolean;
+      
+      public var html:Boolean;
+      
+      public var time:uint;
+      
+      public var timeStr:String;
+      
+      public var lineStr:String;
+      
+      public var chStr:String;
+      
+      public var next:Log;
+      
+      public var prev:Log;
+      
+      public function Log(param1:String, param2:String, param3:int, param4:Boolean = false, param5:Boolean = false)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"int")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         optional false
+         returns null
+         
+         body
+         maxstack 2
+         localcount 6
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"ch")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"priority")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PackageNamespace(""),"repeat")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PackageNamespace(""),"html")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function FromBytes(param1:ByteArray) : Log
+      {
+         trait method Qname(PackageNamespace(""),"FromBytes")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         returns Qname(PackageNamespace("com.junkbyte.console.vos"),"Log")
+         
+         body
+         maxstack 6
+         localcount 6
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"readUnsignedInt") 0
+         callproperty Qname(PackageNamespace(""),"readUTFBytes") 1
+         coerce_s
+         setlocal_2
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"readUTF") 0
+         coerce_s
+         setlocal_3
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"readInt") 0
+         convert_i
+         setlocal 4
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"readBoolean") 0
+         convert_b
+         setlocal 5
+         getlocal_0
+         getlocal_2
+         getlocal_3
+         getlocal 4
+         getlocal 5
+         pushtrue
+         construct 5
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toBytes(param1:ByteArray) : void
+      {
+         trait method Qname(PackageNamespace(""),"toBytes")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.utils"),"ByteArray")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.utils"),"ByteArray")
+         constructprop Qname(PackageNamespace("flash.utils"),"ByteArray") 0
+         coerce Qname(PackageNamespace("flash.utils"),"ByteArray")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text")
+         callpropvoid Qname(PackageNamespace(""),"writeUTFBytes") 1
+         getlocal_1
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"length")
+         callpropvoid Qname(PackageNamespace(""),"writeUnsignedInt") 1
+         getlocal_1
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"writeBytes") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ch")
+         callpropvoid Qname(PackageNamespace(""),"writeUTF") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"priority")
+         callpropvoid Qname(PackageNamespace(""),"writeInt") 1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeat")
+         callpropvoid Qname(PackageNamespace(""),"writeBoolean") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function plainText() : String
+      {
+         trait method Qname(PackageNamespace(""),"plainText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text")
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "<.*?>"
+         pushstring "g"
+         construct 2
+         pushstring ""
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "&lt;"
+         pushstring "g"
+         construct 2
+         pushstring "<"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         getlex Qname(PackageNamespace(""),"RegExp")
+         pushstring "&gt;"
+         pushstring "g"
+         construct 2
+         pushstring ">"
+         callproperty Qname(Namespace("http://adobe.com/AS3/2006/builtin"),"replace") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function toString() : String
+      {
+         trait method Qname(PackageNamespace(""),"toString")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         pushstring "["
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ch")
+         add
+         pushstring "] "
+         add
+         getlocal_0
+         callproperty Qname(PackageNamespace(""),"plainText") 0
+         add
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function clone() : Log
+      {
+         trait method Qname(PackageNamespace(""),"clone")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.junkbyte.console.vos"),"Log")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("com.junkbyte.console.vos"),"Log")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"ch")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"priority")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"repeat")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"html")
+         constructprop Qname(PackageNamespace("com.junkbyte.console.vos"),"Log") 5
+         coerce Qname(PackageNamespace("com.junkbyte.console.vos"),"Log")
+         setlocal_1
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"line")
+         setproperty Qname(PackageNamespace(""),"line")
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"time")
+         setproperty Qname(PackageNamespace(""),"time")
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

@@ -1,0 +1,1352 @@
+package com.company.assembleegameclient.ui.dialogs
+{
+   import com.company.assembleegameclient.ui.DeprecatedTextButton;
+   import com.company.assembleegameclient.util.StageProxy;
+   import com.company.util.GraphicsUtil;
+   import flash.display.CapsStyle;
+   import flash.display.Graphics;
+   import flash.display.GraphicsPath;
+   import flash.display.GraphicsSolidFill;
+   import flash.display.GraphicsStroke;
+   import flash.display.IGraphicsData;
+   import flash.display.JointStyle;
+   import flash.display.LineScaleMode;
+   import flash.display.Shape;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.filters.DropShadowFilter;
+   import flash.text.TextFieldAutoSize;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.core.service.GoogleAnalytics;
+   import kabam.rotmg.text.view.TextFieldDisplayConcrete;
+   import kabam.rotmg.text.view.stringBuilder.LineBuilder;
+   import kabam.rotmg.text.view.stringBuilder.StringBuilder;
+   import kabam.rotmg.ui.view.SignalWaiter;
+   
+   public class Dialog extends Sprite
+   {
+      
+      public static const LEFT_BUTTON:String = "dialogLeftButton";
+      
+      public static const RIGHT_BUTTON:String = "dialogRightButton";
+      
+      public static const GREY:int = 11776947;
+      
+      public static const WIDTH:int = 300;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         pushstring "dialogLeftButton"
+         initproperty Qname(PackageNamespace(""),"LEFT_BUTTON")
+         findproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         pushstring "dialogRightButton"
+         initproperty Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         findproperty Qname(PackageNamespace(""),"GREY")
+         pushint 11776947
+         initproperty Qname(PackageNamespace(""),"GREY")
+         findproperty Qname(PackageNamespace(""),"WIDTH")
+         pushshort 300
+         initproperty Qname(PackageNamespace(""),"WIDTH")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public var box_:Sprite;
+      
+      public var rect_:Shape;
+      
+      public var textText_:TextFieldDisplayConcrete;
+      
+      public var titleText_:TextFieldDisplayConcrete = null;
+      
+      public var analyticsPageName_:String = null;
+      
+      public var offsetX:Number = 0;
+      
+      public var offsetY:Number = 0;
+      
+      public var stageProxy:StageProxy;
+      
+      public var titleYPosition:int = 2;
+      
+      public var titleTextSpace:int = 8;
+      
+      public var buttonSpace:int = 16;
+      
+      public var bottomSpace:int = 10;
+      
+      public var dialogWidth:int;
+      
+      private var outlineFill_:GraphicsSolidFill;
+      
+      private var lineStyle_:GraphicsStroke;
+      
+      private var backgroundFill_:GraphicsSolidFill;
+      
+      protected var path_:GraphicsPath;
+      
+      protected const graphicsData_:Vector.<IGraphicsData>;
+      
+      protected var uiWaiter:SignalWaiter;
+      
+      protected var leftButton:DeprecatedTextButton;
+      
+      protected var rightButton:DeprecatedTextButton;
+      
+      private var leftButtonKey:String;
+      
+      private var rightButtonKey:String;
+      
+      private var replaceTokens:Object;
+      
+      public function Dialog(param1:String, param2:String, param3:String, param4:String, param5:String, param6:Object = null)
+      {
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Object")
+         optional null
+         returns null
+         
+         body
+         maxstack 9
+         localcount 7
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Shape")
+         constructprop Qname(PackageNamespace("flash.display"),"Shape") 0
+         initproperty Qname(PackageNamespace(""),"rect_")
+         getlocal_0
+         getlocal_0
+         callproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"setDialogWidth") 0
+         initproperty Qname(PackageNamespace(""),"dialogWidth")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 16777215
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"209"),"outlineFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsStroke")
+         pushbyte 1
+         pushfalse
+         getlex Qname(PackageNamespace("flash.display"),"LineScaleMode")
+         getproperty Qname(PackageNamespace(""),"NORMAL")
+         getlex Qname(PackageNamespace("flash.display"),"CapsStyle")
+         getproperty Qname(PackageNamespace(""),"NONE")
+         getlex Qname(PackageNamespace("flash.display"),"JointStyle")
+         getproperty Qname(PackageNamespace(""),"ROUND")
+         pushbyte 3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"outlineFill_")
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsStroke") 7
+         initproperty Qname(PrivateNamespace(null,"209"),"lineStyle_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsSolidFill")
+         pushint 3552822
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsSolidFill") 2
+         initproperty Qname(PrivateNamespace(null,"209"),"backgroundFill_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"GraphicsPath")
+         getlex Multiname("Vector",[PrivateNamespace(null,"209"),PackageNamespace(""),ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),PrivateNamespace(null,"1376"),PackageNamespace("com.company.assembleegameclient.ui.dialogs"),PackageInternalNs("com.company.assembleegameclient.ui.dialogs"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.company.assembleegameclient.ui.dialogs:Dialog"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"int")
+         applytype 1
+         construct 0
+         getlex Multiname("Vector",[PrivateNamespace(null,"209"),PackageNamespace(""),ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),PrivateNamespace(null,"1376"),PackageNamespace("com.company.assembleegameclient.ui.dialogs"),PackageInternalNs("com.company.assembleegameclient.ui.dialogs"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.company.assembleegameclient.ui.dialogs:Dialog"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace(""),"Number")
+         applytype 1
+         construct 0
+         constructprop Qname(PackageNamespace("flash.display"),"GraphicsPath") 2
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"path_")
+         getlocal_0
+         findpropstrict Multiname("Vector",[PackageNamespace("__AS3__.vec")])
+         getproperty Multiname("Vector",[PrivateNamespace(null,"209"),PackageNamespace(""),ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),PrivateNamespace(null,"1376"),PackageNamespace("com.company.assembleegameclient.ui.dialogs"),PackageInternalNs("com.company.assembleegameclient.ui.dialogs"),Namespace("http://adobe.com/AS3/2006/builtin"),StaticProtectedNs("com.company.assembleegameclient.ui.dialogs:Dialog"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher"),PackageNamespace("__AS3__.vec")])
+         getlex Qname(PackageNamespace("flash.display"),"IGraphicsData")
+         applytype 1
+         pushbyte 5
+         construct 1
+         dup
+         pushbyte 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"lineStyle_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"backgroundFill_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"path_")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 3
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_FILL")
+         setproperty MultinameL([PackageNamespace("")])
+         dup
+         pushbyte 4
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getproperty Qname(PackageNamespace(""),"END_STROKE")
+         setproperty MultinameL([PackageNamespace("")])
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"graphicsData_")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter")
+         constructprop Qname(PackageNamespace("kabam.rotmg.ui.view"),"SignalWaiter") 0
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"uiWaiter")
+         getlocal_0
+         getlocal 6
+         initproperty Qname(PrivateNamespace(null,"209"),"replaceTokens")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"209"),"leftButtonKey")
+         getlocal_0
+         getlocal 4
+         initproperty Qname(PrivateNamespace(null,"209"),"rightButtonKey")
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy")
+         getlocal_0
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.util"),"StageProxy") 1
+         initproperty Qname(PackageNamespace(""),"stageProxy")
+         getlocal_0
+         getlocal 5
+         initproperty Qname(PackageNamespace(""),"analyticsPageName_")
+         getlocal_0
+         getlocal_2
+         getlocal_1
+         callpropvoid Qname(PrivateNamespace(null,"209"),"_makeUIAndAdd") 2
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"makeUIAndAdd") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"uiWaiter")
+         getproperty Qname(PackageNamespace(""),"complete")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getLeftButtonKey() : String
+      {
+         trait method Qname(PackageNamespace(""),"getLeftButtonKey")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"leftButtonKey")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function getRightButtonKey() : String
+      {
+         trait method Qname(PackageNamespace(""),"getRightButtonKey")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"String")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"rightButtonKey")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setTextParams(param1:String, param2:Object) : void
+      {
+         trait method Qname(PackageNamespace(""),"setTextParams")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Object")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         getlocal_2
+         callproperty Qname(PackageNamespace(""),"setParams") 2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function setTitleStringBuilder(param1:StringBuilder) : void
+      {
+         trait method Qname(PackageNamespace(""),"setTitleStringBuilder")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"StringBuilder")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function setDialogWidth() : int
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"setDialogWidth")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"int")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"WIDTH")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function _makeUIAndAdd(param1:String, param2:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"_makeUIAndAdd")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"initText") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         callpropvoid Qname(PrivateNamespace(null,"209"),"addTextFieldDisplay") 1
+         getlocal_0
+         getlocal_2
+         callpropvoid Qname(PrivateNamespace(null,"209"),"initNonNullTitleAndAdd") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"makeNonNullButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function makeUIAndAdd() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"makeUIAndAdd")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function initText(param1:String) : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"initText")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 14
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         getlex Qname(PackageNamespace(""),"GREY")
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PackageNamespace(""),"textText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         pushbyte 40
+         subtract
+         callpropvoid Qname(PackageNamespace(""),"setTextWidth") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         pushbyte 20
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setMultiLine") 1
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"setWordWrap") 1
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setHTML") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         pushstring "<p align=\"center\">"
+         callproperty Qname(PackageNamespace(""),"setPrefix") 1
+         pushstring "</p>"
+         callproperty Qname(PackageNamespace(""),"setPostfix") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"replaceTokens")
+         iffalse ofs0086
+         getlocal_2
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"replaceTokens")
+         callpropvoid Qname(PackageNamespace(""),"setParams") 2
+         ofs0086:getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 6
+         dup
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addTextFieldDisplay(param1:TextFieldDisplayConcrete) : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"addTextFieldDisplay")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"uiWaiter")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"textChanged")
+         callpropvoid Qname(PackageNamespace(""),"push") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function initNonNullTitleAndAdd(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"initNonNullTitleAndAdd")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushnull
+         ifeq ofs0070
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view"),"TextFieldDisplayConcrete") 0
+         pushbyte 18
+         callproperty Qname(PackageNamespace(""),"setSize") 1
+         pushint 5746018
+         callproperty Qname(PackageNamespace(""),"setColor") 1
+         initproperty Qname(PackageNamespace(""),"titleText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"setBold") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"CENTER")
+         callpropvoid Qname(PackageNamespace(""),"setAutoSize") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 8
+         dup
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder")
+         constructprop Qname(PackageNamespace("kabam.rotmg.text.view.stringBuilder"),"LineBuilder") 0
+         getlocal_1
+         callproperty Qname(PackageNamespace(""),"setParams") 1
+         callpropvoid Qname(PackageNamespace(""),"setStringBuilder") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         callpropvoid Qname(PrivateNamespace(null,"209"),"addTextFieldDisplay") 1
+         ofs0070:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeNonNullButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"makeNonNullButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"leftButtonKey")
+         pushnull
+         ifeq ofs002e
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"leftButtonKey")
+         pushbyte 120
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 3
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"onLeftButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs002e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"rightButtonKey")
+         pushnull
+         ifeq ofs005a
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton")
+         pushbyte 16
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"209"),"rightButtonKey")
+         pushbyte 120
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.ui"),"DeprecatedTextButton") 3
+         initproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"onRightButtonClick")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         ofs005a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"onComplete")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"draw") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"positionDialogAndTryAnalytics") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function positionDialogAndTryAnalytics() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"positionDialogAndTryAnalytics")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offsetX")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"stageProxy")
+         callproperty Qname(PackageNamespace(""),"getStageWidth") 0
+         pushbyte 2
+         divide
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"offsetY")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"stageProxy")
+         callproperty Qname(PackageNamespace(""),"getStageHeight") 0
+         pushbyte 2
+         divide
+         add
+         getlocal_0
+         callproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"getBoxHeight") 0
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"analyticsPageName_")
+         pushnull
+         ifeq ofs0052
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"tryAnalytics") 0
+         ofs0052:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function tryAnalytics() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"tryAnalytics")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 12
+         try from ofs0007 to ofs0028 target ofs002c type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"error")
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         setlocal_1
+         ofs0007:getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.core.service"),"GoogleAnalytics")
+         setlocal_1
+         getlocal_1
+         iffalse ofs0028
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"analyticsPageName_")
+         callpropvoid Qname(PackageNamespace(""),"trackPageView") 1
+         ofs0028:jump ofs003a
+         ofs002c:getlocal_0
+         pushscope
+         newcatch 0
+         dup
+         setlocal_2
+         dup
+         pushscope
+         swap
+         setslot 1
+         popscope
+         kill 2
+         ofs003a:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function draw() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"draw")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"drawTitleAndText") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawAdditionalUI") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawButtonsAndBackground") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function drawAdditionalUI() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawAdditionalUI")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function drawButtonsAndBackground() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawButtonsAndBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 9
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rect_")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs001e
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rect_")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs001e:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"removeButtonsIfAlreadyAdded") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"addButtonsAndLayout") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"209"),"drawBackground") 0
+         getlocal_0
+         callpropvoid Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawGraphicsTemplate") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rect_")
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         findpropstrict Qname(PackageNamespace("flash.filters"),"DropShadowFilter")
+         pushbyte 0
+         dup
+         dup
+         pushbyte 1
+         pushbyte 16
+         dup
+         pushbyte 1
+         constructprop Qname(PackageNamespace("flash.filters"),"DropShadowFilter") 7
+         newarray 1
+         setproperty Qname(PackageNamespace(""),"filters")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function drawGraphicsTemplate() : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"drawGraphicsTemplate")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawBackground() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"drawBackground")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 10
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"clearPath") 1
+         getlex Qname(PackageNamespace("com.company.util"),"GraphicsUtil")
+         pushbyte 0
+         dup
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         getlocal_0
+         callproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"getBoxHeight") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"bottomSpace")
+         add
+         pushbyte 4
+         pushbyte 1
+         dup
+         dup
+         pushbyte 1
+         newarray 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"path_")
+         callpropvoid Qname(PackageNamespace(""),"drawCutEdgeRect") 7
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"rect_")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         coerce Qname(PackageNamespace("flash.display"),"Graphics")
+         setlocal_1
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"graphicsData_")
+         callpropvoid Qname(PackageNamespace(""),"drawGraphicsData") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function getBoxHeight() : Number
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"getBoxHeight")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getproperty Qname(PackageNamespace(""),"height")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function addButtonsAndLayout() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"addButtonsAndLayout")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         setlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         pushnull
+         ifeq ofs009f
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"buttonSpace")
+         add
+         convert_i
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         pushnull
+         ifne ofs0056
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         pushbyte 2
+         divide
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         jump ofs009f
+         ofs0056:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         pushbyte 4
+         divide
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         pushbyte 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         multiply
+         pushbyte 4
+         divide
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         getproperty Qname(PackageNamespace(""),"width")
+         pushbyte 2
+         divide
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs009f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function drawTitleAndText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"drawTitleAndText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         pushnull
+         ifeq ofs003b
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"dialogWidth")
+         pushbyte 2
+         divide
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleYPosition")
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleText_")
+         getproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"titleTextSpace")
+         add
+         setproperty Qname(PackageNamespace(""),"y")
+         jump ofs0044
+         ofs003b:getlocal_0
+         getproperty Qname(PackageNamespace(""),"textText_")
+         pushbyte 4
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0044:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function removeButtonsIfAlreadyAdded() : void
+      {
+         trait method Qname(PrivateNamespace(null,"209"),"removeButtonsIfAlreadyAdded")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         convert_b
+         dup
+         iffalse ofs001a
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         convert_b
+         ofs001a:iffalse ofs002a
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"leftButton")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs002a:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         convert_b
+         dup
+         iffalse ofs0042
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         convert_b
+         ofs0042:iffalse ofs0052
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"box_")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"rightButton")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0052:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onLeftButtonClick(param1:MouseEvent) : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"onLeftButtonClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"LEFT_BUTTON")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function onRightButtonClick(param1:Event) : void
+      {
+         trait method Qname(ProtectedNamespace("com.company.assembleegameclient.ui.dialogs:Dialog"),"onRightButtonClick")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"RIGHT_BUTTON")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

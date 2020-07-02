@@ -1,0 +1,1942 @@
+package com.junkbyte.console.view
+{
+   import com.junkbyte.console.Console;
+   import com.junkbyte.console.ConsoleConfig;
+   import com.junkbyte.console.ConsoleStyle;
+   import flash.display.DisplayObject;
+   import flash.display.Sprite;
+   import flash.events.Event;
+   import flash.events.MouseEvent;
+   import flash.events.TextEvent;
+   import flash.geom.Point;
+   import flash.geom.Rectangle;
+   import flash.text.TextField;
+   import flash.text.TextFieldAutoSize;
+   
+   public class ConsolePanel extends Sprite
+   {
+      
+      public static const DRAGGING_STARTED:String = "draggingStarted";
+      
+      public static const DRAGGING_ENDED:String = "draggingEnded";
+      
+      public static const SCALING_STARTED:String = "scalingStarted";
+      
+      public static const SCALING_ENDED:String = "scalingEnded";
+      
+      public static const VISIBLITY_CHANGED:String = "visibilityChanged";
+      
+      private static const TEXT_ROLL:String = "TEXT_ROLL";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PackageNamespace(""),"DRAGGING_STARTED")
+         pushstring "draggingStarted"
+         initproperty Qname(PackageNamespace(""),"DRAGGING_STARTED")
+         findproperty Qname(PackageNamespace(""),"DRAGGING_ENDED")
+         pushstring "draggingEnded"
+         initproperty Qname(PackageNamespace(""),"DRAGGING_ENDED")
+         findproperty Qname(PackageNamespace(""),"SCALING_STARTED")
+         pushstring "scalingStarted"
+         initproperty Qname(PackageNamespace(""),"SCALING_STARTED")
+         findproperty Qname(PackageNamespace(""),"SCALING_ENDED")
+         pushstring "scalingEnded"
+         initproperty Qname(PackageNamespace(""),"SCALING_ENDED")
+         findproperty Qname(PackageNamespace(""),"VISIBLITY_CHANGED")
+         pushstring "visibilityChanged"
+         initproperty Qname(PackageNamespace(""),"VISIBLITY_CHANGED")
+         findproperty Qname(PrivateNamespace(null,"1166"),"TEXT_ROLL")
+         pushstring "TEXT_ROLL"
+         initproperty Qname(PrivateNamespace(null,"1166"),"TEXT_ROLL")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var _snaps:Array;
+      
+      private var _dragOffset:Point;
+      
+      private var _resizeTxt:TextField;
+      
+      protected var console:Console;
+      
+      protected var bg:Sprite;
+      
+      protected var scaler:Sprite;
+      
+      protected var txtField:TextField;
+      
+      protected var minWidth:int = 18;
+      
+      protected var minHeight:int = 18;
+      
+      private var _movedFrom:Point;
+      
+      public var moveable:Boolean = true;
+      
+      public function ConsolePanel(param1:Console)
+      {
+         method
+         name null
+         param Qname(PackageNamespace("com.junkbyte.console"),"Console")
+         returns null
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         getlocal_0
+         getlocal_1
+         initproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"console")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         pushstring "background"
+         setproperty Qname(PackageNamespace(""),"name")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function onTextFieldMouseOut(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onTextFieldMouseOut")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 8
+         maxscopedepth 9
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextField")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         callproperty Qname(PackageNamespace("flash.text"),"TextField") 1
+         findpropstrict Qname(PackageNamespace("flash.events"),"TextEvent")
+         getlex Qname(PrivateNamespace(null,"1166"),"TEXT_ROLL")
+         constructprop Qname(PackageNamespace("flash.events"),"TextEvent") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private static function onTextFieldMouseMove(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onTextFieldMouseMove")
+         flag FINAL
+         dispid 4
+         method
+         name null
+         flag NEED_ACTIVATION
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 14
+         try from ofs00dd to ofs013d target ofs0141 type Qname(PackageNamespace(""),"Error") name Qname(PackageNamespace(""),"err")
+         
+         code
+         getlocal_0
+         pushscope
+         newactivation
+         dup
+         setlocal_2
+         pushscope
+         getscopeobject 1
+         pushbyte 0
+         setslot 3
+         getscopeobject 1
+         pushnan
+         setslot 5
+         getscopeobject 1
+         pushnan
+         setslot 6
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 7
+         getscopeobject 1
+         pushnull
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 8
+         getscopeobject 1
+         getlocal_1
+         setslot 1
+         getscopeobject 1
+         getscopeobject 1
+         getslot 1
+         getproperty Qname(PackageNamespace(""),"currentTarget")
+         getlex Qname(PackageNamespace("flash.text"),"TextField")
+         astypelate
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         setslot 2
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"scrollH")
+         pushbyte 0
+         ifngt ofs00af
+         getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"scrollH")
+         convert_d
+         setslot 5
+         getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"width")
+         convert_d
+         setslot 6
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 6
+         getscopeobject 1
+         getslot 5
+         add
+         setproperty Qname(PackageNamespace(""),"width")
+         getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getscopeobject 1
+         getslot 5
+         add
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         callproperty Qname(PackageNamespace(""),"getCharIndexAtPoint") 2
+         convert_i
+         setslot 3
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 6
+         setproperty Qname(PackageNamespace(""),"width")
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 5
+         setproperty Qname(PackageNamespace(""),"scrollH")
+         jump ofs00cd
+         ofs00af:getscopeobject 1
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getscopeobject 1
+         getslot 2
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         callproperty Qname(PackageNamespace(""),"getCharIndexAtPoint") 2
+         convert_i
+         setslot 3
+         ofs00cd:getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 4
+         getscopeobject 1
+         getslot 3
+         pushbyte 0
+         ifngt ofs0157
+         ofs00dd:getscopeobject 1
+         findpropstrict Qname(PackageNamespace(""),"XML")
+         getscopeobject 1
+         getslot 2
+         getscopeobject 1
+         getslot 3
+         getscopeobject 1
+         getslot 3
+         pushbyte 1
+         add
+         callproperty Qname(PackageNamespace(""),"getXMLText") 2
+         constructprop Qname(PackageNamespace(""),"XML") 1
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 7
+         getscopeobject 1
+         getslot 7
+         pushstring "textformat"
+         callproperty Multiname("hasOwnProperty",[PrivateNamespace(null,"1166"),PackageNamespace(""),PrivateNamespace(null,"2100"),PackageNamespace("com.junkbyte.console.view"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         iffalse ofs013d
+         getscopeobject 1
+         getscopeobject 1
+         getslot 7
+         pushstring "textformat"
+         getproperty MultinameL([PrivateNamespace(null,"1166"),PackageNamespace(""),PrivateNamespace(null,"2100"),PackageNamespace("com.junkbyte.console.view"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 0
+         getproperty MultinameL([PrivateNamespace(null,"1166"),PackageNamespace(""),PrivateNamespace(null,"2100"),PackageNamespace("com.junkbyte.console.view"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getlex Qname(PackageNamespace(""),"XML")
+         astypelate
+         coerce Qname(PackageNamespace(""),"XML")
+         setslot 8
+         getscopeobject 1
+         getslot 8
+         iffalse ofs013d
+         getscopeobject 1
+         getscopeobject 1
+         getslot 8
+         getproperty MultinameA("url",[PrivateNamespace(null,"1166"),PackageNamespace(""),PrivateNamespace(null,"2100"),PackageNamespace("com.junkbyte.console.view"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         setslot 4
+         ofs013d:jump ofs0157
+         ofs0141:getlocal_0
+         pushscope
+         getlocal_2
+         pushscope
+         newcatch 0
+         dup
+         setlocal_3
+         dup
+         pushscope
+         swap
+         setslot 1
+         getscopeobject 1
+         pushnull
+         coerce_s
+         setslot 4
+         popscope
+         kill 3
+         ofs0157:getscopeobject 1
+         getslot 2
+         findpropstrict Qname(PackageNamespace("flash.events"),"TextEvent")
+         getlex Qname(PrivateNamespace(null,"1166"),"TEXT_ROLL")
+         pushfalse
+         pushfalse
+         getscopeobject 1
+         getslot 4
+         constructprop Qname(PackageNamespace("flash.events"),"TextEvent") 4
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function get config() : ConsoleConfig
+      {
+         trait getter Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"config")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.junkbyte.console"),"ConsoleConfig")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"console")
+         getproperty Qname(PackageNamespace(""),"config")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function get style() : ConsoleStyle
+      {
+         trait getter Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("com.junkbyte.console"),"ConsoleStyle")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"console")
+         getproperty Qname(PackageNamespace(""),"config")
+         getproperty Qname(PackageNamespace(""),"style")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function init(param1:Number, param2:Number, param3:Boolean = false, param4:Number = -1, param5:Number = -1, param6:int = -1) : void
+      {
+         trait method Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"init")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"int")
+         optional false
+         optional -1
+         optional -1
+         optional -1
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 7
+         localcount 7
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"clear") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal 4
+         pushbyte 0
+         greaterequals
+         iffalse ofs0026
+         getlocal 4
+         convert_u
+         jump ofs002e
+         ofs0026:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"backgroundColor")
+         convert_u
+         ofs002e:getlocal 5
+         pushbyte 0
+         greaterequals
+         iffalse ofs003e
+         getlocal 5
+         convert_d
+         jump ofs0046
+         ofs003e:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"backgroundAlpha")
+         convert_d
+         ofs0046:callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal 6
+         pushbyte 0
+         ifnlt ofs005d
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"roundBorder")
+         convert_i
+         setlocal 6
+         ofs005d:getlocal 6
+         pushbyte 0
+         ifnle ofs007c
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         pushbyte 100
+         dup
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         jump ofs00b4
+         ofs007c:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         getlocal 6
+         pushbyte 10
+         add
+         getlocal 6
+         pushbyte 10
+         add
+         getlocal 6
+         getlocal 6
+         callpropvoid Qname(PackageNamespace(""),"drawRoundRect") 6
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Rectangle")
+         getlocal 6
+         pushdouble 0.5
+         multiply
+         getlocal 6
+         pushdouble 0.5
+         multiply
+         pushbyte 10
+         dup
+         constructprop Qname(PackageNamespace("flash.geom"),"Rectangle") 4
+         setproperty Qname(PackageNamespace(""),"scale9Grid")
+         ofs00b4:getlocal_0
+         getlocal_3
+         initproperty Qname(PackageNamespace(""),"scalable")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PackageNamespace(""),"height")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function close() : void
+      {
+         trait method Qname(PackageNamespace(""),"close")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"stopDragging") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"console")
+         getproperty Qname(PackageNamespace(""),"panels")
+         callpropvoid Qname(PackageNamespace(""),"tooltip") 0
+         getlex Qname(PackageNamespace(""),"parent")
+         iffalse ofs0021
+         getlex Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0021:findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"CLOSE")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function set visible(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"visible")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         setsuper Qname(PackageNamespace(""),"visible")
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"VISIBLITY_CHANGED")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function set width(param1:Number) : void
+      {
+         trait setter Qname(PackageNamespace(""),"width")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minWidth")
+         ifnlt ofs0011
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minWidth")
+         convert_d
+         setlocal_1
+         ofs0011:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         iffalse ofs0021
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"x")
+         ofs0021:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"width")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function set height(param1:Number) : void
+      {
+         trait setter Qname(PackageNamespace(""),"height")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minHeight")
+         ifnlt ofs0011
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minHeight")
+         convert_d
+         setlocal_1
+         ofs0011:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         iffalse ofs0021
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"y")
+         ofs0021:getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"height")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function get width() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"width")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"width")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function get height() : Number
+      {
+         trait getter Qname(PackageNamespace(""),"height")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         getproperty Qname(PackageNamespace(""),"height")
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function registerSnaps(param1:Array, param2:Array) : void
+      {
+         trait method Qname(PackageNamespace(""),"registerSnaps")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Array")
+         param Qname(PackageNamespace(""),"Array")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_1
+         getlocal_2
+         newarray 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function registerDragger(param1:DisplayObject, param2:Boolean = false) : void
+      {
+         trait method Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"registerDragger")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.display"),"DisplayObject")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_2
+         iffalse ofs001a
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseDown")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         jump ofs002d
+         ofs001a:getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseDown")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         ofs002d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDraggerMouseDown(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onDraggerMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"stage")
+         not
+         dup
+         iftrue ofs0011
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"moveable")
+         not
+         ofs0011:iffalse ofs0016
+         returnvoid
+         ofs0016:getlocal_0
+         getlocal_0
+         pushstring "positioningField"
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"makeTF") 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"LEFT")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         findpropstrict Qname(PackageNamespace(""),"addChild")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"updateDragText") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlex Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"y")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_movedFrom")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         getlex Qname(PackageNamespace(""),"mouseY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getlocal_0
+         newarray 0
+         newarray 0
+         newarray 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"DRAGGING_STARTED")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseUp")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseMove")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDraggerMouseMove(param1:MouseEvent = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onDraggerMouseMove")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"panelSnapping")
+         pushbyte 0
+         ifne ofs0010
+         returnvoid
+         ofs0010:getlocal_0
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         getlex Qname(PackageNamespace(""),"parent")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getproperty Qname(PackageNamespace(""),"y")
+         subtract
+         callproperty Qname(PrivateNamespace(null,"1166"),"returnSnappedFor") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         findproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         initproperty Qname(PackageNamespace(""),"x")
+         findproperty Qname(PackageNamespace(""),"y")
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         initproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"updateDragText") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateDragText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"updateDragText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushstring "<low>"
+         getlex Qname(PackageNamespace(""),"x")
+         add
+         pushstring ","
+         add
+         getlex Qname(PackageNamespace(""),"y")
+         add
+         pushstring "</low>"
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onDraggerMouseUp(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onDraggerMouseUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"stopDragging") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function stopDragging() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"stopDragging")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         getlex Qname(PackageNamespace(""),"stage")
+         iffalse ofs0030
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onDraggerMouseMove")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs0030:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         convert_b
+         dup
+         iffalse ofs0043
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0043:iffalse ofs0056
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0056:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"DRAGGING_ENDED")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function moveBackSafePosition() : void
+      {
+         trait method Qname(PackageNamespace(""),"moveBackSafePosition")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_movedFrom")
+         pushnull
+         ifeq ofs0090
+         getlex Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushbyte 10
+         lessthan
+         coerce_a
+         dup
+         iftrue ofs0037
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         coerce_a
+         dup
+         iffalse ofs0036
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageWidth")
+         getlex Qname(PackageNamespace(""),"x")
+         pushbyte 10
+         add
+         lessthan
+         coerce_a
+         ofs0036:coerce_a
+         ofs0037:coerce_a
+         convert_b
+         dup
+         iftrue ofs004c
+         pop
+         getlex Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushbyte 10
+         lessthan
+         coerce_a
+         convert_b
+         ofs004c:dup
+         iftrue ofs006d
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         coerce_a
+         convert_b
+         dup
+         iffalse ofs006d
+         pop
+         getlex Qname(PackageNamespace(""),"stage")
+         getproperty Qname(PackageNamespace(""),"stageHeight")
+         getlex Qname(PackageNamespace(""),"y")
+         pushbyte 20
+         add
+         lessthan
+         coerce_a
+         convert_b
+         ofs006d:iffalse ofs008b
+         findproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_movedFrom")
+         getproperty Qname(PackageNamespace(""),"x")
+         initproperty Qname(PackageNamespace(""),"x")
+         findproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_movedFrom")
+         getproperty Qname(PackageNamespace(""),"y")
+         initproperty Qname(PackageNamespace(""),"y")
+         ofs008b:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1166"),"_movedFrom")
+         ofs0090:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function get scalable() : Boolean
+      {
+         trait getter Qname(PackageNamespace(""),"scalable")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         iffalse ofs000f
+         pushtrue
+         jump ofs0010
+         ofs000f:pushfalse
+         ofs0010:returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function set scalable(param1:Boolean) : void
+      {
+         trait setter Qname(PackageNamespace(""),"scalable")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushbyte 0
+         convert_u
+         setlocal_2
+         getlocal_1
+         convert_b
+         dup
+         iffalse ofs0013
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         not
+         ofs0013:iffalse ofs0115
+         pushbyte 8
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"controlSize")
+         pushdouble 0.5
+         multiply
+         add
+         convert_u
+         setlocal_2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.display"),"Sprite")
+         constructprop Qname(PackageNamespace("flash.display"),"Sprite") 0
+         initproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         pushstring "scaler"
+         setproperty Qname(PackageNamespace(""),"name")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_2
+         negate
+         pushdouble 1.5
+         multiply
+         getlocal_2
+         negate
+         pushdouble 1.5
+         multiply
+         getlocal_2
+         pushdouble 1.5
+         multiply
+         getlocal_2
+         pushdouble 1.5
+         multiply
+         callpropvoid Qname(PackageNamespace(""),"drawRect") 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"controlColor")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"backgroundAlpha")
+         callpropvoid Qname(PackageNamespace(""),"beginFill") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         dup
+         callpropvoid Qname(PackageNamespace(""),"moveTo") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         getlocal_2
+         negate
+         pushbyte 0
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         pushbyte 0
+         getlocal_2
+         negate
+         callpropvoid Qname(PackageNamespace(""),"lineTo") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"graphics")
+         callpropvoid Qname(PackageNamespace(""),"endFill") 0
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"buttonMode")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"doubleClickEnabled")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_DOWN")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onScalerMouseDown")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         findpropstrict Qname(PackageNamespace(""),"addChildAt")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         findpropstrict Qname(PackageNamespace(""),"getChildIndex")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"bg")
+         callproperty Qname(PackageNamespace(""),"getChildIndex") 1
+         pushbyte 1
+         add
+         callpropvoid Qname(PackageNamespace(""),"addChildAt") 2
+         jump ofs0145
+         ofs0115:getlocal_1
+         not
+         dup
+         iffalse ofs0122
+         pop
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         convert_b
+         ofs0122:iffalse ofs0145
+         findpropstrict Qname(PackageNamespace(""),"contains")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         callproperty Qname(PackageNamespace(""),"contains") 1
+         iffalse ofs0140
+         findpropstrict Qname(PackageNamespace(""),"removeChild")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0140:getlocal_0
+         pushnull
+         initproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         ofs0145:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onScalerMouseDown(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onScalerMouseDown")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         pushstring "resizingField"
+         pushtrue
+         callproperty Qname(PackageNamespace(""),"makeTF") 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushfalse
+         setproperty Qname(PackageNamespace(""),"mouseEnabled")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getlex Qname(PackageNamespace("flash.text"),"TextFieldAutoSize")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         setproperty Qname(PackageNamespace(""),"autoSize")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushbyte -4
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushbyte -17
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         callpropvoid Qname(PackageNamespace(""),"addChild") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"updateScaleText") 0
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"mouseX")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"mouseY")
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getlocal_0
+         newarray 0
+         newarray 0
+         newarray 2
+         initproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onScalerMouseUp")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"updateScale")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"SCALING_STARTED")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateScale(param1:Event = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"updateScale")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"Event")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlex Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"mouseX")
+         add
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         getlex Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"mouseY")
+         add
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_dragOffset")
+         getproperty Qname(PackageNamespace(""),"x")
+         subtract
+         callproperty Qname(PrivateNamespace(null,"1166"),"returnSnappedFor") 2
+         coerce Qname(PackageNamespace("flash.geom"),"Point")
+         setlocal_2
+         getlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlex Qname(PackageNamespace(""),"x")
+         subtract
+         setproperty Qname(PackageNamespace(""),"x")
+         getlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlex Qname(PackageNamespace(""),"y")
+         subtract
+         setproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minWidth")
+         lessthan
+         iffalse ofs005a
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minWidth")
+         convert_d
+         jump ofs005f
+         ofs005a:getlocal_2
+         getproperty Qname(PackageNamespace(""),"x")
+         convert_d
+         ofs005f:initproperty Qname(PackageNamespace(""),"width")
+         getlocal_0
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minHeight")
+         lessthan
+         iffalse ofs0079
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"minHeight")
+         convert_d
+         jump ofs007e
+         ofs0079:getlocal_2
+         getproperty Qname(PackageNamespace(""),"y")
+         convert_d
+         ofs007e:initproperty Qname(PackageNamespace(""),"height")
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"updateScaleText") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function updateScaleText() : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"updateScaleText")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         pushstring "<low>"
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         pushstring ","
+         add
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"height")
+         add
+         pushstring "</low>"
+         add
+         setproperty Qname(PackageNamespace(""),"text")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function stopScaling() : void
+      {
+         trait method Qname(PackageNamespace(""),"stopScaling")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushnull
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"onScalerMouseUp") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onScalerMouseUp(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"onScalerMouseUp")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_UP")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"onScalerMouseUp")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"scaler")
+         getproperty Qname(PackageNamespace(""),"stage")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"updateScale")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"1166"),"updateScale") 0
+         getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         convert_b
+         dup
+         iffalse ofs0049
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getproperty Qname(PackageNamespace(""),"parent")
+         convert_b
+         ofs0049:iffalse ofs005c
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         getproperty Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs005c:getlocal_0
+         pushnull
+         initproperty Qname(PrivateNamespace(null,"1166"),"_resizeTxt")
+         findpropstrict Qname(PackageNamespace(""),"dispatchEvent")
+         findpropstrict Qname(PackageNamespace("flash.events"),"Event")
+         getlex Qname(PackageNamespace(""),"SCALING_ENDED")
+         constructprop Qname(PackageNamespace("flash.events"),"Event") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatchEvent") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function makeTF(param1:String, param2:Boolean = false) : TextField
+      {
+         trait method Qname(PackageNamespace(""),"makeTF")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Boolean")
+         optional false
+         returns Qname(PackageNamespace("flash.text"),"TextField")
+         
+         body
+         maxstack 2
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.text"),"TextField")
+         constructprop Qname(PackageNamespace("flash.text"),"TextField") 0
+         coerce Qname(PackageNamespace("flash.text"),"TextField")
+         setlocal_3
+         getlocal_3
+         getlocal_1
+         setproperty Qname(PackageNamespace(""),"name")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"styleSheet")
+         setproperty Qname(PackageNamespace(""),"styleSheet")
+         getlocal_2
+         iffalse ofs002f
+         getlocal_3
+         pushtrue
+         setproperty Qname(PackageNamespace(""),"background")
+         getlocal_3
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"backgroundColor")
+         setproperty Qname(PackageNamespace(""),"backgroundColor")
+         ofs002f:getlocal_3
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function returnSnappedFor(param1:Number, param2:Number) : Point
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"returnSnappedFor")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Number")
+         returns Qname(PackageNamespace("flash.geom"),"Point")
+         
+         body
+         maxstack 5
+         localcount 3
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         findpropstrict Qname(PackageNamespace("flash.geom"),"Point")
+         getlocal_0
+         getlocal_1
+         pushtrue
+         callproperty Qname(PrivateNamespace(null,"1166"),"getSnapOf") 2
+         getlocal_0
+         getlocal_2
+         pushfalse
+         callproperty Qname(PrivateNamespace(null,"1166"),"getSnapOf") 2
+         constructprop Qname(PackageNamespace("flash.geom"),"Point") 2
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function getSnapOf(param1:Number, param2:Boolean) : Number
+      {
+         trait method Qname(PrivateNamespace(null,"1166"),"getSnapOf")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Number")
+         param Qname(PackageNamespace(""),"Boolean")
+         returns Qname(PackageNamespace(""),"Number")
+         
+         body
+         maxstack 3
+         localcount 9
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         pushnan
+         setlocal 6
+         getlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         add
+         convert_d
+         setlocal_3
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"1166"),"_snaps")
+         getlocal_2
+         iffalse ofs001d
+         pushbyte 0
+         coerce_a
+         jump ofs0020
+         ofs001d:pushbyte 1
+         coerce_a
+         ofs0020:getproperty MultinameL([PrivateNamespace(null,"1166"),PackageNamespace(""),PrivateNamespace(null,"2100"),PackageNamespace("com.junkbyte.console.view"),PackageInternalNs("com.junkbyte.console.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("com.junkbyte.console.view:ConsolePanel"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"style")
+         getproperty Qname(PackageNamespace(""),"panelSnapping")
+         convert_i
+         setlocal 5
+         pushbyte 0
+         setlocal 7
+         getlocal 4
+         coerce_a
+         setlocal 8
+         jump ofs0077
+         ofs003f:label
+         getlocal 8
+         getlocal 7
+         nextvalue
+         convert_d
+         setlocal 6
+         getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getlocal_1
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlocal 5
+         ifnlt ofs005d
+         getlocal 6
+         returnvalue
+         ofs005d:getlex Qname(PackageNamespace(""),"Math")
+         getlocal 6
+         getlocal_3
+         subtract
+         callproperty Qname(PackageNamespace(""),"abs") 1
+         getlocal 5
+         ifnlt ofs0077
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"width")
+         subtract
+         returnvalue
+         ofs0077:hasnext2 8 7
+         iftrue ofs003f
+         kill 8
+         kill 7
+         getlocal_1
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      protected function registerTFRoller(param1:TextField, param2:Function, param3:Function = null) : void
+      {
+         trait method Qname(ProtectedNamespace("com.junkbyte.console.view:ConsolePanel"),"registerTFRoller")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.text"),"TextField")
+         param Qname(PackageNamespace(""),"Function")
+         param Qname(PackageNamespace(""),"Function")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 6
+         localcount 4
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"MOUSE_MOVE")
+         getlex Qname(PrivateNamespace(null,"1166"),"onTextFieldMouseMove")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"ROLL_OUT")
+         getlex Qname(PrivateNamespace(null,"1166"),"onTextFieldMouseOut")
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_1
+         getlex Qname(PrivateNamespace(null,"1166"),"TEXT_ROLL")
+         getlocal_2
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         getlocal_3
+         pushnull
+         ifeq ofs004d
+         getlocal_1
+         getlex Qname(PackageNamespace("flash.events"),"TextEvent")
+         getproperty Qname(PackageNamespace(""),"LINK")
+         getlocal_3
+         pushfalse
+         pushbyte 0
+         pushtrue
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 5
+         ofs004d:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

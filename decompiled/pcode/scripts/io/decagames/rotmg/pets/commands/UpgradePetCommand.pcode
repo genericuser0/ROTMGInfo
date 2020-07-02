@@ -1,0 +1,259 @@
+package io.decagames.rotmg.pets.commands
+{
+   import io.decagames.rotmg.pets.data.vo.requests.FeedPetRequestVO;
+   import io.decagames.rotmg.pets.data.vo.requests.FusePetRequestVO;
+   import io.decagames.rotmg.pets.data.vo.requests.IUpgradePetRequestVO;
+   import io.decagames.rotmg.pets.data.vo.requests.UpgradePetYardRequestVO;
+   import kabam.lib.net.api.MessageProvider;
+   import kabam.lib.net.impl.SocketServer;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.account.core.view.RegisterPromptDialog;
+   import kabam.rotmg.dialogs.control.OpenDialogSignal;
+   import kabam.rotmg.messaging.impl.GameServerConnection;
+   import kabam.rotmg.messaging.impl.PetUpgradeRequest;
+   import robotlegs.bender.bundles.mvcs.Command;
+   
+   public class UpgradePetCommand extends Command
+   {
+      
+      private static const PET_YARD_REGISTER_STRING:String = "In order to upgradeYard your yard you must be a registered user.";
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         findproperty Qname(PrivateNamespace(null,"297"),"PET_YARD_REGISTER_STRING")
+         pushstring "In order to upgradeYard your yard you must be a registered user."
+         initproperty Qname(PrivateNamespace(null,"297"),"PET_YARD_REGISTER_STRING")
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var vo:IUpgradePetRequestVO;
+      
+      [Inject]
+      public var messages:MessageProvider;
+      
+      [Inject]
+      public var server:SocketServer;
+      
+      [Inject]
+      public var account:Account;
+      
+      [Inject]
+      public var openDialog:OpenDialogSignal;
+      
+      public function UpgradePetCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         setlocal_1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO")
+         istypelate
+         iffalse ofs0069
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"isRegistered") 0
+         iftrue ofs0028
+         getlocal_0
+         getlex Qname(PrivateNamespace(null,"297"),"PET_YARD_REGISTER_STRING")
+         callpropvoid Qname(PrivateNamespace(null,"297"),"showPromptToRegister") 1
+         ofs0028:getlocal_0
+         getproperty Qname(PackageNamespace(""),"messages")
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"PETUPGRADEREQUEST")
+         callproperty Qname(Namespace("kabam.lib.net.api:MessageProvider"),"require") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         astypelate
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         setlocal_1
+         getlocal_1
+         pushbyte 1
+         setproperty Qname(PackageNamespace(""),"petTransType")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"objectID")
+         setproperty Qname(PackageNamespace(""),"objectId")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"UpgradePetYardRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"paymentTransType")
+         setproperty Qname(PackageNamespace(""),"paymentTransType")
+         ofs0069:getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO")
+         istypelate
+         iffalse ofs00c8
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messages")
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"PETUPGRADEREQUEST")
+         callproperty Qname(Namespace("kabam.lib.net.api:MessageProvider"),"require") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         astypelate
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         setlocal_1
+         getlocal_1
+         pushbyte 2
+         setproperty Qname(PackageNamespace(""),"petTransType")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"petInstanceId")
+         setproperty Qname(PackageNamespace(""),"PIDOne")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"slotObjects")
+         setproperty Qname(PackageNamespace(""),"slotsObject")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FeedPetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"paymentTransType")
+         setproperty Qname(PackageNamespace(""),"paymentTransType")
+         ofs00c8:getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         getlex Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         istypelate
+         iffalse ofs0127
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"messages")
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"GameServerConnection")
+         getproperty Qname(PackageNamespace(""),"PETUPGRADEREQUEST")
+         callproperty Qname(Namespace("kabam.lib.net.api:MessageProvider"),"require") 1
+         getlex Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         astypelate
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl"),"PetUpgradeRequest")
+         setlocal_1
+         getlocal_1
+         pushbyte 3
+         setproperty Qname(PackageNamespace(""),"petTransType")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"petInstanceIdOne")
+         setproperty Qname(PackageNamespace(""),"PIDOne")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"petInstanceIdTwo")
+         setproperty Qname(PackageNamespace(""),"PIDTwo")
+         getlocal_1
+         findpropstrict Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"vo")
+         callproperty Qname(PackageNamespace("io.decagames.rotmg.pets.data.vo.requests"),"FusePetRequestVO") 1
+         getproperty Qname(PackageNamespace(""),"paymentTransType")
+         setproperty Qname(PackageNamespace(""),"paymentTransType")
+         ofs0127:getlocal_1
+         iffalse ofs0135
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"server")
+         getlocal_1
+         callpropvoid Qname(PackageNamespace(""),"sendMessage") 1
+         ofs0135:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showPromptToRegister(param1:String) : void
+      {
+         trait method Qname(PrivateNamespace(null,"297"),"showPromptToRegister")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"openDialog")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog")
+         getlocal_1
+         constructprop Qname(PackageNamespace("kabam.rotmg.account.core.view"),"RegisterPromptDialog") 1
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

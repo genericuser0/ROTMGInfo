@@ -1,0 +1,182 @@
+package kabam.rotmg.game.commands
+{
+   import com.company.assembleegameclient.screens.CharacterSelectionAndNewsScreen;
+   import kabam.rotmg.core.model.PlayerModel;
+   import kabam.rotmg.core.signals.InvalidateDataSignal;
+   import kabam.rotmg.core.signals.SetScreenSignal;
+   import kabam.rotmg.core.signals.SetScreenWithValidDataSignal;
+   import kabam.rotmg.death.model.DeathModel;
+   import kabam.rotmg.fame.control.ShowFameViewSignal;
+   import kabam.rotmg.fame.model.FameVO;
+   import kabam.rotmg.fame.model.SimpleFameVO;
+   import kabam.rotmg.messaging.impl.incoming.Death;
+   
+   public class TransitionFromGameToMenuCommand
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 3
+         maxscopedepth 4
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var player:PlayerModel;
+      
+      [Inject]
+      public var model:DeathModel;
+      
+      [Inject]
+      public var invalidate:InvalidateDataSignal;
+      
+      [Inject]
+      public var setScreen:SetScreenSignal;
+      
+      [Inject]
+      public var setScreenWithValidData:SetScreenWithValidDataSignal;
+      
+      [Inject]
+      public var showFameView:ShowFameViewSignal;
+      
+      public function TransitionFromGameToMenuCommand()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public function execute() : void
+      {
+         trait method Qname(PackageNamespace(""),"execute")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"invalidate")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getIsDeathViewPending") 0
+         iffalse ofs001f
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"353"),"showDeathView") 0
+         jump ofs0024
+         ofs001f:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"353"),"showCurrentCharacterScreen") 0
+         ofs0024:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showDeathView() : void
+      {
+         trait method Qname(PrivateNamespace(null,"353"),"showDeathView")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 3
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"model")
+         callproperty Qname(PackageNamespace(""),"getLastDeath") 0
+         coerce Qname(PackageNamespace("kabam.rotmg.messaging.impl.incoming"),"Death")
+         setlocal_1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fame.model"),"SimpleFameVO")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"player")
+         callproperty Qname(PackageNamespace(""),"getAccountId") 0
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"charId_")
+         constructprop Qname(PackageNamespace("kabam.rotmg.fame.model"),"SimpleFameVO") 2
+         coerce Qname(PackageNamespace("kabam.rotmg.fame.model"),"FameVO")
+         setlocal_2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"showFameView")
+         getlocal_2
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function showCurrentCharacterScreen() : void
+      {
+         trait method Qname(PrivateNamespace(null,"353"),"showCurrentCharacterScreen")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreenWithValidData")
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen")
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.screens"),"CharacterSelectionAndNewsScreen") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

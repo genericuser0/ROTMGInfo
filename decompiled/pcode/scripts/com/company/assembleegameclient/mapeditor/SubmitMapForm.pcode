@@ -1,0 +1,769 @@
+package com.company.assembleegameclient.mapeditor
+{
+   import com.company.assembleegameclient.account.ui.CheckBoxField;
+   import com.company.assembleegameclient.account.ui.Frame;
+   import com.company.assembleegameclient.account.ui.TextInputField;
+   import flash.events.Event;
+   import flash.events.IOErrorEvent;
+   import flash.events.MouseEvent;
+   import kabam.lib.json.JsonParser;
+   import kabam.rotmg.account.core.Account;
+   import kabam.rotmg.application.api.ApplicationSetup;
+   import kabam.rotmg.core.StaticInjectorContext;
+   import kabam.rotmg.editor.view.components.savedialog.TagsInputField;
+   import kabam.rotmg.fortune.components.TimerCallback;
+   import kabam.rotmg.text.model.TextKey;
+   import org.osflash.signals.Signal;
+   import ru.inspirit.net.MultipartURLLoader;
+   
+   public class SubmitMapForm extends Frame
+   {
+      
+      public static var cancel:Signal;
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private var mapName:TextInputField;
+      
+      private var descr:TextInputField;
+      
+      private var tags:TagsInputField;
+      
+      private var mapjm:String;
+      
+      private var mapInfo:Object;
+      
+      private var account:Account;
+      
+      private var checkbox:CheckBoxField;
+      
+      public function SubmitMapForm(param1:String, param2:Object, param3:Account)
+      {
+         method
+         name null
+         param Qname(PackageNamespace(""),"String")
+         param Qname(PackageNamespace(""),"Object")
+         param Qname(PackageNamespace("kabam.rotmg.account.core"),"Account")
+         returns null
+         
+         body
+         maxstack 9
+         localcount 4
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         pushstring "SubmitMapForm.Title"
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"FRAME_CANCEL")
+         getlex Qname(PackageNamespace("kabam.rotmg.text.model"),"TextKey")
+         getproperty Qname(PackageNamespace(""),"WEB_CHANGE_PASSWORD_RIGHT")
+         pushnull
+         pushshort 300
+         constructsuper 5
+         findproperty Qname(PackageNamespace(""),"cancel")
+         findpropstrict Qname(PackageNamespace("org.osflash.signals"),"Signal")
+         constructprop Qname(PackageNamespace("org.osflash.signals"),"Signal") 0
+         setproperty Qname(PackageNamespace(""),"cancel")
+         getlocal_0
+         getlocal_3
+         initproperty Qname(PrivateNamespace(null,"689"),"account")
+         getlocal_0
+         getlocal_1
+         initproperty Qname(PrivateNamespace(null,"689"),"mapjm")
+         getlocal_0
+         getlocal_2
+         initproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"TextInputField")
+         pushstring "Map Name"
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"TextInputField") 1
+         initproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         findpropstrict Qname(PackageNamespace(""),"addTextInputField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         callpropvoid Qname(PackageNamespace(""),"addTextInputField") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.editor.view.components.savedialog"),"TagsInputField")
+         pushstring ""
+         pushshort 238
+         pushbyte 50
+         pushtrue
+         constructprop Qname(PackageNamespace("kabam.rotmg.editor.view.components.savedialog"),"TagsInputField") 4
+         initproperty Qname(PrivateNamespace(null,"689"),"tags")
+         findpropstrict Qname(PackageNamespace(""),"addComponent")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"tags")
+         pushbyte 12
+         callpropvoid Qname(PackageNamespace(""),"addComponent") 2
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"TextInputField")
+         pushstring "Description"
+         pushfalse
+         pushshort 238
+         pushbyte 100
+         pushbyte 20
+         pushshort 256
+         pushtrue
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"TextInputField") 7
+         initproperty Qname(PrivateNamespace(null,"689"),"descr")
+         findpropstrict Qname(PackageNamespace(""),"addTextInputField")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         callpropvoid Qname(PackageNamespace(""),"addTextInputField") 1
+         findpropstrict Qname(PackageNamespace(""),"addSpace")
+         pushbyte 35
+         callpropvoid Qname(PackageNamespace(""),"addSpace") 1
+         getlocal_0
+         findpropstrict Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"CheckBoxField")
+         pushstring "Overwrite"
+         pushtrue
+         pushbyte 12
+         constructprop Qname(PackageNamespace("com.company.assembleegameclient.account.ui"),"CheckBoxField") 3
+         initproperty Qname(PrivateNamespace(null,"689"),"checkbox")
+         findpropstrict Qname(PackageNamespace(""),"addCheckBox")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"checkbox")
+         callpropvoid Qname(PackageNamespace(""),"addCheckBox") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"enableButtons") 0
+         findpropstrict Qname(PackageNamespace(""),"addEventListener")
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"REMOVED_FROM_STAGE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onRemovedFromStage")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      public static function isInitialized() : Boolean
+      {
+         trait method Qname(PackageNamespace(""),"isInitialized")
+         flag FINAL
+         dispid 3
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 9
+         maxscopedepth 10
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"cancel")
+         pushnull
+         equals
+         not
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function disableButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"disableButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"rightButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onSubmit")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         getlex Qname(PackageNamespace(""),"leftButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onCancel")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function enableButtons() : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"enableButtons")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"rightButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onSubmit")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlex Qname(PackageNamespace(""),"leftButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onCancel")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onSubmit(param1:MouseEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"onSubmit")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 20
+         localcount 10
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"disableButtons") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         callpropvoid Qname(PackageNamespace(""),"clearError") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.lib.json"),"JsonParser")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.lib.json"),"JsonParser")
+         setlocal_2
+         getlocal_2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapjm")
+         callproperty Qname(Namespace("kabam.lib.json:JsonParser"),"parse") 1
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal_3
+         getlocal_3
+         pushstring "width"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         setlocal 4
+         getlocal_3
+         pushstring "height"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         convert_i
+         setlocal 5
+         findpropstrict Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader")
+         constructprop Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader") 0
+         coerce Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader")
+         dup
+         setlocal 6
+         pushstring "guid"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getUserId") 0
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "password"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"account")
+         callproperty Qname(Namespace("kabam.rotmg.account.core:Account"),"getPassword") 0
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "description"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "width"
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "height"
+         getlocal 5
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "mapjm"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapjm")
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "tags"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"tags")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "totalObjects"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numObjects",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         pushstring "totalTiles"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numTiles",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlocal 6
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("thumbnail",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "foo.png"
+         pushstring "thumbnail"
+         callpropvoid Qname(PackageNamespace(""),"addFile") 3
+         getlocal 6
+         pushstring "overwrite"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"checkbox")
+         callproperty Qname(PackageNamespace(""),"isChecked") 0
+         iffalse ofs011d
+         pushstring "on"
+         coerce Qname(PackageNamespace(""),"Object")
+         jump ofs0123
+         ofs011d:pushstring "off"
+         coerce Qname(PackageNamespace(""),"Object")
+         ofs0123:callpropvoid Qname(PackageNamespace(""),"addVariable") 2
+         getlex Qname(PackageNamespace("kabam.rotmg.core"),"StaticInjectorContext")
+         callproperty Qname(PackageNamespace(""),"getInjector") 0
+         getlex Qname(PackageNamespace("kabam.rotmg.application.api"),"ApplicationSetup")
+         callproperty Qname(PackageNamespace(""),"getInstance") 1
+         coerce Qname(PackageNamespace("kabam.rotmg.application.api"),"ApplicationSetup")
+         dup
+         setlocal 7
+         pushtrue
+         callproperty Qname(Namespace("kabam.rotmg.application.api:ApplicationSetup"),"getAppEngineUrl") 1
+         pushstring "/ugc/save"
+         add
+         setlocal 8
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"enableButtons") 0
+         pushstring "name"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         pushstring "description"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         pushstring "width"
+         getlocal 4
+         pushstring "height"
+         getlocal 5
+         pushstring "mapjm"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapjm")
+         pushstring "tags"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"tags")
+         callproperty Qname(PackageNamespace(""),"text") 0
+         pushstring "totalObjects"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numObjects",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "totalTiles"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numTiles",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "thumbnail"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("thumbnail",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushstring "overwrite"
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"checkbox")
+         callproperty Qname(PackageNamespace(""),"isChecked") 0
+         iffalse ofs01ba
+         pushstring "on"
+         coerce_a
+         jump ofs01bf
+         ofs01ba:pushstring "off"
+         coerce_a
+         ofs01bf:newobject 10
+         coerce Qname(PackageNamespace(""),"Object")
+         setlocal 9
+         getlocal_0
+         getlocal 9
+         callproperty Qname(PrivateNamespace(null,"689"),"validated") 1
+         iffalse ofs01fc
+         getlocal 6
+         getlex Qname(PackageNamespace("flash.events"),"Event")
+         getproperty Qname(PackageNamespace(""),"COMPLETE")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onComplete")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal 6
+         getlex Qname(PackageNamespace("flash.events"),"IOErrorEvent")
+         getproperty Qname(PackageNamespace(""),"IO_ERROR")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onCompleteException")
+         callpropvoid Qname(PackageNamespace(""),"addEventListener") 2
+         getlocal 6
+         getlocal 8
+         callpropvoid Qname(PackageNamespace(""),"load") 1
+         jump ofs0201
+         ofs01fc:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"enableButtons") 0
+         ofs0201:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCompleteException(param1:IOErrorEvent) : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"onCompleteException")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"IOErrorEvent")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         pushstring "Exception. If persists, please contact dev team."
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"enableButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onComplete(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"onComplete")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 5
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         pushnull
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         pushnull
+         coerce_s
+         setlocal 4
+         findpropstrict Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"target")
+         callproperty Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader") 1
+         coerce Qname(PackageNamespace("ru.inspirit.net"),"MultipartURLLoader")
+         setlocal_2
+         getlocal_2
+         getproperty Qname(PackageNamespace(""),"loader")
+         getproperty Qname(PackageNamespace(""),"data")
+         pushstring "<Success/>"
+         ifne ofs0046
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         pushstring "Success! Thank you!"
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.fortune.components"),"TimerCallback")
+         pushbyte 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onCancel")
+         constructprop Qname(PackageNamespace("kabam.rotmg.fortune.components"),"TimerCallback") 2
+         pop
+         jump ofs0085
+         ofs0046:getlocal_2
+         getproperty Qname(PackageNamespace(""),"loader")
+         getproperty Qname(PackageNamespace(""),"data")
+         pushstring "<.*>(.*)</.*>"
+         callproperty Multiname("match",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")]) 1
+         coerce Qname(PackageNamespace(""),"Array")
+         setlocal_3
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"length")
+         pushbyte 1
+         greaterthan
+         iffalse ofs0070
+         getlocal_3
+         pushbyte 1
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         coerce_s
+         jump ofs0078
+         ofs0070:getlocal_2
+         getproperty Qname(PackageNamespace(""),"loader")
+         getproperty Qname(PackageNamespace(""),"data")
+         coerce_s
+         ofs0078:coerce_s
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         ofs0085:getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"689"),"enableButtons") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onCancel(param1:MouseEvent = null) : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"onCancel")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("flash.events"),"MouseEvent")
+         optional null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"cancel")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         getlex Qname(PackageNamespace(""),"parent")
+         iffalse ofs0018
+         getlex Qname(PackageNamespace(""),"parent")
+         getlocal_0
+         callpropvoid Qname(PackageNamespace(""),"removeChild") 1
+         ofs0018:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onRemovedFromStage(param1:Event) : void
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"onRemovedFromStage")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace("flash.events"),"Event")
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 3
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace(""),"rightButton_")
+         iffalse ofs001a
+         getlex Qname(PackageNamespace(""),"rightButton_")
+         getlex Qname(PackageNamespace("flash.events"),"MouseEvent")
+         getproperty Qname(PackageNamespace(""),"CLICK")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"onSubmit")
+         callpropvoid Qname(PackageNamespace(""),"removeEventListener") 2
+         ofs001a:getlex Qname(PackageNamespace(""),"cancel")
+         iffalse ofs002f
+         getlex Qname(PackageNamespace(""),"cancel")
+         callpropvoid Qname(PackageNamespace(""),"removeAll") 0
+         findproperty Qname(PackageNamespace(""),"cancel")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"cancel")
+         ofs002f:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function validated(param1:Object) : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"validated")
+         dispid 0
+         method
+         name null
+         param Qname(PackageNamespace(""),"Object")
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 2
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_1
+         pushstring "name"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("length",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 6
+         lessthan
+         dup
+         iftrue ofs0026
+         pop
+         getlocal_1
+         pushstring "name"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("length",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 24
+         greaterthan
+         ofs0026:iffalse ofs0038
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapName")
+         pushstring "Map name length out of range (6-24 chars)"
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         pushfalse
+         returnvalue
+         ofs0038:getlocal_1
+         pushstring "description"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("length",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 10
+         lessthan
+         dup
+         iftrue ofs005d
+         pop
+         getlocal_1
+         pushstring "description"
+         getproperty MultinameL([PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         getproperty Multiname("length",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushshort 250
+         greaterthan
+         ofs005d:iffalse ofs006f
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         pushstring "Description length out of range (10-250 chars)"
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         pushfalse
+         returnvalue
+         ofs006f:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"689"),"isValidMap") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function isValidMap() : Boolean
+      {
+         trait method Qname(PrivateNamespace(null,"689"),"isValidMap")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"Boolean")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 10
+         maxscopedepth 11
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numExits",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 1
+         ifnlt ofs001e
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         pushstring "Must have at least one User Dungeon End region drawn in this dungeon. (tmp)"
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         pushfalse
+         returnvalue
+         ofs001e:getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"mapInfo")
+         getproperty Multiname("numEntries",[PrivateNamespace(null,"689"),PackageNamespace(""),PrivateNamespace(null,"1686"),PackageNamespace("com.company.assembleegameclient.mapeditor"),PackageInternalNs("com.company.assembleegameclient.mapeditor"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.mapeditor:SubmitMapForm"),StaticProtectedNs("com.company.assembleegameclient.account.ui:Frame"),StaticProtectedNs("flash.display:Sprite"),StaticProtectedNs("flash.display:DisplayObjectContainer"),StaticProtectedNs("flash.display:InteractiveObject"),StaticProtectedNs("flash.display:DisplayObject"),StaticProtectedNs("flash.events:EventDispatcher")])
+         pushbyte 1
+         ifnlt ofs003a
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"689"),"descr")
+         pushstring "Must have at least one Spawn Region drawn in this dungeon. (tmp)"
+         callpropvoid Qname(PackageNamespace(""),"setError") 1
+         pushfalse
+         returnvalue
+         ofs003a:pushtrue
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

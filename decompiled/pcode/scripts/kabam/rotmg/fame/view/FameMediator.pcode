@@ -1,0 +1,558 @@
+package kabam.rotmg.fame.view
+{
+   import com.company.assembleegameclient.objects.ObjectLibrary;
+   import com.company.assembleegameclient.objects.TextureData;
+   import com.company.assembleegameclient.util.AnimatedChar;
+   import com.company.assembleegameclient.util.MaskedImage;
+   import com.company.assembleegameclient.util.TextureRedrawer;
+   import flash.display.BitmapData;
+   import io.decagames.rotmg.seasonalEvent.data.SeasonalEventModel;
+   import kabam.rotmg.assets.services.CharacterFactory;
+   import kabam.rotmg.core.signals.GotoPreviousScreenSignal;
+   import kabam.rotmg.core.signals.SetScreenSignal;
+   import kabam.rotmg.core.signals.TrackPageViewSignal;
+   import kabam.rotmg.death.model.DeathModel;
+   import kabam.rotmg.fame.model.FameModel;
+   import kabam.rotmg.fame.service.RequestCharacterFameTask;
+   import kabam.rotmg.legends.view.LegendsView;
+   import kabam.rotmg.messaging.impl.incoming.Death;
+   import robotlegs.bender.bundles.mvcs.Mediator;
+   
+   public class FameMediator extends Mediator
+   {
+      
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 4
+         maxscopedepth 5
+         
+         code
+         getlocal_0
+         pushscope
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      [Inject]
+      public var view:FameView;
+      
+      [Inject]
+      public var fameModel:FameModel;
+      
+      [Inject]
+      public var deathModel:DeathModel;
+      
+      [Inject]
+      public var seasonalEventModel:SeasonalEventModel;
+      
+      [Inject]
+      public var setScreen:SetScreenSignal;
+      
+      [Inject]
+      public var gotoPrevious:GotoPreviousScreenSignal;
+      
+      [Inject]
+      public var track:TrackPageViewSignal;
+      
+      [Inject]
+      public var task:RequestCharacterFameTask;
+      
+      [Inject]
+      public var factory:CharacterFactory;
+      
+      private var isFreshDeath:Boolean;
+      
+      private var death:Death;
+      
+      public function FameMediator()
+      {
+         method
+         name null
+         returns null
+         
+         body
+         maxstack 1
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         constructsuper 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function initialize() : void
+      {
+         trait method Qname(PackageNamespace(""),"initialize")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"onClosed")
+         callpropvoid Qname(PackageNamespace(""),"add") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"track")
+         pushstring "/fame"
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"422"),"setViewDataFromDeath") 0
+         getlocal_0
+         callpropvoid Qname(PrivateNamespace(null,"422"),"requestFameData") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      override public function destroy() : void
+      {
+         trait method Qname(PackageNamespace(""),"destroy")
+         flag OVERRIDE
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"closed")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"onClosed")
+         callpropvoid Qname(PackageNamespace(""),"remove") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         callpropvoid Qname(PackageNamespace(""),"clearBackground") 0
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         coerce_a
+         dup
+         iffalse ofs002d
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         callproperty Qname(PackageNamespace(""),"disposeBackground") 0
+         coerce_a
+         ofs002d:pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"finished")
+         callpropvoid Qname(PackageNamespace(""),"removeAll") 0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"remainingChallengerCharacters")
+         iffalse ofs0058
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getproperty Qname(PackageNamespace(""),"remainingChallengerCharacters")
+         pushstring ""
+         setproperty Qname(PackageNamespace(""),"text")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         pushnull
+         setproperty Qname(PackageNamespace(""),"remainingChallengerCharacters")
+         ofs0058:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function setViewDataFromDeath() : void
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"setViewDataFromDeath")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"deathModel")
+         callproperty Qname(PackageNamespace(""),"getIsDeathViewPending") 0
+         initproperty Qname(PrivateNamespace(null,"422"),"isFreshDeath")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"isFreshDeath")
+         callpropvoid Qname(PackageNamespace(""),"setIsAnimation") 1
+         getlocal_0
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"deathModel")
+         callproperty Qname(PackageNamespace(""),"getLastDeath") 0
+         initproperty Qname(PrivateNamespace(null,"422"),"death")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         convert_b
+         dup
+         iffalse ofs0039
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         getproperty Qname(PackageNamespace(""),"background")
+         convert_b
+         ofs0039:iffalse ofs004c
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         getproperty Qname(PackageNamespace(""),"background")
+         callpropvoid Qname(PackageNamespace(""),"setBackground") 1
+         ofs004c:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function requestFameData() : void
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"requestFameData")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"fameModel")
+         getproperty Qname(PackageNamespace(""),"accountId")
+         setproperty Qname(PackageNamespace(""),"accountId")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"fameModel")
+         getproperty Qname(PackageNamespace(""),"characterId")
+         setproperty Qname(PackageNamespace(""),"charId")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"finished")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"onFameResponse")
+         callpropvoid Qname(PackageNamespace(""),"addOnce") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         callpropvoid Qname(PackageNamespace(""),"start") 0
+         returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onFameResponse(param1:RequestCharacterFameTask, param2:Boolean, param3:String = "") : void
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"onFameResponse")
+         dispid 0
+         method
+         name null
+         flag HAS_OPTIONAL
+         param Qname(PackageNamespace("kabam.rotmg.fame.service"),"RequestCharacterFameTask")
+         param Qname(PackageNamespace(""),"Boolean")
+         param Qname(PackageNamespace(""),"String")
+         optional ""
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 4
+         localcount 5
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"422"),"makeIcon") 0
+         coerce Qname(PackageNamespace("flash.display"),"BitmapData")
+         setlocal 4
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"name")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"level")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"type")
+         callpropvoid Qname(PackageNamespace(""),"setCharacterInfo") 3
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"deathDate")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"killer")
+         callpropvoid Qname(PackageNamespace(""),"setDeathInfo") 2
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal 4
+         callpropvoid Qname(PackageNamespace(""),"setIcon") 1
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"totalFame")
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"xml")
+         callpropvoid Qname(PackageNamespace(""),"setScore") 2
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"isFreshDeath")
+         convert_b
+         dup
+         iffalse ofs005c
+         pop
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"isChallenger")
+         convert_b
+         ofs005c:iffalse ofs0094
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"remainingCharacters")
+         decrement
+         setproperty Qname(PackageNamespace(""),"remainingCharacters")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"remainingCharacters")
+         pushbyte 0
+         ifnlt ofs0085
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         pushbyte 0
+         setproperty Qname(PackageNamespace(""),"remainingCharacters")
+         ofs0085:getlocal_0
+         getproperty Qname(PackageNamespace(""),"view")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"seasonalEventModel")
+         getproperty Qname(PackageNamespace(""),"remainingCharacters")
+         callpropvoid Qname(PackageNamespace(""),"addRemainingChallengerCharacters") 1
+         ofs0094:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeIcon() : BitmapData
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"makeIcon")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"BitmapData")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"isFreshDeath")
+         convert_b
+         dup
+         iffalse ofs0015
+         pop
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         getproperty Qname(PackageNamespace(""),"isZombie")
+         convert_b
+         ofs0015:iffalse ofs001f
+         getlocal_0
+         callproperty Qname(PrivateNamespace(null,"422"),"makeZombieTexture") 0
+         returnvalue
+         ofs001f:getlocal_0
+         callproperty Qname(PrivateNamespace(null,"422"),"makeNormalTexture") 0
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeNormalTexture() : BitmapData
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"makeNormalTexture")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"BitmapData")
+         
+         body
+         maxstack 5
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"factory")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"template")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"size")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"texture1")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"texture2")
+         callproperty Qname(PackageNamespace(""),"makeIcon") 4
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function makeZombieTexture() : BitmapData
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"makeZombieTexture")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace("flash.display"),"BitmapData")
+         
+         body
+         maxstack 7
+         localcount 4
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.objects"),"ObjectLibrary")
+         getproperty Qname(PackageNamespace(""),"typeToTextureData_")
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"death")
+         getproperty Qname(PackageNamespace(""),"zombieType")
+         getproperty MultinameL([PrivateNamespace(null,"422"),PackageNamespace(""),PrivateNamespace(null,"1489"),PackageNamespace("kabam.rotmg.fame.view"),PackageInternalNs("kabam.rotmg.fame.view"),Namespace("http://adobe.com/AS3/2006/builtin"),ProtectedNamespace("kabam.rotmg.fame.view:FameMediator"),StaticProtectedNs("kabam.rotmg.fame.view:FameMediator"),StaticProtectedNs("robotlegs.bender.bundles.mvcs:Mediator")])
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.objects"),"TextureData")
+         setlocal_1
+         getlocal_1
+         getproperty Qname(PackageNamespace(""),"animatedChar_")
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         setlocal_2
+         getlocal_2
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"RIGHT")
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"AnimatedChar")
+         getproperty Qname(PackageNamespace(""),"STAND")
+         pushbyte 0
+         callproperty Qname(PackageNamespace(""),"imageFromDir") 3
+         coerce Qname(PackageNamespace("com.company.assembleegameclient.util"),"MaskedImage")
+         setlocal_3
+         getlex Qname(PackageNamespace("com.company.assembleegameclient.util"),"TextureRedrawer")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"image_")
+         getlocal_3
+         getproperty Qname(PackageNamespace(""),"mask_")
+         pushshort 250
+         pushtrue
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"texture1")
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"task")
+         getproperty Qname(PackageNamespace(""),"texture2")
+         callproperty Qname(PackageNamespace(""),"resize") 6
+         returnvalue
+         end ; code
+         end ; body
+         end ; method
+      }
+      
+      private function onClosed() : void
+      {
+         trait method Qname(PrivateNamespace(null,"422"),"onClosed")
+         dispid 0
+         method
+         name null
+         returns Qname(PackageNamespace(""),"void")
+         
+         body
+         maxstack 2
+         localcount 1
+         initscopedepth 5
+         maxscopedepth 6
+         
+         code
+         getlocal_0
+         pushscope
+         getlocal_0
+         getproperty Qname(PrivateNamespace(null,"422"),"isFreshDeath")
+         iffalse ofs001d
+         getlocal_0
+         getproperty Qname(PackageNamespace(""),"setScreen")
+         findpropstrict Qname(PackageNamespace("kabam.rotmg.legends.view"),"LegendsView")
+         constructprop Qname(PackageNamespace("kabam.rotmg.legends.view"),"LegendsView") 0
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 1
+         jump ofs0025
+         ofs001d:getlocal_0
+         getproperty Qname(PackageNamespace(""),"gotoPrevious")
+         callpropvoid Qname(PackageNamespace(""),"dispatch") 0
+         ofs0025:returnvoid
+         end ; code
+         end ; body
+         end ; method
+      }
+   }
+}

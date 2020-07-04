@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
     
     - name: Cleanup
-      run: rm decompiled -rf
+      run: rm decompiled xml xmlc json -rf
 
     - name: Download JPEXS
       run: |
@@ -29,6 +29,7 @@ jobs:
         # Scripts
         java -jar $HOME/ffdec.jar -export script decompiled client.swf
         java -jar $HOME/ffdec.jar -format script:pcode -export script decompiled client.swf
+        
         # Binary data
         java -jar $HOME/ffdec.jar -export binaryData decompiled/data client.swf
         
@@ -37,23 +38,10 @@ jobs:
         # Version
         wget https://www.realmofthemadgod.com/version.txt -O version.txt
 
-        # combined xml files
-        wget https://static.drips.pw/rotmg/production/current/xmlc/Dungeons.xml      -O xmlc/Dungeons.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/EquipmentSets.xml -O xmlc/EquipmentSets.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/GroundTypes.xml   -O xmlc/GroundTypes.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/Objects.xml       -O xmlc/Objects.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/Particles.xml     -O xmlc/Particles.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/Regions.xml       -O xmlc/Regions.xml
-        wget https://static.drips.pw/rotmg/production/current/xmlc/Tutorial.xml      -O xmlc/Tutorial.xml
-
-        # Combined json files
-        wget https://static.drips.pw/rotmg/production/current/json/Dungeons.json      -O json/Dungeons.json
-        wget https://static.drips.pw/rotmg/production/current/json/EquipmentSets.json -O json/EquipmentSets.json
-        wget https://static.drips.pw/rotmg/production/current/json/GroundTypes.json   -O json/GroundTypes.json
-        wget https://static.drips.pw/rotmg/production/current/json/Objects.json       -O json/Objects.json
-        wget https://static.drips.pw/rotmg/production/current/json/Particles.json     -O json/Particles.json
-        wget https://static.drips.pw/rotmg/production/current/json/Regions.json       -O json/Regions.json
-        wget https://static.drips.pw/rotmg/production/current/json/Tutorial.json      -O json/Tutorial.json
+        # xml and json files
+        wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" -e robots=off https://static.drips.pw/rotmg/production/current/xml/
+        wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" -e robots=off https://static.drips.pw/rotmg/production/current/xmlc/
+        wget -r -nH --cut-dirs=3 --no-parent --reject="index.html*" -e robots=off https://static.drips.pw/rotmg/production/current/json/
 
         # Other
         wget https://static.drips.pw/rotmg/production/current/init.json    -O init.json

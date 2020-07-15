@@ -965,41 +965,42 @@ package kabam.rotmg.messaging.impl
          serverConnection.sendMessage(_loc3_);
       }
       
-      public function move(param1:int, param2:Player) : void
+      public function move(param1:int, param2:uint, param3:Player) : void
       {
-         var _loc7_:int = 0;
          var _loc8_:int = 0;
-         var _loc3_:Number = -1;
+         var _loc9_:int = 0;
          var _loc4_:Number = -1;
-         if(param2 && !param2.isPaused())
+         var _loc5_:Number = -1;
+         if(param3 && !param3.isPaused())
          {
-            _loc3_ = param2.x_;
-            _loc4_ = param2.y_;
+            _loc4_ = param3.x_;
+            _loc5_ = param3.y_;
          }
-         var _loc5_:Move = this.messages.require(MOVE) as Move;
-         _loc5_.tickId_ = param1;
-         _loc5_.time_ = gs_.lastUpdate_;
-         _loc5_.newPosition_.x_ = _loc3_;
-         _loc5_.newPosition_.y_ = _loc4_;
-         var _loc6_:int = gs_.moveRecords_.lastClearTime_;
-         _loc5_.records_.length = 0;
-         if(_loc6_ >= 0 && _loc5_.time_ - _loc6_ > 125)
+         var _loc6_:Move = this.messages.require(MOVE) as Move;
+         _loc6_.tickId_ = param1;
+         _loc6_.time_ = gs_.lastUpdate_;
+         _loc6_.serverRealTimeMSofLastNewTick_ = param2;
+         _loc6_.newPosition_.x_ = _loc4_;
+         _loc6_.newPosition_.y_ = _loc5_;
+         var _loc7_:int = gs_.moveRecords_.lastClearTime_;
+         _loc6_.records_.length = 0;
+         if(_loc7_ >= 0 && _loc6_.time_ - _loc7_ > 125)
          {
-            _loc7_ = Math.min(10,gs_.moveRecords_.records_.length);
-            _loc8_ = 0;
-            while(_loc8_ < _loc7_)
+            _loc8_ = Math.min(10,gs_.moveRecords_.records_.length);
+            _loc9_ = 0;
+            while(_loc9_ < _loc8_)
             {
-               if(gs_.moveRecords_.records_[_loc8_].time_ >= _loc5_.time_ - 25)
+               if(gs_.moveRecords_.records_[_loc9_].time_ >= _loc6_.time_ - 25)
                {
                   break;
                }
-               _loc5_.records_.push(gs_.moveRecords_.records_[_loc8_]);
-               _loc8_++;
+               _loc6_.records_.push(gs_.moveRecords_.records_[_loc9_]);
+               _loc9_++;
             }
          }
-         gs_.moveRecords_.clear(_loc5_.time_);
-         serverConnection.sendMessage(_loc5_);
-         param2 && param2.onMove();
+         gs_.moveRecords_.clear(_loc6_.time_);
+         serverConnection.sendMessage(_loc6_);
+         param3 && param3.onMove();
       }
       
       override public function teleport(param1:int) : void
@@ -1546,7 +1547,8 @@ package kabam.rotmg.messaging.impl
          {
             jitterWatcher_.record();
          }
-         this.move(param1.tickId_,this.player);
+         lastServerRealTimeMS_ = param1.serverRealTimeMS_;
+         this.move(param1.tickId_,lastServerRealTimeMS_,this.player);
          for each(_loc2_ in param1.statuses_)
          {
             this.processObjectStatus(_loc2_,param1.tickTime_,param1.tickId_);

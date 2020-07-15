@@ -12,6 +12,8 @@ package kabam.rotmg.messaging.impl.outgoing
       
       public var time_:int;
       
+      public var serverRealTimeMSofLastNewTick_:uint;
+      
       public var newPosition_:WorldPosData;
       
       public var records_:Vector.<MoveRecord>;
@@ -27,6 +29,7 @@ package kabam.rotmg.messaging.impl.outgoing
       {
          param1.writeInt(this.tickId_);
          param1.writeInt(this.time_);
+         param1.writeUnsignedInt(this.serverRealTimeMSofLastNewTick_);
          this.newPosition_.writeToOutput(param1);
          param1.writeShort(this.records_.length);
          var _loc2_:int = 0;

@@ -274,7 +274,7 @@ package kabam.rotmg.messaging.impl.data
          this.statType_ = param1.readUnsignedByte();
          if(!this.isStringStat())
          {
-            this.statValue_ = param1.readInt();
+            this.statValue_ = CompressedInt.Read(param1);
             if(this.statType_ == SUPPORTER_STAT)
             {
             }

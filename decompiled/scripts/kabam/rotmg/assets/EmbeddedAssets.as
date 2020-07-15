@@ -247,6 +247,8 @@ package kabam.rotmg.assets
       
       private static var lightShaftQuadEmbed_:Class = EmbeddedAssets_lightShaftQuadEmbed_;
       
+      private static var fourBlockWallEmbed_:Class = EmbeddedAssets_fourBlockWallEmbed_;
+      
       public static var d1Chars8x8rEmbed_:Class = EmbeddedAssets_d1Chars8x8rEmbed_;
       
       public static var d1Chars16x16rEmbed_:Class = EmbeddedAssets_d1Chars16x16rEmbed_;
@@ -548,6 +550,7 @@ package kabam.rotmg.assets
          "Jacko":new jackoEmbed_(),
          "Column":new templeColumnEmbed_(),
          "Oryx Wall":new oryxWallWholeEmbed_(),
+         "Four High Wall":new fourBlockWallEmbed_(),
          "Light Shaft":new lightShaftEmbed_(),
          "Light Shaft Quad":new lightShaftQuadEmbed_(),
          "Pet Upgrader Obj":new petUpgrader_(),

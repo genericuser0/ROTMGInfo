@@ -2,6 +2,7 @@ package kabam.rotmg.messaging.impl.incoming
 {
    import com.company.assembleegameclient.util.FreeList;
    import flash.utils.IDataInput;
+   import kabam.rotmg.messaging.impl.data.CompressedInt;
    import kabam.rotmg.messaging.impl.data.GroundTileData;
    import kabam.rotmg.messaging.impl.data.ObjectData;
    
@@ -26,7 +27,7 @@ package kabam.rotmg.messaging.impl.incoming
       override public function parseFromInput(param1:IDataInput) : void
       {
          var _loc2_:int = 0;
-         var _loc3_:int = param1.readShort();
+         var _loc3_:int = CompressedInt.Read(param1);
          _loc2_ = _loc3_;
          while(_loc2_ < this.tiles_.length)
          {
@@ -45,7 +46,7 @@ package kabam.rotmg.messaging.impl.incoming
             _loc2_++;
          }
          this.newObjs_.length = 0;
-         _loc3_ = param1.readShort();
+         _loc3_ = CompressedInt.Read(param1);
          _loc2_ = _loc3_;
          while(_loc2_ < this.newObjs_.length)
          {
@@ -64,11 +65,11 @@ package kabam.rotmg.messaging.impl.incoming
             _loc2_++;
          }
          this.drops_.length = 0;
-         var _loc4_:int = param1.readShort();
+         var _loc4_:int = CompressedInt.Read(param1);
          _loc2_ = 0;
          while(_loc2_ < _loc4_)
          {
-            this.drops_.push(param1.readInt());
+            this.drops_.push(CompressedInt.Read(param1));
             _loc2_++;
          }
       }

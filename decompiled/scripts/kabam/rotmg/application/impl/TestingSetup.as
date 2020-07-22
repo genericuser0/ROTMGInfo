@@ -34,7 +34,7 @@ package kabam.rotmg.application.impl
       
       public function getBuildLabel() : String
       {
-         var _loc1_:String = Parameters.BUILD_VERSION + "." + Parameters.MINOR_VERSION;
+         var _loc1_:String = Parameters.CLIENT_VERSION;
          return this.BUILD_LABEL.replace("{VERSION}",_loc1_);
       }
       

@@ -101,7 +101,8 @@ package com.company.assembleegameclient.objects
          "Wall":Wall,
          "Pet":Pet,
          "PetUpgrader":PetUpgrader,
-         "YardUpgrader":YardUpgrader
+         "YardUpgrader":YardUpgrader,
+         "WallOfFame":WallOfFame
       };
       
       private static var currentDungeon:String = "";

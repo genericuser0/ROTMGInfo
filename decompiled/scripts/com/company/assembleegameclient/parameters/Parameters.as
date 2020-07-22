@@ -16,6 +16,8 @@ package com.company.assembleegameclient.parameters
       
       public static const MINOR_VERSION:String = "1";
       
+      public static const CLIENT_VERSION:String = "1.0.0.0";
+      
       public static const ENABLE_ENCRYPTION:Boolean = true;
       
       public static const PORT:int = 2050;

@@ -20,7 +20,7 @@ package com.company.util
       
       public static function unitTest() : void
       {
-         var _loc1_:UnitTest = new UnitTest#3513();
+         var _loc1_:UnitTest = new UnitTest#3514();
       }
       
       public static function fromPoint(param1:Point) : IntPoint
@@ -116,11 +116,11 @@ package com.company.util
 
 import com.company.util.IntPoint;
 
-class UnitTest#3513
+class UnitTest#3514
 {
     
    
-   function UnitTest#3513()
+   function UnitTest#3514()
    {
       var _loc1_:IntPoint = null;
       var _loc2_:IntPoint = null;

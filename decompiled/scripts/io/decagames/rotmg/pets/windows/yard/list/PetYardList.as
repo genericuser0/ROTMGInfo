@@ -90,7 +90,8 @@ package io.decagames.rotmg.pets.windows.yard.list
       
       private function createScrollview() : void
       {
-         var _loc1_:Sprite = new Sprite();
+         var _loc1_:Sprite = null;
+         _loc1_ = new Sprite();
          this.yardContainer = new Sprite();
          this.yardContainer.x = this.contentInset.x;
          this.yardContainer.y = 2;

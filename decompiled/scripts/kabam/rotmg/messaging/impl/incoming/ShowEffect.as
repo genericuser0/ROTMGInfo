@@ -1,10 +1,29 @@
 package kabam.rotmg.messaging.impl.incoming
 {
    import flash.utils.IDataInput;
+   import kabam.rotmg.messaging.impl.data.CompressedInt;
    import kabam.rotmg.messaging.impl.data.WorldPosData;
    
    public class ShowEffect extends IncomingMessage
    {
+      
+      private static const EFFECT_BIT_COLOR:int = 1 << 0;
+      
+      private static const EFFECT_BIT_POS1_X:int = 1 << 1;
+      
+      private static const EFFECT_BIT_POS1_Y:int = 1 << 2;
+      
+      private static const EFFECT_BIT_POS2_X:int = 1 << 3;
+      
+      private static const EFFECT_BIT_POS2_Y:int = 1 << 4;
+      
+      private static const EFFECT_BIT_POS1:int = EFFECT_BIT_POS1_X | EFFECT_BIT_POS1_Y;
+      
+      private static const EFFECT_BIT_POS2:int = EFFECT_BIT_POS2_X | EFFECT_BIT_POS2_Y;
+      
+      private static const EFFECT_BIT_DURATION:int = 1 << 5;
+      
+      private static const EFFECT_BIT_ID:int = 1 << 6;
       
       public static const UNKNOWN_EFFECT_TYPE:int = 0;
       
@@ -95,11 +114,63 @@ package kabam.rotmg.messaging.impl.incoming
       override public function parseFromInput(param1:IDataInput) : void
       {
          this.effectType_ = param1.readUnsignedByte();
-         this.targetObjectId_ = param1.readInt();
-         this.pos1_.parseFromInput(param1);
-         this.pos2_.parseFromInput(param1);
-         this.color_ = param1.readInt();
-         this.duration_ = param1.readFloat();
+         var _loc2_:uint = param1.readUnsignedByte();
+         if(_loc2_ & EFFECT_BIT_ID)
+         {
+            this.targetObjectId_ = CompressedInt.Read(param1);
+         }
+         else
+         {
+            this.targetObjectId_ = 0;
+         }
+         if(_loc2_ & EFFECT_BIT_POS1_X)
+         {
+            this.pos1_.x_ = param1.readFloat();
+         }
+         else
+         {
+            this.pos1_.x_ = 0;
+         }
+         if(_loc2_ & EFFECT_BIT_POS1_Y)
+         {
+            this.pos1_.y_ = param1.readFloat();
+         }
+         else
+         {
+            this.pos1_.y_ = 0;
+         }
+         if(_loc2_ & EFFECT_BIT_POS2_X)
+         {
+            this.pos2_.x_ = param1.readFloat();
+         }
+         else
+         {
+            this.pos2_.x_ = 0;
+         }
+         if(_loc2_ & EFFECT_BIT_POS2_Y)
+         {
+            this.pos2_.y_ = param1.readFloat();
+         }
+         else
+         {
+            this.pos2_.y_ = 0;
+         }
+         if(_loc2_ & EFFECT_BIT_COLOR)
+         {
+            this.color_ = param1.readInt();
+         }
+         else
+         {
+            this.color_ = 4294967295;
+         }
+         if(_loc2_ & EFFECT_BIT_DURATION)
+         {
+            this.duration_ = param1.readFloat();
+         }
+         else
+         {
+            this.duration_ = 1;
+         }
       }
       
       override public function toString() : String

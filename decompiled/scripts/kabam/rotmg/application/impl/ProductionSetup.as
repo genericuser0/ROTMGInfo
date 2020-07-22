@@ -34,7 +34,7 @@ package kabam.rotmg.application.impl
       
       public function getBuildLabel() : String
       {
-         return this.BUILD_LABEL.replace("{VERSION}",Parameters.BUILD_VERSION).replace("{MINOR}",Parameters.MINOR_VERSION);
+         return this.BUILD_LABEL.replace("{VERSION}",Parameters.CLIENT_VERSION).replace("{MINOR}","");
       }
       
       public function useLocalTextures() : Boolean

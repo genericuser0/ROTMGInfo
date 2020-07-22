@@ -62,11 +62,11 @@ package kabam.rotmg.appengine.impl
             if(param2 == null)
             {
                param2 = {};
-               param2.gameClientVersion = Parameters.BUILD_VERSION + "." + Parameters.MINOR_VERSION;
+               param2.gameClientVersion = Parameters.CLIENT_VERSION;
             }
             else
             {
-               param2.gameClientVersion = Parameters.BUILD_VERSION + "." + Parameters.MINOR_VERSION;
+               param2.gameClientVersion = Parameters.CLIENT_VERSION;
             }
          }
          catch(e:Error)

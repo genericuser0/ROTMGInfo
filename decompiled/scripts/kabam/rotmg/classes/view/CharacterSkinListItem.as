@@ -129,7 +129,8 @@ package kabam.rotmg.classes.view
       
       private function makeSelectionButton() : RadioButton
       {
-         var _loc1_:RadioButton = new RadioButton();
+         var _loc1_:RadioButton = null;
+         _loc1_ = new RadioButton();
          _loc1_.setSelected(false);
          _loc1_.x = 1 + WIDTH - _loc1_.width - 15;
          _loc1_.y = 1 + HEIGHT / 2 - _loc1_.height / 2;

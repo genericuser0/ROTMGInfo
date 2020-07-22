@@ -1199,7 +1199,7 @@ package kabam.rotmg.messaging.impl
          this.addTextLine.dispatch(ChatMessage.make(Parameters.CLIENT_CHAT_NAME,TextKey.CHAT_CONNECTED));
          this.encryptConnection();
          var _loc2_:Hello = this.messages.require(HELLO) as Hello;
-         _loc2_.buildVersion_ = Parameters.BUILD_VERSION + "." + Parameters.MINOR_VERSION;
+         _loc2_.buildVersion_ = Parameters.CLIENT_VERSION;
          _loc2_.gameId_ = gameId_;
          _loc2_.guid_ = this.rsaEncrypt(_loc1_.getUserId());
          _loc2_.password_ = this.rsaEncrypt(_loc1_.getPassword());
@@ -2767,7 +2767,7 @@ package kabam.rotmg.messaging.impl
       {
          var _loc2_:Dialog = new Dialog(TextKey.CLIENT_UPDATE_TITLE,"",TextKey.CLIENT_UPDATE_LEFT_BUTTON,null,"/clientUpdate");
          _loc2_.setTextParams(TextKey.CLIENT_UPDATE_DESCRIPTION,{
-            "client":Parameters.BUILD_VERSION,
+            "client":Parameters.CLIENT_VERSION,
             "server":param1.errorDescription_
          });
          _loc2_.addEventListener(Dialog.LEFT_BUTTON,this.onDoClientUpdate);

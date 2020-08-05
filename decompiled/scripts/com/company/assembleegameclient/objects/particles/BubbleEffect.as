@@ -34,7 +34,6 @@ package com.company.assembleegameclient.objects.particles
          var _loc5_:int = 0;
          var _loc6_:Number = NaN;
          var _loc7_:Number = NaN;
-         var _loc8_:Number = NaN;
          var _loc9_:Number = NaN;
          var _loc11_:BubbleParticle = null;
          var _loc12_:Number = NaN;
@@ -50,7 +49,7 @@ package com.company.assembleegameclient.objects.particles
          }
          _loc3_ = int(this.lastUpdate_ / this.rate_);
          var _loc4_:int = int(param1 / this.rate_);
-         _loc8_ = this.go_.x_;
+         var _loc8_:Number = this.go_.x_;
          _loc9_ = this.go_.y_;
          if(this.lastUpdate_ < 0)
          {

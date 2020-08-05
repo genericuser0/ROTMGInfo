@@ -239,7 +239,7 @@ package com.company.assembleegameclient.objects
          {
             if(this.projProps_.boomerang_)
             {
-               _loc13_ = this.lifetime_ * (this.projProps_.speed_ / 10000) / 2;
+               _loc13_ = this.lifetime_ * (this.projProps_.speed_ * this.speedMul_ / 10000) / 2;
                if(_loc3_ > _loc13_)
                {
                   _loc3_ = _loc13_ - (_loc3_ - _loc13_);

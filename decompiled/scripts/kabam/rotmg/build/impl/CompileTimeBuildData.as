@@ -21,6 +21,8 @@ package kabam.rotmg.build.impl
       
       private static const ROTMG_TESTING2:String = "test2.realmofthemadgod.com";
       
+      private static const ROTMG_TESTING3:String = "test3.realmofthemadgod.com";
+      
       private static const STEAM_PRODUCTION_CONFIG:String = "Production";
        
       
@@ -70,6 +72,10 @@ package kabam.rotmg.build.impl
             else if(_loc3_.domain == ROTMG_TESTING2)
             {
                this.environment = BuildEnvironment.TESTING2;
+            }
+            else if(_loc3_.domain == ROTMG_TESTING3)
+            {
+               this.environment = BuildEnvironment.TESTING3;
             }
          }
          else

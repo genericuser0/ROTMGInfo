@@ -15,9 +15,11 @@ package kabam.rotmg.application.model
       
       private const TESTING2_WHITELIST:Array = ["realmtesting2.appspot.com","test2.realmofthemadgod.com"];
       
+      private const TESTING3_WHITELIST:Array = ["rotmgtesting3.appspot.com","test3.realmofthemadgod.com"];
+      
       private const TRANSLATION_WHITELIST:Array = ["xlate.kabam.com"];
       
-      private const WHITELIST:Array = this.PRODUCTION_WHITELIST.concat(this.TESTING_WHITELIST).concat(this.TRANSLATION_WHITELIST).concat(this.TESTING2_WHITELIST);
+      private const WHITELIST:Array = this.PRODUCTION_WHITELIST.concat(this.TESTING_WHITELIST).concat(this.TRANSLATION_WHITELIST).concat(this.TESTING2_WHITELIST).concat(this.TESTING3_WHITELIST);
       
       [Inject]
       public var client:PlatformModel;

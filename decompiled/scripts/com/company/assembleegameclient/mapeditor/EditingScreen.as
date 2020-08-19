@@ -189,9 +189,8 @@ package com.company.assembleegameclient.mapeditor
       
       private function createCheckboxes() : void
       {
-         var _loc1_:DeprecatedClickableText = null;
          this.checkBoxArray = [];
-         _loc1_ = new DeprecatedClickableText(14,true,"(Show All)");
+         var _loc1_:DeprecatedClickableText = new DeprecatedClickableText(14,true,"(Show All)");
          _loc1_.buttonMode = true;
          _loc1_.x = this.mapSizeDropDown_.x - 380;
          _loc1_.y = this.mapSizeDropDown_.y - 20;

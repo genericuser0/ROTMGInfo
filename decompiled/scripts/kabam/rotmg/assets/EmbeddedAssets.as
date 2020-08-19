@@ -501,6 +501,14 @@ package kabam.rotmg.assets
       
       public static var archbishopObjects64x64Embed_:Class = EmbeddedAssets_archbishopObjects64x64Embed_;
       
+      public static var ancientRuinsObjects8x8Embed_:Class = EmbeddedAssets_ancientRuinsObjects8x8Embed_;
+      
+      public static var ancientRuinsObjects16x16Embed_:Class = EmbeddedAssets_ancientRuinsObjects16x16Embed_;
+      
+      public static var ancientRuinsChars16x16Embed_:Class = EmbeddedAssets_ancientRuinsChars16x16Embed_;
+      
+      public static var ancientRuinsChars8x8Embed_:Class = EmbeddedAssets_ancientRuinsChars8x8Embed_;
+      
       public static var models_:Object = {
          "Monster Tank1":new monsterTank1Embed_(),
          "Monster Tank2":new monsterTank2Embed_(),

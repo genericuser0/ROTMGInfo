@@ -158,6 +158,8 @@ package com.company.assembleegameclient.util
          AssetLibrary.addImageSet("archbishopObjects8x8",new EmbeddedAssets.archbishopObjects8x8Embed_().bitmapData,8,8);
          AssetLibrary.addImageSet("archbishopObjects16x16",new EmbeddedAssets.archbishopObjects16x16Embed_().bitmapData,16,16);
          AssetLibrary.addImageSet("archbishopObjects64x64",new EmbeddedAssets.archbishopObjects64x64Embed_().bitmapData,64,64);
+         AssetLibrary.addImageSet("ancientRuinsObjects8x8",new EmbeddedAssets.ancientRuinsObjects8x8Embed_().bitmapData,8,8);
+         AssetLibrary.addImageSet("ancientRuinsObjects16x16",new EmbeddedAssets.ancientRuinsObjects16x16Embed_().bitmapData,16,16);
       }
       
       private function addAnimatedCharacters() : void
@@ -242,6 +244,8 @@ package com.company.assembleegameclient.util
          AnimatedChars.add("oryxSanctuaryChars32x32",new EmbeddedAssets.oryxSanctuaryChars32x32Embed_().bitmapData,null,32,32,224,32,AnimatedChar.RIGHT);
          AnimatedChars.add("archbishopChars8x8",new EmbeddedAssets.archbishopChars8x8Embed_().bitmapData,null,8,8,56,8,AnimatedChar.RIGHT);
          AnimatedChars.add("archbishopChars16x16",new EmbeddedAssets.archbishopChars16x16Embed_().bitmapData,null,16,16,112,16,AnimatedChar.RIGHT);
+         AnimatedChars.add("ancientRuinsChars8x8",new EmbeddedAssets.ancientRuinsChars8x8Embed_().bitmapData,null,8,8,56,8,AnimatedChar.RIGHT);
+         AnimatedChars.add("ancientRuinsChars16x16",new EmbeddedAssets.ancientRuinsChars16x16Embed_().bitmapData,null,16,16,112,16,AnimatedChar.RIGHT);
       }
       
       private function addSoundEffects() : void

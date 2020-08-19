@@ -15,6 +15,8 @@ package kabam.rotmg.build.api
       
       public static const TESTING2:BuildEnvironment = new BuildEnvironment();
       
+      public static const TESTING3:BuildEnvironment = new BuildEnvironment();
+      
       public static const PRODTEST:BuildEnvironment = new BuildEnvironment();
       
       public static const PRODUCTION:BuildEnvironment = new BuildEnvironment();

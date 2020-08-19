@@ -15,6 +15,8 @@ package kabam.rotmg.build.impl
       
       public static const TESTING2:String = "testing2";
       
+      public static const TESTING3:String = "testing3";
+      
       public static const PRODTEST:String = "prodtest";
       
       public static const PRODUCTION:String = "production";
@@ -51,6 +53,8 @@ package kabam.rotmg.build.impl
                return BuildEnvironment.TESTING;
             case TESTING2:
                return BuildEnvironment.TESTING2;
+            case TESTING3:
+               return BuildEnvironment.TESTING3;
             case PRODTEST:
                return BuildEnvironment.PRODTEST;
             case PRODUCTION:

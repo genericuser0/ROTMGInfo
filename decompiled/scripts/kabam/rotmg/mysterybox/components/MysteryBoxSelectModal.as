@@ -97,6 +97,7 @@ package kabam.rotmg.mysterybox.components
       {
          var _loc1_:MysteryBoxInfo = null;
          var _loc2_:DisplayObject = null;
+         var _loc4_:Number = NaN;
          var _loc5_:int = 0;
          var _loc6_:MysteryBoxSelectEntry = null;
          for each(_loc1_ in this.mysteryData)
@@ -114,7 +115,7 @@ package kabam.rotmg.mysterybox.components
          this.box_.addChild(this.closeButton);
          this.box_.addChild(this.getText(this.titleString,TEXT_MARGIN,6).setSize(18));
          var _loc3_:Number = 20;
-         var _loc4_:Number = 50;
+         _loc4_ = 50;
          _loc5_ = 0;
          for each(_loc1_ in this.mysteryData)
          {

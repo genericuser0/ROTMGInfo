@@ -9,6 +9,7 @@ package kabam.rotmg.application
    import kabam.rotmg.application.impl.PrivateSetup;
    import kabam.rotmg.application.impl.ProductionSetup;
    import kabam.rotmg.application.impl.Testing2Setup;
+   import kabam.rotmg.application.impl.Testing3Setup;
    import kabam.rotmg.application.impl.TestingSetup;
    import kabam.rotmg.application.model.DomainModel;
    import kabam.rotmg.application.model.PlatformModel;
@@ -64,6 +65,8 @@ package kabam.rotmg.application
                return new TestingSetup();
             case BuildEnvironment.TESTING2:
                return new Testing2Setup();
+            case BuildEnvironment.TESTING3:
+               return new Testing3Setup();
             default:
                return new ProductionSetup();
          }

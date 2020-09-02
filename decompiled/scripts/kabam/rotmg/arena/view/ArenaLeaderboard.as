@@ -181,8 +181,7 @@ package kabam.rotmg.arena.view
       
       private function makeList() : ArenaLeaderboardList
       {
-         var _loc1_:ArenaLeaderboardList = null;
-         _loc1_ = new ArenaLeaderboardList();
+         var _loc1_:ArenaLeaderboardList = new ArenaLeaderboardList();
          _loc1_.x = 15;
          _loc1_.y = 115;
          return _loc1_;

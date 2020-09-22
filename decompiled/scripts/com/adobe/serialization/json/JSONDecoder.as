@@ -58,13 +58,48 @@ package com.adobe.serialization.json
       
       private function parseObject() : Object
       {
-         /*
-          * Decompilation error
-          * Code may be obfuscated
-          * Tip: You can try enabling "Automatic deobfuscation" in Settings
-          * Error type: IndexOutOfBoundsException (Index: 0, Size: 1)
-          */
-         throw new flash.errors.IllegalOperationError("Not decompiled due to error");
+         var _loc2_:String = null;
+         var _loc1_:Object = new Object();
+         this.nextToken();
+         if(this.token.type == JSONTokenType.RIGHT_BRACE)
+         {
+            return _loc1_;
+         }
+         while(true)
+         {
+            if(this.token.type == JSONTokenType.STRING)
+            {
+               _loc2_ = String(this.token.value);
+               this.nextToken();
+               if(this.token.type == JSONTokenType.COLON)
+               {
+                  this.nextToken();
+                  _loc1_[_loc2_] = this.parseValue();
+                  this.nextToken();
+                  if(this.token.type == JSONTokenType.RIGHT_BRACE)
+                  {
+                     break;
+                  }
+                  if(this.token.type == JSONTokenType.COMMA)
+                  {
+                     this.nextToken();
+                  }
+                  else
+                  {
+                     this.tokenizer.parseError("Expecting } or , but found " + this.token.value);
+                  }
+               }
+               else
+               {
+                  this.tokenizer.parseError("Expecting : but found " + this.token.value);
+               }
+            }
+            else
+            {
+               this.tokenizer.parseError("Expecting string but found " + this.token.value);
+            }
+         }
+         return _loc1_;
       }
       
       private function parseValue() : Object
